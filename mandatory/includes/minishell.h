@@ -1,0 +1,32 @@
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+#include "libft.h"
+#include <unistd.h>
+#include <stdio.h>
+
+
+typedef struct s_env
+{
+	char **var;
+}				t_env;
+
+//echo.c
+int		ft_echo(char **cmd);
+
+//cd.c
+void	ft_cd(t_env *env, char *cmd);
+
+//env.c
+void	ft_init_env(char **env, t_env *cpy);
+void	ft_display_env(char **tab);
+
+//pwd.c
+void	ft_pwd(void);
+
+//utils.c
+void	ft_display_tab(char **tab);
+void	ft_free_tab(char **tab);
+
+
+#endif
