@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 #include "libft.h"
+#include "exec.h"
 #include <unistd.h>
 #include <stdio.h>
 
@@ -10,6 +11,16 @@ typedef struct s_env
 {
 	char **var;
 }				t_env;
+
+typedef struct s_content
+{
+	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
+	char *arg;
+	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
+	int output; //pareil pour l'output
+	int overwrite;
+
+}			t_content;;
 
 //echo.c
 int		ft_echo(char **cmd);
