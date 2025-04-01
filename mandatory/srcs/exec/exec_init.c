@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 14:32:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:37:38 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_init_exec(char **env, t_array *array)
 {
-	size_t	i;
+	int	i;
 	t_expar expar;
 
 	i = 0;
@@ -23,11 +23,6 @@ void	ft_init_exec(char **env, t_array *array)
 		return ;
 	if (pipe(expar.pipe) == -1)
 		ft_exec_failure(&expar, 1);
-	else
-	{
-		close(expar.pipe[0]);
-		close(expar.pipe[1]);
-	}
 	while(i < array->size)
 	{
 		array->content[i].pid = fork();
@@ -37,5 +32,7 @@ void	ft_init_exec(char **env, t_array *array)
 			ft_exec_cmd(&expar, &array->content[i], env);
 		i++;
 	}
-	free_tab(expar.options);
+	close(expar.pipe[0]);
+	close(expar.pipe[1]);
+	ft_free_tab(expar.options);
 }

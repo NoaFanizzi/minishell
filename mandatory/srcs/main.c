@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:54:12 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 14:33:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/01 16:53:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 0)
 	{
 		content->arg = ft_strdup("dracaufeu");
-		content->cmd = malloc(sizeof(char *) * 1);
+		content->cmd = malloc(sizeof(char *) * 2);
 		content->cmd[0] = ft_strdup("cat");
+		content->cmd[1] = NULL;
 		content->input = open("Makefile", O_RDONLY);
 		content->output = -2;
 	}
 	if(params == 1)
 	{
 		content->arg = ft_strdup("tiplouf");
-		content->cmd = malloc(sizeof(char *) * 1);
-		content->cmd[0] = ft_strdup("cat");
+		content->cmd = malloc(sizeof(char *) * 2);
+		content->cmd[0] = ft_strdup("ls");
+		content->cmd[1] = NULL;
 		content->input = -2;
-		content->output = open("test", O_RDWR, O_CREAT);
+		content->output = open("test", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
 	return(0);
 }
@@ -54,7 +56,6 @@ int	ft_fill_test(t_content *content, int params)
 int	ft_test(t_env *m_env)
 {
 	t_array array;
-	t_expar expar;
 	int	i;
 
 	i = 0;
@@ -67,7 +68,14 @@ int	ft_test(t_env *m_env)
 		//printf("content->cmd = %s\n", array.content[i].cmd[0]);
 		i++;
 	}
-	ft_init_exec(&expar, m_env->var, &array);
+	ft_init_exec(m_env->var, &array);
+	i = 0;
+	while(i < array.size)
+	{
+		ft_free_content(&array.content[i]);
+		i++;
+	}
+	free(array.content);
 	return(0);
 }
 
@@ -78,12 +86,12 @@ int	main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 	ft_init_env(env, &m_env);
+	//ft_display_env(m_env.var);
 	ft_test(&m_env);
 	//ft_cd(&m_env, argv[1]);
 	//ft_pwd();
 	ft_free_tab(m_env.var);
 	//ft_cd(&m_env, argv[1]);
-	//ft_display_env(m_env.var);
 	//ft_test(argc, argv);
 }
 

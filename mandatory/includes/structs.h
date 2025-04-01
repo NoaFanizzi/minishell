@@ -22,6 +22,7 @@ typedef struct s_content
 	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
 	int output; //pareil pour l'output
 	int overwrite;
+	int pipe;
 	pid_t pid;
 }			t_content;
 

@@ -23,6 +23,7 @@ void	ft_pwd(void);
 //utils.c
 void	ft_display_tab(char **tab);
 void	ft_free_tab(char **tab);
+void	ft_free_content(t_content *content);
 
 
 #endif
