@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/01 16:31:27 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/01 17:29:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 # define PARSING_H
 
 #include <fcntl.h>
-#include "get_next_line/get_next_line.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "get_next_line_1/get_next_line.h"
 
 typedef struct s_content
 {
@@ -22,6 +24,7 @@ typedef struct s_content
 	char *arg;
 	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
 	int output; //pareil pour l'output
+	int	pipe;
 	int overwrite;
 	pid_t pid;
 
