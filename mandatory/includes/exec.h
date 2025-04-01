@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/03/28 13:55:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:19:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ char		**ct_get_paths(char **env);
 int 		ft_is_command(t_expar *expar, t_content *content,  char **env);
 void		ft_close_all(t_expar *expar);
 void		ft_dup2_pb(t_expar *expar, t_content *content);
-int	ft_check_if_command(char *cmd, char *path);
+int			ft_check_if_command(char *cmd, char *path);
 void		ft_init_exec(t_expar *expar, char **env, t_content *content);
 void		ft_exec_failure(t_expar *expar, int i);
+void		ft_exec_cmd(t_expar *expar, t_content *content, char **env)
 
 
 

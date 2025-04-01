@@ -19,8 +19,16 @@ typedef struct s_content
 	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
 	int output; //pareil pour l'output
 	int overwrite;
+	pid_t pid;
 
-}			t_content;;
+
+}			t_content;
+
+typedef struct s_array
+{
+	t_content *content;
+	int size;
+}				t_array;
 
 //echo.c
 int		ft_echo(char **cmd);

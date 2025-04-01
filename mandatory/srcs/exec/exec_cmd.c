@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/03/28 14:06:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/01 13:00:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,13 @@ int ft_is_command(t_expar *expar, t_content *content,  char **env)
 	return (1);
 }
 
-static void	ft_prepare_execution(t_expar *expar, t_content *content, char **env)
+static int	ft_prepare_execution(t_expar *expar, t_content *content, char **env)
 {
+	if(content->input == -2) // c'est un pipe
+	{
+		expar->fd = -2;
+		return(1);
+	}
 	expar->fd = open(content->input, O_RDONLY);
 	if (expar->fd == -1)
 	{
@@ -71,51 +76,26 @@ static void	ft_prepare_execution(t_expar *expar, t_content *content, char **env)
 	}
 }
 
-void	ft_first_cmd(t_expar *expar, t_content *content, char **env)
+void	ft_exec_cmd(t_expar *expar, t_content *content, char **env)
 {
-	ft_prepare_execution(expar, content, env);
-	
-	if(content->input != NULL)
+	if(content->input != -2)
 	{
 		if (dup2(content->input, STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output != NULL)
+	if(content->input == -2)
 	{
-		if(content->output == -1) // tu set un fd negatif comme ca je sais que y'a pas d'output dnas le cas ou tu m' envoies un int. Mais si tu m 'envoies un char *, dans ce cas la tu pourras me le set a nul. Et en vrai je pense que c'est mieux que tu me l'envoies en char *
-		{
-			if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
-				ft_dup2_pb (expar, content);
-			}
-			else
-			{
-				if (dup2(content->output, STDOUT_FILENO) == -1)
-					ft_dup2_pb (expar, content);
-			}
-	}
-	ft_close_all(expar);
-	free_tab(expar->options);
-	if (execve(expar->path, content->cmd, env) == -1)
-	{
-		perror("execve");
-		free(expar->path);
-		free_tab(content->cmd);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	ft_second_cmd(t_expar *expar, t_content *content, char **env)
-{
-	ft_prepare_execution(expar, content, env);
-	
-	if(content->input != NULL)
-	{
-		if (dup2(content->input, STDIN_FILENO) == -1)
+		if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output != NULL)
+	if(content->output != -2)
 	{
-		if (dup2(content->input, STDOUT_FILENO) == -1)
+		if (dup2(content->output, STDOUT_FILENO) == -1)
+			ft_dup2_pb (expar, content);
+	}
+	if(content->output == -2)
+	{
+		if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
 	ft_close_all(expar);
