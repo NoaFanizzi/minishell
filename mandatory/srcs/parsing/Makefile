@@ -6,7 +6,7 @@
 #    By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 15:38:30 by nbodin            #+#    #+#              #
-#    Updated: 2025/04/02 09:10:59 by nbodin           ###   ########lyon.fr    #
+#    Updated: 2025/04/02 15:59:31 by nbodin           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,7 @@ all: 		$(NAME)
 
 		
 $(NAME):	$(OBJS) $(GNL) $(LIBFT)
-		$(CC) $(CFLAGS) $(OBJS) $(GNL) $(LIBFT) -o $@
+		$(CC) $(CFLAGS) -lreadline $(OBJS) $(GNL) $(LIBFT) -o $@
 
 $(OBJS_DIR)%.o:	$(SRCS_DIR)%.c $(HEADER)
 		mkdir -p $(dir $@)

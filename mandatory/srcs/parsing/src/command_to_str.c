@@ -6,35 +6,36 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/02 10:41:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 17:25:38 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
 
-
-
-
-void	command_line_to_tab(void)
+void	launch_shell(void)
 {
 	char	*line;
-	char	*full_command;
-
-	line = get_next_line(1);
-	full_command = ft_strjoin((const char*)full_command, (const char*)line);
-	//printf("\n\n%s", line);
-	while (line != NULL)
+	
+	while (1)
 	{
-		line = get_next_line(1);
-		//printf("%s", line);
-		full_command = ft_strjoin(full_command, line);
-		printf("\n\n%s", full_command);
+		line = readline("maxishell$ ");
+		if (line == NULL)
+			exit(0);
+		parse_command(line);
+		printf("%s\n", line);
+		free(line);
 	}
+}
+
+void	parse_command(char *line)
+{
+	char	*tokenized;
+
+	ft_split(line, charset);
 }
 
 int	main(void)
 {
-	//display_prompt();
-	command_line_to_tab();
+	launch_shell();
 	return (0);
 }
