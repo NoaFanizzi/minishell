@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 16:20:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:07:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ char	**ct_get_paths(char **env)
 	return (options);
 }
 
-void	ft_close_all(t_expar *expar)
+void	ft_close_all(t_expar *expar, t_content *content)
 {
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
+	if(content->input != -2 && content->input != 1)
+		close(content->input);
+	if(content->output != -2 && content->output != 0)
+		close(content->output);
 }
 
 

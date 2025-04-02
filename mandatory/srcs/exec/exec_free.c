@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 16:44:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:09:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_dup2_pb(t_expar *expar, t_content *content)
 	ft_free_tab(expar->options);
 	free(expar->path);
 	ft_free_content(content);
-	ft_close_all(expar);
+	ft_close_all(expar, content);
 	perror("Dup2 error");
 	exit(1);
 }

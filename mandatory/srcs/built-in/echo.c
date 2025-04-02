@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/03/26 12:46:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:08:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,20 @@ int	ft_is_arg(char *cmd)
 	return (0);
 }
 
-int	ft_echo(char **cmd)
+int	ft_echo(t_content *content, t_expar *expar)
 {
 	int params;
 
 	params = 0;
-	if(ft_is_arg(cmd[1]) == 0)
+
+	if(content->cmd[1] != NULL && ft_is_arg(content->cmd[1]) == 0)
 		params = 1;
-	ft_putstr_fd(cmd[2], 1);
+	ft_putstr_fd(content->cmd[2], 1);
 	if(params == 0)
 		ft_putstr_fd("\n", 1);
-	return(0);
+	ft_close_all(expar, content);
+	ft_free_tab(expar->options);
+	ft_free_content(content);
+	exit(0);
 }
 //petit doute sur le putstr

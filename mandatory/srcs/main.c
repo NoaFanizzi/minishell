@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 10:54:12 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 16:53:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:21:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,19 +34,23 @@ int	ft_fill_test(t_content *content, int params)
 {
 	if(params == 0)
 	{
-		content->arg = ft_strdup("dracaufeu");
-		content->cmd = malloc(sizeof(char *) * 2);
+		content->cmd = malloc(sizeof(char *) * 4);
 		content->cmd[0] = ft_strdup("cat");
-		content->cmd[1] = NULL;
+		content->cmd[1] = ft_strdup("-e");
+		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
+		content->cmd[3] = NULL;
+		content->arg = NULL;//ft_strdup("dracaufeu");
 		content->input = open("Makefile", O_RDONLY);
 		content->output = -2;
 	}
 	if(params == 1)
 	{
+		content->cmd = malloc(sizeof(char *) * 4);
+		content->cmd[0] = ft_strdup("echo");
+		content->cmd[1] = ft_strdup("-n");
+		content->cmd[2] = NULL;//ft_strdup("tiplouf");
+		content->cmd[3] = NULL;
 		content->arg = ft_strdup("tiplouf");
-		content->cmd = malloc(sizeof(char *) * 2);
-		content->cmd[0] = ft_strdup("ls");
-		content->cmd[1] = NULL;
 		content->input = -2;
 		content->output = open("test", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
@@ -69,14 +73,16 @@ int	ft_test(t_env *m_env)
 		i++;
 	}
 	ft_init_exec(m_env->var, &array);
-	i = 0;
-	while(i < array.size)
-	{
-		ft_free_content(&array.content[i]);
-		i++;
-	}
-	free(array.content);
 	return(0);
+	// i = 0;
+	// while(i < array.size)
+	// {
+	// 	printf("i = %d\n", i);
+	// 	//ft_free_content(&array.content[i]);
+	// 	i++;
+	// }
+	// free(array.content);
+	// return(0);
 }
 
 int	main(int argc, char **argv, char **env)

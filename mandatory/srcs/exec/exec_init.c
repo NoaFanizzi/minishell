@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/01 16:37:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/02 13:19:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,5 +34,13 @@ void	ft_init_exec(char **env, t_array *array)
 	}
 	close(expar.pipe[0]);
 	close(expar.pipe[1]);
+	i = 0;
+	while(i < array->size)
+	{
+		printf("i = %d\n", i);
+		ft_free_content(&array->content[i]);
+		i++;
+	}
+	free(array->content);
 	ft_free_tab(expar.options);
 }
