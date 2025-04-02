@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/01 17:29:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 09:30:06 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "get_next_line_1/get_next_line.h"
+#include "../../../../libft/includes/libft.h" 
 
 typedef struct s_content
 {

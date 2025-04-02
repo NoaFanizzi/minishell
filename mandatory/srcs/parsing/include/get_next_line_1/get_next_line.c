@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_1.c                                  :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 17:05:10 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/01 17:05:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/02 09:58:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static char	*ft_read(int fd, char *reserve)
 		if (bytes == 0)
 			break ;
 		buffer[bytes] = '\0';
-		reserve = ft_strjoin(reserve, buffer);
+		reserve = ft_strjoin_gnl(reserve, buffer);
 		if (!reserve)
 			return (ft_free_ptr((void **)&buffer));
-		if (ft_strchr(reserve, '\n'))
+		if (ft_strchr_gnl(reserve, '\n'))
 			break ;
 	}
 	ft_free_ptr((void **)&buffer);
@@ -60,7 +60,7 @@ static char	*ft_extract_line(char *reserve)
 	i = 0;
 	while (reserve[i] && reserve[i] != '\n')
 		i++;
-	line = ft_substr(reserve, 0, i + 1);
+	line = ft_substr_gnl(reserve, 0, i + 1);
 	return (line);
 }
 
@@ -74,7 +74,7 @@ static char	*ft_update_reserve(char *reserve)
 		i++;
 	if (!reserve[i])
 		ft_free_ptr((void **)&reserve);
-	new_reserve = ft_substr(reserve, i + 1, ft_strlen(reserve) - i);
+	new_reserve = ft_substr_gnl(reserve, i + 1, ft_strlen_gnl(reserve) - i);
 	ft_free_ptr((void **)&reserve);
 	return (new_reserve);
 }
