@@ -6,11 +6,12 @@
 #    By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 15:38:30 by nbodin            #+#    #+#              #
-#    Updated: 2025/04/02 15:59:31 by nbodin           ###   ########lyon.fr    #
+#    Updated: 2025/04/04 14:15:36 by nbodin           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
-FILES = command_to_str
+FILES = command_to_str \
+		quotes
 
 SRCS = $(addprefix $(SRCS_DIR), $(addsuffix .c, $(FILES)))
 OBJS = $(addprefix $(OBJS_DIR), $(addsuffix .o, $(FILES)))

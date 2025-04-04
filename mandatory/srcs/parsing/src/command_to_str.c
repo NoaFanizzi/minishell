@@ -6,11 +6,18 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/02 17:25:38 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/04 15:03:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/parsing.h"
+
+void	parse_command(char *line)
+{	
+	char 	**command = NULL;	
+
+	quotes_sep(command, line);
+}
 
 void	launch_shell(void)
 {
@@ -22,18 +29,9 @@ void	launch_shell(void)
 		if (line == NULL)
 			exit(0);
 		parse_command(line);
-		printf("%s\n", line);
 		free(line);
 	}
 }
-
-void	parse_command(char *line)
-{
-	char	*tokenized;
-
-	ft_split(line, charset);
-}
-
 int	main(void)
 {
 	launch_shell();
