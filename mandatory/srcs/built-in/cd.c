@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/03/26 14:42:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:29:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_upgrade_pwd(t_env *env)
+void	ft_upgrade_pwd(t_var *var)
 {
 	size_t	i;
 	char	*path;
@@ -20,13 +20,13 @@ void	ft_upgrade_pwd(t_env *env)
 
 	i = 0;
 	path = getcwd(NULL, 0);
-	while (env->var[i])
+	while (var->env[i])
 	{
-		if (ft_strncmp(env->var[i], "PWD=", 4) == 0)
+		if (ft_strncmp(var->env[i], "PWD=", 4) == 0)
 		{
-			free(env->var[i]);
+			free(var->env[i]);
 			temp = ft_strdup("PWD=");
-			env->var[i] = ft_strjoin(temp, path);
+			var->env[i] = ft_strjoin(temp, path);
 			free(temp);
 			free(path);
 			return ;
@@ -35,7 +35,7 @@ void	ft_upgrade_pwd(t_env *env)
 	}
 }
 
-void	ft_upgrade_opwd(t_env *env)
+void	ft_upgrade_opwd(t_var *var)
 {
 	size_t	i;
 	char	*path;
@@ -43,13 +43,13 @@ void	ft_upgrade_opwd(t_env *env)
 
 	i = 0;
 	path = getcwd(NULL, 0);
-	while (env->var[i])
+	while (var->env[i])
 	{
-		if (ft_strncmp(env->var[i], "OLDPWD=", 7) == 0)
+		if (ft_strncmp(var->env[i], "OLDPWD=", 7) == 0)
 		{
-			free(env->var[i]);
+			free(var->env[i]);
 			temp = ft_strdup("OLDPWD=");
-			env->var[i] = ft_strjoin(temp, path);
+			var->env[i] = ft_strjoin(temp, path);
 			free(temp);
 			free(path);
 			return ;
@@ -58,14 +58,14 @@ void	ft_upgrade_opwd(t_env *env)
 	}
 }
 
-void	ft_cd(t_env *env, char *cmd)
+void	ft_cd(t_var *var, char *cmd)
 {
 	size_t	i;
 
 	i = 0;
-	ft_upgrade_opwd(env);
+	ft_upgrade_opwd(var);
 	if (chdir(cmd) == -1)
 		write(1, "chdir error", 12);
-	ft_upgrade_pwd(env);
+	ft_upgrade_pwd(var);
 }
 

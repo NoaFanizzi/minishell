@@ -10,10 +10,27 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+typedef struct s_export
+{
+	char *var;
+	int	value;
+	int status; //set a 0 si y'a pas de value et set a 1 des que y'a une value
+}				t_export;
+
 typedef struct s_env
 {
-	char **var;
+	char *var;
+	char *op;
+	char *arg;
+	t_env *next;
 }				t_env;
+
+// typedef struct s_var
+// {
+// 	t_env *env;
+// 	t_export *export;
+// 	int export_size;
+// }				t_var;
 
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
 {

@@ -11,10 +11,10 @@
 int		ft_echo(t_content *content, t_expar *expar);
 
 //cd.c
-void	ft_cd(t_env *env, char *cmd);
+void	ft_cd(t_var *var, char *cmd);
 
 //env.c
-void	ft_init_env(char **env, t_env *cpy);
+void	ft_init_env(char **env, t_var *var);
 void	ft_display_env(char **tab);
 
 //pwd.c

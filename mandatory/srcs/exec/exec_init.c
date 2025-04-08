@@ -6,19 +6,19 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/02 13:19:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/08 12:34:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_init_exec(char **env, t_array *array)
+void	ft_init_exec(t_var *var, t_array *array)
 {
 	int	i;
 	t_expar expar;
 
 	i = 0;
-	expar.options = ct_get_paths(env);
+	expar.options = ct_get_paths(var);
 	if (!expar.options)
 		return ;
 	if (pipe(expar.pipe) == -1)
@@ -29,9 +29,10 @@ void	ft_init_exec(char **env, t_array *array)
 		if (array->content[i].pid == -1)
 			ft_exec_failure(&expar, 2);
 		if (array->content[i].pid == 0)
-			ft_exec_cmd(&expar, &array->content[i], env);
+			ft_exec_cmd(&expar, &array->content[i], var);
 		i++;
 	}
+	printf("array.size = %d\n", array->size);
 	close(expar.pipe[0]);
 	close(expar.pipe[1]);
 	i = 0;
