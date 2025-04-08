@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/04 14:40:08 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/08 17:15:09 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,14 @@ typedef struct s_content
 
 }			t_content;
 
+typedef struct s_index_q
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+}				t_index_q;
+
+
 typedef struct s_array
 {
 	t_content *content;
@@ -47,8 +55,11 @@ int		main(void);
 void	launch_shell(void);
 void	parse_command(char *line);
 
-void	quotes_sep(char **command, char *line);
+char	**quotes_sep(char **command, char *line);
 int		quotes_checker(char *line);
+int		forward_till_quote(char *line, size_t *len, char quote);
+int		split_quote_count(char *line);
+void	fill_quote_words(char **command, char *line, t_index_q *index);
 
 
 
