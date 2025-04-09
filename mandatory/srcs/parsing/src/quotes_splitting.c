@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
+/*   quotes_splitting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/08 17:46:39 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/09 17:05:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,28 +17,30 @@
 
 int	split_quote_count(char *line)
 {
-	t_index_q	id = {0, 0, 0};
+	size_t		i;
+	size_t		j;
 	int					count;
 	char				quote;
 
+	i = 0;
 	count = 0;
-	while (line[id.i])
+	while (line[i])
 	{
-		if (line[id.i] != D_QUOTE && line[id.i] != S_QUOTE)
+		if (line[i] != D_QUOTE && line[i] != S_QUOTE)
 		{
-			id.j = id.i;
-			while (line[id.j] && line[id.j] != D_QUOTE && line[id.j] != S_QUOTE)
-				id.j++;
-			if (id.j > id.i)
+			j = i;
+			while (line[j] && line[j] != D_QUOTE && line[j] != S_QUOTE)
+				j++;
+			if (j > i)
 				count++;
-			id.i = id.j;
+			i = j;
 		}
 		else
 		{
-			quote = line[id.i];
-			forward_till_quote(&line[id.i], &id.j, quote);
+			quote = line[i];
+			forward_till_quote(&line[i], &j, quote);
 			count++;
-			id.i += id.j + 1;
+			i += j + 1;
 		}
 	}
 	printf("count = %d\n", count);//to remove
@@ -108,7 +110,7 @@ void	fill_quote_words(char **command, char *line, t_index_q *index)
 	}
 }
 
-char	**quotes_sep(char **command, char *line)
+char	**quotes_splitting(char **command, char *line)
 {
 	t_index_q	*index;
 

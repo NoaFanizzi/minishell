@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/08 16:30:00 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/09 17:59:08 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,15 @@ void	parse_command(char *line)
 	int		k;
 
 	k = 0;
-	command = quotes_sep(command, line);
+	(void)line;
+	command[0] = "echo";
+	command[1] = "\"$VAR\"";
+	command[2] = "| grep -o";
+	command[3] = "\"world\"";
+	command[4] = "> output.txt >> log.txt < input.txt";
+	command[5] = 0;
+	//command = quotes_splitting(command, line);
+	command = space_splitting(command);
 	while (command[k])
 	{
 		printf("word n%d : %s\n", k + 1, command[k]);
