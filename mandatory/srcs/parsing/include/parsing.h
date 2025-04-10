@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/09 17:34:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/10 10:25:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,14 @@ char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
 int		forward_till_quote(char *line, size_t *len, char quote);
 int		split_quote_count(char *line);
-void	fill_quote_words(char **command, char *line, t_index_q *index);
+char	**fill_quote_words(char **command, char *line, size_t k, size_t *i);
 
 char	**space_splitting(char **command);
 char	**fill_space_words(char **command, char **splitted, const char *charset);
 int		split_space_count(char **command, const char *charset);
 
-void	fill_splitted(const char *s, const char *charset, char **splitted, size_t *j);
-void	free_words(char **splitted, size_t j);
+char	**fill_splitted(const char *s, const char *charset, char **splitted, size_t *j);
+void	*free_words(char **splitted, size_t j);
 int		count_words(const char *str, const char *charset);
 int		is_sep(char c, const char *charset);
 

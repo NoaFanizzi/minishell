@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:13 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/09 17:52:14 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/10 10:25:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,14 +49,16 @@ int		count_words(const char *str, const char *charset)
 	return (count);
 }
 
-void	free_words(char **splitted, size_t j)
+void	*free_words(char **splitted, size_t j)
 {
+	j++;
 	while (j--)
 		free(splitted[j]);
 	free(splitted);
+	return (NULL);
 }
 
-void	fill_splitted(const char *s, const char *charset,
+char	**fill_splitted(const char *s, const char *charset,
 		char **splitted, size_t *j)
 {
 	size_t	i1;
@@ -70,10 +72,14 @@ void	fill_splitted(const char *s, const char *charset,
 		i2 = i1;
 		while (s[i2] && !is_sep(s[i2], charset))
 			i2++;
-		splitted[*j] = ft_substr(s, i1, i2 - i1);
-		if (!splitted[*j])
-			return ;
-		(*j)++;
+		if (i2 > i1)
+		{
+			splitted[*j] = ft_substr(s, i1, i2 - i1);
+			if (!splitted[*j])
+				return (free_words(splitted, *j));
+			(*j)++;
+		}
 		i1 = i2;
 	}
+	return (splitted);
 }

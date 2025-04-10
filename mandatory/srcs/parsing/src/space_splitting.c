@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/09 17:52:56 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/10 10:54:59 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,10 @@ int		split_space_count(char **command, const char *charset)
 			count += count_words(command[i], charset);
 		i++;
 	}
-	printf("count = %d\n", count);
 	return (count);
 }
 
-char	**fill_space_words(char **command, char **splitted, const char *charset)
+char	**fill_space_words(char **splitted, char **command, const char *charset)
 {
 	size_t	i;
 	size_t	k;
@@ -44,16 +43,14 @@ char	**fill_space_words(char **command, char **splitted, const char *charset)
 		{
 			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
 			if (!splitted[i])
-				return (NULL);
-			printf("%s\n", splitted[i]);
+				return (free_words(splitted, i));
 			i++;
 		}
 		else
 		{
-			fill_splitted(command[k], charset, splitted, &i);
-			//i do not check if NULL for now
+			if (!fill_splitted(command[k], charset, splitted, &i))
+				return (NULL);
 		}
-		
 		k++;
 	}
 	splitted[i] = 0;
@@ -69,9 +66,9 @@ char	**space_splitting(char **command)
 	count = split_space_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
-		return (NULL);
+		return (free_words(command, ft_strlen(command)));
 	splitted = fill_space_words(splitted, command, charset);
 	if (!splitted)
-		return (NULL);
+		return (free_words(command, ft_strlen(command)));
 	return (splitted);
 }

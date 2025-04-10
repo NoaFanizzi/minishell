@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/09 17:05:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/10 10:24:12 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int	split_quote_count(char *line)
 			i += j + 1;
 		}
 	}
-	printf("count = %d\n", count);//to remove
 	return (count);
 }
 
@@ -82,55 +81,54 @@ int	quotes_checker(char *line)
 	return (0);
 }
 
-void	fill_quote_words(char **command, char *line, t_index_q *index)
+char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 {
 	char	quote;
+	size_t	j;
 
-	if (line[index->i] == D_QUOTE || line[index->i] == S_QUOTE)
+	j = 0;
+	if (line[*i] == D_QUOTE || line[*i] == S_QUOTE)
 	{
-		quote = line[index->i];
-		forward_till_quote(&line[index->i], &index->j, quote);
-		command[index->k] = ft_substr(line, index->i, index->j + 1);
-		if (!command[index->k])
-			return ; // malloc error
-		index->i += index->j + 1;
-		index->k++;
+		quote = line[*i];
+		forward_till_quote(&line[*i], &j, quote);
+		command[k] = ft_substr(line, *i, j + 1);
+		if (!command[k])
+			return (NULL);
+		*i += j + 1;
 	}
 	else
 	{
-		index->j = index->i;
-		while (line[index->j] && line[index->j] != D_QUOTE
-			&& line[index->j] != S_QUOTE)
-			index->j++;
-		command[index->k] = ft_substr(line, index->i, index->j - index->i);
-		if (!command[index->k])
-			return ; // malloc error
-		index->i = index->j;
-		index->k++;
+		j = *i;
+		while (line[j] && line[j] != D_QUOTE
+			&& line[j] != S_QUOTE)
+			j++;
+		command[k] = ft_substr(line, *i, j - *i);
+		if (!command[k])
+			return (NULL);
+		*i = j;
 	}
+	return (command);
 }
 
 char	**quotes_splitting(char **command, char *line)
 {
-	t_index_q	*index;
+	size_t		i;
+	size_t		k;
 
-	index = malloc(sizeof(*index));
-	if (!index)
-		return (NULL);
-	index->i = 0;
-	index->j = 0;
-	index->k = 0;
+	i = 0;
+	k = 0;
 	if (quotes_checker(line) == 1)
 		return (NULL); // quote_error
 	command = malloc((split_quote_count(line) + 1) * sizeof(char *));
 	if (!command)
 		return (NULL); // malloc error
-	while (line[index->i])
+	while (line[i])
 	{
-		fill_quote_words(command, line, index);
-		if (!command[index->k - 1])
-			return (NULL);
+		fill_quote_words(command, line, k, &i);
+		if (!command[k])
+			return (free_words(command, k));
+		k++;
 	}
-	command[index->k] = 0;
+	command[k] = 0;
 	return (command);
 }
