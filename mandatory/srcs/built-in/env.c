@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:19:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:47:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_env	*ft_add_new_link(char *env)
 
 	i = 0;
 	link = ft_calloc(1, sizeof(t_env));
-	(link)->exp = 1;
+	(link)->exp = 0;
 	while((env[i] != '+' && env[i] != '=')
 		&&(env[i] != '\0'))
 		i++;
@@ -35,7 +35,10 @@ t_env	*ft_add_new_link(char *env)
 		(link)->op = ft_strdup("=");
 		i++;
 	}
-	(link)->arg = ft_strdup(&env[i]);
+	if(env[i] == '\0')
+		(link)->arg = NULL;
+	if(env[i] != '\0')
+		(link)->arg = ft_strdup(&env[i]);
 	(link)->var = ft_calloc((length + 1), sizeof(char));
 	i = 0;
 	while(i < length)

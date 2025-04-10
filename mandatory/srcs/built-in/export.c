@@ -6,29 +6,37 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/08 14:20:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 18:20:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_check_if_in_base(t_var *var, t_export *temp)
+int	ft_check_if_in_base(t_list *env, char *str)
 {
 	size_t	i;
-	size_t	pos;
+	size_t	link;
+	t_env *cpy;
 
-	while(i < var->export_size)
-	{
-		if(ft_strncmp(temp->var, var->export->var, ft_strlen(temp)) == 0)
-			return(0);
+	i = 0;
+	link = 0;
+	while(str[i] && str[i] != '=')
 		i++;
+	while(env)
+	{
+		cpy = (t_env *)env->content;
+		if((ft_strncmp(cpy->var, str, i) == 0)
+			&& (ft_strlen(cpy->var) == i))
+			return(link);
+		env = env->next;
+		link++;
 	}
-	return(1);
+	return(link);
 }
 
 void	ft_get_var(t_export *temp, t_content *content)
 {
-	char* temp_value;
+	char *temp_value;
 	size_t	i;
 	size_t pos;
 	
@@ -52,37 +60,51 @@ void	ft_get_var(t_export *temp, t_content *content)
 	free(temp_value);
 }
 
-void	ft_add_new_exports(t_var *var, t_export *temp)
+int	ft_is_a_value(char *str)
 {
 	size_t	i;
-	
-	t_export *new_export_var;
 
 	i = 0;
-	new_export_var = ft_calloc((var->export_size + 1), sizeof(t_export));
-	while(var->)
-	
-
-	
+	while(str[i] && str[i] != '=')
+		i++;
+	if(str[i] == '=')
+		i++;
+	if(str[i] == '\0')
+		return(1);
+	return(0);
 }
 
-void	ft_export(t_var *var, t_content *content)
+void	ft_export(t_list *env, t_content *content)
 {
-	//je check si c'est dans mes exports
-	//si c'est dans mes exports je check si c'est un nouvel assignement de value
-		//si c'est le cas, je l'ajoute dans ma variable d'envrionnement et je modfiei la value de la variable dasn l'export.
-		//si c'est pas le cas, je check si y'a une value qui lui est assigne, je l'ajoute dans ma variable export et si y'en a une je l'ajoute a la variable d'envrionnement
-	//si c'est pas dans mes exports je check si y'a une value qui est associee
-		//si y'en a une je l'ajoute a ma variable d'envrionnement
-		//si y'en a pas je l'ajoute a ma variable export
-		//apparemment export ca combine les 2 au final
+	t_env *link;
+	size_t	pos;
 
-	t_export temp;
-
-	ft_get_var(&temp, content); // je recupere mes values temporaires qui me permettront de chekc si c'est deja dans les variables export et env
-	if(ft_check_if_in_base(var, &temp) == 0) // je check si c'est deja dans mes exports
+	pos = ft_check_if_in_base(env, content->arg);
+	if(pos == ft_lstsize(env)) // ca veut dire que c'etait pas dedans
 	{
-		ft_add_new_exports(var, &temp);
+		link = ft_add_new_link(content->arg);
+		ft_lstadd_back(&env, ft_lstnew(link));
+		if(link->arg != NULL)
+			link->exp = 1;
 	}
-	free(temp);
+	else //ca veut dire que c'etait deja dedans
+	{
+		while(pos > 0)
+		{
+			env = env->next;
+			pos--;
+		}
+		link = (t_env *)env->content;
+		if(link->arg == NULL) //si y'avait pas de value assigned a la variable
+		{
+			if(ft_is_a_value(env) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
+				//replace le maillon de la chaine correctement
+			else
+				return(NULL);
+		}
+		if(link->arg != NULL) // y'avait deja une value assigned
+		{
+			//append la value 
+		}
+	}
 }

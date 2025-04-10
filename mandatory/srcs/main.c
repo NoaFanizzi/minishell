@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 16:15:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 17:07:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 1)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("echo");
-		content->cmd[1] = ft_strdup("-n");
+		content->cmd[0] = ft_strdup("cat");
+		content->cmd[1] = ft_strdup("-e");
 		content->cmd[2] = NULL;//ft_strdup("tiplouf");
 		content->cmd[3] = NULL;
-		content->arg = ft_strdup("tiplouf");
+		content->arg = NULL; //ft_strdup("tiplouf");
 		content->input = -2;
 		content->output = open("test", O_RDWR | O_CREAT | O_TRUNC, 0644);
 	}
