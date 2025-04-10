@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/02 13:08:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 10:44:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_echo(t_content *content, t_expar *expar)
 	ft_putstr_fd(content->cmd[2], 1);
 	if(params == 0)
 		ft_putstr_fd("\n", 1);
-	ft_close_all(expar, content);
+	//ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	ft_free_content(content);
 	exit(0);

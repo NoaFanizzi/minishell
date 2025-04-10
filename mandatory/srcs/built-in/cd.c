@@ -6,66 +6,66 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/08 12:29:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 12:00:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_upgrade_pwd(t_var *var)
+void	ft_upgrade_pwd(t_list *env)
 {
-	size_t	i;
 	char	*path;
 	char	*temp;
+	t_env *cpy;
 
-	i = 0;
 	path = getcwd(NULL, 0);
-	while (var->env[i])
+	while (env != NULL)
 	{
-		if (ft_strncmp(var->env[i], "PWD=", 4) == 0)
+		cpy = (t_env *)env->content;
+		if (ft_strncmp(cpy->var, "PWD=", 4) == 0)
 		{
-			free(var->env[i]);
+			free(cpy->arg);
 			temp = ft_strdup("PWD=");
-			var->env[i] = ft_strjoin(temp, path);
+			cpy->arg = ft_strjoin(temp, path);
 			free(temp);
 			free(path);
 			return ;
 		}
-		i++;
+		env = env->next;
 	}
 }
 
-void	ft_upgrade_opwd(t_var *var)
+void	ft_upgrade_opwd(t_list *env)
 {
-	size_t	i;
 	char	*path;
 	char *temp;
+	t_env *cpy;
 
-	i = 0;
 	path = getcwd(NULL, 0);
-	while (var->env[i])
+	while (env != NULL)
 	{
-		if (ft_strncmp(var->env[i], "OLDPWD=", 7) == 0)
+		cpy = (t_env *)env->content;
+		if (ft_strncmp(cpy->var, "OLDPWD", 6) == 0)
 		{
-			free(var->env[i]);
+			free(cpy->arg);
 			temp = ft_strdup("OLDPWD=");
-			var->env[i] = ft_strjoin(temp, path);
+			cpy->arg = ft_strjoin(temp, path);
 			free(temp);
 			free(path);
 			return ;
 		}
-		i++;
+		env = env->next;
 	}
 }
 
-void	ft_cd(t_var *var, char *cmd)
+void	ft_cd(t_list *env, char *cmd)
 {
 	size_t	i;
 
 	i = 0;
-	ft_upgrade_opwd(var);
+	ft_upgrade_opwd(env);
 	if (chdir(cmd) == -1)
 		write(1, "chdir error", 12);
-	ft_upgrade_pwd(var);
+	ft_upgrade_pwd(env);
 }
 

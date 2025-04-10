@@ -6,19 +6,21 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/08 12:34:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:33:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_init_exec(t_var *var, t_array *array)
+void	ft_init_exec(t_list *env, t_array *array)
 {
 	int	i;
 	t_expar expar;
 
 	i = 0;
-	expar.options = ct_get_paths(var);
+	(void)array;
+	expar.options = ct_get_paths(env);
+	printf("array.size = %d\n", array.size);
 	if (!expar.options)
 		return ;
 	if (pipe(expar.pipe) == -1)
@@ -29,7 +31,7 @@ void	ft_init_exec(t_var *var, t_array *array)
 		if (array->content[i].pid == -1)
 			ft_exec_failure(&expar, 2);
 		if (array->content[i].pid == 0)
-			ft_exec_cmd(&expar, &array->content[i], var);
+			ft_exec_cmd(&expar, &array->content[i], env);
 		i++;
 	}
 	printf("array.size = %d\n", array->size);
@@ -43,5 +45,5 @@ void	ft_init_exec(t_var *var, t_array *array)
 		i++;
 	}
 	free(array->content);
-	ft_free_tab(expar.options);
+ 	ft_free_tab(expar.options);
 }

@@ -6,78 +6,76 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/08 16:18:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 15:19:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	ft_add_new_link(char *env, t_env *link)
+t_env	*ft_add_new_link(char *env)
 {
 	size_t	i;
 	size_t	length;
-	char *temp;
+	t_env *link;
 
 	i = 0;
-	temp = ft_strdup(env);
-	
 	link = ft_calloc(1, sizeof(t_env));
-	while(env[i] != '+' || env[i] != '=')
+	(link)->exp = 1;
+	while((env[i] != '+' && env[i] != '=')
+		&&(env[i] != '\0'))
 		i++;
 	length = i;
 	if(env[i] == '+')
 	{
-		link->op = ft_strdup("+=");
+		(link)->op = ft_strdup("+=");
 		i += 2;
 	}
 	if(env[i] == '=')
 	{
-		link->op = ft_strdup("=");
+		(link)->op = ft_strdup("=");
 		i++;
 	}
-	link->arg = ft_strdup(&env[i]);
-	link->var = ft_calloc((length + 1), sizeof(char));
+	(link)->arg = ft_strdup(&env[i]);
+	(link)->var = ft_calloc((length + 1), sizeof(char));
 	i = 0;
 	while(i < length)
 	{
-		link->var[i] = env[i];
+		(link)->var[i] = env[i];
 		i++;
 	}
-	link->var[i] = '\0';
+	(link)->var[i] = '\0';
+	return(link);
 }
 
-void	ft_init_env(char **o_env, t_env *env)
+t_list	*ft_init_env(char **o_env)
 {
 	size_t	i;
-	size_t	j ;
+	t_list *env;
+	t_env	*new_env;
 
+	env = NULL;
 	i = 0;
-	env->next = NULL;
-	// while(o_env[i])
-	// 	i++;
-	//var->env = malloc(sizeof(t_env) * (i + 1));
-	//i = 0;
-	// if(!(env->next))
-	// 	ft_add_new_link(o_env[i], env->next);
-	ft_add_new_link(o_env[i], env->next);
 	while(o_env[i])
 	{
-		ft_add_new_link(o_env[i], env->next);
-		env = env->next;
+		new_env = ft_add_new_link(o_env[i]);
+		ft_lstadd_back(&env, ft_lstnew(new_env));
 		i++;
 	}
-	env->next = NULL;
+	//env->next = NULL;
+	return(env);
 }
 
-void	ft_display_env(char **tab)
+void	ft_display_env(t_list *env)
 {
-	size_t	i;
+	t_env *cpy;
 
-	i = 0;
-	while(tab[i])
+	while(env)
 	{
-		ft_putstr_fd(tab[i], 1);
+		cpy = (t_env *)env->content;
+		ft_putstr_fd(cpy->var, 1);
+		ft_putstr_fd(cpy->op, 1);
+		ft_putstr_fd(cpy->arg, 1);
 		ft_putstr_fd("\n", 1);
-		i++;
+		env = env->next;
 	}
 }

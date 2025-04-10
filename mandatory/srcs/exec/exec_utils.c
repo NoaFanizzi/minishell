@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/08 12:22:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 14:53:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,18 +41,23 @@ void	ft_strcat(char *dest, char *src)
 	dest[i] = '\0';
 }
 
-char	**ct_get_paths(t_var *var)
+char	**ct_get_paths(t_list *var)
 {
 	size_t	size;
 	size_t	i;
 	char	**options;
+	t_env	*cpy;
 
 	i = 0;
-	while (ft_strncmp(var->env[i], "PATH=", 5) != 0)
-		i++;
-	size = ft_strlen(var->env[i]);
-	options = ft_split(var->env[i] + 5, ':');
-	//ft_display_tab(options);
+	cpy = (t_env *)var->content;
+	while (var && ft_strncmp(cpy->var, "PATH", 4) != 0)
+	{
+		var = var->next;
+		cpy = (t_env *)var->content;
+	}
+	size = ft_strlen(cpy->var);
+	options = ft_split(cpy->arg, ':');
+	ft_display_tab(options);
 	return (options);
 }
 
@@ -65,8 +70,6 @@ void	ft_close_all(t_expar *expar, t_content *content)
 	if(content->output != -2) //  && content->output != 0
 		close(content->output);
 }
-
-
 
 
 // int	main(int argc, char **argv, char **env)

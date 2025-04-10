@@ -17,12 +17,22 @@ typedef struct s_export
 	int status; //set a 0 si y'a pas de value et set a 1 des que y'a une value
 }				t_export;
 
+/* typedef struct s_env
+{
+	char *var;
+	char *op;
+	char *arg;
+	int	exp;
+	struct s_env *next;
+}				t_env;
+ */
+
 typedef struct s_env
 {
 	char *var;
 	char *op;
 	char *arg;
-	t_env *next;
+	int	exp;
 }				t_env;
 
 // typedef struct s_var
