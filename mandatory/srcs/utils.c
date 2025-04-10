@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 12:41:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:26:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,30 @@ void	ft_free_env(t_list *env)
 		free(content);
 		free(current);
 	}
+}
+
+void ft_free_array_content(t_array *array)
+{
+    int i = 0;
+
+    if (!array || !array->content)
+        return;
+    while (i < array->size)
+    {
+        free(array->content[i].cmd[0]);
+        free(array->content[i].cmd[1]);
+        free(array->content[i].cmd[2]);
+        free(array->content[i].cmd[3]);
+        free(array->content[i].cmd);
+        free(array->content[i].arg);
+        if (array->content[i].input != -2)
+            close(array->content[i].input);
+        if (array->content[i].output != -2)
+            close(array->content[i].output);
+        i++;
+    }
+    free(array->content);
+    array->content = NULL;
 }
 
 void	ft_free_content(t_content *content)

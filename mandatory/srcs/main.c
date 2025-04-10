@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:31:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:15:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,29 @@ int	ft_test(t_list *env)
 	while(i < array.size)
 	{
 		ft_fill_test(&array.content[i], i);
-		//printf("content->arg = %s\n", array.content[i].arg);
-		//printf("content->cmd = %s\n", array.content[i].cmd[0]);
+		// printf("content->arg = %s\n", array.content[i].arg);
+		// printf("content->cmd = %s\n", array.content[i].cmd[0]);
 		i++;
 	}
 	ft_init_exec(env, &array);
 	return(0);
-	// i = 0;
+	//i = 0;
 	// while(i < array.size)
 	// {
-	// 	printf("i = %d\n", i);
+	// 	free(array.content[i].cmd[0]);
+	// 	free(array.content[i].cmd[1]);
+	// 	free(array.content[i].cmd[2]); // Si non NULL
+	// 	free(array.content[i].cmd[3]); // Si non NULL
+	// 	free(array.content[i].arg);
+	// 	free(array.content[i].cmd); // Libère le tableau mallocé
+	// 	close(array.content[i].input); // Fermeture des descripteurs
+	// 	close(array.content[i].output);
+
 	// 	//ft_free_content(&array.content[i]);
 	// 	i++;
 	// }
-	// free(array.content);
-	// return(0);
+	//free(array.content);
+	return(0);
 }
 
 
@@ -78,9 +86,9 @@ int	main(int argc, char **argv, char **env)
 	array = NULL;
 
 	var = ft_init_env(env);
-	ft_init_exec(var, array);
-	ft_free_env(var);
+	//ft_init_exec(var, array);
 	ft_test(var);
+	ft_free_env(var);
 	//ft_display_env(var);
 	//ft_cd(&m_env, argv[1]);
 	//ft_pwd();

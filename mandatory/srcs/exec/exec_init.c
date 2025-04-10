@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:33:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:25:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_init_exec(t_list *env, t_array *array)
 	t_expar expar;
 
 	i = 0;
-	(void)array;
+	//(void)array;
 	expar.options = ct_get_paths(env);
-	printf("array.size = %d\n", array.size);
+	printf("array.size = %d\n", array->size);
 	if (!expar.options)
 		return ;
 	if (pipe(expar.pipe) == -1)
@@ -38,12 +38,8 @@ void	ft_init_exec(t_list *env, t_array *array)
 	close(expar.pipe[0]);
 	close(expar.pipe[1]);
 	i = 0;
-	while(i < array->size)
-	{
-		printf("i = %d\n", i);
-		ft_free_content(&array->content[i]);
-		i++;
-	}
-	free(array->content);
+	
+	//free(array->content);
+	ft_free_array_content(array);
  	ft_free_tab(expar.options);
 }

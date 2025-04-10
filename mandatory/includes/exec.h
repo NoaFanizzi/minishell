@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:27:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/10 16:26:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void		ft_init_exec(t_list *env, t_array *array);
 void		ft_exec_failure(t_expar *expar, int i);
 void		ft_exec_cmd(t_expar *expar, t_content *content, t_list *env);
 char		**ft_convert_env(t_list *env);
+void 		ft_free_array_content(t_array *array);
+
 
 
 
