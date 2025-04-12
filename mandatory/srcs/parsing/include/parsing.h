@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/10 10:25:18 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/10 17:38:52 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,10 @@ char	**fill_splitted(const char *s, const char *charset, char **splitted, size_t
 void	*free_words(char **splitted, size_t j);
 int		count_words(const char *str, const char *charset);
 int		is_sep(char c, const char *charset);
+
+char	**meta_splitting(char **command);
+int		split_meta_count(char **command);
+int		twisted_count_words(char *str);
+
 
 #endif
