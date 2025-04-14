@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 //echo.c
-int		ft_echo(t_content *content, t_expar *expar);
+int		ft_echo(t_content *content);
 
 //cd.c
 void	ft_cd(t_list *var, char *cmd);

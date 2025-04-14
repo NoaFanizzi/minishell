@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:03:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:52:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,13 @@ int ft_is_command(t_expar *expar, t_content *content)
 void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	//printf("content->arg = %s\n", content->arg);
-	(void)env;
+	//(void)env;
+	printf("c pas rentre\n");
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-		ft_echo(content, expar);
-	if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
-		ft_export(env, content);
-	//printf("content->cmd = %s\n", content->cmd[0]);
+	{
+		printf("c rentre\n");
+		ft_echo(content);
+	}
 	ft_free_env(*env);
 	//ft_free_tab(content->cmd);
 	//ft_free_content(content);
@@ -142,13 +143,13 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	char **env_converted;
 
 	env_converted = NULL;
-	// printf("content->input = %d\n", content->input);
-	// printf("content->output = %d\n", content->output);
-	// printf("content->cmd[0] = %s\n", content->cmd[0]);
-	// printf("content->arg = %s\n\n", content->arg);
-	// printf("expar->pipe[0] = %d\n", expar->pipe[0]);
-	// printf("expar->pipe[1] = %d\n", expar->pipe[1]);
-	// printf("--------------------\n");
+	printf("content->input = %d\n", content->input);
+	printf("content->output = %d\n", content->output);
+	printf("content->cmd[0] = %s\n", content->cmd[0]);
+	printf("content->arg = %s\n\n", content->arg);
+	printf("expar->pipe[0] = %d\n", expar->pipe[0]);
+	printf("expar->pipe[1] = %d\n", expar->pipe[1]);
+	printf("--------------------\n");
 	ft_get_right_release(content, expar);
 	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);
