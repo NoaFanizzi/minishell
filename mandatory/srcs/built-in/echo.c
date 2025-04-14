@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:33:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:33:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,11 @@ int	ft_echo(t_content *content)
 	int params;
 
 	params = 0;
+	//printf("test\n");
 
 	if(content->cmd[1] != NULL && ft_is_arg(content->cmd[1]) == 0)
 		params = 1;
-	ft_putstr_fd(content->cmd[2], 1);
+	ft_putstr_fd(content->arg, 1);
 	if(params == 0)
 		ft_putstr_fd("\n", 1);
 	//ft_close_all(expar, content);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:38:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 16:38:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,24 @@ int	ft_fill_test(t_content *content, int params)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
 		content->cmd[0] = ft_strdup("echo");
-		content->cmd[1] = NULL; //ft_strdup("-e");
+		content->cmd[1] = ft_strdup("-n"); //ft_strdup("-e");
 		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = ft_strdup("test");//NULL;//ft_strdup("dracaufeu");
+		content->arg = ft_strdup("c quoi ce poulet");//NULL;//ft_strdup("dracaufeu");
 		content->input = open("Makefile", O_RDONLY);
 		content->output = open("test", O_RDWR);
 	}
-	// if(params == 1)
-	// {
-	// 	content->cmd = malloc(sizeof(char *) * 4);
-	// 	content->cmd[0] = ft_strdup("export");
-	// 	content->cmd[1] = NULL; //ft_strdup("-e");
-	// 	content->cmd[2] = NULL;//ft_strdup("dracaufeu");
-	// 	content->cmd[3] = NULL;
-	// 	content->arg = ft_strdup("TESTTTTTTTTTTTTTTTTTT=3");//NULL;//ft_strdup("dracaufeu");
-	// 	content->input = open("Makefile", O_RDONLY);
-	// 	content->output = open("test", O_RDWR);
-	// }
+	if(params == 1)
+	{
+		content->cmd = malloc(sizeof(char *) * 4);
+		content->cmd[0] = ft_strdup("echo");
+		content->cmd[1] = ft_strdup("-n"); //ft_strdup("-e");
+		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
+		content->cmd[3] = NULL;
+		content->arg = ft_strdup("TESTTTTTTTTTTTTTTTTTT=3");//NULL;//ft_strdup("dracaufeu");
+		content->input = open("Makefile", O_RDONLY);
+		content->output = open("test", O_RDWR);
+	}
 	// if(params == 1)
 	// {
 	// 	content->cmd = malloc(sizeof(char *) * 4);
