@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:37:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:03:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,17 @@ void	ft_strcat(char *dest, char *src)
 
 char	**ct_get_paths(t_list *var)
 {
-	size_t	size;
-	size_t	i;
+	//size_t	size;
 	char	**options;
 	t_env	*cpy;
 
-	i = 0;
 	cpy = (t_env *)var->content;
 	while (var && ft_strncmp(cpy->var, "PATH", 4) != 0)
 	{
 		var = var->next;
 		cpy = (t_env *)var->content;
 	}
-	size = ft_strlen(cpy->var);
+	//size = ft_strlen(cpy->var);
 	options = ft_split(cpy->arg, ':');
 	//ft_display_tab(options);
 	return (options);
@@ -65,9 +63,9 @@ void	ft_close_all(t_expar *expar, t_content *content)
 {
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
-	if(content->input != -2) //  && content->input != 1
+	if(content && content->input != -2) //  && content->input != 1
 		close(content->input);
-	if(content->output != -2) //  && content->output != 0
+	if(content && content->output != -2) //  && content->output != 0
 		close(content->output);
 }
 

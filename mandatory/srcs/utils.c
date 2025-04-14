@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 16:26:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:02:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	ft_free_env(t_list *env)
 	}
 }
 
+
+
 void ft_free_array_content(t_array *array)
 {
     int i = 0;
@@ -80,10 +82,22 @@ void ft_free_array_content(t_array *array)
     }
     free(array->content);
     array->content = NULL;
+	array = NULL;
 }
 
 void	ft_free_content(t_content *content)
 {
-	if(content->cmd != NULL)
-		ft_free_tab(content->cmd);
+	    free(content->cmd[0]);
+        free(content->cmd[1]);
+	    free(content->cmd[2]);
+	    free(content->cmd[3]);
+        
+        free(content->cmd);
+        free(content->arg);
+        if (content->input != -2)
+            close(content->input);
+        if (content->output != -2)
+            close(content->output);
+		content = NULL;
+			
 }

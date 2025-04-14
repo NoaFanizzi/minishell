@@ -6,17 +6,17 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:26:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 15:03:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_check_if_command(char *cmd, char *path)
+int	ft_check_if_command(char *cmd, char **path)
 {
 	if (access(cmd, X_OK) == 0)
 	{
-		path = ft_strdup(cmd);
+		*path = ft_strdup(cmd);
 		return (0);
 	}
 	return (1);
@@ -45,20 +45,32 @@ int ft_is_command(t_expar *expar, t_content *content)
 		free(expar->path);
 		i++;
 	}
-	if(ft_check_if_command(content->cmd[0], expar->path) == 0)
+	if(ft_check_if_command(content->cmd[0], &expar->path) == 0)
 		return (0);
 	return (1);
 }
 
-void	ft_is_built_in(t_expar *expar, t_content *content, t_list *env)
+void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
+	//printf("content->arg = %s\n", content->arg);
 	(void)env;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		ft_echo(content, expar);
-	return;
+	if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
+		ft_export(env, content);
+	//printf("content->cmd = %s\n", content->cmd[0]);
+	ft_free_env(*env);
+	//ft_free_tab(content->cmd);
+	//ft_free_content(content);
+	ft_free_array_content(array);
+	//free(content->arg);
+	ft_free_tab(expar->options);
+	close(expar->pipe[0]);
+	close(expar->pipe[1]);
+	exit(0);
 }
 
-static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list *env)
+static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	// if(content->input == -2) // c'est un pipe
 	// {
@@ -74,20 +86,21 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list *env)
 	// 	free_tab(expar->options);
 	// 	exit(1);
 	// }
-	if(content->arg)
-	{
-		if(content->cmd[1] == NULL)
-		{
-			content->cmd[1] = ft_strdup(content->arg);
-			free(content->arg);
-		}
-		else
-		{
-			content->cmd[2] = ft_strdup(content->arg);
-			free(content->arg);
-		}
-	}
-	ft_is_built_in(expar, content, env);
+	
+	// if(content->arg) //je sais plus a quoi ca sert
+	// {
+	// 	if(content->cmd[1] == NULL)
+	// 	{
+	// 		content->cmd[1] = ft_strdup(content->arg);
+	// 		free(content->arg);
+	// 	}
+	// 	else
+	// 	{
+	// 		content->cmd[2] = ft_strdup(content->arg);
+	// 		free(content->arg);
+	// 	}
+	// }
+	ft_is_built_in_child(expar, content, env, array);
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
@@ -124,23 +137,23 @@ void	ft_get_right_release(t_content *content, t_expar *expar)
 	}
 }
 
-void	ft_exec_cmd(t_expar *expar, t_content *content, t_list *env)
+void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	char **env_converted;
 
 	env_converted = NULL;
-	printf("content->input = %d\n", content->input);
-	printf("content->output = %d\n", content->output);
-	printf("content->cmd[0] = %s\n", content->cmd[0]);
-	//printf("content->arg = %s\n\n", content->arg);
-	printf("expar->pipe[0] = %d\n", expar->pipe[0]);
-	printf("expar->pipe[1] = %d\n", expar->pipe[1]);
-	printf("--------------------\n");
+	// printf("content->input = %d\n", content->input);
+	// printf("content->output = %d\n", content->output);
+	// printf("content->cmd[0] = %s\n", content->cmd[0]);
+	// printf("content->arg = %s\n\n", content->arg);
+	// printf("expar->pipe[0] = %d\n", expar->pipe[0]);
+	// printf("expar->pipe[1] = %d\n", expar->pipe[1]);
+	// printf("--------------------\n");
 	ft_get_right_release(content, expar);
-	ft_prepare_execution(expar, content, env);
+	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
-	env_converted = ft_convert_env(env);
+	env_converted = ft_convert_env(*env);
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");

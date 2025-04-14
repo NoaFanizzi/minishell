@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 12:00:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/11 17:26:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ void	ft_upgrade_opwd(t_list *env)
 
 void	ft_cd(t_list *env, char *cmd)
 {
-	size_t	i;
+	//size_t	i;
 
-	i = 0;
+	//i = 0;
 	ft_upgrade_opwd(env);
 	if (chdir(cmd) == -1)
 		write(1, "chdir error", 12);

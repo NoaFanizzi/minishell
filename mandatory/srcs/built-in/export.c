@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 18:20:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:27:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,11 @@ int	ft_check_if_in_base(t_list *env, char *str)
 void	ft_get_var(t_export *temp, t_content *content)
 {
 	char *temp_value;
-	size_t	i;
-	size_t pos;
+	int	i;
+	int pos;
 	
 	i = 0;
-	pos = ft_strrchr(content->arg, 61);
+	pos = ft_is_chr(content->arg, 61);
 	temp->var = ft_calloc((i + 1), sizeof(char));
 	while(i < pos)
 	{
@@ -74,37 +74,83 @@ int	ft_is_a_value(char *str)
 	return(0);
 }
 
-void	ft_export(t_list *env, t_content *content)
+int	ft_is_chr(char *str, char c)
+{
+	size_t	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if(str[i] == c)
+			return(i);
+		i++;
+	}
+	return(-1);
+}
+
+void	ft_export(t_list **env, t_content *content)
 {
 	t_env *link;
-	size_t	pos;
+	char	*temp;
+	t_list *current;
+	int	pos;
+	int	i;
 
-	pos = ft_check_if_in_base(env, content->arg);
-	if(pos == ft_lstsize(env)) // ca veut dire que c'etait pas dedans
+
+	i = 0;
+	pos = ft_check_if_in_base(*env, content->arg); // ça me return la position de où c'est dans la liste
+	if(pos == ft_lstsize(*env)) // ca veut dire que c'etait pas dedans
 	{
 		link = ft_add_new_link(content->arg);
-		ft_lstadd_back(&env, ft_lstnew(link));
+		printf("link->var= %s\n", link->var);
+		printf("link->op = %s\n", link->op);
+		printf("link->arg= %s\n", link->arg);
+
+		ft_lstadd_back(env, ft_lstnew(link));
 		if(link->arg != NULL)
 			link->exp = 1;
 	}
 	else //ca veut dire que c'etait deja dedans
 	{
+		current = *env;
 		while(pos > 0)
 		{
-			env = env->next;
+			current = current->next;
 			pos--;
 		}
-		link = (t_env *)env->content;
+		link = (t_env *)current->content;
 		if(link->arg == NULL) //si y'avait pas de value assigned a la variable
 		{
-			if(ft_is_a_value(env) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
-				//replace le maillon de la chaine correctement
-			else
-				return(NULL);
+			if(ft_is_a_value(content->arg) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
+			{
+				free(link->var);
+				free(link->arg);
+				free(link->op);
+				//free(link);
+				link = ft_add_new_link(content->arg);
+			}
 		}
-		if(link->arg != NULL) // y'avait deja une value assigned
+		else if(link->arg != NULL) // y'avait deja une value assigned
 		{
-			//append la value 
+			if(ft_is_a_value(content->arg) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
+			{
+				if(ft_is_chr(content->arg, '+') != -1) // y'a un +
+				{
+					temp = ft_strjoin(link->arg, content->arg);
+					free(link->arg);
+					link->arg = ft_strdup(temp);
+					free(temp);
+				}
+				else
+				{
+					pos = ft_is_chr(content->arg, '=');
+					free(link->arg);
+					link->arg = ft_strdup(&content->arg[pos]);
+				}
+			}
 		}
+		//ft_free_content(content);
+		// free(content->arg);
+		// free(content->cmd);
 	}
 }

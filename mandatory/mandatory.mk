@@ -7,7 +7,7 @@ BUILT_IN_DIR		= built-in
 EXEC_DIR			= exec
 
 
-BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c
+BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c
 BUILT_IN_SRCS	:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 
 EXEC_SRCS = exec_cmd.c exec_free.c exec_init.c exec_utils.c exec_env_conversion.c

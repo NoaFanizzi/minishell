@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 17:07:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/14 14:40:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,29 +17,40 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 0)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("cat");
-		content->cmd[1] = ft_strdup("-e");
+		content->cmd[0] = ft_strdup("export");
+		content->cmd[1] = NULL; //ft_strdup("-e");
 		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = NULL;//ft_strdup("dracaufeu");
+		content->arg = ft_strdup("TESTTTTTTTTTTTTTTTTTT=3");//NULL;//ft_strdup("dracaufeu");
 		content->input = open("Makefile", O_RDONLY);
-		content->output = -2;
+		content->output = open("test", O_RDWR);
 	}
 	if(params == 1)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("cat");
-		content->cmd[1] = ft_strdup("-e");
-		content->cmd[2] = NULL;//ft_strdup("tiplouf");
+		content->cmd[0] = ft_strdup("export");
+		content->cmd[1] = NULL; //ft_strdup("-e");
+		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = NULL; //ft_strdup("tiplouf");
-		content->input = -2;
-		content->output = open("test", O_RDWR | O_CREAT | O_TRUNC, 0644);
+		content->arg = ft_strdup("TESTTTTTTTTTTTTTTTTTT=3");//NULL;//ft_strdup("dracaufeu");
+		content->input = open("Makefile", O_RDONLY);
+		content->output = open("test", O_RDWR);
 	}
+	// if(params == 1)
+	// {
+	// 	content->cmd = malloc(sizeof(char *) * 4);
+	// 	content->cmd[0] = ft_strdup("cat");
+	// 	content->cmd[1] = ft_strdup("-e");
+	// 	content->cmd[2] = NULL;//ft_strdup("tiplouf");
+	// 	content->cmd[3] = NULL;
+	// 	content->arg = NULL; //ft_strdup("tiplouf");
+	// 	content->input = -2;
+	// 	content->output = open("test", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	// }
 	return(0);
 }
 
-int	ft_test(t_list *env)
+int	ft_test(t_list **env)
 {
 	t_array array;
 	int	i;
@@ -79,17 +90,17 @@ int	ft_test(t_list *env)
 int	main(int argc, char **argv, char **env)
 {
 	t_list *var;
-	t_array *array;
+	//t_array *array;
 	
 	(void)argc;
 	(void)argv;
-	array = NULL;
+	//array = NULL;
 
 	var = ft_init_env(env);
 	//ft_init_exec(var, array);
-	ft_test(var);
-	ft_free_env(var);
+	ft_test(&var);
 	//ft_display_env(var);
+	ft_free_env(var);
 	//ft_cd(&m_env, argv[1]);
 	//ft_pwd();
 	//ft_free_tab(var.env);
