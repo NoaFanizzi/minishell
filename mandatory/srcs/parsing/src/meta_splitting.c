@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/12 18:04:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 10:20:36 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,23 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 			while (s[i2] && is_sep(s[i2], charset))
 				i2++;
 			if (i2 > i1)
+			{
 				splitted[*j] = ft_substr(s, i1, i2 - i1);
+				(*j)++;
+			}
 		}
 		else
 		{
 			while (s[i2] && !is_sep(s[i2], charset))
 				i2++;
 			if (i2 > i1)
+			{
 				splitted[*j] = ft_substr(s, i1, i2 - i1);
+				(*j)++;
+			}
 		}
 		// if (!splitted[*j])
 		// 		return (free_words(splitted, *j));
-		(*j)++;
 	}
 	return (splitted);
 }
@@ -95,13 +100,14 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 
 	i = 0;
 	k = 0;
+	//(void)charset;
 	while (command[k])
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
 			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
 			if (!splitted[i])
-				return (free_words(splitted, i));
+				return (free_words(splitted));
 			i++;
 		}
 		else
@@ -124,9 +130,9 @@ char	**meta_splitting(char **command)
 	count = split_meta_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
-		return (free_words(command, ft_strlen(*command)));
+		return (free_words(command));
 	splitted = fill_meta_words(splitted, command, charset);
-	free_words(command, ft_strlen(*command));
+	free_words(command);
 	if (!splitted)
 		return (NULL);
 	return (splitted);

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/10 10:24:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 10:08:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char	**quotes_splitting(char **command, char *line)
 	{
 		fill_quote_words(command, line, k, &i);
 		if (!command[k])
-			return (free_words(command, k));
+			return (free_words(command));
 		k++;
 	}
 	command[k] = 0;

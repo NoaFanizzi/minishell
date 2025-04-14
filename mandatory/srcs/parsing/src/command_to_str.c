@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/12 17:58:44 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 10:43:03 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ void	parse_command(char *line)
 		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
+	command = quotes_removal(command);
+	if (!command)
+		return ;//error
+	// k = 0;
+	// while (command[k])
+	// {
+	// 	printf("word n%d : %s\n", k + 1, command[k]);
+	// 	k++;
+	// }
 	//free_words(command, k);
 }
 

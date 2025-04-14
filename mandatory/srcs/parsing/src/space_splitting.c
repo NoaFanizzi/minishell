@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/12 16:30:10 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 10:09:04 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	**fill_space_words(char **splitted, char **command, const char *charset)
 		{
 			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
 			if (!splitted[i])
-				return (free_words(splitted, i));
+				return (free_words(splitted));
 			i++;
 		}
 		else
@@ -66,9 +66,9 @@ char	**space_splitting(char **command)
 	count = split_space_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
-		return (free_words(command, ft_strlen(*command)));
+		return (free_words(command));
 	splitted = fill_space_words(splitted, command, charset);
-	free_words(command, ft_strlen(*command));
+	free_words(command);
 	if (!splitted)
 		return (NULL);
 	return (splitted);

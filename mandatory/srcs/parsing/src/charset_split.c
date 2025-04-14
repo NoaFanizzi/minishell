@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:13 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/10 10:25:33 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 10:09:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,16 @@ int		count_words(const char *str, const char *charset)
 	return (count);
 }
 
-void	*free_words(char **splitted, size_t j)
+void	*free_words(char **splitted)
 {
-	j++;
-	while (j--)
+	size_t	j;
+
+	j = 0;
+	while (splitted[j])
+	{
 		free(splitted[j]);
+		j++;
+	}
 	free(splitted);
 	return (NULL);
 }
@@ -76,7 +81,7 @@ char	**fill_splitted(const char *s, const char *charset,
 		{
 			splitted[*j] = ft_substr(s, i1, i2 - i1);
 			if (!splitted[*j])
-				return (free_words(splitted, *j));
+				return (free_words(splitted));
 			(*j)++;
 		}
 		i1 = i2;
