@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/14 10:43:03 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 15:01:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	parse_command(char *line)
 {	
 	char 	**command = NULL;
+	char	***final_command = NULL;
 	int		k;
 
 	k = 0;
@@ -51,13 +52,13 @@ void	parse_command(char *line)
 	command = quotes_removal(command);
 	if (!command)
 		return ;//error
-	// k = 0;
-	// while (command[k])
-	// {
-	// 	printf("word n%d : %s\n", k + 1, command[k]);
-	// 	k++;
-	// }
-	//free_words(command, k);
+	k = 0;
+	while (command[k])
+	{
+		printf("word n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	// free_words(command, k);
 }
 
 void	launch_shell(void)
