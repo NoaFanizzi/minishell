@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/14 15:01:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/14 15:43:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	parse_command(char *line)
 {	
 	char 	**command = NULL;
-	char	***final_command = NULL;
 	int		k;
 
 	k = 0;
