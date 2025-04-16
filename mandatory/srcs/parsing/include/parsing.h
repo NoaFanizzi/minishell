@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/14 15:50:04 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/16 17:40:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,17 +87,10 @@ typedef struct s_expar
 	char	**options;
 }				t_expar;
 
-typedef struct s_index_q
-{
-	size_t	i;
-	size_t	j;
-	size_t	k;
-}				t_index_q;
 
-
-int		main(void);
-void	launch_shell(void);
-void	parse_command(char *line);
+int		main(int argc, char **argv, char **env);
+void	launch_shell(char **env);
+void	parse_command(char *line, char **env);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -124,8 +117,17 @@ char	**twisted_fill_splitted(const char *s, const char *charset, char **splitted
 char	**quotes_removal(char **command);
 void	rem_and_shift(char *command);
 
+int		ft_check_if_command(char *cmd, char **path);
+int 	ft_is_command(t_expar *expar, char *command);
+int		ft_try(char **env, char *command);
+t_list	*ft_init_env(char **env);
+char	**ct_get_paths(t_list *var);
+t_env	*ft_add_new_link(char *env);
 
-
+char	***command_splitting(char **command);
+void	init_splitted(char ***splitted, char **command);
+int		count_commands(char **command);
+int		count_command_words(char **command);
 
 
 
