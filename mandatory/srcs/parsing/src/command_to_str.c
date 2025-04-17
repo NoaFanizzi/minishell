@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:39:09 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/17 10:52:55 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	parse_command(char *line, char **env)
 	char 	**command = NULL;
 	char	***cmd_splitted = NULL;
 	int		k;
+	int		i;
 
 	k = 0;
 	command = quotes_splitting(command, line);
@@ -60,6 +61,22 @@ void	parse_command(char *line, char **env)
 		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
+	cmd_splitted = command_splitting(command);
+	if (!cmd_splitted)
+		return ;
+	printf("\n\n");
+	k = 0;
+	while (cmd_splitted[k])
+	{
+		i = 0;
+		printf("\ncommand n%d\n", k + 1);
+		while (cmd_splitted[k][i])
+		{
+			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			i++;
+		}
+		k++;
+	}
 	printf("\n\n");
 	k = 0;
 	while (command[k])
@@ -68,9 +85,6 @@ void	parse_command(char *line, char **env)
 			printf("%s is a command\n", command[k]);
 		k++;
 	}
-	cmd_splitted = command_splitting(command);
-	if (!cmd_splitted)
-		return ;
 	// free_words(command, k);
 }
 

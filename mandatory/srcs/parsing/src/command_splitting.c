@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:41:13 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/17 10:53:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		count_command_words(char **command)
 	return (count);
 }
 
-void	init_splitted(char ***splitted, char **command)
+char	***init_splitted(char ***splitted, char **command)
 {
 	int		cmd_count;
 	int		cmd_words_count;
@@ -59,26 +59,55 @@ void	init_splitted(char ***splitted, char **command)
 	cmd_count = count_commands(command);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
-		return ;//malloc error
-	splitted[cmd_count] = 0;
-	while ((int)k < cmd_count)
+		return (NULL);//malloc error
+	while ((int)k <= cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
-		printf("command n%zu : %d words\n", k + 1, cmd_words_count);
 		cmd_index += cmd_words_count;
 		splitted[k] = malloc((cmd_words_count + 1) * sizeof(char *));
 		if (!splitted[k])
-			return ;//malloc error
+			return (NULL);//malloc error
 		k++;
 	}
+	splitted[k] = 0;
+	return (splitted);
+}
+
+char	***fill_splitted_command(char ***splitted, char **command)
+{
+	size_t	k;
+	size_t	i;
+	size_t	cmd_index;
+	int		cmd_words_count;
+	
+	cmd_index = 0;
+	k = 0;
+	i = 0;
+	while (splitted[k])
+	{
+		cmd_words_count = count_command_words(&command[cmd_index]);
+		i = 0;
+		while ((int)i < cmd_words_count)
+		{
+			splitted[k][i] = ft_strdup(command[cmd_index + i]);
+			if (!splitted[k][i])
+				return (NULL);
+			i++;
+		}
+		cmd_index += cmd_words_count;
+		splitted[k][i] = 0;
+		k++;
+	}
+	return (splitted);
 }
 
 char	***command_splitting(char **command)
 {
 	char	 ***splitted = NULL;
 	
-	init_splitted(splitted, command);
+	splitted = init_splitted(splitted, command);
 	if (!splitted)
 		return (NULL);
+	splitted = fill_splitted_command(splitted, command);
 	return (splitted);
 }

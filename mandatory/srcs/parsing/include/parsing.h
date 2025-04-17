@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/16 17:40:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/17 10:18:05 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,8 @@ char	**ct_get_paths(t_list *var);
 t_env	*ft_add_new_link(char *env);
 
 char	***command_splitting(char **command);
-void	init_splitted(char ***splitted, char **command);
+char	***init_splitted(char ***splitted, char **command);
+char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
 
