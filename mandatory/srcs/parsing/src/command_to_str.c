@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/28 09:54:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/28 10:40:54 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //check cases when there is one commnad, or nothing or idk but you understood
 
-void	parse_command(char *line, char **env)
+char	***parse_command(char *line, char **env)
 {	
 	char 	**command = NULL;
 	char	***cmd_splitted = NULL;
@@ -25,7 +25,7 @@ void	parse_command(char *line, char **env)
 	command = quotes_splitting(command, line);
 	free(line);
 	if (!command)
-		return ;//error
+		return (NULL);//error
 	while (command[k])
 	{
 		printf("word n%d : %s\n", k + 1, command[k]);
@@ -34,7 +34,7 @@ void	parse_command(char *line, char **env)
 	printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
-		return ;//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -45,7 +45,7 @@ void	parse_command(char *line, char **env)
 	
 	command = meta_splitting(command);
 	if (!command)
-		return ;//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -55,7 +55,7 @@ void	parse_command(char *line, char **env)
 	
 	quotes_removal(command);
 	if (!command)
-		return ;//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -66,7 +66,7 @@ void	parse_command(char *line, char **env)
 	//NEED TO FREE COMMAND BUT NOT FOR NOW
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
-		return ;
+		return (NULL);
 	printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
@@ -88,19 +88,29 @@ void	parse_command(char *line, char **env)
 			printf("%s is a command\n", command[k]);
 		k++;
 	}
-	// free_words(command, k);
+	free_words(command);
+	return (cmd_splitted);
+}
+
+void	analyse_command(char ***cmd_splitted)
+{
+	find_in_out_files();
+	return ;
 }
 
 void	launch_shell(char **env)
 {
 	char	*line;
+	char	***cmd_splitted;
 	
 	while (1)
 	{
 		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
-		parse_command(line, env);
+		cmd_splitted = parse_command(line, env);
+		if (!cmd_splitted)
+			return ;
 	}
 }
 int	main(int argc, char **argv, char **env)
