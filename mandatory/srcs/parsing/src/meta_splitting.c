@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/14 10:20:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/28 09:42:42 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	twisted_count_words(char *str, const char *charset)
 		if (is_sep(str[i], charset))
 		{
 			while (str[i] && is_sep(str[i], charset))
+			{
 				i++;
+				if (str[i] && is_sep(str[i], charset) && str[i - 1] != str[i])
+					break ;
+			}
 			count++;
 		}
 		else
@@ -70,10 +74,16 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 		if (is_sep(s[i2], charset))
 		{
 			while (s[i2] && is_sep(s[i2], charset))
+			{
 				i2++;
+				if (s[i2] && is_sep(s[i2], charset) && s[i2 - 1] != s[i2])
+					break ;
+			}
 			if (i2 > i1)
 			{
 				splitted[*j] = ft_substr(s, i1, i2 - i1);
+				if (!splitted[*j])
+					return (free_words(splitted));
 				(*j)++;
 			}
 		}
@@ -84,11 +94,11 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 			if (i2 > i1)
 			{
 				splitted[*j] = ft_substr(s, i1, i2 - i1);
+				if (!splitted[*j])
+					return (free_words(splitted));
 				(*j)++;
 			}
 		}
-		// if (!splitted[*j])
-		// 		return (free_words(splitted, *j));
 	}
 	return (splitted);
 }

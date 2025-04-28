@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/17 10:52:55 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/28 09:54:21 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	parse_command(char *line, char **env)
 		k++;
 	}
 	printf("\n\n");
-	//LEAKS DONE UNTIL THERE
+	
 	command = meta_splitting(command);
 	if (!command)
 		return ;//error
@@ -52,7 +52,8 @@ void	parse_command(char *line, char **env)
 		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	command = quotes_removal(command);
+	
+	quotes_removal(command);
 	if (!command)
 		return ;//error
 	k = 0;
@@ -61,6 +62,8 @@ void	parse_command(char *line, char **env)
 		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
+	//LEAKS DONE UNTIL THERE
+	//NEED TO FREE COMMAND BUT NOT FOR NOW
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
 		return ;

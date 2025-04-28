@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/17 10:53:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/28 10:15:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,27 @@ int		count_command_words(char **command)
 	return (count);
 }
 
+void	*free_command(char ***splitted)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (splitted[i])
+	{
+		j = 0;
+		while (splitted[i][j])
+		{
+			free(splitted[i][j]);
+			j++;
+		}
+		free(splitted[i]);
+		i++;
+	}
+	free(splitted);
+	return (NULL);
+}
+
 char	***init_splitted(char ***splitted, char **command)
 {
 	int		cmd_count;
@@ -60,16 +81,16 @@ char	***init_splitted(char ***splitted, char **command)
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
 		return (NULL);//malloc error
+	splitted[cmd_count] = 0;
 	while ((int)k <= cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
 		splitted[k] = malloc((cmd_words_count + 1) * sizeof(char *));
 		if (!splitted[k])
-			return (NULL);//malloc error
+			return (free_command(splitted));//malloc error
 		k++;
 	}
-	splitted[k] = 0;
 	return (splitted);
 }
 
@@ -91,7 +112,7 @@ char	***fill_splitted_command(char ***splitted, char **command)
 		{
 			splitted[k][i] = ft_strdup(command[cmd_index + i]);
 			if (!splitted[k][i])
-				return (NULL);
+				return (free_command(splitted));
 			i++;
 		}
 		cmd_index += cmd_words_count;
@@ -109,5 +130,7 @@ char	***command_splitting(char **command)
 	if (!splitted)
 		return (NULL);
 	splitted = fill_splitted_command(splitted, command);
+	if (!splitted)
+		return (NULL);
 	return (splitted);
 }
