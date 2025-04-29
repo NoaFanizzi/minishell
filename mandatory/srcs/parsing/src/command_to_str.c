@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/28 10:40:54 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/29 09:40:45 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,17 +92,30 @@ char	***parse_command(char *line, char **env)
 	return (cmd_splitted);
 }
 
-void	analyse_command(char ***cmd_splitted)
+
+void	analyse_command(char ***cmd_splitted, t_content **cmd_struct)
 {
-	find_in_out_files();
+	size_t	i;
+
+	i = 0;
+	while(cmd_splitted[i])
+	{
+		if (strncmp(cmd_splitted[i], '|', 1) != 0)
+			create_cmd_struct(cmd_splitted, i, cmd_struct);
+		i++;
+	}
 	return ;
 }
 
-void	launch_shell(char **env)
+t_content	*launch_shell(char **env)
 {
 	char	*line;
 	char	***cmd_splitted;
+	t_content	*cmd_struct;
 	
+	cmd_struct = malloc(sizeof(*cmd_struct));
+	if (!cmd_struct)
+		return (NULL);
 	while (1)
 	{
 		line = readline("maxishell$ ");
@@ -110,7 +123,8 @@ void	launch_shell(char **env)
 			exit(0);
 		cmd_splitted = parse_command(line, env);
 		if (!cmd_splitted)
-			return ;
+			return (NULL);
+		analyse_command(cmd_splitted, &cmd_struct);
 	}
 }
 int	main(int argc, char **argv, char **env)

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/28 10:37:29 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/29 09:43:44 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,11 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 {
 	char 	**cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
 	char 	*arg; //TODO TEJ le arg et tout mettre dans cmd
+	int		from_pipe;
+	int		to_pipe;
 	int 	input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
 	int 	output; //pareil pour l'output
 	int 	overwrite;
-	int 	pipe;
 	pid_t 	pid;
 }				t_content;
 
@@ -89,9 +90,9 @@ typedef struct s_expar
 
 
 int		main(int argc, char **argv, char **env);
-void	launch_shell(char **env);
+t_content	*launch_shell(char **env);
 char	***parse_command(char *line, char **env);
-void	analyse_command(char ***cmd_splitted);
+void	analyse_command(char ***cmd_splitted, t_content **cmd_struct);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
