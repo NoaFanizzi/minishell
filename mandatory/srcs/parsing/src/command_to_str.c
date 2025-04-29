@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/29 09:40:45 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/29 17:18:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,16 +93,29 @@ char	***parse_command(char *line, char **env)
 }
 
 
-void	analyse_command(char ***cmd_splitted, t_content **cmd_struct)
+void	analyse_command(char ***cmd_splitted, t_array **array)
 {
-	size_t	i;
+	size_t	cmd_index;
+	size_t	struct_index;
 
-	i = 0;
-	while(cmd_splitted[i])
+	cmd_index = 0;
+	struct_index = 0;
+	while(cmd_splitted[cmd_index])
 	{
-		if (strncmp(cmd_splitted[i], '|', 1) != 0)
-			create_cmd_struct(cmd_splitted, i, cmd_struct);
-		i++;
+		if (strncmp(cmd_splitted[cmd_index], '|', 1) != 0)
+			(*array)->size++;
+		cmd_index++;
+	}
+	(*array)->content = malloc(((*array)->size + 1) * sizeof(t_content));
+	cmd_index = 0;
+	while(cmd_splitted[cmd_index])
+	{
+		if (strncmp(cmd_splitted[cmd_index], '|', 1) != 0)
+		{
+			create_cmd_struct(cmd_splitted, (*array)->content[struct_index], cmd_index);
+			struct_index++;
+		}
+		cmd_index++;
 	}
 	return ;
 }
@@ -111,10 +124,10 @@ t_content	*launch_shell(char **env)
 {
 	char	*line;
 	char	***cmd_splitted;
-	t_content	*cmd_struct;
+	t_array	*array;
 	
-	cmd_struct = malloc(sizeof(*cmd_struct));
-	if (!cmd_struct)
+	array = malloc(sizeof(*array));
+	if (!array)
 		return (NULL);
 	while (1)
 	{
@@ -124,7 +137,7 @@ t_content	*launch_shell(char **env)
 		cmd_splitted = parse_command(line, env);
 		if (!cmd_splitted)
 			return (NULL);
-		analyse_command(cmd_splitted, &cmd_struct);
+		analyse_command(cmd_splitted, &array);
 	}
 }
 int	main(int argc, char **argv, char **env)
