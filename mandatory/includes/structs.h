@@ -85,6 +85,7 @@ typedef struct s_expar
 	char	**options;
 }			t_expar;
 
-
-
+//TO DO y'a plus de pipes, je check par rapport a la ou j'en suis dans mon nombre de commande pour savoir si c'est un pipe
+//TODO modifier la fonction qui check si y'a des pipes et l'ordre d'ouverture
+//TODO bien se rappeler qu'on se repere par rapport au maillon d el'array de content. ENtre chaque mailon y'a un pipe. Donc tej le pipe dans le .h aussi
 #endif

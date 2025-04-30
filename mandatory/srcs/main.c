@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 14:00:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/30 14:40:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 0)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("cat");
-		content->cmd[1] = ft_strdup("-e"); //ft_strdup("-e");
-		content->cmd[2] = ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
+		content->cmd[0] = ft_strdup("export");
+		content->cmd[1] = NULL;
+		content->cmd[2] = NULL;//NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = NULL;//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
+		content->arg = ft_strdup("ABERRANT=6");//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
 		content->files = NULL;
 		content->size = 1;
 		content->infile = -2;
@@ -40,17 +40,18 @@ int	ft_fill_test(t_content *content, int params)
 		// content->output = open("test", O_RDWR);
 		//content->size = 1;
 	}
-	// if(params == 1)
-	// {
-	// 	content->cmd = malloc(sizeof(char *) * 4);
-	// 	content->cmd[0] = ft_strdup("export");
-	// 	content->cmd[1] = NULL; //ft_strdup("-e");
-	// 	content->cmd[2] = NULL;//ft_strdup("dracaufeu");
-	// 	content->cmd[3] = NULL;
-	// 	content->arg = ft_strdup("POULET+=9");//NULL;//ft_strdup("dracaufeu");
-	// 	content->input = open("Makefile", O_RDONLY);
-	// 	content->output = open("test", O_RDWR);
-	// }
+	if(params == 1)
+	{
+		content->cmd = malloc(sizeof(char *) * 4);
+		content->cmd[0] = ft_strdup("export");
+		content->cmd[1] = NULL; //ft_strdup("-e");
+		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
+		content->cmd[3] = NULL;
+		content->arg = ft_strdup("POULET+=9");//NULL;//ft_strdup("dracaufeu");
+		content->files = NULL;
+		content->infile = -2;
+		content->outfile = -2;
+	}
 	// if(params == 1)
 	// {
 	// 	content->cmd = malloc(sizeof(char *) * 4);
