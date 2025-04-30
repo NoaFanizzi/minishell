@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:52:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/30 09:06:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,11 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	{
 		printf("c rentre\n");
 		ft_echo(content);
+	}
+	if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
+	{
+		printf("exportedd\n");
+		ft_export(env, content);
 	}
 	ft_free_env(*env);
 	//ft_free_tab(content->cmd);
@@ -116,22 +121,22 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 
 void	ft_get_right_release(t_content *content, t_expar *expar)
 {
-	if(content->input != -2)
+	if(content->input != PIPE)
 	{
 		if (dup2(content->input, STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->input == -2)
+	if(content->input == PIPE)
 	{
 		if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output != -2)
+	if(content->output != PIPE)
 	{
 		if (dup2(content->output, STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output == -2) //ici probleme
+	if(content->output == PIPE) //ici probleme
 	{
 		if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
@@ -143,13 +148,13 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	char **env_converted;
 
 	env_converted = NULL;
-	printf("content->input = %d\n", content->input);
-	printf("content->output = %d\n", content->output);
-	printf("content->cmd[0] = %s\n", content->cmd[0]);
-	printf("content->arg = %s\n\n", content->arg);
-	printf("expar->pipe[0] = %d\n", expar->pipe[0]);
-	printf("expar->pipe[1] = %d\n", expar->pipe[1]);
-	printf("--------------------\n");
+	//printf("content->input = %d\n", content->input);
+	//printf("content->output = %d\n", content->output);
+	//printf("content->cmd[0] = %s\n", content->cmd[0]);
+	//printf("content->arg = %s\n\n", content->arg);
+	//printf("expar->pipe[0] = %d\n", expar->pipe[0]);
+	//printf("expar->pipe[1] = %d\n", expar->pipe[1]);
+	//printf("--------------------\n");
 	ft_get_right_release(content, expar);
 	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);

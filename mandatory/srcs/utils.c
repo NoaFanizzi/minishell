@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:02:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/29 15:26:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,4 @@ void	ft_free_content(t_content *content)
         if (content->output != -2)
             close(content->output);
 		content = NULL;
-			
 }

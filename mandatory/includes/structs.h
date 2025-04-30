@@ -42,14 +42,27 @@ typedef struct s_env
 // 	int export_size;
 // }				t_var;
 
+enum redir
+{
+	IN,
+	OUT,
+	APND, //append
+	PIPE, //pipe
+	HDOC // sortie d'erreur
+} redir;
+
+
+typedef struct s_files
+{
+	int	index;
+	enum redir type;
+}				t_files;
+
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
 {
 	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
 	char *arg; //TODO TEJ le arg et tout mettre dans cmd
-	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
-	int output; //pareil pour l'output
-	int overwrite;
-	int pipe;
+	t_files *files;
 	pid_t pid;
 }			t_content;
 
