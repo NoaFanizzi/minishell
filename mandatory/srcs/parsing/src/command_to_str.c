@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/29 17:18:18 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/30 18:16:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	***parse_command(char *line, char **env)
 	}
 	
 	quotes_removal(command);
+	
 	if (!command)
 		return (NULL);//error
 	k = 0;
@@ -102,21 +103,32 @@ void	analyse_command(char ***cmd_splitted, t_array **array)
 	struct_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
-		if (strncmp(cmd_splitted[cmd_index], '|', 1) != 0)
+		if (strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 			(*array)->size++;
 		cmd_index++;
 	}
-	(*array)->content = malloc(((*array)->size + 1) * sizeof(t_content));
+	(*array)->content = malloc(((*array)->size) * sizeof(t_content));
 	cmd_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
-		if (strncmp(cmd_splitted[cmd_index], '|', 1) != 0)
+		if (strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, (*array)->content[struct_index], cmd_index);
+			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index);
+			//test
+			size_t i = 0;
+			size_t count = count_redir(cmd_splitted[cmd_index]);
+			while (i < count)
+			{
+				printf("redir index n%d :\n", (*array)->content[struct_index].files[i].index + 1);
+				printf("redir%d\n\n", (int)(*array)->content[struct_index].files[i].type + 1);
+				i++;
+			}
+			//test			
 			struct_index++;
 		}
 		cmd_index++;
 	}
+	
 	return ;
 }
 
@@ -126,9 +138,11 @@ t_content	*launch_shell(char **env)
 	char	***cmd_splitted;
 	t_array	*array;
 	
-	array = malloc(sizeof(*array));
+	array = malloc(sizeof(t_array));
 	if (!array)
 		return (NULL);
+	array->size = 0;
+	array->content = NULL;
 	while (1)
 	{
 		line = readline("maxishell$ ");

@@ -6,7 +6,7 @@
 #    By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/04/01 15:38:30 by nbodin            #+#    #+#              #
-#    Updated: 2025/04/16 17:39:30 by nbodin           ###   ########lyon.fr    #
+#    Updated: 2025/04/30 16:19:57 by nbodin           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ FILES = command_to_str \
 		meta_splitting \
 		quotes_removal \
 		command_splitting \
+		cmd_struct \
 		charset_split \
 		test \
 

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/28 10:15:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/04/30 18:15:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		count_command_words(char **command)
 	int	count;
 
 	i = 0;
-	count = 0;
+	count = 0; 
 	if (command[i][0] == '|')
 		return (1);
 	while (command[i])
@@ -99,12 +99,15 @@ char	***fill_splitted_command(char ***splitted, char **command)
 	size_t	k;
 	size_t	i;
 	size_t	cmd_index;
+	int	cmd_count;
 	int		cmd_words_count;
 	
 	cmd_index = 0;
+	cmd_count = count_commands(command);
 	k = 0;
 	i = 0;
-	while (splitted[k])
+	
+	while ((int)k <= cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		i = 0;
@@ -115,10 +118,12 @@ char	***fill_splitted_command(char ***splitted, char **command)
 				return (free_command(splitted));
 			i++;
 		}
+		printf("GOT HEREEEEEEE\n");
 		cmd_index += cmd_words_count;
 		splitted[k][i] = 0;
 		k++;
-	}
+	} 
+	splitted[k] = 0;
 	return (splitted);
 }
 
@@ -127,8 +132,10 @@ char	***command_splitting(char **command)
 	char	 ***splitted = NULL;
 	
 	splitted = init_splitted(splitted, command);
+	
 	if (!splitted)
 		return (NULL);
+	
 	splitted = fill_splitted_command(splitted, command);
 	if (!splitted)
 		return (NULL);
