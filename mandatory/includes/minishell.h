@@ -9,7 +9,9 @@
 
 enum	ERROR
 {
-	O_ERROR = -1
+	O_ERROR = -1,
+	NO_IN = -2,
+	NO_OUT = -3
 };
 
 //echo.c

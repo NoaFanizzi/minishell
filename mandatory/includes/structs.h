@@ -42,14 +42,14 @@ typedef struct s_env
 // 	int export_size;
 // }				t_var;
 
-enum redir
+typedef enum redir
 {
 	IN,
 	OUT,
 	APND, //append
 	PIPE, //pipe
 	HDOC // sortie d'erreur
-} redir;
+}			t_redir;
 
 
 typedef struct s_files
@@ -64,6 +64,9 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 	char *arg; //TODO TEJ le arg et tout mettre dans cmd
 	t_files *files;
 	pid_t pid;
+	int	infile;
+	int	outfile;
+	int	size;
 }			t_content;
 
 typedef struct s_array
