@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/30 18:16:49 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/02 09:23:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	***parse_command(char *line, char **env)
 }
 
 
-void	analyse_command(char ***cmd_splitted, t_array **array)
+void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 {
 	size_t	cmd_index;
 	size_t	struct_index;
@@ -151,7 +151,7 @@ t_content	*launch_shell(char **env)
 		cmd_splitted = parse_command(line, env);
 		if (!cmd_splitted)
 			return (NULL);
-		analyse_command(cmd_splitted, &array);
+		analyse_command(cmd_splitted, &array, env);
 	}
 }
 int	main(int argc, char **argv, char **env)

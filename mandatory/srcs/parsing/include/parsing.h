@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/30 17:42:48 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/02 09:24:27 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_expar
 int		main(int argc, char **argv, char **env);
 t_content	*launch_shell(char **env);
 char	***parse_command(char *line, char **env);
-void	analyse_command(char ***cmd_splitted, t_array **array);
+void	analyse_command(char ***cmd_splitted, t_array **array, char **env);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -143,7 +143,7 @@ char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env);
 void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
 
