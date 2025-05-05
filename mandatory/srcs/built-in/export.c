@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 14:40:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:00:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_check_if_in_base(t_list *env, char *str)
 		env = env->next;
 		link++;
 	}
-	return(link);
+	return(-1);
 }
 
 void	ft_get_var(t_export *temp, t_content *content)
@@ -88,7 +88,7 @@ int	ft_is_chr(char *str, char c)
 	return(-1);
 }
 
-void	ft_export(t_list **env, t_content *content)
+int	ft_export(t_list **env, t_content *content)
 {
 	t_env *link;
 	char	*temp;
@@ -96,10 +96,10 @@ void	ft_export(t_list **env, t_content *content)
 	int	pos;
 	int	i;
 
-
+	printf("----------------------export beginning------------------------\n");
 	i = 0;
 	pos = ft_check_if_in_base(*env, content->arg); // ça me return la position de où c'est dans la liste
-	if(pos == ft_lstsize(*env)) // ca veut dire que c'etait pas dedans
+	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
 		link = ft_add_new_link(content->arg);
 		printf("link->var= %s\n", link->var);
@@ -144,8 +144,11 @@ void	ft_export(t_list **env, t_content *content)
 				}
 				else
 				{
-					pos = ft_is_chr(content->arg, '=');
+					pos = ft_is_chr(content->arg, '='); //TODO lq fonction elle marche pas apparemment
 					free(link->arg);
+					printf("pos======%d\n", pos);
+					printf("first leak = %s\n", &content->arg[pos]);
+					printf("true arg = %s\n", content->arg);
 					link->arg = ft_strdup(&content->arg[pos]);
 				}
 			}
@@ -155,4 +158,6 @@ void	ft_export(t_list **env, t_content *content)
 		// free(content->arg);
 		// free(content->cmd);
 	}
+	printf("----------------------------------end----------------------------\n");
+	return(0);
 }

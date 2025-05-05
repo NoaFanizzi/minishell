@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 14:03:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:10:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,22 +52,30 @@ int ft_is_command(t_expar *expar, t_content *content)
 
 void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
+	int return_value;
 	//printf("content->arg = %s\n", content->arg);
 	//(void)env;
 	printf("c pas rentre\n");
+	return_value = 0;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 	{
 		printf("c rentre\n");
-		ft_echo(content);
+		return_value = ft_echo(content);
 	}
-	if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
+	else if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
 	{
 		printf("exportedd\n");
-		ft_export(env, content);
+		return_value = ft_export(env, content);
+	}
+	else if(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
+	{
+		printf("unsetted\n");
+		return_value = ft_unset(env, content);
 	}
 	else
 		return;
 	ft_free_env(*env);
+	printf("c quand tu veux tu free\n");
 	//ft_free_tab(content->cmd);
 	//ft_free_content(content);
 	ft_free_array_content(array);
@@ -75,7 +83,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	ft_free_tab(expar->options);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
-	exit(0);
+	exit(return_value);
 }
 
 static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
