@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 14:47:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 15:15:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_free_link(t_env *link)
 	free(link);
 }
 
-static void	ft_rm_first_link(t_list **env, t_content *content, int pos)
+static void	ft_rm_link(t_list **env, int pos)
 {
 	int	i;
 	t_list *temp;
@@ -36,6 +36,21 @@ static void	ft_rm_first_link(t_list **env, t_content *content, int pos)
 	}
 	temp = current->next;
 	current->next = current->next->next;
+	ft_lstdelone(temp, (void *)ft_free_link);
+}
+
+static void	ft_rm_first_link(t_list **env)
+{
+	int	i;
+	t_list *temp;
+	t_list *current;
+
+	i = 0;
+	temp = NULL;
+	current = *env;
+	temp = *env;
+	*env = (*env)->next;
+	ft_lstdelone(temp, (void *)ft_free_link);
 }
 int	ft_unset(t_list **env, t_content *content)
 {
@@ -47,13 +62,9 @@ int	ft_unset(t_list **env, t_content *content)
 	if(pos == -1)
 		return(1);
 	if(pos != 0)
-		ft_rm_first_link(env, content, pos);
+		ft_rm_link(env, pos);
 	else if(pos == 0)
-	{
-		temp = *env;
-		*env = (*env)->next;
-	}
-	ft_lstdelone(temp, (void *)ft_free_link);
+		ft_rm_first_link(env);
 	return(0);
 }
 
