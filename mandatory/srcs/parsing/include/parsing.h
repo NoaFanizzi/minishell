@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 10:51:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 17:56:05 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ typedef struct s_files
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
 {
     char 	**cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
-    char	*arg; //TODO TEJ le arg et tout mettre dans cmd
+    char	**arg; //TODO TEJ le arg et tout mettre dans cmd
     t_files *files;
     pid_t 	pid;
 }            t_content;
@@ -127,7 +127,7 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset);
 char	**twisted_fill_splitted(const char *s, const char *charset, char **splitted, size_t *j);
 
 
-char	**quotes_removal(char **command);
+void	quotes_removal(char **command);
 void	rem_and_shift(char *command);
 
 int		ft_check_if_command(char *cmd, char **path);
@@ -148,5 +148,8 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env);
 size_t	count_cmd_opt(char **cmd, char **env);
 void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
+void	identify_arg(char **cmd, t_content *content, char **env);
+size_t	count_arg(char **cmd, char **env);
+
 
 #endif

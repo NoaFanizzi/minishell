@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/30 18:15:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 17:27:31 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int		count_command_words(char **command)
 	int	count;
 
 	i = 0;
-	count = 0; 
-	if (command[i][0] == '|')
+	count = 0;
+	if (command[i] && command[i][0] == '|')
 		return (1);
 	while (command[i])
 	{
@@ -132,10 +132,8 @@ char	***command_splitting(char **command)
 	char	 ***splitted = NULL;
 	
 	splitted = init_splitted(splitted, command);
-	
 	if (!splitted)
 		return (NULL);
-	
 	splitted = fill_splitted_command(splitted, command);
 	if (!splitted)
 		return (NULL);

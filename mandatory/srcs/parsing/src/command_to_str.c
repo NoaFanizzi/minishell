@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 10:41:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 18:00:35 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ char	***parse_command(char *line, char **env)
 	{
 		i = 0;
 		printf("\ncommand n%d\n", k + 1);
+		if (!cmd_splitted[k][i])
+			printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
 			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
@@ -103,7 +105,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 	struct_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
-		if (strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
+		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 			(*array)->size++;
 		cmd_index++;
 	}
@@ -111,7 +113,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 	cmd_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
-		if (strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
+		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
 			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index, env);
 			//test
@@ -125,18 +127,25 @@ void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 			}
 			i = 0;
 			count = count_cmd_opt(cmd_splitted[cmd_index], env);
+			printf("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				printf("cmd :%s\n", (*array)->content[struct_index].cmd[i]);
+				printf("CMD n%lu:%s\n", i + 1, (*array)->content[struct_index].cmd[i]);
 				i++;
 			}
-			printf("\n\n\n");
+			i = 0;
+			count = count_arg(cmd_splitted[cmd_index], env);
+			printf("count_arg : %zu\n", count);
+			while (i < count)
+			{
+				printf("ARG n%lu:%s\n", i + 1, (*array)->content[struct_index].arg[i]);
+				i++;
+			}
 			//test			
 			struct_index++;
 		}
 		cmd_index++;
 	}
-	
 	return ;
 }
 
