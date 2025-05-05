@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/02 09:24:27 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 10:51:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int		count_commands(char **command);
 int		count_command_words(char **command);
 
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env);
+void	identify_cmd_opt(char **cmd, t_content *content, char **env);
+size_t	count_cmd_opt(char **cmd, char **env);
 void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
 

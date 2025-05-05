@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/02 09:51:30 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 10:56:37 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,27 +94,57 @@ size_t	count_cmd_opt(char **cmd, char **env)
 		else if (ft_try(env, cmd[i]) == 0)
 		{
 			count++;
+			i++;
+			while (cmd[i])
+			{
+				if (cmd[i][0] == '-')
+					count++;	
+				i++;
+			}
 			break ;
 		}
 		i++;
 	}
+	return (count);
 }
 
-void	identify_cmds(char **cmd, t_content *content, char **env)
+void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 {
 	size_t	i;
+	size_t	j;
 	size_t	size;
 
 	i = 0;
+	j = 0;
 	size = count_cmd_opt(cmd, env);
-	//content->cmd
+	content->cmd = malloc((size + 1)* sizeof(char *));
+	if (!content->cmd)
+		return ;
+	content->cmd[size] = 0;
 	while (cmd[i])
 	{
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
-			i += 2;
+			i++;
 		else if (ft_try(env, cmd[i]) == 0)
-			content->cmd[0] = 
+		{
+			content->cmd[j] = ft_strdup(cmd[i++]);
+			if (!content->cmd[j])
+				return ;
+			j++;
+			i++;
+			while (cmd[i])
+			{
+				if (cmd[i][0] == '-')
+				{
+					content->cmd[j] = ft_strdup(cmd[i++]);
+					if (!content->cmd[j])
+						return ;
+				}
+				i++;
+			}
+			break ;
+		}
 		i++;
 	}
 }
@@ -122,7 +152,6 @@ void	identify_cmds(char **cmd, t_content *content, char **env)
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env)
 {
 	figure_in_out_files(cmd_splitted[cmd_index], content);
-	identify_cmds(cmd_splitted[cmd_index], content, env);
-	// identify_cmd_opt(cmd_splitted[cmd_index]);
+	identify_cmd_opt(cmd_splitted[cmd_index], content, env);
 	// identify_args(cmd_splitted[cmd_index]);
 }

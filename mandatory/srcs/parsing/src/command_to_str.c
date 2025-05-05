@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/02 09:23:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 10:41:31 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 	{
 		if (strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index);
+			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index, env);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
@@ -123,6 +123,14 @@ void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 				printf("redir%d\n\n", (int)(*array)->content[struct_index].files[i].type + 1);
 				i++;
 			}
+			i = 0;
+			count = count_cmd_opt(cmd_splitted[cmd_index], env);
+			while (i < count)
+			{
+				printf("cmd :%s\n", (*array)->content[struct_index].cmd[i]);
+				i++;
+			}
+			printf("\n\n\n");
 			//test			
 			struct_index++;
 		}
