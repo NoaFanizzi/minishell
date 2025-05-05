@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:00:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 13:25:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int	ft_export(t_list **env, t_content *content)
 				}
 				else
 				{
-					pos = ft_is_chr(content->arg, '='); //TODO lq fonction elle marche pas apparemment
+					pos = ft_is_chr(content->arg, '='); //TODO la fonction elle marche pas apparemment
 					free(link->arg);
 					printf("pos======%d\n", pos);
 					printf("first leak = %s\n", &content->arg[pos]);

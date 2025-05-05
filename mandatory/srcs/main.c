@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:20:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:42:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 0)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("export");
+		content->cmd[0] = ft_strdup("unset");
 		content->cmd[1] = NULL;
 		content->cmd[2] = NULL;//NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = ft_strdup("ABERRANT=6");//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
+		content->arg = ft_strdup("TERM");//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
 		content->files = NULL;
 		content->size = 1;
 		content->infile = -2;
@@ -40,18 +40,18 @@ int	ft_fill_test(t_content *content, int params)
 		// content->output = open("test", O_RDWR);
 		//content->size = 1;
 	}
-	if(params == 1)
-	{
-		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("echo");
-		content->cmd[1] = NULL; //ft_strdup("-e");
-		content->cmd[2] = NULL;//ft_strdup("dracaufeu");
-		content->cmd[3] = NULL;
-		content->arg = ft_strdup("test");//NULL;//ft_strdup("dracaufeu");
-		content->files = NULL;
-		content->infile = -2;
-		content->outfile = -2;
-	}
+	// if(params == 1)
+	// {
+	// 	content->cmd = malloc(sizeof(char *) * 4);
+	// 	content->cmd[0] = ft_strdup("echo");
+	// 	content->cmd[1] = NULL; //ft_strdup("-e");
+	// 	content->cmd[2] = NULL;//ft_strdup("dracaufeu");
+	// 	content->cmd[3] = NULL;
+	// 	content->arg = ft_strdup("mardi");//NULL;//ft_strdup("dracaufeu");
+	// 	content->files = NULL;
+	// 	content->infile = -2;
+	// 	content->outfile = -2;
+	// }
 	// if(params == 1)
 	// {
 	// 	content->cmd = malloc(sizeof(char *) * 4);
@@ -72,7 +72,7 @@ int	ft_test(t_list **env, int argc, char **argv)
 	int	i;
 
 	i = 0;
-	array.size = 2;
+	array.size = 1;
 	(void)argc;
 	array.content = malloc(sizeof (t_content) * array.size);
 	while(i < array.size)
@@ -115,6 +115,8 @@ int	main(int argc, char **argv, char **env)
 
 	var = ft_init_env(env);
 	//ft_init_exec(var, array);
+	ft_display_env(var);
+	printf("--------------AFTER---------------\n\n\n");
 	ft_test(&var, argc, argv);
 	ft_display_env(var);
 	ft_free_env(var);

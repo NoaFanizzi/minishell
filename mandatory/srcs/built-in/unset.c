@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:01:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/05 14:47:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,51 +20,40 @@ void	ft_free_link(t_env *link)
 	free(link);
 }
 
+static void	ft_rm_first_link(t_list **env, t_content *content, int pos)
+{
+	int	i;
+	t_list *temp;
+	t_list *current;
+
+	i = 0;
+	temp = NULL;
+	current = *env;
+	while(i < pos - 1)
+	{
+		current = current->next;
+		i++;
+	}
+	temp = current->next;
+	current->next = current->next->next;
+}
 int	ft_unset(t_list **env, t_content *content)
 {
-	t_env *link;
-	t_list *current;
-	t_env *temp;
 	int	pos;
 	int	i;
 
 	i = 0;
 	pos = ft_check_if_in_base(*env, content->arg);
-	printf("pos = %d\n", pos);
 	if(pos == -1)
 		return(1);
-	if(i != 0 && i != ft_lstsize(*env))
+	if(pos != 0)
+		ft_rm_first_link(env, content, pos);
+	else if(pos == 0)
 	{
-		while(i < pos - 1)
-		{
-			current = *env;
-			link = (t_env *)current->content;
-			i++;
-		}
-		temp = (t_env *)current->next;
-		current->next = current->next->next;
-		ft_free_link(temp);
+		temp = *env;
+		*env = (*env)->next;
 	}
-	if(i == 0)
-	{
-		current = *env;
-		link = (t_env *)current->content;
-		temp = (t_env *)current->next;
-		current->next = current->next->next;
-		ft_free_link(temp);
-	}
-	if(i == ft_lstsize(*env))
-	{
-		while(i < pos - 1)
-		{
-			current = *env;
-			link = (t_env *)current->content;
-			i++;
-		}
-		temp = (t_env *)current->next;
-		current->next = NULL;
-		ft_free_link(temp);
-	}
+	ft_lstdelone(temp, (void *)ft_free_link);
 	return(0);
 }
 
