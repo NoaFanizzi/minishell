@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_splitting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/14 10:08:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 08:40:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 //NEED TO DO THE FREES
 //NEED TO FIND A WAY FOR THE NORMINETTE OTHER THAN STATIC STRUCTURE

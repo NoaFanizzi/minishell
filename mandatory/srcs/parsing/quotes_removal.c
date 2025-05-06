@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_removal.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 17:55:45 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 08:40:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 void	rem_and_shift(char *command)
 {

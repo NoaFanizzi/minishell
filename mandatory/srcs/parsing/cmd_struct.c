@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 16:47:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 09:07:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 
 
@@ -140,6 +140,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 					content->cmd[j] = ft_strdup(cmd[i]);
 					if (!content->cmd[j])
 						return ;
+					j++;
 				}
 				i++;
 			}
@@ -147,6 +148,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 		}
 		i++;
 	}
+	content->cmd[j] = 0;
 }
 
 
@@ -226,6 +228,7 @@ void	identify_arg(char **cmd, t_content *content, char **env)
 		}
 		i++;
 	}
+	content->arg[j] = 0;
 }
 
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env)

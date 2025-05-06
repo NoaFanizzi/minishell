@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 17:27:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 08:40:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 int		count_commands(char **command)
 {

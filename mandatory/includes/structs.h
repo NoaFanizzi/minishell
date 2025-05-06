@@ -17,16 +17,6 @@ typedef struct s_export
 	int status; //set a 0 si y'a pas de value et set a 1 des que y'a une value
 }				t_export;
 
-/* typedef struct s_env
-{
-	char *var;
-	char *op;
-	char *arg;
-	int	exp;
-	struct s_env *next;
-}				t_env;
- */
-
 typedef struct s_env
 {
 	char *var;
@@ -42,15 +32,23 @@ typedef struct s_env
 // 	int export_size;
 // }				t_var;
 
-typedef enum redir
-{
-	IN,
-	OUT,
-	APND, //append
-	PIPE, //pipe
-	HDOC // sortie d'erreur
-}			t_redir;
+// typedef enum redir
+// {
+// 	IN,
+// 	OUT,
+// 	APND, //append
+// 	PIPE, //pipe
+// 	HDOC // sortie d'erreur
+// }			t_redir;
 
+enum redir
+{
+    IN,
+    OUT,
+    APND, //append
+    HDOC, // sortie d'erreur
+	PIPE,
+};
 
 typedef struct s_files
 {
@@ -61,12 +59,13 @@ typedef struct s_files
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
 {
 	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
-	char *arg; //TODO TEJ le arg et tout mettre dans cmd
+	char **arg; //TODO TEJ le arg et tout mettre dans cmd
 	t_files *files;
 	pid_t pid;
 	int	infile;
 	int	outfile;
 	int	size;
+	int pos;
 }			t_content;
 
 typedef struct s_array

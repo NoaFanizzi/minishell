@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 18:00:35 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 08:51:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 //check cases when there is one commnad, or nothing or idk but you understood
 
@@ -169,12 +169,13 @@ t_content	*launch_shell(char **env)
 		if (!cmd_splitted)
 			return (NULL);
 		analyse_command(cmd_splitted, &array, env);
+		ft_init_exec(env, array, cmd_splitted);
 	}
 }
-int	main(int argc, char **argv, char **env)
-{
-	(void)argc;
-	(void)argv;
-	launch_shell(env);
-	return (0);
-}
+// int	main(int argc, char **argv, char **env)
+// {
+// 	(void)argc;
+// 	(void)argv;
+// 	launch_shell(env);
+// 	return (0);
+// }

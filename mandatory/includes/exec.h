@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:01:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:47:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft.h"
 # include "structs.h"
 # include "minishell.h"
+# include "parsing.h"
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>

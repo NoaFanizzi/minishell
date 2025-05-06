@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 08:22:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:54:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_update_opwd(t_list **env)
 void	ft_cd(t_content *content, t_list **env)
 {
 	ft_update_opwd(env);
-	if (chdir(content->arg) == -1)
+	if (chdir(content->arg[0]) == -1)
 		write(1, "chdir error", 12);
 	ft_update_pwd(env);
 }

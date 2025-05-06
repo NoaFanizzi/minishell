@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 08:11:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:34:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,8 @@ int	ft_get_infile(t_content *content, char **argv)
 
 	i = 0;
 	type = -1;
+	if(content->size > 1 && content->pos > 0)
+		return(PIPE);
 	content->infile = -2;
 	while(&content->files[i])
 	{

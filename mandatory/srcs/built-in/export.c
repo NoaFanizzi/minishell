@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 07:44:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 09:21:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_is_chr(char *str, char c)
 	return(-1);
 }
 
-int	ft_export(t_list **env, t_content *content)
+int	ft_init_export(t_list **env, t_content *content, size_t	i)
 {
 	t_env *link;
 	char	*temp;
@@ -97,10 +97,10 @@ int	ft_export(t_list **env, t_content *content)
 	int	i;
 
 	i = 0;
-	pos = ft_check_if_in_base(*env, content->arg); // ça me return la position de où c'est dans la liste
+	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
-		link = ft_add_new_link(content->arg);
+		link = ft_add_new_link(content->arg[i]);
 		ft_lstadd_back(env, ft_lstnew(link));
 		if(link->arg != NULL)
 			link->exp = 1;
@@ -116,38 +116,50 @@ int	ft_export(t_list **env, t_content *content)
 		link = (t_env *)current->content;
 		if(link->arg == NULL) //si y'avait pas de value assigned a la variable
 		{
-			if(ft_is_a_value(content->arg) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
+			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
 			{
 				free(link->var);
 				free(link->arg);
 				free(link->op);
 				//free(link);
-				link = ft_add_new_link(content->arg);
+				link = ft_add_new_link(content->arg[i]);
 			}
 		}
 		else if(link->arg != NULL) // y'avait deja une value assigned
 		{
-			if(ft_is_a_value(content->arg) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
+			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
 			{
-				if(ft_is_chr(content->arg, '+') != -1) // y'a un +
+				if(ft_is_chr(content->arg[i], '+') != -1) // y'a un +
 				{
 					printf("chockbarrrrr\n");
-					temp = ft_strjoin(link->arg, content->arg);
+					temp = ft_strjoin(link->arg, content->arg[i]);
 					free(link->arg);
 					link->arg = ft_strdup(temp);
 					free(temp);
 				}
 				else
 				{
-					pos = ft_is_chr(content->arg, '='); //TODO la fonction elle marche pas apparemment
+					pos = ft_is_chr(content->arg[i], '='); //TODO la fonction elle marche pas apparemment
 					free(link->arg);
-					link->arg = ft_strdup(&content->arg[pos]);
+					link->arg = ft_strdup(&content->arg[i][pos]);
 				}
 			}
 		}
 		//ft_free_content(content);
 		// free(content->arg);
 		// free(content->cmd);
+	}
+	return(0);
+}
+int	ft_export(t_list **env, t_content *content)
+{
+	size_t	i;
+
+	i = 0;
+	while(content->arg[i])
+	{
+		ft_init_export(env, content, i);
+		i++;
 	}
 	return(0);
 }

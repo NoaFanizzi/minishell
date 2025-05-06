@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:08:46 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/16 15:40:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 08:53:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/parsing.h"
+#include "parsing.h"
 
 int	ft_check_if_command(char *cmd, char **path)
 {
@@ -22,7 +22,7 @@ int	ft_check_if_command(char *cmd, char **path)
 	return (1);
 }
 
-int ft_is_command(t_expar *expar, char *command)
+int ft_is_command_parsing(t_expar *expar, char *command)
 {
 	size_t	i;
 	char	*adding_slash;
@@ -57,7 +57,7 @@ int	ft_try(char **env, char *command)
 
 	var = ft_init_env(env); //init la copie de la variable d'envrionnement
 	expar.options = ct_get_paths(var); // separe path avec les differents chemins
-	if(ft_is_command(&expar, command) == 0) // essaye d'access avec tous les chemins possibles. Si ça return 0 ça veut dire que c'est une commande, et si ça return 1 ça veut dire que c'est pas uen commande
+	if(ft_is_command_parsing(&expar, command) == 0) // essaye d'access avec tous les chemins possibles. Si ça return 0 ça veut dire que c'est une commande, et si ça return 1 ça veut dire que c'est pas uen commande
 		return(0);
 	return(1);
 }
