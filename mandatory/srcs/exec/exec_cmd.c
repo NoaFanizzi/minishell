@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:52:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:08:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,55 +52,27 @@ int ft_is_command(t_expar *expar, t_content *content)
 
 void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
-	//printf("content->arg = %s\n", content->arg);
-	//(void)env;
-	printf("c pas rentre\n");
+	int return_value;
+	
+	return_value = 0;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-	{
-		printf("c rentre\n");
-		ft_echo(content);
-	}
+		return_value = ft_echo(content);
+	else if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
+		return_value = ft_export(env, content);
+	else if(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
+		return_value = ft_unset(env, content);
+	else
+		return;
 	ft_free_env(*env);
-	//ft_free_tab(content->cmd);
-	//ft_free_content(content);
 	ft_free_array_content(array);
-	//free(content->arg);
 	ft_free_tab(expar->options);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
-	exit(0);
+	exit(return_value);
 }
 
-static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
+static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env)
 {
-	// if(content->input == -2) // c'est un pipe
-	// {
-	// 	expar->fd = -2;
-	// 	return(1);
-	// }
-	// expar->fd = open(content->input, O_RDONLY);
-	// if (expar->fd == -1)
-	// {
-	// 	perror("Infile");
-	// 	close(expar->pipe[0]);
-	// 	close(expar->pipe[1]);
-	// 	free_tab(expar->options);
-	// 	exit(1);
-	// }
-	
-	// if(content->arg) //je sais plus a quoi ca sert
-	// {
-	// 	if(content->cmd[1] == NULL)
-	// 	{
-	// 		content->cmd[1] = ft_strdup(content->arg);
-	// 		free(content->arg);
-	// 	}
-	// 	else
-	// 	{
-	// 		content->cmd[2] = ft_strdup(content->arg);
-	// 		free(content->arg);
-	// 	}
-	// }
 	ft_is_built_in_child(expar, content, env, array);
 	if (ft_is_command(expar, content) == 1)
 	{
@@ -114,44 +86,111 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 	return(0);
 }
 
-void	ft_get_right_release(t_content *content, t_expar *expar)
+void	ft_get_right_release(t_content *content, t_expar *expar, int type, int channel)
 {
-	if(content->input != -2)
+	if(type == IN && channel == 0)
 	{
-		if (dup2(content->input, STDIN_FILENO) == -1)
+		if (dup2(content->infile, STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->input == -2)
+	if(type == PIPE && channel == 0)
 	{
 		if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output != -2)
+
+	if(type == OUT && channel == 1)
 	{
-		if (dup2(content->output, STDOUT_FILENO) == -1)
+		if (dup2(content->outfile, STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
-	if(content->output == -2) //ici probleme
+	if(type == PIPE && channel == 1) //ici probleme
 	{
 		if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
 }
+//Cette fonction permet de savoir si y'a un pipe a la fin et/ou plusieurs outfile ce aui permet d'ouvrir et de creer chaque fichier correctement
+int	ft_get_outfile(t_content *content, char **argv)
+{
+	size_t	i;
+	int	type;
 
-void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *array)
+	i = 0;
+	type = -1;
+	content->outfile = -2;
+	if(content->size > 1 && content->pos != content->size)
+		return(PIPE);
+	while(&content->files[i])
+	{
+		if(content->files[i].type == OUT)
+		{
+			if(content->outfile != -2)
+				close(content->outfile);
+			content->outfile = open(argv[content->files[i].index], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			if(content->outfile == -1)
+				return(1); //fait les trucs
+			type = IN;
+		}
+		i++;
+	}
+	if(type != -1)
+		return(type);
+	return(type);
+}
+
+int	ft_get_infile(t_content *content, char **argv)
+{
+	size_t	i;
+	int	type;
+
+	i = 0;
+	type = -1;
+	if(content->size > 1 && content->pos > 0)
+		return(PIPE);
+	content->infile = -2;
+	while(&content->files[i])
+	{
+		if(content->files[i].type == IN)
+		{
+			if(content->infile != -2)
+				close(content->infile);
+			content->infile = open(argv[content->files[i].index], O_RDWR);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			if(content->infile == -1)
+				return(1); //fait les trucs
+			type = IN;
+		}
+		i++;
+	}
+	if(type != -1)
+		return(type);
+	return(type);
+}
+
+void	ft_parse_redirections(t_content *content, t_expar *expar)
+{
+	int type;
+
+	type = ft_get_infile(content, argv);
+	if(type == IN)
+		ft_get_right_release(content, expar, IN, 0);
+	if(type == PIPE)
+		ft_get_right_release(content, expar, PIPE, 0);
+	type = ft_get_outfile(content, argv);
+	if(type == OUT)
+		ft_get_right_release(content, expar, OUT, 1);
+	if(type == PIPE)
+		ft_get_right_release(content, expar, PIPE, 1);
+}
+
+void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
 	char **env_converted;
 
 	env_converted = NULL;
-	printf("content->input = %d\n", content->input);
-	printf("content->output = %d\n", content->output);
-	printf("content->cmd[0] = %s\n", content->cmd[0]);
-	printf("content->arg = %s\n\n", content->arg);
-	printf("expar->pipe[0] = %d\n", expar->pipe[0]);
-	printf("expar->pipe[1] = %d\n", expar->pipe[1]);
-	printf("--------------------\n");
-	ft_get_right_release(content, expar);
-	ft_prepare_execution(expar, content, env, array);
+
+	ft_parse_redirections(content, expar);
+	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);

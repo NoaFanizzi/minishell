@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:51:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 15:28:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:10:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,33 +24,40 @@ size_t	ft_env_length(t_list *env)
 	}
 	return(i);
 }
-char	**ft_convert_env(t_list *env)
+
+int	ft_add_new_tab(t_list *env, char **converted, size_t i)
 {
 	t_env *cpy;
-	char **converted;
 	char *temp;
+
+	cpy = (t_env *)env->content;
+	temp = ft_strjoin(cpy->var, cpy->op);
+	if(!temp)
+		return(-1);
+	converted[i] = ft_strjoin(temp, cpy->arg);
+	if(!converted)
+	{
+		free(temp);
+		return(-1);
+	}
+	free(temp);
+	return(0);
+}
+char	**ft_convert_env(t_list *env)
+{
+	char **converted;
 	size_t	i;
 	size_t	length;
 	
 	i = 0;
 	length = ft_env_length(env);
-	printf("length = %zu\n", length);
 	converted = ft_calloc((length + 1), sizeof(char *));
 	if(!converted)
 		return(NULL);
 	while(env)
 	{
-		cpy = (t_env *)env->content;
-		temp = ft_strjoin(cpy->var, cpy->op);
-		if(!temp)
+		if(ft_add_new_tab(env, converted, i) == -1)
 			return(NULL);
-		converted[i] = ft_strjoin(temp, cpy->arg);
-		if(!converted)
-		{
-			free(temp);
-			return(NULL);
-		}
-		free(temp);
 		i++;
 		env = env->next;
 	}

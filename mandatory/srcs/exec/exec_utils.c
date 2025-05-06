@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:03:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/04/30 13:21:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ void	ft_close_all(t_expar *expar, t_content *content)
 {
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
-	if(content && content->input != -2) //  && content->input != 1
-		close(content->input);
-	if(content && content->output != -2) //  && content->output != 0
-		close(content->output);
+	if(content && content->infile != -2) //  && content->input != 1
+		close(content->infile);
+	if(content && content->outfile != -2) //  && content->output != 0
+		close(content->outfile);
 }
 
 

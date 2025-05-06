@@ -3,69 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/11 17:26:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:54:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_upgrade_pwd(t_list *env)
+int	ft_update_pwd(t_list **env)
 {
+	t_list *current;
+	t_env *link;
 	char	*path;
-	char	*temp;
-	t_env *cpy;
 
 	path = getcwd(NULL, 0);
-	while (env != NULL)
+	//printf("path after change = %s\n", path);
+	link = NULL;
+	current = *env;
+	while(current)
 	{
-		cpy = (t_env *)env->content;
-		if (ft_strncmp(cpy->var, "PWD=", 4) == 0)
+		link = (t_env *)current->content;
+		if(ft_strncmp(link->var, "PWD", 3) == 0 && ft_strlen(link->var) == 3)
 		{
-			free(cpy->arg);
-			temp = ft_strdup("PWD=");
-			cpy->arg = ft_strjoin(temp, path);
-			free(temp);
+			free(link->arg);
+			link->arg = ft_strdup(path);
 			free(path);
-			return ;
+			return(0);
 		}
-		env = env->next;
+		current = current->next;
 	}
+	free(path);
+	return(1);
 }
 
-void	ft_upgrade_opwd(t_list *env)
+int	ft_update_opwd(t_list **env)
 {
+	t_list *current;
+	t_env *link;
 	char	*path;
-	char *temp;
-	t_env *cpy;
-
+	
+	link = NULL;
 	path = getcwd(NULL, 0);
-	while (env != NULL)
+	current = *env;
+	while(current)
 	{
-		cpy = (t_env *)env->content;
-		if (ft_strncmp(cpy->var, "OLDPWD", 6) == 0)
+		link = (t_env *)current->content;
+		if(ft_strncmp(link->var, "OLDPWD", 6) == 0 && ft_strlen(link->var) == 6)
 		{
-			free(cpy->arg);
-			temp = ft_strdup("OLDPWD=");
-			cpy->arg = ft_strjoin(temp, path);
-			free(temp);
+			free(link->arg);
+			link->arg = ft_strdup(path);
 			free(path);
-			return ;
+			return(0);
 		}
-		env = env->next;
+		current = current->next;
 	}
+	free(path);
+	return(1);
 }
 
-void	ft_cd(t_list *env, char *cmd)
+void	ft_cd(t_content *content, t_list **env)
 {
-	//size_t	i;
-
-	//i = 0;
-	ft_upgrade_opwd(env);
-	if (chdir(cmd) == -1)
+	ft_update_opwd(env);
+	if (chdir(content->arg[0]) == -1)
 		write(1, "chdir error", 12);
-	ft_upgrade_pwd(env);
+	ft_update_pwd(env);
 }
 

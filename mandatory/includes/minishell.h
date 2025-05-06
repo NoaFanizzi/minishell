@@ -7,11 +7,18 @@
 #include <unistd.h>
 #include <stdio.h>
 
+enum	ERROR
+{
+	O_ERROR = -1,
+	NO_IN = -2,
+	NO_OUT = -3
+};
+
 //echo.c
 int		ft_echo(t_content *content);
 
 //cd.c
-void	ft_cd(t_list *var, char *cmd);
+void	ft_cd(t_content *content, t_list **env);
 
 //env.c
 t_list	*ft_init_env(char **env);
