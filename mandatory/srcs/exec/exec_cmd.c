@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 10:08:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:34:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int ft_is_command(t_expar *expar, t_content *content)
 	return (1);
 }
 
-void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
+void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 {
 	int return_value;
 	
@@ -64,7 +64,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	else
 		return;
 	ft_free_env(*env);
-	ft_free_array_content(array);
+	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
@@ -73,7 +73,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 
 static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env)
 {
-	ft_is_built_in_child(expar, content, env, array);
+	ft_is_built_in_child(expar, content, env);
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
@@ -111,7 +111,7 @@ void	ft_get_right_release(t_content *content, t_expar *expar, int type, int chan
 	}
 }
 //Cette fonction permet de savoir si y'a un pipe a la fin et/ou plusieurs outfile ce aui permet d'ouvrir et de creer chaque fichier correctement
-int	ft_get_outfile(t_content *content, char **argv)
+int	ft_get_outfile(t_content *content)
 {
 	size_t	i;
 	int	type;
@@ -127,7 +127,7 @@ int	ft_get_outfile(t_content *content, char **argv)
 		{
 			if(content->outfile != -2)
 				close(content->outfile);
-			content->outfile = open(argv[content->files[i].index], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			if(content->outfile == -1)
 				return(1); //fait les trucs
 			type = IN;
@@ -139,7 +139,7 @@ int	ft_get_outfile(t_content *content, char **argv)
 	return(type);
 }
 
-int	ft_get_infile(t_content *content, char **argv)
+int	ft_get_infile(t_content *content)
 {
 	size_t	i;
 	int	type;
@@ -155,7 +155,7 @@ int	ft_get_infile(t_content *content, char **argv)
 		{
 			if(content->infile != -2)
 				close(content->infile);
-			content->infile = open(argv[content->files[i].index], O_RDWR);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			content->infile = open(content->cmd_splitted[content->pos][content->files[i].index], O_RDWR);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			if(content->infile == -1)
 				return(1); //fait les trucs
 			type = IN;
@@ -171,12 +171,12 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 {
 	int type;
 
-	type = ft_get_infile(content, argv);
+	type = ft_get_infile(content);
 	if(type == IN)
 		ft_get_right_release(content, expar, IN, 0);
 	if(type == PIPE)
 		ft_get_right_release(content, expar, PIPE, 0);
-	type = ft_get_outfile(content, argv);
+	type = ft_get_outfile(content);
 	if(type == OUT)
 		ft_get_right_release(content, expar, OUT, 1);
 	if(type == PIPE)

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 10:27:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:39:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,17 +59,12 @@ void	quotes_removal(char **command);
 void	rem_and_shift(char *command);
 
 int		ft_check_if_command(char *cmd, char **path);
-<<<<<<< HEAD:mandatory/srcs/parsing/include/parsing.h
-int 	ft_is_command(t_expar *expar, char *command);
+int 	ft_is_command_parsing(t_expar *expar, char *command);
 int		ft_try(t_list *var, char *command);
 t_list	*ft_init_env(char **env);
 char	**ct_get_paths(t_list *var);
 t_env	*ft_add_new_link(char *env);
 void    ft_free_env(t_list *env);
-=======
-int 	ft_is_command_parsing(t_expar *expar, char *command);
-int		ft_try(char **env, char *command);
->>>>>>> 8cb9088:mandatory/includes/parsing.h
 
 char	***command_splitting(char **command);
 char	***init_splitted(char ***splitted, char **command);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:11:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:16:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:39:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_check_if_command(char *cmd, char **path)
 	return (1);
 }
 
-int ft_is_command(t_expar *expar, t_content *content)
+int ft_is_command_parsing(t_expar *expar, t_content *content)
 {
 	size_t	i;
 	char	*adding_slash;
@@ -58,5 +58,5 @@ void	ft_try(char **env)
 
 	var = ft_init_env(env); //init la copie de la variable d'envrionnement
 	expar.options = ct_get_paths(env); // separe path avec les differents chemins
-	ft_is_command(&expar, content);
+	ft_is_parsing_command(&expar, content);
 }

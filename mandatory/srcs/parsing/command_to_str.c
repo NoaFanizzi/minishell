@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 10:27:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:37:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,12 +162,8 @@ t_content	*launch_shell(char **env)
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
 			return (NULL);
-<<<<<<< HEAD:mandatory/srcs/parsing/src/command_to_str.c
 		analyse_command(cmd_splitted, &array, var);
-=======
-		analyse_command(cmd_splitted, &array, env);
 		ft_init_exec(env, array);
->>>>>>> 8cb9088:mandatory/srcs/parsing/command_to_str.c
 	}
 }
 // int	main(int argc, char **argv, char **env)
