@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 15:15:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 07:43:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ static void	ft_rm_first_link(t_list **env)
 	*env = (*env)->next;
 	ft_lstdelone(temp, (void *)ft_free_link);
 }
+
 int	ft_unset(t_list **env, t_content *content)
 {
 	int	pos;
@@ -67,9 +68,3 @@ int	ft_unset(t_list **env, t_content *content)
 		ft_rm_first_link(env);
 	return(0);
 }
-
-//a
-//b
-//c
-//d
-//e

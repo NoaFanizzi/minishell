@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:34:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 07:44:42 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	else
 		return;
 	ft_free_env(*env);
-	//ft_free_tab(content->cmd);
-	//ft_free_content(content);
 	ft_free_array_content(array);
-	//free(content->arg);
 	ft_free_tab(expar->options);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
@@ -83,34 +80,6 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 
 static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
-	// if(content->input == -2) // c'est un pipe
-	// {
-	// 	expar->fd = -2;
-	// 	return(1);
-	// }
-	// expar->fd = open(content->input, O_RDONLY);
-	// if (expar->fd == -1)
-	// {
-	// 	perror("Infile");
-	// 	close(expar->pipe[0]);
-	// 	close(expar->pipe[1]);
-	// 	free_tab(expar->options);
-	// 	exit(1);
-	// }
-	
-	// if(content->arg) //je sais plus a quoi ca sert
-	// {
-	// 	if(content->cmd[1] == NULL)
-	// 	{
-	// 		content->cmd[1] = ft_strdup(content->arg);
-	// 		free(content->arg);
-	// 	}
-	// 	else
-	// 	{
-	// 		content->cmd[2] = ft_strdup(content->arg);
-	// 		free(content->arg);
-	// 	}
-	// }
 	ft_is_built_in_child(expar, content, env, array);
 	if (ft_is_command(expar, content) == 1)
 	{
@@ -248,13 +217,6 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 
 	env_converted = NULL;
 
-	//printf("content->input = %d\n", content->input);
-	//printf("content->output = %d\n", content->output);
-	//printf("content->cmd[0] = %s\n", content->cmd[0]);
-	//printf("content->arg = %s\n\n", content->arg);
-	//printf("expar->pipe[0] = %d\n", expar->pipe[0]);
-	//printf("expar->pipe[1] = %d\n", expar->pipe[1]);
-	//printf("--------------------\n");
 	ft_parse_redirections(content, expar, argv);
 	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);

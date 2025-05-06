@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:25:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 07:44:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,16 +96,11 @@ int	ft_export(t_list **env, t_content *content)
 	int	pos;
 	int	i;
 
-	printf("----------------------export beginning------------------------\n");
 	i = 0;
 	pos = ft_check_if_in_base(*env, content->arg); // ça me return la position de où c'est dans la liste
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
 		link = ft_add_new_link(content->arg);
-		printf("link->var= %s\n", link->var);
-		printf("link->op = %s\n", link->op);
-		printf("link->arg= %s\n", link->arg);
-
 		ft_lstadd_back(env, ft_lstnew(link));
 		if(link->arg != NULL)
 			link->exp = 1;
@@ -146,18 +141,13 @@ int	ft_export(t_list **env, t_content *content)
 				{
 					pos = ft_is_chr(content->arg, '='); //TODO la fonction elle marche pas apparemment
 					free(link->arg);
-					printf("pos======%d\n", pos);
-					printf("first leak = %s\n", &content->arg[pos]);
-					printf("true arg = %s\n", content->arg);
 					link->arg = ft_strdup(&content->arg[pos]);
 				}
 			}
 		}
-		printf("--------------aaaaaaaaaaaaaaaaaaaaaaaa---------------\n");
 		//ft_free_content(content);
 		// free(content->arg);
 		// free(content->cmd);
 	}
-	printf("----------------------------------end----------------------------\n");
 	return(0);
 }
