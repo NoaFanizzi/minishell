@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 08:51:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:07:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ t_content	*launch_shell(char **env)
 		if (!cmd_splitted)
 			return (NULL);
 		analyse_command(cmd_splitted, &array, env);
-		ft_init_exec(env, array, cmd_splitted);
+		ft_init_exec(env, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)

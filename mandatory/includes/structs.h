@@ -60,6 +60,7 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 {
 	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
 	char **arg; //TODO TEJ le arg et tout mettre dans cmd
+	char ***cmd_splitted;
 	t_files *files;
 	pid_t pid;
 	int	infile;

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 09:34:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 10:08:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	exit(return_value);
 }
 
-static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
+static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env)
 {
 	ft_is_built_in_child(expar, content, env, array);
 	if (ft_is_command(expar, content) == 1)
@@ -119,6 +119,8 @@ int	ft_get_outfile(t_content *content, char **argv)
 	i = 0;
 	type = -1;
 	content->outfile = -2;
+	if(content->size > 1 && content->pos != content->size)
+		return(PIPE);
 	while(&content->files[i])
 	{
 		if(content->files[i].type == OUT)
@@ -134,18 +136,6 @@ int	ft_get_outfile(t_content *content, char **argv)
 	}
 	if(type != -1)
 		return(type);
-	i = 0;
-	while(&content->files[i])
-	{
-		if(content->files[i].type == PIPE)
-		{
-			if(content->outfile != -2)
-				close(content->outfile);
-			type = PIPE;
-			return(type);
-		}
-		i++;
-	}
 	return(type);
 }
 
@@ -174,21 +164,10 @@ int	ft_get_infile(t_content *content, char **argv)
 	}
 	if(type != -1)
 		return(type);
-	i = 0;
-	while(&content->files[i])
-	{
-		if(content->files[i].type == PIPE  && content->files[i].index < content->size - 1)
-		{
-			if(content->infile != -2)
-				close(content->infile);
-			type = PIPE;
-			return(type);
-		}
-	}
 	return(type);
 }
 
-void	ft_parse_redirections(t_content *content, t_expar *expar, char **argv)
+void	ft_parse_redirections(t_content *content, t_expar *expar)
 {
 	int type;
 
@@ -199,21 +178,19 @@ void	ft_parse_redirections(t_content *content, t_expar *expar, char **argv)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content, argv);
 	if(type == OUT)
-	{
 		ft_get_right_release(content, expar, OUT, 1);
-	}
 	if(type == PIPE)
 		ft_get_right_release(content, expar, PIPE, 1);
 }
 
-void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *array, char **argv)
+void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
 	char **env_converted;
 
 	env_converted = NULL;
 
-	ft_parse_redirections(content, expar, argv);
-	ft_prepare_execution(expar, content, env, array);
+	ft_parse_redirections(content, expar);
+	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
