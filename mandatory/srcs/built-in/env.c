@@ -6,11 +6,36 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 13:12:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:04:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_get_right_op(t_env *link, char *env, size_t i)
+{
+	if(env[i] == '+' && env[i+1] == '=')
+	{
+		(link)->op = ft_strdup("+=");
+		i += 2;
+	}
+	if(env[i] == '=')
+	{
+		(link)->op = ft_strdup("=");
+		i++;
+	}
+
+	return(i);
+}
+
+int	ft_get_right_arg(t_env *link, char *env, size_t	i)
+{
+	if(env[i] == '\0')
+		(link)->arg = NULL;
+	else if(env[i] != '\0')
+		(link)->arg = ft_strdup(&env[i]);
+	return(i);
+}
 
 t_env	*ft_add_new_link(char *env)
 {
@@ -25,21 +50,8 @@ t_env	*ft_add_new_link(char *env)
 		&&(env[i] != '\0'))
 		i++;
 	length = i;
-	if(env[i] == '+' && env[i+1] == '=')
-	{
-		(link)->op = ft_strdup("+=");
-		i += 2;
-	}
-	if(env[i] == '=')
-	{
-		(link)->op = ft_strdup("=");
-		i++;
-	}
-	if(env[i] == '\0')
-		(link)->arg = NULL;
-	//printf("&env[i] = %s\n", &env[i]);
-	if(env[i] != '\0')
-		(link)->arg = ft_strdup(&env[i]);
+	i = ft_get_right_op(link, env, i);
+	i = ft_get_right_arg(link, env, i);
 	(link)->var = ft_calloc((length + 1), sizeof(char));
 	i = 0;
 	while(i < length)

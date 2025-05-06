@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 07:44:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:11:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,21 +53,14 @@ int ft_is_command(t_expar *expar, t_content *content)
 void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	int return_value;
-	//printf("content->arg = %s\n", content->arg);
-	//(void)env;
+	
 	return_value = 0;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-	{
 		return_value = ft_echo(content);
-	}
 	else if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
-	{
 		return_value = ft_export(env, content);
-	}
 	else if(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
-	{
 		return_value = ft_unset(env, content);
-	}
 	else
 		return;
 	ft_free_env(*env);

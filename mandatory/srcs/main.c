@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/05 14:42:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 08:12:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	ft_fill_test(t_content *content, int params)
 	if(params == 0)
 	{
 		content->cmd = malloc(sizeof(char *) * 4);
-		content->cmd[0] = ft_strdup("unset");
+		content->cmd[0] = ft_strdup("cat");
 		content->cmd[1] = NULL;
 		content->cmd[2] = NULL;//NULL;//ft_strdup("dracaufeu");
 		content->cmd[3] = NULL;
-		content->arg = ft_strdup("TERM");//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
+		content->arg = ft_strdup("Makefile");//ft_strdup("Makefile");//NULL;//ft_strdup("dracaufeu");
 		content->files = NULL;
 		content->size = 1;
 		content->infile = -2;
@@ -118,7 +118,7 @@ int	main(int argc, char **argv, char **env)
 	ft_display_env(var);
 	printf("--------------AFTER---------------\n\n\n");
 	ft_test(&var, argc, argv);
-	ft_display_env(var);
+	//ft_display_env(var);
 	ft_free_env(var);
 	//ft_cd(&m_env, argv[1]);
 	//ft_pwd();
