@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 16:47:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 10:00:06 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,9 +228,9 @@ void	identify_arg(char **cmd, t_content *content, char **env)
 	}
 }
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env)
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var)
 {
 	figure_in_out_files(cmd_splitted[cmd_index], content);
-	identify_cmd_opt(cmd_splitted[cmd_index], content, env);
-	identify_arg(cmd_splitted[cmd_index], content, env);
+	identify_cmd_opt(cmd_splitted[cmd_index], content, var);
+	identify_arg(cmd_splitted[cmd_index], content, var);
 }

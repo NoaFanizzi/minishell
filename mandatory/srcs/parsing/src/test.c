@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:08:46 by nbodin            #+#    #+#             */
-/*   Updated: 2025/04/16 15:40:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 09:41:31 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,10 @@ int ft_is_command(t_expar *expar, char *command)
 	return (1);
 }
 
-int	ft_try(char **env, char *command)
+int	ft_try(t_list *var, char *command)
 {
 	t_expar expar;
-	t_list *var;
 
-	var = ft_init_env(env); //init la copie de la variable d'envrionnement
 	expar.options = ct_get_paths(var); // separe path avec les differents chemins
 	if(ft_is_command(&expar, command) == 0) // essaye d'access avec tous les chemins possibles. Si ça return 0 ça veut dire que c'est une commande, et si ça return 1 ça veut dire que c'est pas uen commande
 		return(0);
@@ -134,4 +132,23 @@ t_env	*ft_add_new_link(char *env)
 	}
 	(link)->var[i] = '\0';
 	return(link);
+}
+
+void    ft_free_env(t_list *env)
+{
+    t_list    *current;
+    t_env    content;
+
+    while (env)
+    {
+        current = env;
+        env = env->next;
+
+        content = (t_env)current->content;
+        free(content->var);
+        free(content->op);
+        free(content->arg);
+        free(content);
+        free(current);
+    }
 }

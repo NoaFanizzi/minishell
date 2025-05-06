@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 17:56:05 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 09:58:41 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ typedef struct s_expar
 
 int		main(int argc, char **argv, char **env);
 t_content	*launch_shell(char **env);
-char	***parse_command(char *line, char **env);
-void	analyse_command(char ***cmd_splitted, t_array **array, char **env);
+char	***parse_command(char *line);
+void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -132,10 +132,11 @@ void	rem_and_shift(char *command);
 
 int		ft_check_if_command(char *cmd, char **path);
 int 	ft_is_command(t_expar *expar, char *command);
-int		ft_try(char **env, char *command);
+int		ft_try(t_list *var, char *command);
 t_list	*ft_init_env(char **env);
 char	**ct_get_paths(t_list *var);
 t_env	*ft_add_new_link(char *env);
+void    ft_free_env(t_list *env);
 
 char	***command_splitting(char **command);
 char	***init_splitted(char ***splitted, char **command);
