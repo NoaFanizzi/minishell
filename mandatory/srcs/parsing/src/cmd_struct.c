@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/05 10:56:37 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/05 16:47:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ size_t	count_cmd_opt(char **cmd, char **env)
 	{
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
-			i ++;
+			i++;
 		else if (ft_try(env, cmd[i]) == 0)
 		{
 			count++;
@@ -128,7 +128,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 			i++;
 		else if (ft_try(env, cmd[i]) == 0)
 		{
-			content->cmd[j] = ft_strdup(cmd[i++]);
+			content->cmd[j] = ft_strdup(cmd[i]);
 			if (!content->cmd[j])
 				return ;
 			j++;
@@ -137,7 +137,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 			{
 				if (cmd[i][0] == '-')
 				{
-					content->cmd[j] = ft_strdup(cmd[i++]);
+					content->cmd[j] = ft_strdup(cmd[i]);
 					if (!content->cmd[j])
 						return ;
 				}
@@ -149,9 +149,88 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 	}
 }
 
+
+
+size_t	count_arg(char **cmd, char **env)
+{
+	size_t	i;
+	size_t	count;
+
+	i = 0;
+	count = 0;
+	while (cmd[i])
+	{
+		if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i++;
+		else if (ft_try(env, cmd[i]) == 0)
+		{
+			i++;
+			while (cmd[i])
+			{
+				if (cmd[i][0] == '-')
+					i++;
+				else if (strncmp(cmd[i], "<", 1) == 0
+					|| strncmp(cmd[i], ">", 1) == 0)
+					i += 2;
+				else
+				{
+					count++;
+					i++;
+				}
+			}
+			break ;
+		}
+		i++;
+	}
+	return (count);
+}
+
+void	identify_arg(char **cmd, t_content *content, char **env)
+{
+	size_t	i;
+	size_t	j;
+	size_t	count;
+
+	i = 0;
+	j = 0;
+	count = count_arg(cmd, env);
+	content->arg = malloc((count + 1) * sizeof(char *));
+	if (!content->arg)
+		return ;
+	while (cmd[i])
+	{
+		if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i++;
+		else if (ft_try(env, cmd[i]) == 0)
+		{
+			i++;
+			while (cmd[i])
+			{
+				if (cmd[i][0] == '-')
+					i++;
+				else if (strncmp(cmd[i], "<", 1) == 0
+					|| strncmp(cmd[i], ">", 1) == 0)
+					i += 2;
+				else
+				{
+					content->arg[j] = ft_strdup(cmd[i]);
+					if (!content->arg)
+						return ;
+					i++;
+					j++;
+				}
+			}
+			break ;
+		}
+		i++;
+	}
+}
+
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env)
 {
 	figure_in_out_files(cmd_splitted[cmd_index], content);
 	identify_cmd_opt(cmd_splitted[cmd_index], content, env);
-	// identify_args(cmd_splitted[cmd_index]);
+	identify_arg(cmd_splitted[cmd_index], content, env);
 }
