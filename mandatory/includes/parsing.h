@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 17:59:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/07 18:05:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		main(int argc, char **argv, char **env);
 t_content	*launch_shell(t_list **var);
 char	***parse_command(char *line);
 void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
-void    fill_struct_size(t_array *array, size_t struct_index);
+void    fill_struct_size(t_array **array, size_t struct_index);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);

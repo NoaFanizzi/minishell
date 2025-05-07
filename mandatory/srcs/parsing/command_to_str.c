@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 17:59:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/07 18:07:04 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,14 +141,14 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 	return ;
 }
 
-void    fill_struct_size(t_array *array, size_t struct_index)
+void    fill_struct_size(t_array **array, size_t struct_index)
 {
     size_t i;
 
     i = 0;
     while (i <= struct_index)
     {
-        (array)->content[i].size = struct_index;
+        (*array)->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
         //(array)->content[i].outfile = -3;
         i++;
@@ -175,7 +175,7 @@ t_content	*launch_shell(t_list **var)
 		if (!cmd_splitted)
 			return (NULL);
 		analyse_command(cmd_splitted, &array, *var);
-		//ft_init_exec(var, array);
+		ft_init_exec(var, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)
