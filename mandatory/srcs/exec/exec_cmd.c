@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 10:49:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:47:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,8 @@ int	ft_get_outfile(t_content *content)
 	content->outfile = -2;
 	if(content->size > 1 && content->pos != content->size)
 		return(PIPE);
+	if(content->files == NULL)
+		return(STDOUT);
 	while(&content->files[i])
 	{
 		if(content->files[i].type == OUT)
@@ -146,9 +148,11 @@ int	ft_get_infile(t_content *content)
 
 	i = 0;
 	type = -1;
+	content->infile = -2;
 	if(content->size > 1 && content->pos > 0)
 		return(PIPE);
-	content->infile = -2;
+	if(content->files == NULL)
+		return(STDIN);
 	while(&content->files[i])
 	{
 		if(content->files[i].type == IN)
@@ -177,6 +181,9 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 	if(type == PIPE)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content);
+	//printf("test1\n");
+	//printf("TYPE = %d\n", type);
+	//printf("content->size = %d\n", content->size);
 	if(type == OUT)
 		ft_get_right_release(content, expar, OUT, 1);
 	if(type == PIPE)

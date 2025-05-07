@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 13:26:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:41:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ void ft_free_array_content(t_array *array)
         free(array->content[i].cmd[3]);
         free(array->content[i].cmd);
         free(array->content[i].arg);
-        if (array->content[i].infile != -2)
+        if (array->content[i].infile != -2 && array->content[i].infile != -3)
             close(array->content[i].infile);
-        if (array->content[i].outfile != -2)
+        if (array->content[i].outfile != -2 && array->content[i].infile != -3)
             close(array->content[i].outfile);
         i++;
     }
