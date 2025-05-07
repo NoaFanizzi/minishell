@@ -24,5 +24,5 @@ SRCS		:= $(addprefix $(SRC_DIR)/, $(SRCS))
 
 
 
-vpath %.c $(SRC_DIR) $(SRC_DIR)/$(BUILT_IN_DIR) $(SRC_DIR)/$(EXEC_DIR)
+vpath %.c $(SRC_DIR) $(SRC_DIR)/$(BUILT_IN_DIR) $(SRC_DIR)/$(EXEC_DIR) $(SRC_DIR)/$(PARSING_DIR)
 vpath %.h $(INC_DIR)
