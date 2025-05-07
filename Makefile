@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+         #
+#    By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 13:45:35 by nofanizz          #+#    #+#              #
-#    Updated: 2025/05/06 12:08:35 by nofanizz         ###   ########.fr        #
+#    Updated: 2025/05/07 16:50:05 by nbodin           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,8 @@ fclean:
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 	@echo "Removing binaries"
 	@rm -f $(BINARIES)
+
+re: fclean all
 
 -include $(DEPS)
 

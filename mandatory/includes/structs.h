@@ -43,6 +43,8 @@ typedef struct s_env
 
 enum redir
 {
+	STDIN,
+	STDOUT,
     IN,
     OUT,
     APND, //append
