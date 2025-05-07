@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 11:53:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:00:22 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		count_commands(char **command)
 			count++;
 		i++;
 	}
-	return (count + 1);
+	return (count + count + 1);
 }
 
 int		count_command_words(char **command)
@@ -104,10 +104,11 @@ char	***fill_splitted_command(char ***splitted, char **command)
 	
 	cmd_index = 0;
 	cmd_count = count_commands(command);
+	printf("cmd_count ====== %d\n", cmd_count);
 	k = 0;
 	i = 0;
 	
-	while ((int)k <= cmd_count)
+	while ((int)k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		i = 0;
