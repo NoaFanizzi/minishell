@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:08:46 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 10:27:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:08:46 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,21 +134,21 @@ t_env	*ft_add_new_link(char *env)
 	return(link);
 }
 
-void    ft_free_env(t_list *env)
+void	ft_free_env(t_list *env)
 {
-    t_list    *current;
-    t_env    content;
+	t_list	*current;
+	t_env	*content;
 
-    while (env)
-    {
-        current = env;
-        env = env->next;
-
-        content = (t_env)current->content;
-        free(content->var);
-        free(content->op);
-        free(content->arg);
-        free(content);
-        free(current);
-    }
+	while (env)
+	{
+		current = env;
+		env = env->next;
+		
+		content = (t_env *)current->content;
+		free(content->var);
+		free(content->op);
+		free(content->arg);
+		free(content);
+		free(current);
+	}
 }

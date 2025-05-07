@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 10:37:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 10:05:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ t_content	*launch_shell(char **env)
 	t_list	*var;
 	t_array	*array;
 	
-	var = init_env(env);
+	var = ft_init_env(env);
 	array = malloc(sizeof(t_array));
 	if (!array)
 		return (NULL);
@@ -163,7 +163,7 @@ t_content	*launch_shell(char **env)
 		if (!cmd_splitted)
 			return (NULL);
 		analyse_command(cmd_splitted, &array, var);
-		ft_init_exec(env, array);
+		//ft_init_exec(env, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)
