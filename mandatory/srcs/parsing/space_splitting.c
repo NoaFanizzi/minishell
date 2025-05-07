@@ -6,11 +6,11 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 08:41:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:54:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 int		split_space_count(char **command, const char *charset)
 {

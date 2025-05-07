@@ -6,7 +6,7 @@
 #    By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 13:45:35 by nofanizz          #+#    #+#              #
-#    Updated: 2025/03/26 11:44:38 by nofanizz         ###   ########.fr        #
+#    Updated: 2025/05/06 12:08:35 by nofanizz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "Creating $(NAME)\n"
-	@$(CF) $^ $(L_FLAGS) -o $@
+	@$(CF) $^ $(L_FLAGS) -lreadline -ltermcap -o $@  # Ajout des flags ici
 	@echo "Program Created \n"
 
 bonus: $(NAME)

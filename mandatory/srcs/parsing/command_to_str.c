@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 10:05:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/06 11:54:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 //check cases when there is one commnad, or nothing or idk but you understood
 
-char	***parse_command(char *line)
+char	***parse_command(char *line, char **env)
 {	
 	char 	**command = NULL;
 	char	***cmd_splitted = NULL;
@@ -54,7 +54,6 @@ char	***parse_command(char *line)
 	}
 	
 	quotes_removal(command);
-	
 	if (!command)
 		return (NULL);//error
 	k = 0;
@@ -83,12 +82,20 @@ char	***parse_command(char *line)
 		}
 		k++;
 	}
+	printf("\n\n");
+	k = 0;
+	while (command[k])
+	{
+		if (ft_try(env, command[k]) == 0)
+			printf("%s is a command\n", command[k]);
+		k++;
+	}
 	free_words(command);
 	return (cmd_splitted);
 }
 
 
-void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
+void	analyse_command(char ***cmd_splitted, t_array **array, char **env)
 {
 	size_t	cmd_index;
 	size_t	struct_index;
@@ -107,7 +114,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 	{
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index, var);
+			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index, env);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
@@ -118,7 +125,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 				i++;
 			}
 			i = 0;
-			count = count_cmd_opt(cmd_splitted[cmd_index], var);
+			count = count_cmd_opt(cmd_splitted[cmd_index], env);
 			printf("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
@@ -126,7 +133,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 				i++;
 			}
 			i = 0;
-			count = count_arg(cmd_splitted[cmd_index], var);
+			count = count_arg(cmd_splitted[cmd_index], env);
 			printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
@@ -141,14 +148,13 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 	return ;
 }
 
-t_content	*launch_shell(char **env)
+t_content	*launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
-	t_list	*var;
+	char **env;
 	t_array	*array;
 	
-	var = ft_init_env(env);
 	array = malloc(sizeof(t_array));
 	if (!array)
 		return (NULL);
@@ -156,14 +162,15 @@ t_content	*launch_shell(char **env)
 	array->content = NULL;
 	while (1)
 	{
+		env = ft_convert_env(*var);
 		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
-		cmd_splitted = parse_command(line);
+		cmd_splitted = parse_command(line, env);
 		if (!cmd_splitted)
 			return (NULL);
-		analyse_command(cmd_splitted, &array, var);
-		//ft_init_exec(env, array);
+		analyse_command(cmd_splitted, &array, env);
+		ft_init_exec(var, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)

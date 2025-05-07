@@ -6,11 +6,11 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 08:40:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:54:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 void	rem_and_shift(char *command)
 {

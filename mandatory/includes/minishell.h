@@ -4,6 +4,7 @@
 #include "libft.h"
 #include "structs.h"
 #include "exec.h"
+#include "parsing.h"
 #include <unistd.h>
 #include <stdio.h>
 

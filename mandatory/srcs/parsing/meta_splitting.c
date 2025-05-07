@@ -6,11 +6,11 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 08:40:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:54:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "minishell.h"
 
 int	twisted_count_words(char *str, const char *charset)
 {

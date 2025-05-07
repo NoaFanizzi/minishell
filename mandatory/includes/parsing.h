@@ -6,21 +6,22 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 10:39:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:48:42 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
+#include "libft.h"
+#include "minishell.h"
+#include "exec.h"
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include "libft.h"
-#include "minishell.h"
-
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
@@ -29,9 +30,9 @@
 #define S_QUOTE 39
 
 int		main(int argc, char **argv, char **env);
-t_content	*launch_shell(char **env);
-char	***parse_command(char *line);
-void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
+t_content	*launch_shell(t_list **env);
+char	***parse_command(char *line, char **env);
+void	analyse_command(char ***cmd_splitted, t_array **array, char **env);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -60,11 +61,7 @@ void	rem_and_shift(char *command);
 
 int		ft_check_if_command(char *cmd, char **path);
 int 	ft_is_command_parsing(t_expar *expar, char *command);
-int		ft_try(t_list *var, char *command);
-t_list	*ft_init_env(char **env);
-char	**ct_get_paths(t_list *var);
-t_env	*ft_add_new_link(char *env);
-void    ft_free_env(t_list *env);
+int		ft_try(char **env, char *command);
 
 char	***command_splitting(char **command);
 char	***init_splitted(char ***splitted, char **command);
