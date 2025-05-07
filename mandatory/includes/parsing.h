@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 11:48:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:47:17 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 #define S_QUOTE 39
 
 int		main(int argc, char **argv, char **env);
-t_content	*launch_shell(t_list **env);
-char	***parse_command(char *line, char **env);
-void	analyse_command(char ***cmd_splitted, t_array **array, char **env);
+t_content	*launch_shell(t_list **var);
+char	***parse_command(char *line);
+void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -61,7 +61,7 @@ void	rem_and_shift(char *command);
 
 int		ft_check_if_command(char *cmd, char **path);
 int 	ft_is_command_parsing(t_expar *expar, char *command);
-int		ft_try(char **env, char *command);
+int		ft_try(t_list *var, char *command);
 
 char	***command_splitting(char **command);
 char	***init_splitted(char ***splitted, char **command);
@@ -69,13 +69,13 @@ char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env);
-void	identify_cmd_opt(char **cmd, t_content *content, char **env);
-size_t	count_cmd_opt(char **cmd, char **env);
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var);
+void	identify_cmd_opt(char **cmd, t_content *content, t_list *var);
+size_t	count_cmd_opt(char **cmd, t_list *var);
 void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
-void	identify_arg(char **cmd, t_content *content, char **env);
-size_t	count_arg(char **cmd, char **env);
+void	identify_arg(char **cmd, t_content *content, t_list *var);
+size_t	count_arg(char **cmd, t_list *var);
 
 
 #endif

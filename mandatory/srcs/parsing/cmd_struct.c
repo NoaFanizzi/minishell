@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 11:53:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 16:44:17 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	}
 }
 
-size_t	count_cmd_opt(char **cmd, char **env)
+size_t	count_cmd_opt(char **cmd, t_list *var)
 {
 	size_t	i;
 	size_t	count;
@@ -91,7 +91,7 @@ size_t	count_cmd_opt(char **cmd, char **env)
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
-		else if (ft_try(env, cmd[i]) == 0)
+		else if (ft_try(var, cmd[i]) == 0)
 		{
 			count++;
 			i++;
@@ -108,7 +108,7 @@ size_t	count_cmd_opt(char **cmd, char **env)
 	return (count);
 }
 
-void	identify_cmd_opt(char **cmd, t_content *content, char **env)
+void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
 {
 	size_t	i;
 	size_t	j;
@@ -116,7 +116,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 
 	i = 0;
 	j = 0;
-	size = count_cmd_opt(cmd, env);
+	size = count_cmd_opt(cmd, var);
 	content->cmd = malloc((size + 1)* sizeof(char *));
 	if (!content->cmd)
 		return ;
@@ -126,7 +126,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
-		else if (ft_try(env, cmd[i]) == 0)
+		else if (ft_try(var, cmd[i]) == 0)
 		{
 			content->cmd[j] = ft_strdup(cmd[i]);
 			if (!content->cmd[j])
@@ -153,7 +153,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, char **env)
 
 
 
-size_t	count_arg(char **cmd, char **env)
+size_t	count_arg(char **cmd, t_list *var)
 {
 	size_t	i;
 	size_t	count;
@@ -165,7 +165,7 @@ size_t	count_arg(char **cmd, char **env)
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
-		else if (ft_try(env, cmd[i]) == 0)
+		else if (ft_try(var, cmd[i]) == 0)
 		{
 			i++;
 			while (cmd[i])
@@ -188,7 +188,7 @@ size_t	count_arg(char **cmd, char **env)
 	return (count);
 }
 
-void	identify_arg(char **cmd, t_content *content, char **env)
+void	identify_arg(char **cmd, t_content *content, t_list *var)
 {
 	size_t	i;
 	size_t	j;
@@ -196,7 +196,7 @@ void	identify_arg(char **cmd, t_content *content, char **env)
 
 	i = 0;
 	j = 0;
-	count = count_arg(cmd, env);
+	count = count_arg(cmd, var);
 	content->arg = malloc((count + 1) * sizeof(char *));
 	if (!content->arg)
 		return ;
@@ -205,7 +205,7 @@ void	identify_arg(char **cmd, t_content *content, char **env)
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
-		else if (ft_try(env, cmd[i]) == 0)
+		else if (ft_try(var, cmd[i]) == 0)
 		{
 			i++;
 			while (cmd[i])
@@ -231,9 +231,9 @@ void	identify_arg(char **cmd, t_content *content, char **env)
 	content->arg[j] = 0;
 }
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, char **env)
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var)
 {
 	figure_in_out_files(cmd_splitted[cmd_index], content);
-	identify_cmd_opt(cmd_splitted[cmd_index], content, env);
-	identify_arg(cmd_splitted[cmd_index], content, env);
+	identify_cmd_opt(cmd_splitted[cmd_index], content, var);
+	identify_arg(cmd_splitted[cmd_index], content, var);
 }
