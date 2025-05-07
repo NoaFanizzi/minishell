@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 10:07:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/07 17:47:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	else
 	{
 		expar.options = ct_get_paths(*env);
-		printf("array.size = %d\n", array->size);
+		//printf("array.size = %d\n", array->size);
 		if (!expar.options)
 			return ;
 		if (pipe(expar.pipe) == -1)
@@ -60,12 +60,12 @@ void	ft_init_exec(t_list **env, t_array *array)
 				ft_exec_cmd(&expar, &array->content[i], env);
 			i++;
 		}
-		printf("array.size = %d\n", array->size);
+		//printf("array.size = %d\n", array->size);
 		close(expar.pipe[0]);
 		close(expar.pipe[1]);
  		ft_free_tab(expar.options);
 	}
 	//free(array->content);
-	ft_free_array_content(array);
+	//ft_free_array_content(array);
 }
 
