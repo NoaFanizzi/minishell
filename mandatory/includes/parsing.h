@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 18:05:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/08 16:18:21 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 #define S_QUOTE 39
 
 int		main(int argc, char **argv, char **env);
-t_content	*launch_shell(t_list **var);
+void	launch_shell(t_list **var);
 char	***parse_command(char *line);
 void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
 void    fill_struct_size(t_array **array, size_t struct_index);
@@ -69,6 +69,7 @@ char	***init_splitted(char ***splitted, char **command);
 char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
+void	*free_command(char ***splitted);
 
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var);
 void	identify_cmd_opt(char **cmd, t_content *content, t_list *var);

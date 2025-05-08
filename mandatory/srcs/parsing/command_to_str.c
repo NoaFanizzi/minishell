@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 18:07:04 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/08 17:05:42 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ char	***parse_command(char *line)
 		k++;
 	}
 	printf("\n\n");
+	//EXPAND
+	
+	command = contiguous_quotes(command);
+	if (!command)
+		return (NULL);
+	k = 0;
+	while (command[k])
+	{
+		printf("word n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	printf("\n\n");
+
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -137,16 +150,18 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 		}
 		cmd_index++;
 	}
+	free_command(cmd_splitted);
 	fill_struct_size(array, struct_index);
 	return ;
 }
+ 
 
 void    fill_struct_size(t_array **array, size_t struct_index)
 {
     size_t i;
 
     i = 0;
-    while (i <= struct_index)
+    while (i < struct_index)
     {
         (*array)->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
@@ -155,7 +170,7 @@ void    fill_struct_size(t_array **array, size_t struct_index)
     }
 }
 
-t_content	*launch_shell(t_list **var)
+void	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
@@ -163,7 +178,7 @@ t_content	*launch_shell(t_list **var)
 	
 	array = malloc(sizeof(t_array));
 	if (!array)
-		return (NULL);
+		return ;
 	array->size = 0;
 	array->content = NULL;
 	while (1)
@@ -173,9 +188,9 @@ t_content	*launch_shell(t_list **var)
 			exit(0);
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-			return (NULL);
+			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, array);
+		//ft_init_exec(var, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)
