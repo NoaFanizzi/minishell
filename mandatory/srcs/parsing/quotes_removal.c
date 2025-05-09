@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/08 17:25:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/09 09:25:14 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	rem_and_shift(char *command)
 		j++;
 	}
 	command[i] = 0;
+	command[i + 1] = 0;
 }
 
 void	quotes_removal(char **command)
