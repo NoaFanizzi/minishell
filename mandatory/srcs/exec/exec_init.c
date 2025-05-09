@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/07 17:47:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/09 11:17:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	//(void)array;
+	printf("array.size = %d\n", array->size);
 	if(array->size == 1 && ft_is_built_in(&array->content[i]) == 0)
 		ft_is_built_in_dad(&array->content[i], env);
 	else
@@ -65,7 +66,8 @@ void	ft_init_exec(t_list **env, t_array *array)
 		close(expar.pipe[1]);
  		ft_free_tab(expar.options);
 	}
-	//free(array->content);
-	//ft_free_array_content(array);
+	free(array->content);
+	ft_free_array_content(array);
+	array = NULL;
 }
 

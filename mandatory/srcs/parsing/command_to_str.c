@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 18:07:04 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/09 11:19:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,13 @@ t_content	*launch_shell(t_list **var)
 	char	***cmd_splitted;
 	t_array	*array;
 	
-	array = malloc(sizeof(t_array));
-	if (!array)
-		return (NULL);
-	array->size = 0;
-	array->content = NULL;
 	while (1)
 	{
+		array = malloc(sizeof(t_array));
+		if (!array)
+			return (NULL);
+		array->size = 0;
+		array->content = NULL;
 		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
