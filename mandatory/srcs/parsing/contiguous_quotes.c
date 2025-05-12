@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/12 15:07:47 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/12 21:25:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,16 +140,21 @@ void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 	
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[i] = malloc(size * sizeof(char));
-	if (!joined[i])
+	joined[j] = malloc(size * sizeof(char));
+	if (!joined[j])
 		return ;
-	joined[i][0] = D_QUOTE;
-	joined[i][1] = 0;
-	strlcat(joined[i], command[i], sizeof(joined[i]));
-	strlcat(joined[i], command[j], sizeof(joined[i]));
+	joined[j][0] = D_QUOTE;
+	joined[j][1] = 0;
+	strlcat(joined[j], command[j], sizeof(joined[i]));
+	strlcat(joined[j], command[i], sizeof(joined[i]));
 	joined[size - 2] = D_QUOTE;
 	joined[size - 1] = 0;
 }
+
+       i
+hey"hello" prev
+       j
+
 
 void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 {
@@ -175,7 +180,7 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 hello"hey" hi
  j      
 
-void	join_previous_simple(char **command, size_t i);
+void	join_prev_simple(char **command, size_t i);
 {
 	size_t	size;
 	char **joined;
@@ -212,7 +217,7 @@ char	**contigous_quotes(char **command)
 			// 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE))
 			// 	command = join_previous_quotes(command, i);
 			if (i > 0 && ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0)
-				//join with the previous
+				command = join_prev_simple(command, i);
 		}
 		if (command[i][0] == D_QUOTE || command[i][0] == S_QUOTE)
 		{
