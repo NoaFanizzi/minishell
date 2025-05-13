@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/08 16:18:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/13 09:54:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,22 @@ void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
 void	identify_arg(char **cmd, t_content *content, t_list *var);
 size_t	count_arg(char **cmd, t_list *var);
+
+int		ft_isspace(char c);
+void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_next_quotes(char **command, char **joined, size_t i);
+char	**join_next_quotes(char **command, size_t i);
+void	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_next_simple(char **command, char **joined, size_t i);
+char	**join_next_simple(char **command, size_t i);
+void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_prev_simple(char **command, char **joined, size_t i);
+char	**join_prev_simple(char **command, size_t i);
+void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
+char	**join_prev_quotes(char **command, size_t i);
+char	**contiguous_quotes(char **command);
+
 
 
 #endif
