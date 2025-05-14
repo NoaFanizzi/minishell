@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/14 10:02:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/14 17:53:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,36 @@ char	**join_next_quotes(char **command, size_t i)
 	return (joined);
 }
 
+size_t	len_until_space_forward(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isspace(str[i]))
+			return (i);
+		i++;
+	}
+	return (i);
+}
+
+size_t	len_until_space_backward(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	while (i > 0)
+	{
+		if (ft_isspace(str[i - 1]))
+			return (i);
+		i--;
+	}
+	return (i);
+}
+
 void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
 {
 	size_t	size;
@@ -96,7 +126,7 @@ void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
 	while (joined[k])
 		k++;
 	rem_and_shift(command[i]);
-	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
+	size = len_until_space_forward(command[j]) + ft_strlen(command[i]) + 3;
 	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
 		return ;
@@ -106,17 +136,9 @@ void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
 	ft_strlcat(joined[k], command[j], size);
 	joined[k][size - 2] = D_QUOTE;
 	joined[k][size - 1] = 0;
+	if (len_until_space_forward(command[j]) != ft_strlen(command[j]))
+		joined[k + 1] = ft_strdup(&command[j][len_until_space_forward(command[j]) + 1]);
 }
-
-
-// command :
-//    i
-// ["ech"][o][ test][0]
-//    j    j1
-
-// joined:
-// [["][e][c][h][o]["][0]], [], [], []
-//  k
 
 void	go_through_join_next_simple(char **command, char **joined, size_t i)
 {
@@ -128,7 +150,20 @@ void	go_through_join_next_simple(char **command, char **joined, size_t i)
 	while (command[j])
 	{
 		if (i == j)
+		{
 			fusion_simple_next(command, joined, i, j + 1);
+			if (len_until_space_forward(command[j + 1]) != ft_strlen(command[j + 1]))
+			{
+				if (!joined[k])
+				{
+					free_words(joined);
+					joined = NULL;
+					return ;
+				}
+				j++;
+				k++;
+			}
+		}
 		else
 			joined[k] = ft_strdup(command[j]);
 		if (!joined[k])
@@ -175,13 +210,23 @@ void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 	while (joined[k])
 		k++;
 	rem_and_shift(command[i]);
-	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
+	size = (ft_strlen(command[j]) - len_until_space_backward(command[j])) + ft_strlen(command[i]) + 3;
+	if (len_until_space_backward(command[j]) != ft_strlen(command[j]))
+	{
+		joined[k] = malloc(len_until_space_forward(command[j]) + 1);
+		if (!joined[k])
+			return ;
+		joined[k][0] = 0;
+		ft_strlcat(joined[k], command[j], len_until_space_forward(command[j]) + 1);
+		k++;
+	}
 	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
 		return ;
 	joined[k][0] = D_QUOTE;
 	joined[k][1] = 0;
-	ft_strlcat(joined[k], command[j], size);
+	printf("%zu\n", len_until_space_backward(command[j]));
+	ft_strlcat(joined[k], &command[j][len_until_space_backward(command[j])], size);
 	ft_strlcat(joined[k], command[i], size);
 	joined[k][size - 2] = D_QUOTE;
 	joined[k][size - 1] = 0;
@@ -206,8 +251,8 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 			joined = NULL;
 			return ;
 		}
-		if (i - 1 == j)
-			j++;
+		// if (i - 1 == j)
+		// 	j++;
 		j++;
 		k++;
 		joined[k] = 0;
@@ -281,8 +326,8 @@ void	go_through_join_prev_quotes(char **command, char **joined, size_t i)
 			joined = NULL;
 			return ;
 		}
-		if (i - 1 == j)
-			j++;
+		// if (i - 1 == j)
+		// 	j++;
 		j++;
 		k++;
 		joined[k] = 0;
