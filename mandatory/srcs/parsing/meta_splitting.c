@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 11:54:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:30:06 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ char	**meta_splitting(char **command)
 {
 	char	**splitted;
 	int		count;
-	const	char	charset[3] = {'>', '<', '|'};
+	const	char	charset[4] = {'>', '<', '|', 0};
 
 	count = split_meta_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));

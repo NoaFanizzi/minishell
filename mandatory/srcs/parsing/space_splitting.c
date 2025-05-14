@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   space_splitting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/06 11:54:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:18:30 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**space_splitting(char **command)
 {
 	int			count;
 	char		**splitted;
-	const char	charset[3] = {' ', '\n', '\t'};
+	const char	charset[4] = {' ', '\n', '\t', 0};
 	
 	count = split_space_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));

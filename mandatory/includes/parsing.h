@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 18:05:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/14 15:37:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ char	***init_splitted(char ***splitted, char **command);
 char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
+void	*free_command(char ***splitted);
 
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var);
 void	identify_cmd_opt(char **cmd, t_content *content, t_list *var);
@@ -77,6 +78,22 @@ void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
 void	identify_arg(char **cmd, t_content *content, t_list *var);
 size_t	count_arg(char **cmd, t_list *var);
+
+int		ft_isspace(char c);
+void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_next_quotes(char **command, char **joined, size_t i);
+char	**join_next_quotes(char **command, size_t i);
+void	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_next_simple(char **command, char **joined, size_t i);
+char	**join_next_simple(char **command, size_t i);
+void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_prev_simple(char **command, char **joined, size_t i);
+char	**join_prev_simple(char **command, size_t i);
+void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
+void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
+char	**join_prev_quotes(char **command, size_t i);
+char	**contiguous_quotes(char **command);
+
 
 
 #endif

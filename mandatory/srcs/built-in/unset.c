@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 09:21:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/13 09:33:51 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static void	ft_rm_link(t_list **env, int pos)
 
 static void	ft_rm_first_link(t_list **env)
 {
-	int	i;
+	//int	i;
 	t_list *temp;
-	t_list *current;
+	//t_list *current;
 
-	i = 0;
+	//i = 0;
 	temp = NULL;
-	current = *env;
+	//current = *env;
 	temp = *env;
 	*env = (*env)->next;
 	ft_lstdelone(temp, (void *)ft_free_link);

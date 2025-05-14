@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/09 10:53:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:58:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,14 +176,13 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 	int type;
 
 	type = ft_get_infile(content);
-	printf("TYPEIN = %d\n", type);
 	if(type == IN)
 		ft_get_right_release(content, expar, IN, 0);
 	if(type == PIPE)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content);
-	printf("TYPEOUT = %d\n", type);
 	//printf("test1\n");
+	//printf("TYPE = %d\n", type);
 	//printf("content->size = %d\n", content->size);
 	if(type == OUT)
 		ft_get_right_release(content, expar, OUT, 1);
@@ -191,43 +190,47 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 		ft_get_right_release(content, expar, PIPE, 1);
 }
 
-// char	**ft_strjoin_cmd(t_content *content)
-// {
-// 	size_t	i;
-// 	size_t	j;
-// 	size_t	length;
-// 	char **joined;
+size_t	ft_tablen(char **tab)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	j = 0;
-// 	length = 0;
-// 	while(content->cmd[i])
-// 		i++;
-// 	while(content->arg[j])
-// 		j++;
-// 	length = i + j;
-// 	joined = malloc(sizeof(char *) * (i + j + 1));
-// 	i = 0;
-// 	j = 0;
-// 	while(content->cmd[i])
-// 	{
-// 		joined[j] = ft_strdup(content->cmd[i]);
-// 		i++;
-// 		j++;
-// 	}
-// 	j = 0;
-// 	while(content->arg[i])
-// 	{
-// 		joined[j] = ft_strdup(content->arg[i]);
-// 		i++;
-// 		j++;
-// 	}
-// 	joined[j] = NULL;
-// 	ft_free_tab(content->cmd);
-// 	ft_free_tab(content->arg);
-// 	return(joined);
+	i = 0;
+	while(tab[i])
+	{
+		i++;
+	}
+	return(i);
+}
 
-// }
+char **ft_cmd_join(char **a, char **b)
+{
+	size_t	i;
+	size_t	j;
+	size_t	length;
+	char **cmd;
+
+	i = 0;
+	j = 0;
+	length = ft_tablen(a) + ft_tablen(b);
+	cmd = ft_calloc(length + 1, (sizeof (char *)));
+	while(i < ft_tablen(a))
+	{
+		cmd[i] = ft_strdup(a[i]);
+		i++;
+	}
+	while(j < ft_tablen(b))
+	{
+		cmd[i] = ft_strdup(b[j]);
+		i++;
+		j++;
+	}
+	cmd[i] = NULL;
+	ft_display_tab(cmd);
+	ft_free_tab(a);
+	ft_free_tab(b);
+	return(cmd);
+	
+}
 
 void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
@@ -235,13 +238,13 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 
 	env_converted = NULL;
 
+	ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
-	//content->cmd = ft_strjoin_cmd(content);
-	//ft_display_tab(content->cmd);
+	content->cmd = ft_cmd_join(content->cmd, content->arg);
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/09 11:19:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/14 15:37:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,19 @@ char	***parse_command(char *line)
 		k++;
 	}
 	printf("\n\n");
+	//EXPAND
+	
+	command = contiguous_quotes(command);
+	if (!command)
+		return (NULL);
+	k = 0;
+	while (command[k])
+	{
+		printf("word n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	printf("\n\n");
+
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -137,16 +150,18 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 		}
 		cmd_index++;
 	}
+	free_command(cmd_splitted);
 	fill_struct_size(array, struct_index);
 	return ;
 }
+ 
 
 void    fill_struct_size(t_array **array, size_t struct_index)
 {
     size_t i;
 
     i = 0;
-    while (i <= struct_index)
+    while (i < struct_index)
     {
         (*array)->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
