@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/09 09:25:14 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/14 09:36:34 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	rem_and_shift(char *command)
 	size_t	j;
 
 	end = ft_strlen(command) - 1;
-	printf("end = %zu\n", end);
 	i = 0;
 	j = 1;
 	while (command[j])

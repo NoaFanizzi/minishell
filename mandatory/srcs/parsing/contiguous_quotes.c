@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/13 10:12:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/14 10:02:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,39 +22,47 @@ int		ft_isspace(char c)
 void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 {
 	size_t	size;
-	
+	size_t	k;
+
+	k = 0;
+	while (joined[k])
+		k++;	
 	rem_and_shift(command[j]);
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[i] = malloc(size * sizeof(char));
-	if (!joined[i])
+	joined[k] = malloc(size * sizeof(char));
+	if (!joined[k])
 		return ;
-	joined[i][0] = D_QUOTE;
-	joined[i][1] = 0;
-	strlcat(joined[i], command[i], sizeof(joined[i]));
-	strlcat(joined[i], command[j], sizeof(joined[i]));
-	joined[i][size - 2] = D_QUOTE;
-	joined[i][size - 1] = 0;
+	joined[k][0] = D_QUOTE;
+	joined[k][1] = 0;
+	ft_strlcat(joined[k], command[i], size);
+	ft_strlcat(joined[k], command[j], size);
+	joined[k][size - 2] = D_QUOTE;
+	joined[k][size - 1] = 0;
 }
 
 void	go_through_join_next_quotes(char **command, char **joined, size_t i)
 {
 	size_t	j;
+	size_t	k;
 
 	j = 0;
+	k = 0;
 	while (command[j])
 	{
 		if (i == j)
 			fusion_quotes_next(command, joined, i, j + 1);
 		else
-			joined[j] = ft_strdup(command[j]);
-		if (!joined[j])
+			joined[k] = ft_strdup(command[j]);
+		if (!joined[k])
 		{
 			free_words(joined);
 			joined = NULL;
 			return ;
 		}
 		j++;
+		k++;
+		joined[k] = 0;
 	}
 }
 
@@ -64,6 +72,7 @@ char	**join_next_quotes(char **command, size_t i)
 	char **joined;
 
 	size = 0;
+	printf("next_quotes\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -72,6 +81,7 @@ char	**join_next_quotes(char **command, size_t i)
 		free_words(command);
 		return (NULL);
 	}
+	joined[0] = 0;
 	go_through_join_next_quotes(command, joined, i);
 	free_words(command);
 	return (joined);
@@ -80,38 +90,56 @@ char	**join_next_quotes(char **command, size_t i)
 void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
 {
 	size_t	size;
-	
+	size_t	k;
+
+	k = 0;
+	while (joined[k])
+		k++;
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[i] = malloc(size * sizeof(char));
-	if (!joined[i])
+	joined[k] = malloc(size * sizeof(char));
+	if (!joined[k])
 		return ;
-	joined[i][0] = D_QUOTE;
-	joined[i][1] = 0;
-	strlcat(joined[i], command[i], sizeof(joined[i]));
-	strlcat(joined[i], command[j], sizeof(joined[i]));
-	joined[i][size - 2] = D_QUOTE;
-	joined[i][size - 1] = 0;
+	joined[k][0] = D_QUOTE;
+	joined[k][1] = 0;
+	ft_strlcat(joined[k], command[i], size);
+	ft_strlcat(joined[k], command[j], size);
+	joined[k][size - 2] = D_QUOTE;
+	joined[k][size - 1] = 0;
 }
-		
+
+
+// command :
+//    i
+// ["ech"][o][ test][0]
+//    j    j1
+
+// joined:
+// [["][e][c][h][o]["][0]], [], [], []
+//  k
+
 void	go_through_join_next_simple(char **command, char **joined, size_t i)
 {
 	size_t	j;
+	size_t	k;
 
 	j = 0;
+	k = 0;
 	while (command[j])
 	{
 		if (i == j)
 			fusion_simple_next(command, joined, i, j + 1);
 		else
-			joined[j] = ft_strdup(command[j]);
-		if (!joined[j])
+			joined[k] = ft_strdup(command[j]);
+		if (!joined[k])
 		{
 			free_words(joined);
 			joined = NULL;
 			return ;
 		}
 		j++;
+		k++;
+		joined[k] = 0;
 	}
 }
 
@@ -121,6 +149,7 @@ char	**join_next_simple(char **command, size_t i)
 	char **joined;
 
 	size = 0;
+	printf("next_simple\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -129,26 +158,33 @@ char	**join_next_simple(char **command, size_t i)
 		free_words(command);
 		return (NULL);
 	}
+	joined[0] = 0;
 	go_through_join_next_simple(command, joined, i);
 	free_words(command);
 	return (joined);
 }
 
+//PREV
+
 void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 {
 	size_t	size;
+	size_t	k;
 	
+	k = 0;
+	while (joined[k])
+		k++;
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[j] = malloc(size * sizeof(char));
-	if (!joined[j])
+	joined[k] = malloc(size * sizeof(char));
+	if (!joined[k])
 		return ;
-	joined[j][0] = D_QUOTE;
-	joined[j][1] = 0;
-	strlcat(joined[j], command[j], sizeof(joined[i]));
-	strlcat(joined[j], command[i], sizeof(joined[i]));
-	joined[j][size - 2] = D_QUOTE;
-	joined[j][size - 1] = 0;
+	joined[k][0] = D_QUOTE;
+	joined[k][1] = 0;
+	ft_strlcat(joined[k], command[j], size);
+	ft_strlcat(joined[k], command[i], size);
+	joined[k][size - 2] = D_QUOTE;
+	joined[k][size - 1] = 0;
 }
 
 void	go_through_join_prev_simple(char **command, char **joined, size_t i)
@@ -163,8 +199,8 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 		if (i - 1 == j)
 			fusion_simple_prev(command, joined, i, j);
 		else
-			joined[j] = ft_strdup(command[j]);
-		if (!joined[j])
+			joined[k] = ft_strdup(command[j]);
+		if (!joined[k])
 		{
 			free_words(joined);
 			joined = NULL;
@@ -173,13 +209,11 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 		if (i - 1 == j)
 			j++;
 		j++;
+		k++;
+		joined[k] = 0;
 	}
 }
-j    j
-e"ch"o test
 
-j
-[ech] [] [] []
 
 char	**join_prev_simple(char **command, size_t i)
 {
@@ -187,6 +221,7 @@ char	**join_prev_simple(char **command, size_t i)
 	char **joined;
 
 	size = 0;
+	printf("prev_simple\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -195,6 +230,7 @@ char	**join_prev_simple(char **command, size_t i)
 		free_words(command);
 		return (NULL);
 	}
+	joined[0] = 0;
 	go_through_join_prev_simple(command, joined, i);
 	free_words(command);
 	return (joined);
@@ -207,33 +243,39 @@ char	**join_prev_simple(char **command, size_t i)
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j)
 {
 	size_t	size;
+	size_t	k;
 	
+	k = 0;
+	while (joined[k])
+		k++;
 	rem_and_shift(command[i]);
 	rem_and_shift(command[j]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[j] = malloc(size * sizeof(char));
-	if (!joined[j])
+	joined[k] = malloc(size * sizeof(char));
+	if (!joined[k])
 		return ;
-	joined[j][0] = D_QUOTE;
-	joined[j][1] = 0;
-	strlcat(joined[j], command[j], sizeof(joined[i]));
-	strlcat(joined[j], command[i], sizeof(joined[i]));
-	joined[j][size - 2] = D_QUOTE;
-	joined[j][size - 1] = 0;
+	joined[k][0] = D_QUOTE;
+	joined[k][1] = 0;
+	ft_strlcat(joined[k], command[j], size);
+	ft_strlcat(joined[k], command[i], size);
+	joined[k][size - 2] = D_QUOTE;
+	joined[k][size - 1] = 0;
 }
 
 void	go_through_join_prev_quotes(char **command, char **joined, size_t i)
 {
 	size_t	j;
+	size_t	k;
 
 	j = 0;
+	k = 0;
 	while (command[j])
 	{
 		if (i - 1 == j)
 			fusion_quotes_prev(command, joined, i, j);
 		else
-			joined[j] = ft_strdup(command[j]);
-		if (!joined[j])
+			joined[k] = ft_strdup(command[j]);
+		if (!joined[k])
 		{
 			free_words(joined);
 			joined = NULL;
@@ -242,6 +284,8 @@ void	go_through_join_prev_quotes(char **command, char **joined, size_t i)
 		if (i - 1 == j)
 			j++;
 		j++;
+		k++;
+		joined[k] = 0;
 	}
 }
 
@@ -251,6 +295,7 @@ char	**join_prev_quotes(char **command, size_t i)
 	char **joined;
 
 	size = 0;
+	printf("prev_quotes\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -259,6 +304,7 @@ char	**join_prev_quotes(char **command, size_t i)
 		free_words(command);
 		return (NULL);
 	}
+	joined[0] = 0;
 	go_through_join_prev_quotes(command, joined, i);
 	free_words(command);
 	return (joined);
@@ -294,10 +340,6 @@ char	**join_prev_quotes(char **command, size_t i)
 // 	return (new_cmd);
 // }
 
-   i
-e"ch"o test
-
-ech 
 
 //maybe make a copy of command to not modify and iterate at the same time,
 //and also to free command before returning the new command
@@ -314,29 +356,57 @@ char	**contiguous_quotes(char **command)
 	{
 		if (command[i][0] == D_QUOTE || command[i][0] == S_QUOTE)
 		{
-			if (i > 0)
+			if (i > 0 && (command[i - 1][ft_strlen(command[i - 1]) - 1] == D_QUOTE
+				 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE))
 			{
-				if(ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0)
-					command = join_prev_simple(command, i);
-				else if (command[i - 1][ft_strlen(command[i - 1]) - 1] == D_QUOTE
-				 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE)
-					command = join_prev_quotes(command, i);
-				if (!command)
-					return (NULL);
+				command = join_prev_quotes(command, i);
+				i--;
 			}
-			else if (command[i + 1])
+			else if (i > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0))
 			{
-				if (command[i + 1][0] == D_QUOTE || command[i + 1][0] == S_QUOTE)
-					command = join_next_quotes(command, i);
-				else if (ft_isspace(command[i + 1][0]) == 0)
-					command = join_next_simple(command, i);
-				i++;
-				if (!command)
-					return (NULL);
+				command = join_prev_simple(command, i);
+				i--;
 			}
+			if (!command)
+				return (NULL);
+			int j = 0;
+			while (command[j])
+			{
+				printf("COMMAND : %s\n", command[j]);
+				j++;
+			}
+			printf("\n");
+			if (command[i + 1] && (command[i + 1][0] == D_QUOTE || command[i + 1][0] == S_QUOTE))
+				command = join_next_quotes(command, i);
+			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0))
+				command = join_next_simple(command, i);
+			if (!command)
+				return (NULL);
+			j = 0;
+			while (command[j])
+			{
+				printf("COMMAND : %s\n", command[j]);
+				j++;
+			}
+			printf("\n");
 		}
-		else
-			i++;
+		i++;
 	}
 	return (command);
 }
+
+
+// command
+
+//  i
+// [e]["ch"][o][ test][0]
+
+//       i
+// [e]["ch"][o][ test][0]
+
+//         i
+// ["ech"][o][ test][0]
+
+// ["ech"][o][ test][0]
+// next
+// ["echo"][ test][0]
