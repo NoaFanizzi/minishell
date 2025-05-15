@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/08 17:05:42 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/15 15:44:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
 	printf("\n\n");
