@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/14 17:53:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/15 10:13:31 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,11 @@ void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 	while (joined[k])
 		k++;
 	rem_and_shift(command[i]);
-	size = (ft_strlen(command[j]) - len_until_space_backward(command[j])) + ft_strlen(command[i]) + 3;
+	size = ft_strlen(&command[j][len_until_space_backward(command[j])]) + ft_strlen(command[i]) + 3;
+	printf("cmdi : %s\n", command[i]);
+	printf("cmdj : %s\n", command[j]);
+	printf("size : %zu\n", size);
+	printf("size2 : %zu\n", len_until_space_forward(command[j]) + 1);
 	if (len_until_space_backward(command[j]) != ft_strlen(command[j]))
 	{
 		joined[k] = malloc(len_until_space_forward(command[j]) + 1);
@@ -220,16 +224,26 @@ void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 		ft_strlcat(joined[k], command[j], len_until_space_forward(command[j]) + 1);
 		k++;
 	}
+	printf("cmdi : %s\n", command[i]);
+	printf("cmdj : %s\n", command[j]);
+	printf("size : %zu\n", size);
+	printf("size2 : %zu\n", len_until_space_forward(command[j]) + 1);
+	printf("K = %zu\n", k);
 	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
 		return ;
 	joined[k][0] = D_QUOTE;
 	joined[k][1] = 0;
 	printf("%zu\n", len_until_space_backward(command[j]));
+	printf("before strlcat : %s\n", joined[k]);
 	ft_strlcat(joined[k], &command[j][len_until_space_backward(command[j])], size);
+	printf("first strlcat : %s\n", joined[k]);
 	ft_strlcat(joined[k], command[i], size);
+	printf("second strlcat : %s\n", joined[k]);
 	joined[k][size - 2] = D_QUOTE;
 	joined[k][size - 1] = 0;
+	printf("final result : %s\n", joined[k]);
+	printf("cat part : %s\n", joined[k - 1]);
 }
 
 void	go_through_join_prev_simple(char **command, char **joined, size_t i)
@@ -241,8 +255,15 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 	k = 0;
 	while (command[j])
 	{
+		printf("YAAA\n");
 		if (i - 1 == j)
+		{
 			fusion_simple_prev(command, joined, i, j);
+			if (len_until_space_backward(command[j]) != ft_strlen(command[j]))
+				k++;
+			printf("final result : %s\n", joined[k]);
+			printf("cat part : %s\n", joined[k - 1]);
+		}
 		else
 			joined[k] = ft_strdup(command[j]);
 		if (!joined[k])
@@ -251,11 +272,16 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 			joined = NULL;
 			return ;
 		}
-		// if (i - 1 == j)
-		// 	j++;
+		if (i - 1 == j)
+			j++;
 		j++;
 		k++;
+		printf("J = %zu\n", j);
+		printf("K2 = %zu\n", k);
 		joined[k] = 0;
+		printf("%s\n", joined[0]);
+		printf("%s\n", joined[1]);
+		printf("%s\n", joined[2]);
 	}
 }
 
@@ -277,6 +303,9 @@ char	**join_prev_simple(char **command, size_t i)
 	}
 	joined[0] = 0;
 	go_through_join_prev_simple(command, joined, i);
+	printf("%s\n", joined[0]);
+	printf("%s\n", joined[1]);
+	printf("%s\n", joined[2]);
 	free_words(command);
 	return (joined);
 }
@@ -410,7 +439,10 @@ char	**contiguous_quotes(char **command)
 			else if (i > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0))
 			{
 				command = join_prev_simple(command, i);
-				i--;
+				printf("C:%s\n", command[0]);
+				printf("C:%s\n", command[1]);
+				printf("C:%s\n", command[2]);
+				//i--;
 			}
 			if (!command)
 				return (NULL);
