@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/14 15:37:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/15 12:32:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,27 +170,28 @@ void    fill_struct_size(t_array **array, size_t struct_index)
     }
 }
 
-t_content	*launch_shell(t_list **var)
+void	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
 	t_array	*array;
 	
+	array = malloc(sizeof(t_array));
+	if (!array)
+		return ;
+	array->size = 0;
+	array->content = NULL;
 	while (1)
 	{
-		array = malloc(sizeof(t_array));
-		if (!array)
-			return (NULL);
-		array->size = 0;
-		array->content = NULL;
 		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-			return (NULL);
+			return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, array);
+		return;
 	}
 }
 // int	main(int argc, char **argv, char **env)

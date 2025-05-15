@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:08:46 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 16:48:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/15 11:01:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ int	ft_try(t_list *var, char *command)
 	expar.options = ct_get_paths(var); // separe path avec les differents chemins
 	if(ft_is_command_parsing(&expar, command) == 0) // essaye d'access avec tous les chemins possibles. Si ça return 0 ça veut dire que c'est une commande, et si ça return 1 ça veut dire que c'est pas uen commande
 	{
-		free(expar.options);
+		ft_free_tab(expar.options);
+		free(expar.path);
 		return(0);
 	}
-	free(expar.options);
+	ft_free_tab(expar.options);
 	return(1);
 }
