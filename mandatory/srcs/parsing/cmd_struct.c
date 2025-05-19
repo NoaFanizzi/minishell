@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/07 18:06:30 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/19 10:08:45 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].index = i;
 			j++;
 		}
-		else
-			content->files = NULL;
 		i++;
 	}
+	if (j == 0)
+		content->files = NULL;
 }
 
 size_t	count_cmd_opt(char **cmd, t_list *var)
