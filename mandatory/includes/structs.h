@@ -47,8 +47,8 @@ enum redir
 	STDOUT,
     IN,
     OUT,
-    APND, //append
-    HDOC, // sortie d'erreur
+    APND,
+    HDOC,
 	PIPE,
 };
 
