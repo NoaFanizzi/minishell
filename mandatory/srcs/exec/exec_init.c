@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/07 17:47:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/14 16:50:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	//(void)array;
+	ft_display_tab(array->content->cmd);
 	if(array->size == 1 && ft_is_built_in(&array->content[i]) == 0)
 		ft_is_built_in_dad(&array->content[i], env);
 	else

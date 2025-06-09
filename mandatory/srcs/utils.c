@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/08 16:36:54 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/05/15 13:28:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ void	ft_display_tab(char **tab)
 	size_t	i;
 
 	i = 0;
+	printf("//////////////////////\n");
 	while(tab[i])
 	{
-		ft_putstr_fd(tab[i], 1);
+		ft_putstr_fd(tab[i], STDOUT_FILENO);
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
+	printf("//////////////////////\n\n\n\n\n");
 }
 
 void	ft_free_tab(char **tab)
@@ -92,16 +94,20 @@ void ft_free_array_content(t_array *array)
 
 void	ft_free_content(t_content *content)
 {
-	    free(content->cmd[0]);
-        free(content->cmd[1]);
-	    free(content->cmd[2]);
-	    free(content->cmd[3]);
-        
-        free(content->cmd);
-        free(content->arg);
-        if (content->infile != -2)
-            close(content->infile);
-        if (content->outfile != -2)
-            close(content->outfile);
-		content = NULL;
+	size_t	i;
+
+	i = 0;
+	while(content->cmd[i])
+	{
+		free(content->cmd[i]);
+		i++;
+	}
+	free(content->files);
+	free(content->cmd);
+	free(content->arg);
+	if (content->infile != -2)
+		close(content->infile);
+	if (content->outfile != -2)
+		close(content->outfile);
+	content = NULL;
 }

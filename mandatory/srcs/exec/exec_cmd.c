@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/07 17:47:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:33:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 	ft_free_env(*env);
 	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
+	ft_free_content(content);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
 	exit(return_value);
@@ -77,6 +78,7 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
+		free(expar->path);
 		ft_putstr_fd("Command not found\n", 1);
 		ft_free_tab(content->cmd);
 		ft_free_tab(expar->options);
@@ -190,17 +192,61 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 		ft_get_right_release(content, expar, PIPE, 1);
 }
 
+size_t	ft_tablen(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while(tab[i])
+	{
+		i++;
+	}
+	return(i);
+}
+
+char **ft_cmd_join(char **a, char **b)
+{
+	size_t	i;
+	size_t	j;
+	size_t	length;
+	char **cmd;
+
+	i = 0;
+	j = 0;
+	length = ft_tablen(a) + ft_tablen(b);
+	cmd = ft_calloc(length + 1, (sizeof (char *)));
+	while(i < ft_tablen(a))
+	{
+		cmd[i] = ft_strdup(a[i]);
+		i++;
+	}
+	while(j < ft_tablen(b))
+	{
+		cmd[i] = ft_strdup(b[j]);
+		i++;
+		j++;
+	}
+	cmd[i] = NULL;
+	ft_display_tab(cmd);
+	ft_free_tab(a);
+	ft_free_tab(b);
+	return(cmd);
+	
+}
+
 void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
 	char **env_converted;
 
 	env_converted = NULL;
 
+	ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
+	content->cmd = ft_cmd_join(content->cmd, content->arg);
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
