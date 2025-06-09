@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/15 12:06:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:33:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 	ft_free_env(*env);
 	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
+	ft_free_content(content);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
 	exit(return_value);
@@ -77,6 +78,7 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
+		free(expar->path);
 		ft_putstr_fd("Command not found\n", 1);
 		ft_free_tab(content->cmd);
 		ft_free_tab(expar->options);

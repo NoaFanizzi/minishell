@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/15 11:07:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/15 13:28:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,16 +94,20 @@ void ft_free_array_content(t_array *array)
 
 void	ft_free_content(t_content *content)
 {
-	    free(content->cmd[0]);
-        free(content->cmd[1]);
-	    free(content->cmd[2]);
-	    free(content->cmd[3]);
-        
-        free(content->cmd);
-        free(content->arg);
-        if (content->infile != -2)
-            close(content->infile);
-        if (content->outfile != -2)
-            close(content->outfile);
-		content = NULL;
+	size_t	i;
+
+	i = 0;
+	while(content->cmd[i])
+	{
+		free(content->cmd[i]);
+		i++;
+	}
+	free(content->files);
+	free(content->cmd);
+	free(content->arg);
+	if (content->infile != -2)
+		close(content->infile);
+	if (content->outfile != -2)
+		close(content->outfile);
+	content = NULL;
 }

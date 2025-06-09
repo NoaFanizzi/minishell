@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/15 12:32:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/05/19 09:37:52 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
 	printf("\n\n");
@@ -190,8 +190,7 @@ void	launch_shell(t_list **var)
 		if (!cmd_splitted)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, array);
-		return;
+		//ft_init_exec(var, array);
 	}
 }
 // int	main(int argc, char **argv, char **env)
@@ -201,3 +200,19 @@ void	launch_shell(t_list **var)
 // 	launch_shell(env);
 // 	return (0);
 // }
+
+
+//LUCAS
+//overall need exit codes and error prints
+//7 EXP
+//8 EXP
+//13
+//14
+//15 EXP
+//16 EXP
+//20 LAST EXIT CODE
+//21 LAST EXIT CODE
+//23 idk we ll see
+//24-32 cmd ident - need a function to check if they are builtins so i can fill the struct
+//33-38 same thing than export but for unset
+//39-41 same thing with cd
