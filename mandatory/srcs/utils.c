@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/15 13:28:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/09 10:45:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	ft_display_tab(char **tab)
 
 	i = 0;
 	printf("//////////////////////\n");
+	if(!tab)
+		return;
 	while(tab[i])
 	{
 		ft_putstr_fd(tab[i], STDOUT_FILENO);

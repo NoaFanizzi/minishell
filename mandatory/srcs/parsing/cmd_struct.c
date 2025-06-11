@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/19 10:08:45 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/11 15:02:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	j = 0;
 	redir_count = count_redir(cmd);
 	content->files = NULL;
+	if(redir_count == 0)
+		return ;
 	content->files = malloc(redir_count * sizeof(t_files));
 	if (!content->files)
 		return ;
@@ -119,12 +121,14 @@ void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
 	i = 0;
 	j = 0;
 	size = count_cmd_opt(cmd, var);
+	printf("SIZEEEEEEE = %zu\n", size);
 	content->cmd = malloc((size + 1)* sizeof(char *));
 	if (!content->cmd)
 		return ;
-	content->cmd[size] = 0;
+	content->cmd[size] = NULL;
 	while (cmd[i])
 	{
+		printf("I VALUEEEEE = %zu\n\n\n", i);
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
@@ -151,6 +155,7 @@ void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
 		i++;
 	}
 	content->cmd[j] = 0;
+
 }
 
 

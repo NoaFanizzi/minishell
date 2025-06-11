@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/19 09:37:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/11 15:44:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	***parse_command(char *line)
 	printf("\n\n");
 	//EXPAND
 	
-	command = contiguous_quotes(command);
+	contiguous_quotes(command);
 	if (!command)
 		return (NULL);
 	k = 0;
@@ -183,16 +183,20 @@ void	launch_shell(t_list **var)
 	array->content = NULL;
 	while (1)
 	{
-		line = readline("maxishell$ ");
+		line = readline("\nmaxishell$");
 		if (line == NULL)
 			exit(0);
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		//ft_init_exec(var, array);
+		ft_init_exec(var, array);
+		//ft_free_array_content(array);
+		//free(array);
+		//break;
 	}
 }
+
 // int	main(int argc, char **argv, char **env)
 // {
 // 	(void)argc;
