@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/15 13:33:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:05:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -240,7 +240,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 
 	env_converted = NULL;
 
-	ft_display_tab(content->cmd);
+	//ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);

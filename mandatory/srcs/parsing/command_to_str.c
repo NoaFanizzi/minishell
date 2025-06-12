@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/11 15:44:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:03:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ void	launch_shell(t_list **var)
 	char	*line;
 	char	***cmd_splitted;
 	t_array	*array;
+	//int i = 0;
 	
 	array = malloc(sizeof(t_array));
 	if (!array)
@@ -183,7 +184,7 @@ void	launch_shell(t_list **var)
 	array->content = NULL;
 	while (1)
 	{
-		line = readline("\nmaxishell$");
+		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
 		cmd_splitted = parse_command(line);
@@ -191,9 +192,11 @@ void	launch_shell(t_list **var)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, array);
-		//ft_free_array_content(array);
+		printf("\n");
+		//i++;
+		ft_free_array_content(array);
 		//free(array);
-		//break;
+		break;
 	}
 }
 

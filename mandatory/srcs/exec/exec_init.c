@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/11 16:28:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 12:47:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,20 @@ int	ft_is_built_in(t_content *content)
 		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		return(0);
 	return(1);
+}
+
+void	ft_wait_pid(t_array *array)
+{
+	int	i;
+	int status;
+
+	i = 0;
+	status = 0;
+	while(i < array->size)
+	{
+		waitpid(array->content[i].pid, &status, 0);
+		i++;
+	}
 }
 
 void	ft_init_exec(t_list **env, t_array *array)
@@ -76,8 +90,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		close(expar.pipe[1]);
  		ft_free_tab(expar.options);
 	}
-	//while(array->content[i])
-	//waitpid(array->content[i].pid, NULL, 0);
+	ft_wait_pid(array);
 	//free(array->content);
 	//ft_free_array_content(array);
 }
