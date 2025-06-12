@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/11 15:02:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:14:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,28 +57,32 @@ void	figure_in_out_files(char **cmd, t_content *content)
 		{
 			content->files[j].type = HDOC;
 			content->files[j].index = i;
+			content->files[j].size = redir_count;
 			j++;
 		}
 		else if (strncmp(cmd[i], ">>", 2) == 0)
 		{
 			content->files[j].type = APND;
 			content->files[j].index = i;
+			content->files[j].size = redir_count;
 			j++;
 		}
 		else if (strncmp(cmd[i], "<", 1) == 0)
 		{
 			content->files[j].type = IN;
 			content->files[j].index = i;
+			content->files[j].size = redir_count;
 			j++;
 		}
 		else if (strncmp(cmd[i], ">", 1) == 0)
 		{
 			content->files[j].type = OUT;
 			content->files[j].index = i;
+			content->files[j].size = redir_count;
 			j++;
 		}
 		i++;
-	}
+	}	
 	if (j == 0)
 		content->files = NULL;
 }
@@ -243,4 +247,6 @@ void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_inde
 	figure_in_out_files(cmd_splitted[cmd_index], content);
 	identify_cmd_opt(cmd_splitted[cmd_index], content, var);
 	identify_arg(cmd_splitted[cmd_index], content, var);
+	content->pos = cmd_index;
+	content->cmd_splitted = cmd_splitted;
 }

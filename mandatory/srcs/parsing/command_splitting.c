@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/08 16:13:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/12 18:01:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void	*free_command(char ***splitted)
 		i++;
 	}
 	free(splitted);
+	splitted = NULL;
 	return (NULL);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/12 13:05:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:18:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 	ft_free_env(*env);
 	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
+	//ft_free_tab(content->arg);
 	ft_free_content(content);
+	
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
 	exit(return_value);
@@ -117,21 +119,25 @@ int	ft_get_outfile(t_content *content)
 {
 	size_t	i;
 	int	type;
+	size_t size;
 
 	i = 0;
 	type = -1;
+	size = content->files[i].size;
 	content->outfile = -2;
 	if(content->size > 1 && content->pos != content->size)
 		return(PIPE);
 	if(content->files == NULL)
 		return(STDOUT);
-	while(&content->files[i])
+	while(i < size)
 	{
+		//ft_display_tab(content->cmd_splitted[content->pos]);
+		printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
 		if(content->files[i].type == OUT)
 		{
 			if(content->outfile != -2)
 				close(content->outfile);
-			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			if(content->outfile == -1)
 				return(1); //fait les trucs
 			type = IN;
@@ -147,16 +153,20 @@ int	ft_get_infile(t_content *content)
 {
 	size_t	i;
 	int	type;
+	size_t size;
 
 	i = 0;
 	type = -1;
 	content->infile = -2;
+	size = content->files[i].size;
 	if(content->size > 1 && content->pos > 0)
 		return(PIPE);
 	if(content->files == NULL)
 		return(STDIN);
-	while(&content->files[i])
+	while(i < size)
 	{
+		printf("content->files[i].size = %zu\n", content->files[i].size);
+		printf("content->files[i].type = %d\n", content->files[i].type);
 		if(content->files[i].type == IN)
 		{
 			if(content->infile != -2)

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/12 13:12:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:18:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,59 +61,35 @@ void	ft_free_env(t_list *env)
 		free(current);
 	}
 }
-
-
-
 void ft_free_array_content(t_array *array)
 {
     int i;
-	int	j;
+    int    j;
 
-	i = 0;
+    i = 0;
     if (!array || !array->content)
-        return;
+	return;
     while (i < array->size)
     {
-		j = 0;
-		array->content[i].infile = 0;
-		array->content[i].outfile = 0;// tu sets pas ces 2 valeurs
-		printf("ARRAYCONTENT_I_INFILE = %d\n\n\n\n\n\n\n\n", array->content[i].infile);
-		printf("ARRAYCONTENT_I_OUTFILE = %d\n\n\n\n\n\n\n\n", array->content[i].outfile);
-		if (array->content[i].infile != -2 && array->content[i].infile != -3)
-			close(array->content[i].infile);
-		if (array->content[i].outfile != -2 && array->content[i].infile != -3)
-			close(array->content[i].outfile);
-		while (array->content[i].cmd[j])
-			free(array->content[i].cmd[j++]);
-		free(array->content[i].cmd);
-		j = 0;
-		while (array->content[i].arg[j])
-			free(array->content[i].arg[j++]);
-		free(array->content[i].arg);
+        j = 0;
+        ft_free_tab(array->content[i].cmd);
+		ft_free_tab(array->content[i].arg);
+		free_command(array->content[i].cmd_splitted);
+		if(array->content[i].files)
+			free(array->content[i].files);
         i++;
     }
     free(array->content);
-	free(array); //si je free ca y'a plus de leaks mais y'a la blinde de messages valgrind
-   // array->content = NULL;
-	//array = NULL;
 }
+
 
 void	ft_free_content(t_content *content)
 {
-	size_t	i;
-
-	i = 0;
-	while(content->cmd[i])
-	{
-		free(content->cmd[i]);
-		i++;
-	}
-	free(content->files);
-	free(content->cmd);
-	free(content->arg);
-	if (content->infile != -2)
-		close(content->infile);
-	if (content->outfile != -2)
-		close(content->outfile);
-	content = NULL;
+	ft_free_tab(content->cmd);
+	ft_free_tab(content->arg);
+	free_command(content->cmd_splitted);
+	if(content->files)
+		free(content->files);
+	free(content->array_ptr);
+	free(content);
 }
