@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/12 18:18:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:39:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void ft_free_array_content(t_array *array)
     int i;
     i = 0;
     if (!array || !array->content)
-	return;
+		return;
     while (i < array->size)
     {
+		free_command(array->content[i].cmd_splitted);
         ft_free_tab(array->content[i].cmd);
 		ft_free_tab(array->content[i].arg);
-		free_command(array->content[i].cmd_splitted);
 		if(array->content[i].files)
 			free(array->content[i].files);
         i++;

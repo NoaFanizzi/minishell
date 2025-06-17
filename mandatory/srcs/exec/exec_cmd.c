@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/12 18:18:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:22:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,9 +248,9 @@ char **ft_cmd_join(char **a, char **b)
 void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
 	char **env_converted;
-
 	env_converted = NULL;
-
+	printf("-----------------------------------------------DEBUT---------------------------------------------------------\n");
+	printf("content->pos = %d\n",content->pos);
 	//ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env);
@@ -258,6 +258,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
+	printf("-----------------------------------------------FIN---------------------------------------------------------\n");
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
@@ -265,6 +266,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 		ft_free_tab(content->cmd);
 		exit(EXIT_FAILURE);
 	}
+
 }
 
 //TODO: Bien reorganiser les fonctions de free correctement, c'est degeulasse, je pense que rien n'est free au bon endroit a cause du changement dans l'ancienne strcture et de l'integration de la nouvelle

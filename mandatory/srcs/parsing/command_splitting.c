@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/12 18:01:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:38:49 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,47 @@ int		count_command_words(char **command)
 	return (count);
 }
 
+// void	*free_command(char ***splitted)
+// {
+// 	size_t	i;
+// 	size_t	j;
+
+// 	i = 0;
+// 	if(!splitted || !*splitted)
+// 		return(NULL);
+// 	while ((*splitted)[i])
+// 	{
+// 		j = 0;
+// 		while ((*splitted)[i][j])
+// 		{
+// 			free((*splitted)[i][j]);
+// 			j++;
+// 		}
+// 		free((*splitted)[i]);
+// 		i++;
+// 	}
+// 	free(*splitted);
+// 	*splitted = NULL;
+// 	return (NULL);
+// }
+
 void	*free_command(char ***splitted)
 {
 	size_t	i;
-	size_t	j;
 
+	if (!splitted || !*splitted)
+		return (NULL);
 	i = 0;
-	while (splitted[i])
+	while ((*splitted)[i])
 	{
-		j = 0;
-		while (splitted[i][j])
-		{
-			free(splitted[i][j]);
-			j++;
-		}
-		free(splitted[i]);
+		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
 		i++;
 	}
-	free(splitted);
-	splitted = NULL;
+	free(*splitted); // free le tableau de char **
+	*splitted = NULL;
 	return (NULL);
 }
+
 
 char	***init_splitted(char ***splitted, char **command)
 {

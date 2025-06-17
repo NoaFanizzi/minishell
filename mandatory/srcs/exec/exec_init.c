@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/12 18:18:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 11:32:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 			ft_exec_failure(&expar, 1);
 		while(i < array->size)
 		{
+			array->content[i].pos = i;
 			array->content[i].pid = fork();
 			if (array->content[i].pid == -1)
 				ft_exec_failure(&expar, 2);
@@ -89,11 +90,11 @@ void	ft_init_exec(t_list **env, t_array *array)
 			i++;
 		}
 		//printf("array.size = %d\n", array->size);
+		ft_wait_pid(array);
 		close(expar.pipe[0]);
 		close(expar.pipe[1]);
  		ft_free_tab(expar.options);
 	}
-	ft_wait_pid(array);
 	//free(array->content);
 	//ft_free_array_content(array);
 }
