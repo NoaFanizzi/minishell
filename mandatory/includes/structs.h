@@ -55,6 +55,7 @@ enum redir
 typedef struct s_files
 {
 	int	index;
+	size_t	size;
 	enum redir type;
 }				t_files;
 
@@ -69,6 +70,7 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 	int	outfile;
 	int	size;
 	int pos;
+	struct s_array *array_ptr;
 }			t_content;
 
 typedef struct s_array

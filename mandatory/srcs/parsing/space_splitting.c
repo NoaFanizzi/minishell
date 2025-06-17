@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   space_splitting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/15 15:45:17 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/11 15:22:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	**space_splitting(char **command)
 	if (!splitted)
 		return (free_words(command));
 	splitted = fill_space_words(splitted, command, charset);
-	//free_words(command);to restablish after just the time i make a copy of command inside contiguous
+	free_words(command);//to restablish after just the time i make a copy of command inside contiguous
 	if (!splitted)
 		return (NULL);
 	return (splitted);

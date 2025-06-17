@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/15 13:33:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:22:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 	ft_free_env(*env);
 	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
+	//ft_free_tab(content->arg);
 	ft_free_content(content);
+	
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
 	exit(return_value);
@@ -117,24 +119,28 @@ int	ft_get_outfile(t_content *content)
 {
 	size_t	i;
 	int	type;
+	size_t size;
 
 	i = 0;
 	type = -1;
 	content->outfile = -2;
-	if(content->size > 1 && content->pos != content->size)
-		return(PIPE);
 	if(content->files == NULL)
 		return(STDOUT);
-	while(&content->files[i])
+	size = content->files[i].size;
+	if(content->size > 1 && content->pos != content->size)
+		return(PIPE);
+	while(i < size)
 	{
+		//ft_display_tab(content->cmd_splitted[content->pos]);
 		if(content->files[i].type == OUT)
 		{
+			printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			if(content->outfile != -2)
 				close(content->outfile);
-			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			if(content->outfile == -1)
 				return(1); //fait les trucs
-			type = IN;
+			type = OUT;
 		}
 		i++;
 	}
@@ -147,16 +153,21 @@ int	ft_get_infile(t_content *content)
 {
 	size_t	i;
 	int	type;
+	size_t size;
 
 	i = 0;
 	type = -1;
 	content->infile = -2;
-	if(content->size > 1 && content->pos > 0)
-		return(PIPE);
+
 	if(content->files == NULL)
 		return(STDIN);
-	while(&content->files[i])
+	size = content->files[i].size;
+	if(content->size > 1 && content->pos > 0)
+		return(PIPE);
+	while(i < size)
 	{
+		printf("content->files[i].size = %zu\n", content->files[i].size);
+		printf("content->files[i].type = %d\n", content->files[i].type);
 		if(content->files[i].type == IN)
 		{
 			if(content->infile != -2)
@@ -237,16 +248,17 @@ char **ft_cmd_join(char **a, char **b)
 void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 {
 	char **env_converted;
-
 	env_converted = NULL;
-
-	ft_display_tab(content->cmd);
+	printf("-----------------------------------------------DEBUT---------------------------------------------------------\n");
+	printf("content->pos = %d\n",content->pos);
+	//ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
+	printf("-----------------------------------------------FIN---------------------------------------------------------\n");
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
@@ -254,6 +266,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
 		ft_free_tab(content->cmd);
 		exit(EXIT_FAILURE);
 	}
+
 }
 
 //TODO: Bien reorganiser les fonctions de free correctement, c'est degeulasse, je pense que rien n'est free au bon endroit a cause du changement dans l'ancienne strcture et de l'integration de la nouvelle
