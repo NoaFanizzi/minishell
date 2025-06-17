@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/19 09:37:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/17 12:34:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	***parse_command(char *line)
 	printf("\n\n");
 	//EXPAND
 	
-	command = contiguous_quotes(command);
+	contiguous_quotes(command);
 	if (!command)
 		return (NULL);
 	k = 0;
@@ -150,7 +150,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 		}
 		cmd_index++;
 	}
-	free_command(cmd_splitted);
+	//free_command(cmd_splitted);TODOAttention gros problemes en vue
 	fill_struct_size(array, struct_index);
 	return ;
 }
@@ -175,14 +175,15 @@ void	launch_shell(t_list **var)
 	char	*line;
 	char	***cmd_splitted;
 	t_array	*array;
+	//int i = 0;
 	
-	array = malloc(sizeof(t_array));
-	if (!array)
-		return ;
-	array->size = 0;
-	array->content = NULL;
 	while (1)
 	{
+		array = malloc(sizeof(t_array));
+		if (!array)
+			return ;
+		array->size = 0;
+		array->content = NULL;
 		line = readline("maxishell$ ");
 		if (line == NULL)
 			exit(0);
@@ -190,9 +191,19 @@ void	launch_shell(t_list **var)
 		if (!cmd_splitted)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		//ft_init_exec(var, array);
+		ft_init_exec(var, array);
+		printf("\n");
+		//i++;
+		ft_free_array_content(array);
+		if (array)
+		{
+			free(array);
+			array = NULL;
+		}
+		//break;
 	}
 }
+
 // int	main(int argc, char **argv, char **env)
 // {
 // 	(void)argc;

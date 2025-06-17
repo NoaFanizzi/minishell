@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/15 16:32:29 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/11 15:24:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,7 +418,7 @@ char	**join_prev_quotes(char **command, size_t i)
 
 //maybe make a copy of command to not modify and iterate at the same time,
 //and also to free command before returning the new command
-char	**contiguous_quotes(char **command)
+void	contiguous_quotes(char **command)
 {
 	size_t	i;
 	// char **new_cmd;
@@ -447,7 +447,7 @@ char	**contiguous_quotes(char **command)
 					i--;
 			}
 			if (!command)
-				return (NULL);
+				return;
 			int j = 0;
 			while (command[j])
 			{
@@ -460,7 +460,7 @@ char	**contiguous_quotes(char **command)
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0))
 				command = join_next_simple(command, i);
 			if (!command)
-				return (NULL);
+				return;
 			j = 0;
 			while (command[j])
 			{
@@ -471,7 +471,6 @@ char	**contiguous_quotes(char **command)
 		}
 		i++;
 	}
-	return (command);
 }
 
 
