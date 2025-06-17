@@ -59,6 +59,13 @@ typedef struct s_files
 	enum redir type;
 }				t_files;
 
+typedef struct s_heredocs
+{
+	char	*text;
+	char	*eof;
+	int		s_quoted;
+}				t_heredocs;
+
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
 {
 	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve

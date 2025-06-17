@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 12:34:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:34:01 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //check cases when there is one commnad, or nothing or idk but you understood
+
+
 
 char	***parse_command(char *line)
 {	
@@ -194,6 +196,7 @@ void	launch_shell(t_list **var)
 		ft_init_exec(var, array);
 		printf("\n");
 		//i++;
+		free_command(cmd_splitted);
 		ft_free_array_content(array);
 		if (array)
 		{

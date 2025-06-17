@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 11:32:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 13:21:28 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	t_expar expar;
 
 	i = 0;
+	printf("array->size = %d\n", array->size);
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
