@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/06/17 13:34:21 by nofanizz         ###   ########.fr       */
+=======
+/*   Updated: 2025/06/17 13:33:39 by nbodin           ###   ########lyon.fr   */
+>>>>>>> d4503b4a4c7b2019209d6de5808bc6f1aa73a275
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +51,7 @@ int		count_command_words(char **command)
 	return (count);
 }
 
+<<<<<<< HEAD
 // void	*free_command(char ***splitted)
 // {
 // 	size_t	i;
@@ -103,7 +108,48 @@ void *free_command(char ***splitted)
     free(*splitted);  // Libère le tableau principal
     *splitted = NULL;
     return (NULL);
+=======
+void	*free_command(char ***splitted)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	if(!splitted)
+		return(NULL);
+	while ((splitted)[i])
+	{
+		j = 0;
+		while ((splitted)[i][j])
+		{
+			free((splitted)[i][j]);
+			j++;
+		}
+		free((splitted)[i]);
+		i++;
+	}
+	free(splitted);
+	splitted = NULL;
+	return (NULL);
+>>>>>>> d4503b4a4c7b2019209d6de5808bc6f1aa73a275
 }
+
+// void	*free_command(char ***splitted)
+// {
+// 	size_t	i;
+
+// 	if (!splitted || !*splitted)
+// 		return (NULL);
+// 	i = 0;
+// 	while ((*splitted)[i])
+// 	{
+// 		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
+// 		i++;
+// 	}
+// 	free(*splitted); // free le tableau de char **
+// 	*splitted = NULL;
+// 	return (NULL);
+// }
 
 
 
