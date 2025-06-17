@@ -17,11 +17,11 @@
 
 void	rem_and_shift(char *command)
 {
-	size_t	end;
+	//size_t	end;
 	size_t	i;
 	size_t	j;
 
-	end = ft_strlen(command) - 1;
+	//end = ft_strlen(command) - 1;
 	i = 0;
 	j = 1;
 	while (command[j])

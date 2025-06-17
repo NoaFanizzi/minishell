@@ -200,7 +200,7 @@ void	launch_shell(t_list **var)
 			free(array);
 			array = NULL;
 		}
-		break;
+		//break;
 	}
 }
 

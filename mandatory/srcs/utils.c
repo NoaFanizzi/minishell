@@ -64,14 +64,11 @@ void	ft_free_env(t_list *env)
 void ft_free_array_content(t_array *array)
 {
     int i;
-    int    j;
-
     i = 0;
     if (!array || !array->content)
 	return;
     while (i < array->size)
     {
-        j = 0;
         ft_free_tab(array->content[i].cmd);
 		ft_free_tab(array->content[i].arg);
 		free_command(array->content[i].cmd_splitted);

@@ -235,6 +235,7 @@ void	identify_arg(char **cmd, t_content *content, t_list *var)
 					j++;
 				}
 			}
+			content->arg[j] = 0;
 			break ;
 		}
 		i++;

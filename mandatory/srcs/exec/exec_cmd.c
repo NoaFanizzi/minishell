@@ -123,24 +123,24 @@ int	ft_get_outfile(t_content *content)
 
 	i = 0;
 	type = -1;
-	size = content->files[i].size;
 	content->outfile = -2;
-	if(content->size > 1 && content->pos != content->size)
-		return(PIPE);
 	if(content->files == NULL)
 		return(STDOUT);
+	size = content->files[i].size;
+	if(content->size > 1 && content->pos != content->size)
+		return(PIPE);
 	while(i < size)
 	{
 		//ft_display_tab(content->cmd_splitted[content->pos]);
-		printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
 		if(content->files[i].type == OUT)
 		{
+			printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			if(content->outfile != -2)
 				close(content->outfile);
 			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			if(content->outfile == -1)
 				return(1); //fait les trucs
-			type = IN;
+			type = OUT;
 		}
 		i++;
 	}
@@ -158,11 +158,12 @@ int	ft_get_infile(t_content *content)
 	i = 0;
 	type = -1;
 	content->infile = -2;
+
+	if(content->files == NULL)
+		return(STDIN);
 	size = content->files[i].size;
 	if(content->size > 1 && content->pos > 0)
 		return(PIPE);
-	if(content->files == NULL)
-		return(STDIN);
 	while(i < size)
 	{
 		printf("content->files[i].size = %zu\n", content->files[i].size);

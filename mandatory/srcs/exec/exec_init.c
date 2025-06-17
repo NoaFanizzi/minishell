@@ -68,16 +68,13 @@ void	ft_init_exec(t_list **env, t_array *array)
 		i++;
 	}
 	i = 0;
-	//(void)array;
 	if(!array)
 		return;
-	//ft_display_tab(array->content->cmd);
 	if(array->size == 1 && ft_is_built_in(&array->content[i]) == 0)
-		ft_is_built_in_dad(&array->content[i], env);
+		return(ft_is_built_in_dad(&array->content[i], env));
 	else
 	{
 		expar.options = ct_get_paths(*env);
-		//printf("array.size = %d\n", array->size);
 		if (!expar.options)
 			return ;
 		if (pipe(expar.pipe) == -1)
