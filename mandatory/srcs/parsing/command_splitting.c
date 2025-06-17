@@ -51,7 +51,6 @@ int		count_command_words(char **command)
 	return (count);
 }
 
-<<<<<<< HEAD
 // void	*free_command(char ***splitted)
 // {
 // 	size_t	i;
@@ -108,30 +107,6 @@ void *free_command(char ***splitted)
     free(*splitted);  // Libère le tableau principal
     *splitted = NULL;
     return (NULL);
-=======
-void	*free_command(char ***splitted)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if(!splitted)
-		return(NULL);
-	while ((splitted)[i])
-	{
-		j = 0;
-		while ((splitted)[i][j])
-		{
-			free((splitted)[i][j]);
-			j++;
-		}
-		free((splitted)[i]);
-		i++;
-	}
-	free(splitted);
-	splitted = NULL;
-	return (NULL);
->>>>>>> d4503b4a4c7b2019209d6de5808bc6f1aa73a275
 }
 
 // void	*free_command(char ***splitted)
