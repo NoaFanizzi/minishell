@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/08 15:30:06 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/17 18:00:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	split_meta_count(char **command, const char *charset)
 			count += twisted_count_words(command[i], charset);
 		i++;
 	}
-	printf("count = %d\n", count);
+	//("count = %d\n", count);
 	return (count);
 }
 

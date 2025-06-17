@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 10:11:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:59:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 			{
 				if(ft_is_chr(content->arg[i], '+') != -1) // y'a un +
 				{
-					printf("chockbarrrrr\n");
 					temp = ft_strjoin(link->arg, content->arg[i]);
 					free(link->arg);
 					link->arg = ft_strdup(temp);

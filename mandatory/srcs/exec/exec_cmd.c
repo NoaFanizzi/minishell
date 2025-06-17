@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 12:22:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:29:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ int ft_is_command(t_expar *expar, t_content *content)
 	size_t	i;
 	char	*adding_slash;
 
+	expar->path = NULL;
 	i = 0;
-	if (content->cmd == NULL)
+	if (content->cmd == NULL || !content->cmd[0])
 		return (1);
 	while (expar->options[i])
 	{
@@ -50,11 +51,15 @@ int ft_is_command(t_expar *expar, t_content *content)
 	return (1);
 }
 
-void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
+void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	int return_value;
 	
 	return_value = 0;
+
+	//printf("content->e hls[0]: %s\n\n\n", content->arg[0]);
+	if (!content->cmd[0])
+		return;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		return_value = ft_echo(content);
 	else if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
@@ -63,28 +68,32 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env)
 		return_value = ft_unset(env, content);
 	else
 		return;
+	//printf("BUILTIN HERE");
 	ft_free_env(*env);
 	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
 	//ft_free_tab(content->arg);
-	ft_free_content(content);
-	
+	//ft_free_content(content);
+	free_command(content->cmd_splitted);
+	ft_free_array_content(array);
 	close(expar->pipe[0]);
 	close(expar->pipe[1]);
 	exit(return_value);
 }
 
-static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env)
+static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
-	ft_is_built_in_child(expar, content, env);
+	ft_is_built_in_child(expar, content, env, array);
+	//printf("test de malade\n");
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
-		free(expar->path);
 		ft_putstr_fd("Command not found\n", 1);
-		ft_free_tab(content->cmd);
+		free(expar->path);
 		ft_free_tab(expar->options);
+		ft_free_env(*env);
 		ft_close_all(expar, content);
+		ft_free_content(content);
 		exit(127);
 	}
 	return(0);
@@ -127,14 +136,12 @@ int	ft_get_outfile(t_content *content)
 	if(content->files == NULL)
 		return(STDOUT);
 	size = content->files[i].size;
-	if(content->size > 1 && content->pos != content->size)
-		return(PIPE);
 	while(i < size)
 	{
 		//ft_display_tab(content->cmd_splitted[content->pos]);
 		if(content->files[i].type == OUT)
 		{
-			printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
+			//printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			if(content->outfile != -2)
 				close(content->outfile);
 			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDWR | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
@@ -144,6 +151,10 @@ int	ft_get_outfile(t_content *content)
 		}
 		i++;
 	}
+	if(type == OUT)
+		return(OUT);
+	if(content->size > 1 && content->pos != content->size)
+			return(PIPE);
 	if(type != -1)
 		return(type);
 	return(type);
@@ -166,8 +177,8 @@ int	ft_get_infile(t_content *content)
 		return(PIPE);
 	while(i < size)
 	{
-		printf("content->files[i].size = %zu\n", content->files[i].size);
-		printf("content->files[i].type = %d\n", content->files[i].type);
+		//printf("content->files[i].size = %zu\n", content->files[i].size);
+		//printf("content->files[i].type = %d\n", content->files[i].type);
 		if(content->files[i].type == IN)
 		{
 			if(content->infile != -2)
@@ -195,7 +206,7 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content);
 	//printf("test1\n");
-	//printf("TYPE = %d\n", type);
+	printf("TYPE = %d\n", type);
 	//printf("content->size = %d\n", content->size);
 	if(type == OUT)
 		ft_get_right_release(content, expar, OUT, 1);
@@ -237,7 +248,6 @@ char **ft_cmd_join(char **a, char **b)
 		i++;
 		j++;
 	}
-	cmd[i] = NULL;
 	ft_display_tab(cmd);
 	ft_free_tab(a);
 	ft_free_tab(b);
@@ -245,24 +255,27 @@ char **ft_cmd_join(char **a, char **b)
 	
 }
 
-void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env)
+void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	char **env_converted;
 	env_converted = NULL;
-	printf("-----------------------------------------------DEBUT---------------------------------------------------------\n");
-	printf("content->pos = %d\n",content->pos);
+
+	//printf("IN fork\n");
+	//printf("-----------------------------------------------DEBUT---------------------------------------------------------\n");
+	//printf("content->pos = %d\n",content->pos);
 	//ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
-	ft_prepare_execution(expar, content, env);
+	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
-	printf("-----------------------------------------------FIN---------------------------------------------------------\n");
+	//printf("-----------------------------------------------FIN---------------------------------------------------------\n");
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
 		free(expar->path);
+		ft_free_env(*env);
 		ft_free_tab(content->cmd);
 		exit(EXIT_FAILURE);
 	}

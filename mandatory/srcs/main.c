@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/10 13:29:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:15:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,11 +116,11 @@ int	main(int argc, char **argv, char **env)
 	var = ft_init_env(env);
 	//ft_display_env(var);
 	launch_shell(&var);
-	//ft_init_exec(var, array);
 	printf("--------------AFTER---------------\n\n\n");
+	ft_free_env(var);
+	exit(0);
 	//ft_test(&var, argc, argv);
 	//ft_display_env(var);
-	ft_free_env(var);
 	//ft_cd(&m_env, argv[1]);
 	//ft_pwd();
 	//ft_free_tab(var.env);
