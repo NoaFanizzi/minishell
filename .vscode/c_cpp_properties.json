@@ -1,17 +1,21 @@
 {
-    "configurations": [
-        {
-            "name": "Win32",
-            "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/mandatory"
-            ],
-            "defines": [
-                "_DEBUG",
-                "UNICODE",
-                "_UNICODE"
-            ]
-        }
-    ],
-    "version": 4
+  "configurations": [
+    {
+      "name": "WSL",
+      "includePath": [
+        "${workspaceFolder}/mandatory/includes",
+        "${workspaceFolder}/libft/includes",
+        "${workspaceFolder}/mandatory/srcs",
+        "${workspaceFolder}/libft/srcs",
+        "/usr/include",
+        "/usr/local/include"
+      ],
+      "defines": [],
+      "compilerPath": "/usr/bin/gcc",
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "linux-gcc-x64"
+    }
+  ],
+  "version": 4
 }
