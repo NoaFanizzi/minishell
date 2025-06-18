@@ -29,5 +29,6 @@ void	ft_exec_failure(t_expar *expar, int i)
 	if (i == 2)
 		perror("fork");
 	free(expar->options);
-	exit(EXIT_FAILURE);
+	g_exit_status = errno;
+	return;
 }

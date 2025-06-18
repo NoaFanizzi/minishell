@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <errno.h>
 
 
 void		free_tab(char **str);

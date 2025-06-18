@@ -105,7 +105,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		if (!expar.options)
 			return ;
 		if (pipe(expar.pipe) == -1)
-			ft_exec_failure(&expar, 1);
+			return(ft_exec_failure(&expar, 1));
 		while(i < array->size)
 		{
 			array->content[i].pos = i;
