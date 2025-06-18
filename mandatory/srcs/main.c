@@ -116,7 +116,6 @@ int	main(int argc, char **argv, char **env)
 	var = ft_init_env(env);
 	//ft_display_env(var);
 	launch_shell(&var);
-	printf("--------------AFTER---------------\n\n\n");
 	ft_free_env(var);
 	exit(0);
 	//ft_test(&var, argc, argv);

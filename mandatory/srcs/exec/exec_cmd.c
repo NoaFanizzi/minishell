@@ -219,7 +219,7 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content);
 	//printf("test1\n");
-	printf("TYPE = %d\n", type);
+	//printf("TYPE = %d\n", type);
 	//printf("content->size = %d\n", content->size);
 	if(type == APND)
 		ft_get_right_release(content, expar, APND, 1);

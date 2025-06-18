@@ -56,7 +56,7 @@ char	***parse_command(char *line)
 		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	
 	command = meta_splitting(command);
 	if (!command)
