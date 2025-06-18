@@ -12,6 +12,9 @@
 
 #include "minishell.h"
 
+int g_exit_status = 0;
+
+
 // int	ft_fill_test(t_content *content, int params)
 // {
 // 	if(params == 0)

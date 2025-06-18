@@ -57,7 +57,6 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	
 	return_value = 0;
 
-	//printf("content->e hls[0]: %s\n\n\n", content->arg[0]);
 	if (!content->cmd[0])
 		return;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
@@ -68,12 +67,8 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 		return_value = ft_unset(env, content);
 	else
 		return;
-	//printf("BUILTIN HERE");
 	ft_free_env(*env);
-	//ft_free_array_content(array);
 	ft_free_tab(expar->options);
-	//ft_free_tab(content->arg);
-	//ft_free_content(content);
 	free_command(content->cmd_splitted);
 	ft_free_array_content(array);
 	close(expar->pipe[0]);
@@ -84,7 +79,6 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
 	ft_is_built_in_child(expar, content, env, array);
-	//printf("test de malade\n");
 	if (ft_is_command(expar, content) == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
@@ -115,7 +109,6 @@ void	ft_get_right_release(t_content *content, t_expar *expar, int type, int chan
 	if((type == OUT && channel == 1)
 		||(type == APND && channel == 1))
 	{
-		printf("ça va append\n");
 		if (dup2(content->outfile, STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
@@ -134,43 +127,49 @@ int	ft_get_outfile(t_content *content)
 
 	i = 0;
 	type = -1;
-	content->outfile = -2;
-	if(content->files == NULL)
-		return(STDOUT);
-	size = content->files[i].size;
-	while(i < size)
+	content->outfile = -2;	
+	if(&content->files[0] != NULL)
 	{
-		//ft_display_tab(content->cmd_splitted[content->pos]);
-		if(content->files[i].type == OUT)
+		size = content->files[i].size;
+		while(i < size)
 		{
-			//printf("cmd_splitted[content->pos][content->files[i].index + 1] = %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
-			if(content->outfile != -2)
-				close(content->outfile);
-			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-			if(content->outfile == -1)
-				return(1); //fait les trucs
-			type = OUT;
-		}
-		if(content->files[i].type == APND)
-		{
-			if(content->outfile != -2)
-				close(content->outfile);
-			content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-			if(content->outfile == -1)
-				return(1); //fait les trucs
-			type = APND;
-		}
+			if(content->files[i].type == OUT)
+			{
+				if(content->outfile != -2)
+					close(content->outfile);
+				content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+				if(content->outfile == -1)
+					return(1); //fait les trucs
+				type = OUT;
+			}
+			if(content->files[i].type == APND)
+			{
+				if(content->outfile != -2)
+					close(content->outfile);
+				content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+				if(content->outfile == -1)
+					return(1); //fait les trucs
+				type = APND;
+			}
 		i++;
+		}
 	}
 	if(type == OUT)
 		return(OUT);
 	if(type == APND)
 		return(APND);
-	if(content->size > 1 && content->pos != content->size)
-			return(PIPE);
-	if(type != -1)
-		return(type);
-	return(type);
+	if(content->size > 1 && content->pos != content->size - 1)
+		return(PIPE);
+	// if(content->files == NULL && content->size == 1)
+	// {
+	// 	printf("c NULLLLL\n");
+	// 	return(STDOUT);
+	// }
+	//printf("STDOUTTTTTTT\n");
+	return(STDOUT);
+	// if(type != -1)
+	// 	return(type);
+	// return(type);
 }
 
 int	ft_get_infile(t_content *content)
@@ -190,8 +189,6 @@ int	ft_get_infile(t_content *content)
 		return(PIPE);
 	while(i < size)
 	{
-		//printf("content->files[i].size = %zu\n", content->files[i].size);
-		//printf("content->files[i].type = %d\n", content->files[i].type);
 		if(content->files[i].type == IN)
 		{
 			if(content->infile != -2)
@@ -218,9 +215,6 @@ void	ft_parse_redirections(t_content *content, t_expar *expar)
 	if(type == PIPE)
 		ft_get_right_release(content, expar, PIPE, 0);
 	type = ft_get_outfile(content);
-	//printf("test1\n");
-	//printf("TYPE = %d\n", type);
-	//printf("content->size = %d\n", content->size);
 	if(type == APND)
 		ft_get_right_release(content, expar, APND, 1);
 	if(type == OUT)
@@ -263,7 +257,7 @@ char **ft_cmd_join(char **a, char **b)
 		i++;
 		j++;
 	}
-	ft_display_tab(cmd);
+	//ft_display_tab(cmd);
 	ft_free_tab(a);
 	ft_free_tab(b);
 	return(cmd);
@@ -275,17 +269,12 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	char **env_converted;
 	env_converted = NULL;
 
-	//printf("IN fork\n");
-	//printf("-----------------------------------------------DEBUT---------------------------------------------------------\n");
-	//printf("content->pos = %d\n",content->pos);
-	//ft_display_tab(content->cmd);
 	ft_parse_redirections(content, expar);
 	ft_prepare_execution(expar, content, env, array);
 	ft_close_all(expar, content);
 	ft_free_tab(expar->options);
 	env_converted = ft_convert_env(*env);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
-	//printf("-----------------------------------------------FIN---------------------------------------------------------\n");
 	if (execve(expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");

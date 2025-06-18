@@ -13,22 +13,22 @@
 
 #include "minishell.h"
 
-void	ft_display_tab(char **tab)
-{
-	size_t	i;
+// void	ft_display_tab(char **tab)
+// {
+// 	size_t	i;
 
-	i = 0;
-	//printf("//////////////////////\n");
-	if(!tab)
-		return;
-	while(tab[i])
-	{
-		ft_putstr_fd(tab[i], STDOUT_FILENO);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-	//printf("//////////////////////\n\n\n\n\n");
-}
+// 	i = 0;
+// 	//printf("//////////////////////\n");
+// 	if(!tab)
+// 		return;
+// 	while(tab[i])
+// 	{
+// 		ft_putstr_fd(tab[i], STDOUT_FILENO);
+// 		ft_putstr_fd("\n", 1);
+// 		i++;
+// 	}
+// 	//printf("//////////////////////\n\n\n\n\n");
+// }
 
 void	ft_free_tab(char **tab)
 {

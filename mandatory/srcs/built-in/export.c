@@ -96,7 +96,6 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 	int	pos;
 
 	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
-	printf("slt l'équipe\n");
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
 		link = ft_add_new_link(content->arg[i]);

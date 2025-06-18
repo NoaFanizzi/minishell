@@ -8,6 +8,8 @@
 #include <unistd.h>
 #include <stdio.h>
 
+extern int g_exit_status;
+
 enum	ERROR
 {
 	O_ERROR = -1,
