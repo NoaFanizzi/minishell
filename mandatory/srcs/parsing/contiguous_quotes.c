@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/11 15:24:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 18:00:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**join_next_quotes(char **command, size_t i)
 	char **joined;
 
 	size = 0;
-	printf("next_quotes\n");
+	//printf("next_quotes\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -187,7 +187,7 @@ char	**join_next_simple(char **command, size_t i)
 	char **joined;
 
 	size = 0;
-	printf("next_simple\n");
+	//printf("next_simple\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -293,7 +293,7 @@ char	**join_prev_simple(char **command, size_t i)
 	char **joined;
 
 	size = 0;
-	printf("prev_simple\n");
+	//printf("prev_simple\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -370,7 +370,7 @@ char	**join_prev_quotes(char **command, size_t i)
 	char **joined;
 
 	size = 0;
-	printf("prev_quotes\n");
+	//printf("prev_quotes\n");
 	while (command[size])
 		size++;
 	joined = malloc(size * sizeof(char *));
@@ -451,10 +451,10 @@ void	contiguous_quotes(char **command)
 			int j = 0;
 			while (command[j])
 			{
-				printf("COMMAND : %s\n", command[j]);
+				//printf("COMMAND : %s\n", command[j]);
 				j++;
 			}
-			printf("\n");
+			//printf("\n");
 			if (command[i + 1] && (command[i + 1][0] == D_QUOTE || command[i + 1][0] == S_QUOTE))
 				command = join_next_quotes(command, i);
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0))
@@ -464,10 +464,10 @@ void	contiguous_quotes(char **command)
 			j = 0;
 			while (command[j])
 			{
-				printf("COMMAND : %s\n", command[j]);
+				//printf("COMMAND : %s\n", command[j]);
 				j++;
 			}
-			printf("\n");
+			//printf("\n");
 		}
 		i++;
 	}

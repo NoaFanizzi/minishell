@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/17 13:34:21 by nofanizz         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/17 13:33:39 by nbodin           ###   ########lyon.fr   */
->>>>>>> d4503b4a4c7b2019209d6de5808bc6f1aa73a275
+/*   Updated: 2025/06/17 17:59:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,29 +47,29 @@ int		count_command_words(char **command)
 	return (count);
 }
 
-// void	*free_command(char ***splitted)
-// {
-// 	size_t	i;
-// 	size_t	j;
+void	*free_command(char ***splitted)
+{
+	size_t	i;
+	size_t	j;
 
-// 	i = 0;
-// 	if(!splitted || !*splitted)
-// 		return(NULL);
-// 	while ((*splitted)[i])
-// 	{
-// 		j = 0;
-// 		while ((*splitted)[i][j])
-// 		{
-// 			free((*splitted)[i][j]);
-// 			j++;
-// 		}
-// 		free((*splitted)[i]);
-// 		i++;
-// 	}
-// 	free(*splitted);
-// 	*splitted = NULL;
-// 	return (NULL);
-// }
+	i = 0;
+	if(!splitted)
+		return(NULL);
+	while ((splitted)[i])
+	{
+		j = 0;
+		while ((splitted)[i][j])
+		{
+			free((splitted)[i][j]);
+			j++;
+		}
+		free((splitted)[i]);
+		i++;
+	}
+	free(splitted);
+	splitted = NULL;
+	return (NULL);
+}
 
 // void	*free_command(char ***splitted)
 // {
@@ -92,22 +88,22 @@ int		count_command_words(char **command)
 // 	return (NULL);
 // }
 
-void *free_command(char ***splitted)
-{
-    size_t i;
+// void *free_command(char ***splitted)
+// {
+//     size_t i;
 
-    if (!splitted || !*splitted)
-        return (NULL);
-    i = 0;
-    while ((*splitted)[i])
-    {
-        free((*splitted)[i]);  // Libère chaque chaîne (char *)
-        i++;
-    }
-    free(*splitted);  // Libère le tableau principal
-    *splitted = NULL;
-    return (NULL);
-}
+//     if (!splitted || !*splitted)
+//         return (NULL);
+//     i = 0;
+//     while ((*splitted)[i])
+//     {
+//         free((*splitted)[i]);  // Libère chaque chaîne (char *)
+//         i++;
+//     }
+//     free(*splitted);  // Libère le tableau principal
+//     *splitted = NULL;
+//     return (NULL);
+// }
 
 // void	*free_command(char ***splitted)
 // {
@@ -166,7 +162,7 @@ char	***fill_splitted_command(char ***splitted, char **command)
 	
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	printf("cmd_count ====== %d\n", cmd_count);
+	//printf("cmd_count ====== %d\n", cmd_count);
 	k = 0;
 	i = 0;
 	
@@ -181,7 +177,7 @@ char	***fill_splitted_command(char ***splitted, char **command)
 				return (free_command(splitted));
 			i++;
 		}
-		printf("GOT HEREEEEEEE\n");
+		//printf("GOT HEREEEEEEE\n");
 		cmd_index += cmd_words_count;
 		splitted[k][i] = 0;
 		k++;

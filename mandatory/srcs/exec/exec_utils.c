@@ -57,6 +57,7 @@ char	**ct_get_paths(t_list *var)
 	options = ft_split(cpy->arg, ':');
 	//ft_display_tab(options);
 	return (options);
+	//TODO Protéger si on supprime juste PATH de la variable d'environnement
 }
 
 void	ft_close_all(t_expar *expar, t_content *content)

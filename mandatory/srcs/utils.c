@@ -3,36 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/06/17 13:05:00 by nofanizz         ###   ########.fr       */
-=======
-/*   Updated: 2025/06/17 13:32:57 by nbodin           ###   ########lyon.fr   */
->>>>>>> d4503b4a4c7b2019209d6de5808bc6f1aa73a275
+/*   Updated: 2025/06/17 17:59:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-void	ft_display_tab(char **tab)
-{
-	size_t	i;
+// void	ft_display_tab(char **tab)
+// {
+// 	size_t	i;
 
-	i = 0;
-	printf("//////////////////////\n");
-	if(!tab)
-		return;
-	while(tab[i])
-	{
-		ft_putstr_fd(tab[i], STDOUT_FILENO);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-	printf("//////////////////////\n\n\n\n\n");
-}
+// 	i = 0;
+// 	//printf("//////////////////////\n");
+// 	if(!tab)
+// 		return;
+// 	while(tab[i])
+// 	{
+// 		ft_putstr_fd(tab[i], STDOUT_FILENO);
+// 		ft_putstr_fd("\n", 1);
+// 		i++;
+// 	}
+// 	//printf("//////////////////////\n\n\n\n\n");
+// }
 
 void	ft_free_tab(char **tab)
 {
@@ -91,6 +87,5 @@ void	ft_free_content(t_content *content)
 	free_command(content->cmd_splitted);
 	if(content->files)
 		free(content->files);
-	free(content->array_ptr);
 	free(content);
 }

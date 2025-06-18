@@ -26,7 +26,6 @@ int ft_is_command_parsing(t_expar *expar, char *command)
 		if (!adding_slash)
 			return (1);
 		expar->path = ft_strjoin(adding_slash, command);
-		//printf("path = %s\n", expar->path);
 		free(adding_slash);
 		if (!expar->path)
 			return (1);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 12:38:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 16:47:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 int		main(int argc, char **argv, char **env);
 void	launch_shell(t_list **var);
 char	***parse_command(char *line);
-void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var);
+void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array **array, size_t struct_index);
 
 char	**quotes_splitting(char **command, char *line);

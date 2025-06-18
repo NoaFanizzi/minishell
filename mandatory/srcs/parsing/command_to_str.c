@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 13:34:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/17 18:00:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	***parse_command(char *line)
 		return (NULL);//error
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	//EXPAND
 	
 	contiguous_quotes(command);
@@ -42,10 +42,10 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("Aword n%d : %s\n", k + 1, command[k]);
+		//printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 
 	command = space_splitting(command);
 	if (!command)
@@ -53,10 +53,10 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	
 	command = meta_splitting(command);
 	if (!command)
@@ -64,7 +64,7 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
 	
@@ -74,7 +74,7 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
 	//LEAKS DONE UNTIL THERE
@@ -82,17 +82,17 @@ char	***parse_command(char *line)
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
 		return (NULL);
-	printf("\n\n");
+	//printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		printf("\ncommand n%d\n", k + 1);
+		//printf("\ncommand n%d\n", k + 1);
 		if (!cmd_splitted[k][i])
-			printf("NULL\n");
+			//printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;
@@ -102,7 +102,7 @@ char	***parse_command(char *line)
 }
 
 
-void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
+void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 {
 	size_t	cmd_index;
 	size_t	struct_index;
@@ -112,39 +112,39 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 	while(cmd_splitted[cmd_index])
 	{
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
-			(*array)->size++;
+			 array->size++;
 		cmd_index++;
 	}
-	(*array)->content = malloc(((*array)->size) * sizeof(t_content));
+	array->content = malloc(( array->size) * sizeof(t_content));
 	cmd_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, &(*array)->content[struct_index], cmd_index, var);
+			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index, var);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				printf("redir index n%d :\n", (*array)->content[struct_index].files[i].index + 1);
-				printf("redir%d\n\n", (int)(*array)->content[struct_index].files[i].type + 1);
+				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
 			count = count_cmd_opt(cmd_splitted[cmd_index], var);
-			printf("count_cmd_opt : %zu\n", count);
+			//printf("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				printf("CMD n%lu:%s\n", i + 1, (*array)->content[struct_index].cmd[i]);
+				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
 			count = count_arg(cmd_splitted[cmd_index], var);
-			printf("count_arg : %zu\n", count);
+			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				printf("ARG n%lu:%s\n", i + 1, (*array)->content[struct_index].arg[i]);
+				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -153,7 +153,7 @@ void	analyse_command(char ***cmd_splitted, t_array **array, t_list *var)
 		cmd_index++;
 	}
 	//free_command(cmd_splitted);TODOAttention gros problemes en vue
-	fill_struct_size(array, struct_index);
+	fill_struct_size(&array, struct_index);
 	return ;
 }
  
@@ -176,33 +176,25 @@ void	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
-	t_array	*array;
+	t_array	array;
 	//int i = 0;
 	
 	while (1)
 	{
-		array = malloc(sizeof(t_array));
-		if (!array)
-			return ;
-		array->size = 0;
-		array->content = NULL;
 		line = readline("maxishell$ ");
 		if (line == NULL)
-			exit(0);
+			break;
+		array.size = 0;
+		array.content = NULL;
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, array);
-		printf("\n");
+		ft_init_exec(var, &array);
+		//printf("\n");
 		//i++;
 		free_command(cmd_splitted);
-		ft_free_array_content(array);
-		if (array)
-		{
-			free(array);
-			array = NULL;
-		}
+		ft_free_array_content(&array);
 		//break;
 	}
 }

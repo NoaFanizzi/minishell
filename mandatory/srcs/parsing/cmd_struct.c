@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/12 18:14:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:59:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,14 +125,14 @@ void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
 	i = 0;
 	j = 0;
 	size = count_cmd_opt(cmd, var);
-	printf("SIZEEEEEEE = %zu\n", size);
-	content->cmd = malloc((size + 1)* sizeof(char *));
+	//printf("SIZEEEEEEE = %zu\n", size);
+	content->cmd = ft_calloc((size + 1), sizeof(char *));  //malloc((size + 1)* sizeof(char *));
 	if (!content->cmd)
 		return ;
 	content->cmd[size] = NULL;
 	while (cmd[i])
 	{
-		printf("I VALUEEEEE = %zu\n\n\n", i);
+		//printf("I VALUEEEEE = %zu\n\n\n", i);
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
 			i++;
@@ -208,7 +208,7 @@ void	identify_arg(char **cmd, t_content *content, t_list *var)
 	i = 0;
 	j = 0;
 	count = count_arg(cmd, var);
-	content->arg = malloc((count + 1) * sizeof(char *));
+	content->arg = ft_calloc((count + 1), sizeof(char *)); //malloc((count + 1) * sizeof(char *));
 	if (!content->arg)
 		return ;
 	while (cmd[i])

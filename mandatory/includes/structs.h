@@ -25,21 +25,6 @@ typedef struct s_env
 	int	exp;
 }				t_env;
 
-// typedef struct s_var
-// {
-// 	t_env *env;
-// 	t_export *export;
-// 	int export_size;
-// }				t_var;
-
-// typedef enum redir
-// {
-// 	IN,
-// 	OUT,
-// 	APND, //append
-// 	PIPE, //pipe
-// 	HDOC // sortie d'erreur
-// }			t_redir;
 
 enum redir
 {
