@@ -42,13 +42,14 @@ typedef struct s_files
 	int	index;
 	size_t	size;
 	enum redir type;
+	char	*eof;
 }				t_files;
 
 typedef struct s_heredocs
 {
-	char	*text;
-	char	*eof;
+	char	**text;
 	int		s_quoted;
+	size_t	size;
 }				t_heredocs;
 
 typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
@@ -57,6 +58,7 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 	char **arg; //TODO TEJ le arg et tout mettre dans cmd
 	char ***cmd_splitted;
 	t_files *files;
+	t_heredocs	*hdoc;
 	pid_t pid;
 	int	infile;
 	int	outfile;

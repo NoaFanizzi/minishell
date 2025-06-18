@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 18:00:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:01:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,6 @@ char	***parse_command(char *line)
 		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	
-	quotes_removal(command);
-	if (!command)
-		return (NULL);//error
-	k = 0;
-	while (command[k])
-	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//LEAKS DONE UNTIL THERE
-	//NEED TO FREE COMMAND BUT NOT FOR NOW
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
 		return (NULL);
@@ -101,6 +89,37 @@ char	***parse_command(char *line)
 	return (cmd_splitted);
 }
 
+void	create_hdoc_struct(t_array *array, char **command)
+{
+	size_t	hdoc_count;
+	size_t	i;
+	
+	i = 0;
+	hdoc_count = 0;
+	while (command[i])
+	{
+		if (ft_strncmp(command[i], "<<", 2) == 0)
+			hdoc_count++;
+		i++;
+	}
+	array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
+	if (!array->content->hdoc)
+		return ;
+	i = 0;
+	while (command[i])
+	{
+		if (ft_strncmp(command[i], "<<", 2) == 0)
+		{
+			if (command[i + 1][0] == S_QUOTE)
+				array->content->hdoc[i].s_quoted = 1;
+			else
+				array->content->hdoc[i].s_quoted = 0;
+			array->content->hdoc[i].text = NULL;
+			array->content->hdoc[i].size = hdoc_count;
+		}
+		i++;
+	}
+}
 
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 {
@@ -116,9 +135,14 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		cmd_index++;
 	}
 	array->content = malloc(( array->size) * sizeof(t_content));
+	//check malloc
 	cmd_index = 0;
 	while(cmd_splitted[cmd_index])
 	{
+		create_hdoc_struct(&array, cmd_splitted[cmd_index]);
+		if (!array->content->hdoc)
+			return ;//need to see how to check that
+		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
 			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index, var);
@@ -153,19 +177,19 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		cmd_index++;
 	}
 	//free_command(cmd_splitted);TODOAttention gros problemes en vue
-	fill_struct_size(&array, struct_index);
+	fill_struct_size(array, struct_index);
 	return ;
 }
  
 
-void    fill_struct_size(t_array **array, size_t struct_index)
+void    fill_struct_size(t_array *array, size_t struct_index)
 {
     size_t i;
 
     i = 0;
     while (i < struct_index)
     {
-        (*array)->content[i].size = struct_index;
+        array->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
         //(array)->content[i].outfile = -3;
         i++;
