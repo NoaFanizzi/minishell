@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 10:26:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/19 17:13:41 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	***parse_command(char *line)
 	printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
-		return (NULL);//error
+	return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -59,7 +59,7 @@ char	***parse_command(char *line)
 	
 	command = meta_splitting(command);
 	if (!command)
-		return (NULL);//error
+	return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -68,7 +68,7 @@ char	***parse_command(char *line)
 	}
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
-		return (NULL);
+	return (NULL);
 	//printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
@@ -76,7 +76,7 @@ char	***parse_command(char *line)
 		i = 0;
 		//printf("\ncommand n%d\n", k + 1);
 		if (!cmd_splitted[k][i])
-			//printf("NULL\n");
+		//printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
 			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
@@ -141,7 +141,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	{
 		create_hdoc_struct(array, cmd_splitted[cmd_index]);
 		if (!array->content->hdoc)
-			return ;//need to see how to check that
+		return ;//need to see how to check that
 		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{

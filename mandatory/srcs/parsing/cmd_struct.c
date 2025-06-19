@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 10:27:23 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/19 17:20:44 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,10 +157,10 @@ char	*find_command_name(char **cmd, size_t *i)
 	while (cmd[*i])
 	{
 		if (strncmp(cmd[*i], "<", 1) == 0
-		|| strncmp(cmd[*i], ">", 1) == 0)
-			i += 2;
+			|| strncmp(cmd[*i], ">", 1) == 0)
+			*i += 2;
 		else if (is_var_assign(cmd[*i]))
-			i++;
+			(*i)++;
 		else
 			return (cmd[*i]);
 	}
@@ -195,18 +195,24 @@ size_t	count_arg(char **cmd)
 	i++;
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '-' || (strncmp(cmd[i], "<", 1) == 0
-		|| strncmp(cmd[i], ">", 1) == 0))
+		if (cmd[i][0] == '-')
 			i++;
+		else if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i += 2;
 		else
 			break ;
 	}
 	while (cmd[i])
 	{
-		if ((strncmp(cmd[i], "<", 1) != 0
-		|| strncmp(cmd[i], ">", 1) != 0))
+		if ((strncmp(cmd[i], "<", 1) == 0
+		|| strncmp(cmd[i], ">", 1) == 0))
+			i += 2;
+		else
+		{
 			count++;
-		i++;
+			i++;
+		}
 	}
 	return (count);
 }
@@ -228,23 +234,27 @@ void	identify_arg(char **cmd, t_content *content)
 	i++;
 	while (cmd[i])
 	{
-		if (cmd[i][0] == '-' || (strncmp(cmd[i], "<", 1) == 0
-			|| strncmp(cmd[i], ">", 1) == 0))
+		if (cmd[i][0] == '-')
 			i++;
+		else if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i += 2;
 		else
 			break ;
 	}
 	while (cmd[i])
 	{
-		if ((strncmp(cmd[i], "<", 1) != 0
-			| strncmp(cmd[i], ">", 1) != 0))
+		if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i += 2;
+		else
 		{
 			content->arg[j] = ft_strdup(cmd[i]);
 			if (!content->arg[j])
 				return ;
 			j++;
-		}
-		i++;
+			i++;
+		}		
 	}
 	content->arg[j] = 0;
 }
