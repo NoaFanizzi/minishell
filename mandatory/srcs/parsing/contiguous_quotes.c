@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 18:00:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 09:10:19 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -418,6 +418,18 @@ char	**join_prev_quotes(char **command, size_t i)
 
 //maybe make a copy of command to not modify and iterate at the same time,
 //and also to free command before returning the new command
+
+// int		is_not_pipe_redir(char c)
+// {
+	
+// }
+
+// int		is_quote(char c)
+// {
+	
+// }
+
+
 void	contiguous_quotes(char **command)
 {
 	size_t	i;
@@ -432,7 +444,7 @@ void	contiguous_quotes(char **command)
 		if (command[i][0] == D_QUOTE || command[i][0] == S_QUOTE)
 		{
 			if (i > 0 && (command[i - 1][ft_strlen(command[i - 1]) - 1] == D_QUOTE
-				 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE))
+				 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE))// && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
 				command = join_prev_quotes(command, i);
 				i--;

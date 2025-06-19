@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/18 17:01:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/19 10:26:12 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	***parse_command(char *line)
 		return (NULL);//error
 	while (command[k])
 	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
+		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
+	printf("\n\n");
 	//EXPAND
 	
 	contiguous_quotes(command);
@@ -42,11 +42,10 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		//printf("Aword n%d : %s\n", k + 1, command[k]);
+		printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
-
+	printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -137,38 +136,39 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	array->content = malloc(( array->size) * sizeof(t_content));
 	//check malloc
 	cmd_index = 0;
+	(void) var;
 	while(cmd_splitted[cmd_index])
 	{
-		create_hdoc_struct(&array, cmd_splitted[cmd_index]);
+		create_hdoc_struct(array, cmd_splitted[cmd_index]);
 		if (!array->content->hdoc)
 			return ;//need to see how to check that
 		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index, var);
+			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
+				printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
-			count = count_cmd_opt(cmd_splitted[cmd_index], var);
-			//printf("count_cmd_opt : %zu\n", count);
+			count = count_cmd_opt(cmd_splitted[cmd_index]);
+			printf("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
-			count = count_arg(cmd_splitted[cmd_index], var);
-			//printf("count_arg : %zu\n", count);
+			count = count_arg(cmd_splitted[cmd_index]);
+			printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
