@@ -6,29 +6,27 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 17:59:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 11:29:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "minishell.h"
 
-// void	ft_display_tab(char **tab)
-// {
-// 	size_t	i;
+void	ft_display_tab(char **tab)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	//printf("//////////////////////\n");
-// 	if(!tab)
-// 		return;
-// 	while(tab[i])
-// 	{
-// 		ft_putstr_fd(tab[i], STDOUT_FILENO);
-// 		ft_putstr_fd("\n", 1);
-// 		i++;
-// 	}
-// 	//printf("//////////////////////\n\n\n\n\n");
-// }
+	i = 0;
+	if(!tab)
+		return;
+	while(tab[i])
+	{
+		ft_putstr_fd(tab[i], STDOUT_FILENO);
+		ft_putstr_fd("\n", 1);
+		i++;
+	}
+}
 
 void	ft_free_tab(char **tab)
 {

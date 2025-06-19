@@ -6,12 +6,12 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 18:15:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:31:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef EXEC_H
+# define EXEC_H
 
 # include "libft.h"
 # include "structs.h"
@@ -23,6 +23,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include "redirections.h"
 #include <errno.h>
 
 
@@ -53,6 +54,11 @@ void	ft_free_link(t_env *link);
 
 //init_exec.c
 int	ft_is_built_in(t_content *content);
+
+//exec_free
+char **ft_cmd_join(char **a, char **b);
+
+size_t	ft_tablen(char **tab);
 
 
 #endif

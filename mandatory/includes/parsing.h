@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 16:47:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:24:19 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int		main(int argc, char **argv, char **env);
 void	launch_shell(t_list **var);
 char	***parse_command(char *line);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
-void    fill_struct_size(t_array **array, size_t struct_index);
+void    fill_struct_size(t_array *array, size_t struct_index);
+void	create_hdoc_struct(t_array *array, char **command);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -71,13 +72,17 @@ int		count_commands(char **command);
 int		count_command_words(char **command);
 void	*free_command(char ***splitted);
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var);
-void	identify_cmd_opt(char **cmd, t_content *content, t_list *var);
-size_t	count_cmd_opt(char **cmd, t_list *var);
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
+void	identify_cmd_opt(char **cmd, t_content *content);
+size_t	count_cmd_opt(char **cmd);
 void	figure_in_out_files(char **cmd, t_content *content);
 size_t	count_redir(char **cmd);
-void	identify_arg(char **cmd, t_content *content, t_list *var);
-size_t	count_arg(char **cmd, t_list *var);
+void	identify_arg(char **cmd, t_content *content);
+size_t	count_arg(char **cmd);
+char	*find_command_name(char **cmd, size_t *i);
+int		is_var_assign(char *str);
+
+
 
 int		ft_isspace(char c);
 void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);

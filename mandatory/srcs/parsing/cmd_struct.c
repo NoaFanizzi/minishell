@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 17:59:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:11:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,10 @@ size_t	count_redir(char **cmd)
 	{
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
+		{
 			count++;
+			i++;	
+		}
 		i++;
 	}
 	return (count);
@@ -45,6 +48,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	i = 0;
 	j = 0;
 	redir_count = count_redir(cmd);
+	content->redir_count = redir_count;
 	content->files = NULL;
 	if(redir_count == 0)
 		return ;
@@ -58,28 +62,36 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].type = HDOC;
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
+			content->files[j].eof = ft_strdup(cmd[i + 1]);
 			j++;
+			i++;
 		}
 		else if (strncmp(cmd[i], ">>", 2) == 0)
 		{
 			content->files[j].type = APND;
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
+			content->files[j].eof = NULL;
 			j++;
+			i++;
 		}
 		else if (strncmp(cmd[i], "<", 1) == 0)
 		{
 			content->files[j].type = IN;
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
+			content->files[j].eof = NULL;
 			j++;
+			i++;
 		}
 		else if (strncmp(cmd[i], ">", 1) == 0)
 		{
 			content->files[j].type = OUT;
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
+			content->files[j].eof = NULL;
 			j++;
+			i++;
 		}
 		i++;
 	}	
@@ -87,36 +99,29 @@ void	figure_in_out_files(char **cmd, t_content *content)
 		content->files = NULL;
 }
 
-size_t	count_cmd_opt(char **cmd, t_list *var)
+size_t	count_cmd_opt(char **cmd)
 {
 	size_t	i;
 	size_t	count;
 
 	i = 0;
 	count = 0;
+	if (find_command_name(cmd, &i))
+		count++;
+	i++;
 	while (cmd[i])
 	{
-		if (strncmp(cmd[i], "<", 1) == 0
-			|| strncmp(cmd[i], ">", 1) == 0)
-			i++;
-		else if (ft_try(var, cmd[i]) == 0)
-		{
+		if (cmd[i][0] == '-')
 			count++;
-			i++;
-			while (cmd[i])
-			{
-				if (cmd[i][0] == '-')
-					count++;	
-				i++;
-			}
+		else if (strncmp(cmd[i], "<", 1) != 0
+			|| strncmp(cmd[i], ">", 1) != 0)
 			break ;
-		}
 		i++;
 	}
 	return (count);
 }
 
-void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
+void	identify_cmd_opt(char **cmd, t_content *content)
 {
 	size_t	i;
 	size_t	j;
@@ -124,82 +129,103 @@ void	identify_cmd_opt(char **cmd, t_content *content, t_list *var)
 
 	i = 0;
 	j = 0;
-	size = count_cmd_opt(cmd, var);
+	size = count_cmd_opt(cmd);
+	if (size == 0)
+		return ;
 	//printf("SIZEEEEEEE = %zu\n", size);
 	content->cmd = ft_calloc((size + 1), sizeof(char *));  //malloc((size + 1)* sizeof(char *));
 	if (!content->cmd)
 		return ;
 	content->cmd[size] = NULL;
+	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
+	if (!content->cmd[j])
+		return ;
+	j++;
+	i++;
 	while (cmd[i])
 	{
-		//printf("I VALUEEEEE = %zu\n\n\n", i);
-		if (strncmp(cmd[i], "<", 1) == 0
-			|| strncmp(cmd[i], ">", 1) == 0)
-			i++;
-		else if (ft_try(var, cmd[i]) == 0)
+		if (cmd[i][0] == '-')
 		{
 			content->cmd[j] = ft_strdup(cmd[i]);
 			if (!content->cmd[j])
 				return ;
 			j++;
-			i++;
-			while (cmd[i])
-			{
-				if (cmd[i][0] == '-')
-				{
-					content->cmd[j] = ft_strdup(cmd[i]);
-					if (!content->cmd[j])
-						return ;
-					j++;
-				}
-				i++;
-			}
-			break ;
 		}
+		else if (strncmp(cmd[i], "<", 1) != 0
+			|| strncmp(cmd[i], ">", 1) != 0)
+			break ;
 		i++;
 	}
 	content->cmd[j] = 0;
 
 }
 
+char	*find_command_name(char **cmd, size_t *i)
+{
+	while (cmd[*i])
+	{
+		if (strncmp(cmd[*i], "<", 1) == 0
+			|| strncmp(cmd[*i], ">", 1) == 0)
+			*i += 2;
+		else if (is_var_assign(cmd[*i]))
+			(*i)++;
+		else
+			return (cmd[*i]);
+	}
+	return (NULL);
+}
 
+int	is_var_assign(char *str)
+{
+    size_t i;
 
-size_t	count_arg(char **cmd, t_list *var)
+	i = 0;
+    if (!str || (!ft_isalpha(str[i]) && str[i] != '_'))
+        return (0);
+    while (ft_isalnum(str[i]) || str[i] == '_')
+        i++;
+    if (str[i] != '=')
+        return (0);
+    if (str[i + 1] == '\0')
+        return (0);
+    return (1);
+}
+
+size_t	count_arg(char **cmd)
 {
 	size_t	i;
 	size_t	count;
 
 	i = 0;
 	count = 0;
+	if (!find_command_name(cmd, &i))
+		return (0);
+	i++;
 	while (cmd[i])
 	{
-		if (strncmp(cmd[i], "<", 1) == 0
+		if (cmd[i][0] == '-')
+			i++;
+		else if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
-			i++;
-		else if (ft_try(var, cmd[i]) == 0)
-		{
-			i++;
-			while (cmd[i])
-			{
-				if (cmd[i][0] == '-')
-					i++;
-				else if (strncmp(cmd[i], "<", 1) == 0
-					|| strncmp(cmd[i], ">", 1) == 0)
-					i += 2;
-				else
-				{
-					count++;
-					i++;
-				}
-			}
+			i += 2;
+		else
 			break ;
+	}
+	while (cmd[i])
+	{
+		if ((strncmp(cmd[i], "<", 1) == 0
+		|| strncmp(cmd[i], ">", 1) == 0))
+			i += 2;
+		else
+		{
+			count++;
+			i++;
 		}
-		i++;
 	}
 	return (count);
 }
 
-void	identify_arg(char **cmd, t_content *content, t_list *var)
+void	identify_arg(char **cmd, t_content *content)
 {
 	size_t	i;
 	size_t	j;
@@ -207,47 +233,45 @@ void	identify_arg(char **cmd, t_content *content, t_list *var)
 
 	i = 0;
 	j = 0;
-	count = count_arg(cmd, var);
+	count = count_arg(cmd);
 	content->arg = ft_calloc((count + 1), sizeof(char *)); //malloc((count + 1) * sizeof(char *));
 	if (!content->arg)
 		return ;
+	if (!find_command_name(cmd, &i))
+		return ;
+	i++;
+	while (cmd[i])
+	{
+		if (cmd[i][0] == '-')
+			i++;
+		else if (strncmp(cmd[i], "<", 1) == 0
+			|| strncmp(cmd[i], ">", 1) == 0)
+			i += 2;
+		else
+			break ;
+	}
 	while (cmd[i])
 	{
 		if (strncmp(cmd[i], "<", 1) == 0
 			|| strncmp(cmd[i], ">", 1) == 0)
-			i++;
-		else if (ft_try(var, cmd[i]) == 0)
+			i += 2;
+		else
 		{
+			content->arg[j] = ft_strdup(cmd[i]);
+			if (!content->arg[j])
+				return ;
+			j++;
 			i++;
-			while (cmd[i])
-			{
-				if (cmd[i][0] == '-')
-					i++;
-				else if (strncmp(cmd[i], "<", 1) == 0
-					|| strncmp(cmd[i], ">", 1) == 0)
-					i += 2;
-				else
-				{
-					content->arg[j] = ft_strdup(cmd[i]);
-					if (!content->arg)
-						return ;
-					i++;
-					j++;
-				}
-			}
-			content->arg[j] = 0;
-			break ;
-		}
-		i++;
+		}		
 	}
 	content->arg[j] = 0;
 }
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index, t_list *var)
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index)
 {
 	figure_in_out_files(cmd_splitted[cmd_index], content);
-	identify_cmd_opt(cmd_splitted[cmd_index], content, var);
-	identify_arg(cmd_splitted[cmd_index], content, var);
+	identify_cmd_opt(cmd_splitted[cmd_index], content);
+	identify_arg(cmd_splitted[cmd_index], content);
 	content->pos = cmd_index;
 	content->cmd_splitted = cmd_splitted;
 }

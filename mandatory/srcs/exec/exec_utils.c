@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/30 13:21:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 10:36:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,46 @@ void	ft_close_all(t_expar *expar, t_content *content)
 		close(content->outfile);
 }
 
+size_t	ft_tablen(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	while(tab[i])
+	{
+		i++;
+	}
+	return(i);
+}
+
+char **ft_cmd_join(char **a, char **b)
+{
+	size_t	i;
+	size_t	j;
+	size_t	length;
+	char **cmd;
+
+	i = 0;
+	j = 0;
+	length = ft_tablen(a) + ft_tablen(b);
+	cmd = ft_calloc(length + 1, (sizeof (char *)));
+	while(i < ft_tablen(a))
+	{
+		cmd[i] = ft_strdup(a[i]);
+		i++;
+	}
+	while(j < ft_tablen(b))
+	{
+		cmd[i] = ft_strdup(b[j]);
+		i++;
+		j++;
+	}
+	//ft_display_tab(cmd);
+	ft_free_tab(a);
+	ft_free_tab(b);
+	return(cmd);
+	
+}
 
 // int	main(int argc, char **argv, char **env)
 // {
