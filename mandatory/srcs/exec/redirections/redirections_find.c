@@ -17,11 +17,11 @@
 int	ft_parse_redirections(t_content *content, t_expar *expar)
 {
 	size_t	i;
-	int	type;
+	//int	type;
 	size_t size;
 
 	i = 0;
-	type = -1;
+	//type = -1;
 	content->infile = -2;
 	content->outfile = -2;
 	if(&content->files[0] != NULL)

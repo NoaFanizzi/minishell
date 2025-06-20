@@ -88,48 +88,51 @@ char	***parse_command(char *line)
 	return (cmd_splitted);
 }
 
-void	create_hdoc_struct(t_array *array, char **command)
+int    create_hdoc_struct(t_array *array, char **command)
 {
-	size_t	hdoc_count;
-	size_t	i;
-	
-	i = 0;
-	hdoc_count = 0;
-	while (command[i])
+    size_t    hdoc_count;
+    size_t    i;
+    
+    i = 0;
+    hdoc_count = 0;
+    while (command[i])
+    {
+        if (ft_strncmp(command[i], "<<", 2) == 0)
+        {
+            hdoc_count++;
+            i++;
+        }
+        i++;
+    }
+    if (hdoc_count == 0)
 	{
-		if (ft_strncmp(command[i], "<<", 2) == 0)
-			hdoc_count++;
-		i++;
-	}
-	// if(hdoc_count == 0)
-	// {
-	// 	// int j = 0;
-	// 	// while(j < array->content->size)
-	// 	// {
-	// 	// 	printf("salut\n");
-	// 	// 	array->content->hdoc = NULL;
-	// 	// 	j++;
-	// 	// }
-	// 	array->content->hdoc = NULL;
-	// 	return;
-	// }
-	array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
-	if (!array->content->hdoc)
-		return ;
-	i = 0;
-	while (command[i])
-	{
-		if (ft_strncmp(command[i], "<<", 2) == 0)
+		i = 0;
+		while((int)i < array->size)
 		{
-			if (command[i + 1][0] == S_QUOTE)
-				array->content->hdoc[i].s_quoted = 1;
-			else
-				array->content->hdoc[i].s_quoted = 0;
-			array->content->hdoc[i].text = NULL;
-			array->content->hdoc[i].size = hdoc_count;
+
+			array->content[i].hdoc = NULL;
+			i++;
 		}
-		i++;
+        return(0);
 	}
+    array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
+    if (!array->content->hdoc)
+        return(-1);
+    i = 0;
+    while (command[i])
+    {
+        if (ft_strncmp(command[i], "<<", 2) == 0)
+        {
+            if (command[i + 1][0] == S_QUOTE)
+                array->content->hdoc[i].s_quoted = 1;
+            else
+                array->content->hdoc[i].s_quoted = 0;
+            array->content->hdoc[i].text = NULL;
+            array->content->hdoc[i].size = hdoc_count;
+        }
+        i++;
+    }
+	return(0);
 }
 
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
@@ -151,9 +154,8 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	(void) var;
 	while(cmd_splitted[cmd_index])
 	{
-		create_hdoc_struct(array, cmd_splitted[cmd_index]);
-		if (!array->content->hdoc)
-		return ;//need to see how to check that
+		if (create_hdoc_struct(array, cmd_splitted[cmd_index]) == -1)
+			return ;//need to see how to check that
 		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{

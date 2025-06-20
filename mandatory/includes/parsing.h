@@ -34,7 +34,7 @@ void	launch_shell(t_list **var);
 char	***parse_command(char *line);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
-void	create_hdoc_struct(t_array *array, char **command);
+int	    create_hdoc_struct(t_array *array, char **command);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);

@@ -162,7 +162,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	size_t	i = 0;
+	//size_t	i = 0;
 	// printf("BEFOREEEEE\n\n");
 	// i = 0;
 	// while(content->arg[i])
@@ -178,16 +178,16 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	// 	printf("content->arg[%d] = %s\n", i, content->arg[i]);
 	// 	i++;
 	// }
-	i = 0;		
+	//i = 0;		
 	//int size = content->files[i].size;
 
-	while(i < content->files->size)
-	{
-		printf("content->files[i].index = %d\n", content->files[i].index);
-		printf("content->files[i].size = %zu\n", content->files[i].size);
-		printf("content->files[i].type = %d\n\n", content->files[i].type);
-		i++;
-	}
+	// while(i < content->files->size)
+	// {
+	// 	printf("content->files[i].index = %d\n", content->files[i].index);
+	// 	printf("content->files[i].size = %zu\n", content->files[i].size);
+	// 	printf("content->files[i].type = %d\n\n", content->files[i].type);
+	// 	i++;
+	// }
 	if(ft_parse_redirections(content, expar) == O_ERROR)
 		ft_free_after_error(expar, content, env, array);
 	ft_prepare_execution(expar, content, env, array);

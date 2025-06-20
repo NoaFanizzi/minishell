@@ -55,10 +55,10 @@ int	ft_is_built_in(t_content *content)
 void	ft_wait_pid(t_array *array)
 {
 	pid_t pid;
-	int	i;
+	//int	i;
 	int status;
 
-	i = 0;
+	//i = 0;
 	status = 0;
 	(void)array;
 	pid = waitpid(-1, &status, 0);
