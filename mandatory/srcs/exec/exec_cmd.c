@@ -30,7 +30,7 @@ int ft_is_command(t_expar *expar, t_content *content)
 	expar->path = NULL;
 	i = 0;
 	if (content->cmd == NULL || !content->cmd[0])
-		return (1);
+		return (2);
 	while (expar->options[i])
 	{
 		adding_slash = ft_strjoin(expar->options[i], "/");
@@ -77,19 +77,30 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 
 static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
+	int	cmd_value;
+
+	cmd_value = 0;
 	ft_is_built_in_child(expar, content, env, array);
-	if (ft_is_command(expar, content) == 1)
+	cmd_value = ft_is_command(expar, content);
+	printf("cmd[0] = %s\n", content->cmd[0]);
+	printf("cmd_value = %d\n", cmd_value);
+	if (cmd_value == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(" command not found\n", STDERR_FILENO);
-		free(expar->path);
+		if(expar->path)
+			printf("expar->path = %s\n", expar->path);
+		if(expar->path)
+			free(expar->path);
 		ft_free_tab(expar->options);
 		ft_free_env(*env);
 		ft_close_all(expar, content);
 		ft_free_content(content);
 		exit(127);
 	}
+	if(cmd_value == 2)
+		printf("POULETTTTTTTTTTTTTTTTTTT\n");
 	return(0);
 }
 
@@ -181,13 +192,16 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	//i = 0;		
 	//int size = content->files[i].size;
 
-	// while(i < content->files->size)
-	// {
-	// 	printf("content->files[i].index = %d\n", content->files[i].index);
-	// 	printf("content->files[i].size = %zu\n", content->files[i].size);
-	// 	printf("content->files[i].type = %d\n\n", content->files[i].type);
-	// 	i++;
-	// }
+	size_t	i;
+
+	i = 0;
+	while((int)i < content->redir_count)
+	{
+		printf("content->files[i].index = %d\n", content->files[i].index);
+		printf("content->files[i].size = %zu\n", content->files[i].size);
+		printf("content->files[i].type = %d\n\n", content->files[i].type);
+		i++;
+	}
 	if(ft_parse_redirections(content, expar) == O_ERROR)
 		ft_free_after_error(expar, content, env, array);
 	ft_prepare_execution(expar, content, env, array);

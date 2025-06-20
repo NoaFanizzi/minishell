@@ -13,7 +13,6 @@
 #include "minishell.h"
 
 
-
 size_t	count_redir(char **cmd)
 {
 	size_t	i;
@@ -162,15 +161,20 @@ void	identify_cmd_opt(char **cmd, t_content *content)
 
 char	*find_command_name(char **cmd, size_t *i)
 {
+	size_t	length;
+
+	length = 0;
+	length = ft_tablen(cmd);
 	while (cmd[*i])
 	{
-		if (strncmp(cmd[*i], "<", 1) == 0
-			|| strncmp(cmd[*i], ">", 1) == 0)
+		if ((strncmp(cmd[*i], "<", 1) == 0 || strncmp(cmd[*i], ">", 1) == 0)
+		&&(length != 2))
 			*i += 2;
 		else if (is_var_assign(cmd[*i]))
 			(*i)++;
 		else
 			return (cmd[*i]);
+		printf("i value = %ld\n", *i);
 	}
 	return (NULL);
 }

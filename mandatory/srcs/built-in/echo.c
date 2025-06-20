@@ -42,7 +42,7 @@ int	ft_is_arg(char *cmd)
 int	ft_echo(t_content *content)
 {
 	int params;
-	// char *status;
+	char *status;
 	size_t	i;
 
 	params = 0;
@@ -51,13 +51,14 @@ int	ft_echo(t_content *content)
 		params = 1;
 	while(content->arg[i])
 	{
-		// if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)
-		// {
-		// 	status = ft_itoa(g_exit_status);
-		// 	ft_putstr_fd(status, 1);
-		// 	free(status);
-		// }
-		ft_putstr_fd(content->arg[i], 1);
+		if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)
+		{
+			status = ft_itoa(g_exit_status);
+			ft_putstr_fd(status, 1);
+			free(status);
+		}
+		else
+			ft_putstr_fd(content->arg[i], 1);
 		if (content->arg[i + 1])
 			ft_putstr_fd(" ", 1);
 		i++;
