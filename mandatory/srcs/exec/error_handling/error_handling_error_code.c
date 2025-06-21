@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   error_handling_error_code.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 14:54:06 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/06/19 10:37:38 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_dup2_pb(t_expar *expar, t_content *content)
+void	ft_free_after_error(t_expar *expar, t_content *content, t_list **env, t_array *array)
 {
+	ft_free_env(*env);
 	ft_free_tab(expar->options);
-	free(expar->path);
-	ft_free_content(content);
-	//ft_close_all(expar, content);
-	perror("Dup2 error");
-	exit(1);
-}
-
-void	ft_exec_failure(t_expar *expar, int i)
-{
-	if (i == 1)
-		perror("pipe");
-	if (i == 2)
-		perror("fork");
-	free(expar->options);
-	g_exit_status = errno;
-	return;
+	free_command(content->cmd_splitted);
+	ft_free_array_content(array);
+	close(expar->pipe[0]);
+	close(expar->pipe[1]);
+	//printf("errno = %d\n", errno);
+	exit(errno);
 }

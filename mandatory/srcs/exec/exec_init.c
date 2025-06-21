@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 18:29:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/19 18:03:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,35 @@ int	ft_is_built_in(t_content *content)
 		||(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
 		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
+		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		return(0);
 	return(1);
 }
 
+// void	ft_printf_error_message(t_content *content)
+// {
+// 	if(g_exit_status == )
+// }
+
 void	ft_wait_pid(t_array *array)
 {
-	int	i;
+	pid_t pid;
+	//int	i;
 	int status;
 
-	i = 0;
+	//i = 0;
 	status = 0;
-	while(i < array->size)
+	(void)array;
+	pid = waitpid(-1, &status, 0);
+	while(pid > 0)
 	{
-		waitpid(array->content[i].pid, &status, 0);
+		//printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 		if(WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 		else if(WIFSIGNALED(status))
 			g_exit_status = 128 + WTERMSIG(status);
-		i++;
+		//ft_print_error_message(array->content[i]);
+		pid = waitpid(-1, &status, 0);
 	}
 }
 
@@ -105,7 +115,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		if (!expar.options)
 			return ;
 		if (pipe(expar.pipe) == -1)
-			ft_exec_failure(&expar, 1);
+			return(ft_exec_failure(&expar, 1));
 		while(i < array->size)
 		{
 			array->content[i].pos = i;

@@ -10,6 +10,14 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+
+
+enum debug
+{
+	REDIR = 1,
+	ALL = 3,
+};
+
 typedef struct s_export
 {
 	char *var;
@@ -64,8 +72,10 @@ typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4
 	int	outfile;
 	int	size;
 	int pos;
+	int redir_count;
 	struct s_array *array_ptr;
 }			t_content;
+
 
 typedef struct s_array
 {

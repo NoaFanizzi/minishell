@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 17:13:41 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/20 22:12:52 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	***parse_command(char *line)
 		return (NULL);//error
 	while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	//EXPAND
 	
 	contiguous_quotes(command);
@@ -42,10 +42,10 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		printf("Aword n%d : %s\n", k + 1, command[k]);
+		//printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
 	return (NULL);//error
@@ -88,36 +88,51 @@ char	***parse_command(char *line)
 	return (cmd_splitted);
 }
 
-void	create_hdoc_struct(t_array *array, char **command)
+int    create_hdoc_struct(t_array *array, char **command)
 {
-	size_t	hdoc_count;
-	size_t	i;
-	
-	i = 0;
-	hdoc_count = 0;
-	while (command[i])
+    size_t    hdoc_count;
+    size_t    i;
+    
+    i = 0;
+    hdoc_count = 0;
+    while (command[i])
+    {
+        if (ft_strncmp(command[i], "<<", 2) == 0)
+        {
+            hdoc_count++;
+            i++;
+        }
+        i++;
+    }
+    if (hdoc_count == 0)
 	{
-		if (ft_strncmp(command[i], "<<", 2) == 0)
-			hdoc_count++;
-		i++;
-	}
-	array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
-	if (!array->content->hdoc)
-		return ;
-	i = 0;
-	while (command[i])
-	{
-		if (ft_strncmp(command[i], "<<", 2) == 0)
+		i = 0;
+		while((int)i < array->size)
 		{
-			if (command[i + 1][0] == S_QUOTE)
-				array->content->hdoc[i].s_quoted = 1;
-			else
-				array->content->hdoc[i].s_quoted = 0;
-			array->content->hdoc[i].text = NULL;
-			array->content->hdoc[i].size = hdoc_count;
+
+			array->content[i].hdoc = NULL;
+			i++;
 		}
-		i++;
+        return(0);
 	}
+    array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
+    if (!array->content->hdoc)
+        return(-1);
+    i = 0;
+    while (command[i])
+    {
+        if (ft_strncmp(command[i], "<<", 2) == 0)
+        {
+            if (command[i + 1][0] == S_QUOTE)
+                array->content->hdoc[i].s_quoted = 1;
+            else
+                array->content->hdoc[i].s_quoted = 0;
+            array->content->hdoc[i].text = NULL;
+            array->content->hdoc[i].size = hdoc_count;
+        }
+        i++;
+    }
+	return(0);
 }
 
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
@@ -139,9 +154,8 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	(void) var;
 	while(cmd_splitted[cmd_index])
 	{
-		create_hdoc_struct(array, cmd_splitted[cmd_index]);
-		if (!array->content->hdoc)
-		return ;//need to see how to check that
+		if (create_hdoc_struct(array, cmd_splitted[cmd_index]) == -1)
+			return ;//need to see how to check that
 		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
@@ -151,24 +165,24 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
+				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
 			count = count_cmd_opt(cmd_splitted[cmd_index]);
-			printf("count_cmd_opt : %zu\n", count);
+			//("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
 			count = count_arg(cmd_splitted[cmd_index]);
-			printf("count_arg : %zu\n", count);
+			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -180,16 +194,16 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	fill_struct_size(array, struct_index);
 	return ;
 }
- 
+
 
 void    fill_struct_size(t_array *array, size_t struct_index)
 {
-    size_t i;
-
+	size_t i;
+	
     i = 0;
     while (i < struct_index)
     {
-        array->content[i].size = struct_index;
+		array->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
         //(array)->content[i].outfile = -3;
         i++;
@@ -207,12 +221,14 @@ void	launch_shell(t_list **var)
 	{
 		line = readline("maxishell$ ");
 		if (line == NULL)
-			break;
+		break;
+		if (line)
+		add_history(line);
 		array.size = 0;
 		array.content = NULL;
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-			return ;
+		return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		//printf("\n");
