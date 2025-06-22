@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 18:11:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/21 15:39:27 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,14 +107,15 @@ size_t	count_cmd_opt(char **cmd)
 	count = 0;
 	if (find_command_name(cmd, &i))
 		count++;
+	printf("count : %zu\n", count);
 	i++;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '-')
-			count++;
+		count++;
 		else if (strncmp(cmd[i], "<", 1) != 0
-			|| strncmp(cmd[i], ">", 1) != 0)
-			break ;
+		|| strncmp(cmd[i], ">", 1) != 0)
+		break ;
 		i++;
 	}
 	return (count);
@@ -130,9 +131,11 @@ void	identify_cmd_opt(char **cmd, t_content *content)
 	j = 0;
 	size = count_cmd_opt(cmd);
 	if (size == 0)
+	{
+		content->cmd = NULL;
 		return ;
-	//printf("SIZEEEEEEE = %zu\n", size);
-	content->cmd = ft_calloc((size + 1), sizeof(char *));  //malloc((size + 1)* sizeof(char *));
+	}
+	content->cmd = ft_calloc((size + 1), sizeof(char *));
 	if (!content->cmd)
 		return ;
 	content->cmd[size] = NULL;
@@ -156,25 +159,24 @@ void	identify_cmd_opt(char **cmd, t_content *content)
 		i++;
 	}
 	content->cmd[j] = 0;
-
 }
 
 char	*find_command_name(char **cmd, size_t *i)
 {
-	size_t	length;
-
-	length = 0;
-	length = ft_tablen(cmd);
 	while (cmd[*i])
 	{
-		if ((strncmp(cmd[*i], "<", 1) == 0 || strncmp(cmd[*i], ">", 1) == 0)
-		&&(length != 2))
+		if ((strncmp(cmd[*i], "<", 1) == 0 || strncmp(cmd[*i], ">", 1) == 0))
+		{
+			if (!cmd[*i + 1] || !cmd[*i + 2])
+				return (NULL);
 			*i += 2;
+		}
 		else if (is_var_assign(cmd[*i]))
+		{
 			(*i)++;
+		}
 		else
 			return (cmd[*i]);
-		printf("i value = %ld\n", *i);
 	}
 	return (NULL);
 }
@@ -238,11 +240,19 @@ void	identify_arg(char **cmd, t_content *content)
 	i = 0;
 	j = 0;
 	count = count_arg(cmd);
+	if (count == 0)
+	{
+		content->arg = NULL;
+		return ;
+	}
 	content->arg = ft_calloc((count + 1), sizeof(char *)); //malloc((count + 1) * sizeof(char *));
 	if (!content->arg)
 		return ;
 	if (!find_command_name(cmd, &i))
+	{
+		content->arg = NULL;
 		return ;
+	}
 	i++;
 	while (cmd[i])
 	{

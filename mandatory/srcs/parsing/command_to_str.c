@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 18:31:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/20 22:12:52 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,16 +194,16 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 	fill_struct_size(array, struct_index);
 	return ;
 }
- 
+
 
 void    fill_struct_size(t_array *array, size_t struct_index)
 {
-    size_t i;
-
+	size_t i;
+	
     i = 0;
     while (i < struct_index)
     {
-        array->content[i].size = struct_index;
+		array->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
         //(array)->content[i].outfile = -3;
         i++;
@@ -221,14 +221,14 @@ void	launch_shell(t_list **var)
 	{
 		line = readline("maxishell$ ");
 		if (line == NULL)
-			break;
+		break;
 		if (line)
-			add_history(line);
+		add_history(line);
 		array.size = 0;
 		array.content = NULL;
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-			return ;
+		return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		//printf("\n");

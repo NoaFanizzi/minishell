@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 18:07:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:32:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	int return_value;
 	
 	return_value = 0;
-	if (!content->cmd[0])
+	if (!content->cmd || !content->cmd[0])
 		return;
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		return_value = ft_echo(content);
@@ -82,14 +82,14 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 	cmd_value = 0;
 	ft_is_built_in_child(expar, content, env, array);
 	cmd_value = ft_is_command(expar, content);
-	printf("cmd[0] = %s\n", content->cmd[0]);
-	printf("cmd_value = %d\n", cmd_value);
+	//printf("cmd[0] = %s\n", content->cmd[0]);
+	//printf("cmd_value = %d\n", cmd_value);
 	if (cmd_value == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(" command not found\n", STDERR_FILENO);
-		if(expar->path)
+		if(expar->path != NULL)
 			printf("expar->path = %s\n", expar->path);
 		if(expar->path)
 			free(expar->path);
@@ -99,8 +99,6 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 		ft_free_content(content);
 		exit(127);
 	}
-	if(cmd_value == 2)
-		printf("POULETTTTTTTTTTTTTTTTTTT\n");
 	return(0);
 }
 

@@ -3,45 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 18:03:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/22 10:34:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_is_built_in_dad(t_content *content, t_list **env)
+void	ft_is_built_in_dad(t_array *array, t_list **env)
 {
-	if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
-		ft_export(env, content);
-	if(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
-		ft_unset(env, content);
-	if(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
+	if(ft_strncmp(array->content->cmd[0], "export", 6) == 0 && ft_strlen(array->content->cmd[0]) == 6)
+		ft_export(env, &array->content[0]);
+	if(ft_strncmp(array->content->cmd[0], "unset", 5) == 0 && ft_strlen(array->content->cmd[0]) == 5)
+		ft_unset(env, &array->content[0]);
+	if(ft_strncmp(array->content->cmd[0], "pwd", 3) == 0 && ft_strlen(array->content->cmd[0]) == 3)
 		ft_pwd();
-	if(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
-		ft_cd(content, env);
-	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-		ft_echo(content);
-	if(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
+	if(ft_strncmp(array->content->cmd[0], "cd", 2) == 0 && ft_strlen(array->content->cmd[0]) == 2)
+		ft_cd(&array->content[0], env);
+	if(ft_strncmp(array->content->cmd[0], "echo", 4) == 0 && ft_strlen(array->content->cmd[0]) == 4)
+		ft_echo(&array->content[0]);
+	if(ft_strncmp(array->content->cmd[0], "exit", 4) == 0 && ft_strlen(array->content->cmd[0]) == 4)
 	{
-		ft_free_content(content);
+		ft_free_content(&array->content[0]);
 		ft_free_env(*env);
 		exit(0);
 	}
 }
 
+int	ft_get_redir_dad(t_array *array, t_list **env)
+{
+	int	stdout_saved;
+	int command;
+	
+	stdout_saved = dup(STDOUT_FILENO);
+	ft_parse_redirections(&array->content[0], NULL);
+	command = ft_is_built_in(&array->content[0]);
+	if(command == 0)
+	{
+		ft_is_built_in_dad(array, env);
+	}
+	if(command == 1)
+	{
+		dup2(stdout_saved, STDOUT_FILENO);
+		close(stdout_saved);
+		return(1);
+	}
+	dup2(stdout_saved, STDOUT_FILENO);
+	close(stdout_saved);
+	return(0);
+}
+
+
+
 int	ft_is_built_in(t_content *content)
 {
-	if (!content->cmd[0])
+	if(content->cmd == NULL)
+		printf("Ca dit quoi\n");
+	if (!content->cmd || !content->cmd[0])
 		return (1);
 	if((ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
 		||(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
 		||(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
 		||(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
-		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
-		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
+		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
+		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		return(0);
 	return(1);
@@ -100,6 +127,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	t_expar expar;
 
 	i = 0;
+	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
 	//ft_display_array_content(array);
 	while(i < array->size)
 	{
@@ -107,8 +135,11 @@ void	ft_init_exec(t_list **env, t_array *array)
 		i++;
 	}
 	i = 0;
-	if(array->size == 1 && ft_is_built_in(&array->content[i]) == 0)
-		return(ft_is_built_in_dad(&array->content[i], env));
+	if(array->size == 1)
+	{
+		if(ft_get_redir_dad(array, env) == 0)
+			return;
+	}
 	else
 	{
 		expar.options = ct_get_paths(*env);
