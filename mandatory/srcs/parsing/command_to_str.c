@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/20 22:12:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/23 10:17:34 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ char	***parse_command(char *line)
 		return (NULL);//error
 	while (command[k])
 	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
+		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
+	printf("\n\n");
 	//EXPAND
 	
 	contiguous_quotes(command);
@@ -42,13 +42,13 @@ char	***parse_command(char *line)
 	k = 0;
 	while (command[k])
 	{
-		//printf("Aword n%d : %s\n", k + 1, command[k]);
+		printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
+	printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
-	return (NULL);//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -56,7 +56,6 @@ char	***parse_command(char *line)
 		k++;
 	}
 	//printf("\n\n");
-	
 	command = meta_splitting(command);
 	if (!command)
 	return (NULL);//error

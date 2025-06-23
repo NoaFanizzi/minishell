@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/19 17:09:43 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/23 10:23:03 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**join_next_quotes(char **command, size_t i)
 	}
 	joined[0] = 0;
 	go_through_join_next_quotes(command, joined, i);
-	free_words(command);
+	//free_words(command);
 	return (joined);
 }
 
@@ -198,7 +198,7 @@ char	**join_next_simple(char **command, size_t i)
 	}
 	joined[0] = 0;
 	go_through_join_next_simple(command, joined, i);
-	free_words(command);
+	//free_words(command);
 	return (joined);
 }
 
@@ -381,7 +381,7 @@ char	**join_prev_quotes(char **command, size_t i)
 	}
 	joined[0] = 0;
 	go_through_join_prev_quotes(command, joined, i);
-	free_words(command);
+	//free_words(command);
 	return (joined);
 }
 
@@ -419,32 +419,32 @@ char	**join_prev_quotes(char **command, size_t i)
 //maybe make a copy of command to not modify and iterate at the same time,
 //and also to free command before returning the new command
 
-// int		is_not_pipe_redir(char c)
-// {
-	
-// }
+int		is_not_pipe_redir(char c)
+{
+	if (c == '|' || c == '<' || c == '>')
+		return (0);
+	return (1);
+}
 
-// int		is_quote(char c)
-// {
-	
-// }
+int		is_quote(char c)
+{
+	if (c == S_QUOTE || c == D_QUOTE)
+		return (1);
+	return (0);
+}
 
 
 void	contiguous_quotes(char **command)
 {
 	size_t	i;
-	// char **new_cmd;
-	
-	// new_cmd = duplicate_command(command);
-	// if (!new_cmd)
-	// 	return (NULL);
+
 	i = 0;
 	while (command[i])
 	{
-		if (command[i][0] == D_QUOTE || command[i][0] == S_QUOTE)
+		if (is_quote(command[i][0]))
 		{
-			if (i > 0 && (command[i - 1][ft_strlen(command[i - 1]) - 1] == D_QUOTE
-				 	|| command[i - 1][ft_strlen(command[i - 1]) - 1] == S_QUOTE))// && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
+			if (i > 0 && is_quote(command[i - 1][ft_strlen(command[i - 1]) - 1]))
+				//&& is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
 				command = join_prev_quotes(command, i);
 				i--;
@@ -452,9 +452,6 @@ void	contiguous_quotes(char **command)
 			else if (i > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0))
 			{
 				command = join_prev_simple(command, i);
-				// printf("C:%s\n", command[0]);
-				// printf("C:%s\n", command[1]);
-				// printf("C:%s\n", command[2]);
 				if (command && command[i - 1] && (len_until_space_backward(command[i - 1]) == ft_strlen(command[i - 1])))
 					i--;
 			}
@@ -462,11 +459,7 @@ void	contiguous_quotes(char **command)
 				return;
 			int j = 0;
 			while (command[j])
-			{
-				//printf("COMMAND : %s\n", command[j]);
 				j++;
-			}
-			//printf("\n");
 			if (command[i + 1] && (command[i + 1][0] == D_QUOTE || command[i + 1][0] == S_QUOTE))
 				command = join_next_quotes(command, i);
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0))
@@ -475,11 +468,7 @@ void	contiguous_quotes(char **command)
 				return;
 			j = 0;
 			while (command[j])
-			{
-				//printf("COMMAND : %s\n", command[j]);
 				j++;
-			}
-			//printf("\n");
 		}
 		i++;
 	}
