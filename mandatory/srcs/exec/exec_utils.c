@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 10:36:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:36:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ size_t	ft_tablen(char **tab)
 	size_t	i;
 
 	i = 0;
+	if(!tab)
+		return(0);
 	while(tab[i])
 	{
 		i++;
@@ -105,8 +107,10 @@ char **ft_cmd_join(char **a, char **b)
 		j++;
 	}
 	//ft_display_tab(cmd);
-	ft_free_tab(a);
-	ft_free_tab(b);
+	if(a)
+		ft_free_tab(a);
+	if(b)
+		ft_free_tab(b);
 	return(cmd);
 	
 }

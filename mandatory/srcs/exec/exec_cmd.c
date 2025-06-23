@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/22 10:32:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/22 12:56:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,35 +171,17 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	//size_t	i = 0;
-	// printf("BEFOREEEEE\n\n");
+	
+	// size_t	i;
+
 	// i = 0;
-	// while(content->arg[i])
+	// while((int)i < content->redir_count)
 	// {
-	// 	printf("content->arg[%d] = %s\n", i, content->arg[i]);
+	// 	printf("content->files[i].index = %d\n", content->files[i].index);
+	// 	printf("content->files[i].size = %zu\n", content->files[i].size);
+	// 	printf("content->files[i].type = %d\n\n", content->files[i].type);
 	// 	i++;
 	// }
-	// printf("---------------\n");
-	// //content->arg = ft_get_args(content);
-	// i = 0;
-	// while(content->arg[i])
-	// {
-	// 	printf("content->arg[%d] = %s\n", i, content->arg[i]);
-	// 	i++;
-	// }
-	//i = 0;		
-	//int size = content->files[i].size;
-
-	size_t	i;
-
-	i = 0;
-	while((int)i < content->redir_count)
-	{
-		printf("content->files[i].index = %d\n", content->files[i].index);
-		printf("content->files[i].size = %zu\n", content->files[i].size);
-		printf("content->files[i].type = %d\n\n", content->files[i].type);
-		i++;
-	}
 	if(ft_parse_redirections(content, expar) == O_ERROR)
 		ft_free_after_error(expar, content, env, array);
 	ft_prepare_execution(expar, content, env, array);

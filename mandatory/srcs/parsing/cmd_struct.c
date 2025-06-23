@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/21 15:39:27 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/22 12:17:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ size_t	count_cmd_opt(char **cmd)
 	count = 0;
 	if (find_command_name(cmd, &i))
 		count++;
-	printf("count : %zu\n", count);
+	//printf("count : %zu\n", count);
 	i++;
 	while (cmd[i])
 	{

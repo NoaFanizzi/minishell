@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 15:56:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/22 13:02:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,15 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 	}
 	if(content->infile == -2)
 	{
-		if(content->size > 1 && content->pos != content->size - 1)
+		// if(content->size > 1 && content->pos != content->size - 1)
+		// {
+		// 	if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
+		// 		ft_dup2_pb (expar, content);
+		// 	close(expar->pipe[0]);
+		// }
+		if(content->size > 1)
 		{
+			close(expar->pipe[1]);
 			if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
 				ft_dup2_pb (expar, content);
 			close(expar->pipe[0]);
@@ -88,6 +95,7 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 	{
 		if(content->size > 1 && content->pos != content->size - 1)
 		{
+			close(expar->pipe[0]);
 			if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
 				ft_dup2_pb (expar, content);
 			close(expar->pipe[1]);
