@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 17:59:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 17:54:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,19 @@ int	ft_is_a_value(char *str)
 	size_t	i;
 
 	i = 0;
-	while(str[i] && str[i] != '=')
+	// if(str[i] == '=')
+	// 	return(1);
+	while(str[i])
+	{
+		if(str[i] == '=')
+			return(1);
 		i++;
-	if(str[i] == '=')
-		i++;
+	}
+		
+	// if(str[i] == '=')
+	// 	i++;
 	if(str[i] == '\0')
-		return(1);
+		return(0);
 	return(0);
 }
 
@@ -88,13 +95,36 @@ int	ft_is_chr(char *str, char c)
 	return(-1);
 }
 
+
+// void	ft_display_export(t_list **env)
+// {
+// 	size_t	i;
+// 	size_t	j;
+// 	char **env_converted;
+// 	t_env *cpy;
+	
+// 	while(env)
+// 	{
+		
+// 	}
+
+// 	i = 0;
+	
+// }
+
 int	ft_init_export(t_list **env, t_content *content, size_t	i)
 {
 	t_env *link;
-	char	*temp;
+	int	temp;
 	t_list *current;
 	int	pos;
 
+
+	if(content->arg = NULL)
+	{
+		ft_display_export(env);
+		return(0);
+	}
 	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
@@ -127,19 +157,21 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 		{
 			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
 			{
-				if(ft_is_chr(content->arg[i], '+') != -1) // y'a un +
-				{
-					temp = ft_strjoin(link->arg, content->arg[i]);
-					free(link->arg);
-					link->arg = ft_strdup(temp);
-					free(temp);
-				}
-				else
-				{
-					pos = ft_is_chr(content->arg[i], '='); //TODO la fonction elle marche pas apparemment
-					free(link->arg);
-					link->arg = ft_strdup(&content->arg[i][pos]);
-				}
+				printf("le poulet\n");
+				temp = ft_is_chr(content->arg[i], '=');
+				temp++;
+				free(link->arg);
+				link->arg = NULL;
+				link->arg = ft_strdup(&content->arg[i][temp]);
+				// if(temp != -1) // y'a un +
+				// {
+				// }
+				// else
+				// {
+				// 	pos = ft_is_chr(content->arg[i], '='); //TODO la fonction elle marche pas apparemment
+				// 	free(link->arg);
+				// 	link->arg = ft_strdup(&content->arg[i][pos]);
+				// }
 			}
 		}
 		//ft_free_content(content);

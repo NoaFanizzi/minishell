@@ -32,7 +32,7 @@ t_list	*ft_init_env(char **env);
 void	ft_display_env(t_list *env);
 
 //pwd.c
-void	ft_pwd(void);
+int		ft_pwd(void);
 
 //utils.c
 void	ft_display_tab(char **tab);
