@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 15:53:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:02:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 
 	if((content->size > 1 && content->pos > 0))
 	{	
-		printf("IN\n");
-		printf("content->cmd = %s\n", content->cmd[0]);
-		printf("content->pos = %d\n", content->pos);
+		//printf("IN\n");
+		//printf("content->cmd = %s\n", content->cmd[0]);
+		//printf("content->pos = %d\n", content->pos);
 		if (dup2(expar->pipe[content->pos - 1][0], STDIN_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
@@ -39,16 +39,16 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 		//printf("content->pos = %d\n", content->pos);
 	if((content->size > 1 && content->pos < content->size - 1))
 	{
-		printf("OUT\n");
-		printf("content->cmd = %s\n", content->cmd[0]);
-		printf("content->pos = %d\n", content->pos);
+		//printf("OUT\n");
+		//printf("content->cmd = %s\n", content->cmd[0]);
+		//printf("content->pos = %d\n", content->pos);
 		if (dup2(expar->pipe[content->pos][1], STDOUT_FILENO) == -1)
 			ft_dup2_pb (expar, content);
 	}
 
 	if(content->files != NULL && &content->files[0] != NULL)
 	{
-		printf("nooooooooooooooooooon");
+		//printf("nooooooooooooooooooon");
 		size = content->files[i].size;
 		while(i < size)
 		{

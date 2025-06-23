@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 17:54:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:01:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,11 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 	int	pos;
 
 
-	if(content->arg = NULL)
-	{
-		ft_display_export(env);
-		return(0);
-	}
+	// if(content->arg = NULL)
+	// {
+	// 	ft_display_export(env);
+	// 	return(0);
+	// }
 	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
@@ -157,7 +157,6 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 		{
 			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
 			{
-				printf("le poulet\n");
 				temp = ft_is_chr(content->arg[i], '=');
 				temp++;
 				free(link->arg);

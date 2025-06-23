@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 15:57:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 18:02:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
 	expar.size = array->size;
 	expar.path = NULL;
-	ft_display_array_content(array);
+	//ft_display_array_content(array);
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
