@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/22 12:36:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:03:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ char	**ct_get_paths(t_list *var)
 
 void	ft_close_all(t_expar *expar, t_content *content)
 {
-	close(expar->pipe[0]);
-	close(expar->pipe[1]);
+	ft_close_pipes(expar);
 	if(content && content->infile != -2) //  && content->input != 1
 		close(content->infile);
 	if(content && content->outfile != -2) //  && content->output != 0

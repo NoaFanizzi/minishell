@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 15:18:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:22:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,19 +49,22 @@ int	ft_echo(t_content *content)
 	i = 0;
 	if(content->cmd[1] != NULL && ft_is_arg(content->cmd[1]) == 0)
 		params = 1;
-	while(content->arg[i])
+	if(content->arg)
 	{
-		if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)
+		while(content->arg[i])
 		{
-			status = ft_itoa(g_exit_status);
-			ft_putstr_fd(status, 1);
-			free(status);
+			if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)
+			{
+				status = ft_itoa(g_exit_status);
+				ft_putstr_fd(status, 1);
+				free(status);
+			}
+			else
+				ft_putstr_fd(content->arg[i], 1);
+			if (content->arg[i + 1])
+				ft_putstr_fd(" ", 1);
+			i++;
 		}
-		else
-			ft_putstr_fd(content->arg[i], 1);
-		if (content->arg[i + 1])
-			ft_putstr_fd(" ", 1);
-		i++;
 	}
 	if(params == 0)
 		ft_putstr_fd("\n", 1);

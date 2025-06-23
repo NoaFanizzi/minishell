@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/22 12:56:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 15:05:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int ft_is_command(t_expar *expar, t_content *content)
 		if (access(expar->path, X_OK) == 0)
 			return (0);
 		free(expar->path);
+		expar->path = NULL;
 		i++;
 	}
 	if(ft_check_if_command(content->cmd[0], &expar->path) == 0)
@@ -70,8 +71,9 @@ void	ft_is_built_in_child(t_expar *expar, t_content *content, t_list **env, t_ar
 	ft_free_tab(expar->options);
 	free_command(content->cmd_splitted);
 	ft_free_array_content(array);
-	close(expar->pipe[0]);
-	close(expar->pipe[1]);
+	ft_close_pipes(expar);
+	//close(expar->pipe[0]);
+	//close(expar->pipe[1]);
 	exit(return_value);
 }
 
@@ -82,8 +84,7 @@ static int	ft_prepare_execution(t_expar *expar, t_content *content, t_list **env
 	cmd_value = 0;
 	ft_is_built_in_child(expar, content, env, array);
 	cmd_value = ft_is_command(expar, content);
-	//printf("cmd[0] = %s\n", content->cmd[0]);
-	//printf("cmd_value = %d\n", cmd_value);
+
 	if (cmd_value == 1)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
@@ -182,6 +183,7 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 	// 	printf("content->files[i].type = %d\n\n", content->files[i].type);
 	// 	i++;
 	// }
+	//printf("------------------------\n");
 	if(ft_parse_redirections(content, expar) == O_ERROR)
 		ft_free_after_error(expar, content, env, array);
 	ft_prepare_execution(expar, content, env, array);
@@ -199,7 +201,6 @@ void	ft_exec_cmd(t_expar *expar, t_content *content, t_list **env, t_array *arra
 		ft_free_tab(content->cmd);
 		exit(EXIT_FAILURE);
 	}
-
 }
 
 //TODO: Bien reorganiser les fonctions de free correctement, c'est degeulasse, je pense que rien n'est free au bon endroit a cause du changement dans l'ancienne strcture et de l'integration de la nouvelle

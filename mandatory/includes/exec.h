@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 13:31:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:01:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	ft_free_link(t_env *link);
 
 //init_exec.c
 int	ft_is_built_in(t_content *content);
+void	ft_close_pipes(t_expar *expar);
 
 //exec_free
 char **ft_cmd_join(char **a, char **b);

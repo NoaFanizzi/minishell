@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/22 10:32:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:36:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,10 @@ void ft_free_array_content(t_array *array)
 
 void	ft_free_content(t_content *content)
 {
-	ft_free_tab(content->cmd);
-	ft_free_tab(content->arg);
+	if(content->cmd)
+		ft_free_tab(content->cmd);
+	if(content->arg)
+		ft_free_tab(content->arg);
 	free_command(content->cmd_splitted);
 	if(content->files)
 		free(content->files);

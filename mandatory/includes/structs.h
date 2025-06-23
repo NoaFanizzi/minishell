@@ -85,8 +85,9 @@ typedef struct s_array
 
 typedef struct s_expar
 {
-	int		pipe[2];
+	int		(*pipe)[2];
 	int		fd;
+	int		size;
 	pid_t	pid_1;
 	pid_t	pid_2;
 	char	*path;
