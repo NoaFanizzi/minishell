@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/23 10:17:34 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/24 11:20:30 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	***parse_command(char *line)
 	printf("\n\n");
 	//EXPAND
 	
-	contiguous_quotes(command);
+	contiguous_quotes(&command);
 	if (!command)
 		return (NULL);
 	k = 0;

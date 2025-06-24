@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/23 10:23:03 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/24 11:22:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,7 +381,12 @@ char	**join_prev_quotes(char **command, size_t i)
 	}
 	joined[0] = 0;
 	go_through_join_prev_quotes(command, joined, i);
-	//free_words(command);
+	if (!joined)
+	{
+		free_words(command);
+		return (NULL);
+	}
+	free_words(command);
 	return (joined);
 }
 
@@ -434,11 +439,13 @@ int		is_quote(char c)
 }
 
 
-void	contiguous_quotes(char **command)
+void	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
+	char	**command;
 
 	i = 0;
+	command = *cmd;
 	while (command[i])
 	{
 		if (is_quote(command[i][0]))
@@ -447,28 +454,34 @@ void	contiguous_quotes(char **command)
 				//&& is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
 				command = join_prev_quotes(command, i);
+				if (!command)
+					return ;
+				*cmd = command;
 				i--;
 			}
-			else if (i > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0))
+			else if (i > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0) && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
 				command = join_prev_simple(command, i);
+				if (!command)
+					return ;
+				*cmd = command;
 				if (command && command[i - 1] && (len_until_space_backward(command[i - 1]) == ft_strlen(command[i - 1])))
 					i--;
 			}
-			if (!command)
-				return;
-			int j = 0;
-			while (command[j])
-				j++;
 			if (command[i + 1] && (command[i + 1][0] == D_QUOTE || command[i + 1][0] == S_QUOTE))
+			{
 				command = join_next_quotes(command, i);
-			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0))
+				if (!command)
+					return ;
+				*cmd = command;
+			}
+			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0) && is_not_pipe_redir(command[i + 1][0]))
+			{
 				command = join_next_simple(command, i);
-			if (!command)
-				return;
-			j = 0;
-			while (command[j])
-				j++;
+				if (!command)
+					return ;
+				*cmd = command;
+			}
 		}
 		i++;
 	}
