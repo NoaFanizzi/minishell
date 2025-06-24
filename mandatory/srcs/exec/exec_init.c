@@ -153,8 +153,12 @@ void	ft_close_pipes(t_expar *expar)
 	i = 0;
 	// if(expar->size == 1)
 	// {
-	// 	close(expar->pipe[0][0]);
-	// 	close(expar->pipe[0][1]);
+	// 	if(expar->pipe)
+	// 	{
+	// 		close(expar->pipe[i][0]);
+	// 		close(expar->pipe[i][1]);
+	// 	}
+	// 	i++;
 	// }
 	while(i < expar->size - 1)
 	{
@@ -217,8 +221,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 	//printf("array.size = %d\n", array->size);
 	ft_close_pipes(&expar);
 	ft_wait_pid(array);
-	//close(expar.pipe[0]);
-	//close(expar.pipe[1]);
  	ft_free_tab(expar.options);
 }
 

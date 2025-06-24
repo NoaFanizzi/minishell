@@ -91,6 +91,6 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 			i++;
 		}
 	}
-
+	printf("AAAAAAAAAAAAAA\n");
 	return(0);
 }

@@ -137,7 +137,6 @@ char **ft_get_args(t_content *content)
 	//printf("contentttttttt->arg[i] = %s et i = %zu\n", content->arg[i], i);
 	if(content->arg[i])
 	{
-		//printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 		length = i;
 		i = 1;
 		new_tab = ft_calloc((ft_tablen(&content->arg[i]) + 1), sizeof(char *));
@@ -150,7 +149,6 @@ char **ft_get_args(t_content *content)
 	}
 	else
 	{
-		//printf("BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB\n");
 		i = 0;
 		new_tab = ft_calloc((ft_tablen(&content->arg[i]) + 1), sizeof(char *));
 		while(content->arg[i])
