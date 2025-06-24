@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 18:02:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 13:07:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	ft_is_built_in_dad(t_array *array, t_list **env)
 		ft_free_env(*env);
 		exit(0);
 	}
+	if(ft_strncmp(array->content->cmd[0], "env", 3) == 0 && ft_strlen(array->content->cmd[0]) == 3)
+		ft_display_env(*env);
 }
 
 int	ft_get_redir_dad(t_array *array, t_list **env)
@@ -72,7 +74,8 @@ int	ft_is_built_in(t_content *content)
 		||(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
 		||(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
 		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
+		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
+		||(ft_strncmp(content->cmd[0], "env", 3) == 0 && ft_strlen(content->cmd[0]) == 3))
 		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		return(0);
 	return(1);

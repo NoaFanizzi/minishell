@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 12:56:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:59:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,9 +242,9 @@ int	ft_export(t_list **env, t_content *content)
 	i = 0;
 	t_list *cpy;
 
-	cpy = dup_env_list(*env);
 	if(content->arg == NULL)
 	{
+		cpy = dup_env_list(*env);
 		ft_display_export(cpy);
 		printf("ça se régale\n");
 		return(0);
