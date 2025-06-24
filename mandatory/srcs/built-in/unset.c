@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 12:57:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:29:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,9 @@ int	ft_unset(t_list **env, t_content *content)
 	size_t	i;
 
 	i = 0;
-	while(content->arg[i])
+    if(!content->arg)
+        return(0);
+    while(content->arg[i])
 	{
 		ft_init_unset(env, content, i);
 		i++;	
