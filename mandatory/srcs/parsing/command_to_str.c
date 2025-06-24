@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/23 10:30:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 16:51:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	***parse_command(char *line)
 	//printf("\n\n");
 	//EXPAND
 	
-	contiguous_quotes(command);
+	contiguous_quotes(&command);
 	if (!command)
 		return (NULL);
 	k = 0;
@@ -48,7 +48,7 @@ char	***parse_command(char *line)
 	//printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
-	return (NULL);//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
@@ -56,7 +56,6 @@ char	***parse_command(char *line)
 		k++;
 	}
 	//printf("\n\n");
-	
 	command = meta_splitting(command);
 	if (!command)
 	return (NULL);//error
@@ -221,14 +220,14 @@ void	launch_shell(t_list **var)
 	{
 		line = readline("maxishell$ ");
 		if (line == NULL)
-			break;
+		break;
 		if (line)
-			add_history(line);
+		add_history(line);
 		array.size = 0;
 		array.content = NULL;
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-			return ;
+		return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		//printf("\n");
