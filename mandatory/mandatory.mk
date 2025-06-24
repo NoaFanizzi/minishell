@@ -10,7 +10,7 @@ REDIRECTIONS_DIR	= redirections
 ERROR_HANDLING_DIR = error_handling
 
 
-BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c unset.c
+BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c export_dup.c unset.c
 BUILT_IN_SRCS	:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 
 ERROR_HANDLING_SRCS = error_handling_error_code.c

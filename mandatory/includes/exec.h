@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 12:01:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:18:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,12 @@ int			ft_is_chr(char *str, char c);
 int		ft_export(t_list **env, t_content *content);
 int	ft_check_if_in_base(t_list *env, char *str);
 
+//export_dup.c
+t_list *dup_env_list(t_list *env);
+
 //unset.c
 int	ft_unset(t_list **env, t_content *content);
-void	ft_free_link(t_env *link);
+void	ft_free_link(void *link);
 
 //init_exec.c
 int	ft_is_built_in(t_content *content);
@@ -58,6 +61,10 @@ void	ft_close_pipes(t_expar *expar);
 
 //exec_free
 char **ft_cmd_join(char **a, char **b);
+
+//unset.c
+void	ft_rm_first_link(t_list **env);
+void	ft_rm_link(t_list **env, int pos);
 
 size_t	ft_tablen(char **tab);
 

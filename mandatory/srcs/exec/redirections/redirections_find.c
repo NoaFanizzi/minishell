@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 18:02:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/24 12:52:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 			i++;
 		}
 	}
-	printf("AAAAAAAAAAAAAA\n");
 	return(0);
 }
