@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/24 11:22:33 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/25 10:26:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	go_through_join_next_quotes(char **command, char **joined, size_t i)
 	k = 0;
 	while (command[j])
 	{
+		joined[k] = 0;
 		if (i == j)
 			fusion_quotes_next(command, joined, i, j + 1);
 		else
@@ -62,7 +63,6 @@ void	go_through_join_next_quotes(char **command, char **joined, size_t i)
 		}
 		j++;
 		k++;
-		joined[k] = 0;
 	}
 }
 
@@ -485,6 +485,13 @@ void	contiguous_quotes(char ***cmd)
 		}
 		i++;
 	}
+	int k = 0;
+	while (command[k])
+	{
+		printf("Bword n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	printf("\n\n");
 }
 
 
