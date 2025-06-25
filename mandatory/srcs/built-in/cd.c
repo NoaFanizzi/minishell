@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/25 12:59:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:00:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ int	ft_update_pwd(t_list **env)
 	}
 	free(path);
 	return(1);
-	
 }
 
 int	ft_update_opwd(t_list **env)
