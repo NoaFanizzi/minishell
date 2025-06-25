@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/25 12:16:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:56:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,6 @@ int	ft_check_if_in_base(t_list *env, char *str)
 	}
 	return(-1);
 }
-
-// void	ft_get_var(t_export *temp, t_content *content)
-// {
-// 	char *temp_value;
-// 	int	i;
-// 	int pos;
-	
-// 	i = 0;
-// 	pos = ft_is_chr(content->arg[i], 61);
-// 	temp->var = ft_calloc((i + 1), sizeof(char));
-// 	while(i < pos)
-// 	{
-// 		temp->var[i] = content->arg[i];
-// 		i++;
-// 	}
-// 	temp->var[i] = '\0';
-// 	pos++;
-// 	if(content->arg[pos] == '\0')
-// 	{
-// 		temp->status = 0;
-// 		return;
-// 	}
-// 	temp_value = ft_strdup(&content->arg[pos]);
-// 	temp->value = ft_atoi(temp_value);
-// 	free(temp_value);
-// }
 
 int	ft_is_a_value(char *str)
 {
@@ -218,20 +192,8 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 				free(link->arg);
 				link->arg = NULL;
 				link->arg = ft_strdup(&content->arg[i][temp]);
-				// if(temp != -1) // y'a un +
-				// {
-				// }
-				// else
-				// {
-				// 	pos = ft_is_chr(content->arg[i], '='); //TODO la fonction elle marche pas apparemment
-				// 	free(link->arg);
-				// 	link->arg = ft_strdup(&content->arg[i][pos]);
-				// }
 			}
 		}
-		//ft_free_content(content);
-		// free(content->arg);
-		// free(content->cmd);
 	}
 	return(0);
 }
