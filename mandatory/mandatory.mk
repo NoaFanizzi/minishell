@@ -20,7 +20,7 @@ BUILT_IN_SRCS	:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 ERROR_HANDLING_SRCS = error_handling_error_code.c
 ERROR_HANDLING_SRCS := $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS))
 
-REDIRECTIONS_SRCS = redirections_infile.c redirections_outfile.c redirections_find.c
+REDIRECTIONS_SRCS = deal_with_redirections.c redirections_outfile.c redirections_find.c
 REDIRECTIONS_SRCS := $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 
 EXEC_SRCS = exec_cmd.c exec_free.c exec_init.c exec_utils.c exec_env_conversion.c
