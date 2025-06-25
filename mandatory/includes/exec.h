@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 12:18:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:04:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 #include "redirections.h"
+#include "get_next_line.h"
 #include <errno.h>
 
 

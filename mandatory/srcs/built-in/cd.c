@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/06 08:54:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:51:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,23 @@ int	ft_update_opwd(t_list **env)
 
 void	ft_cd(t_content *content, t_list **env)
 {
-	ft_update_opwd(env);
+	if(!content->arg)
+	{
+		ft_putstr_fd("maxishell: cd: Invalid arguments\n", STDERR_FILENO);
+		return;
+	}
+	if(ft_update_opwd(env) == 1)
+	{
+		// ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		// ft_putstr_fd(": No such file or directory", STDERR_FILENO);
+	}
 	if (chdir(content->arg[0]) == -1)
-		write(1, "chdir error", 12);
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		perror(content->arg[0]);
+		//ft_putstr_fd("\n", STDERR_FILENO);
+		
+	}
 	ft_update_pwd(env);
 }
 

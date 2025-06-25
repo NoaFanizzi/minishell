@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 13:07:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:11:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	expar.size = array->size;
 	expar.path = NULL;
 	//ft_display_array_content(array);
+
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;

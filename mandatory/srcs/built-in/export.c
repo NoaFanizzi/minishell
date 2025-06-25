@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 15:59:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 12:16:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void ft_display_export(t_list *env_copy)
         e = (t_env *)min->content;
         if (e->arg)
         {
-            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd("export ", 1);
             ft_putstr_fd(e->var,    1);
             ft_putstr_fd("=\"",      1);
             ft_putstr_fd(e->arg,    1);
@@ -160,7 +160,7 @@ void ft_display_export(t_list *env_copy)
         }
         else
         {
-            ft_putstr_fd("declare -x ", 1);
+            ft_putstr_fd("export ", 1);
             ft_putstr_fd(e->var,      1);
             ft_putstr_fd("\n",         1);
         }

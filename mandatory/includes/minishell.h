@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
+#include "get_next_line.h"
 
 extern int g_exit_status;
 extern int g_macro_debug;

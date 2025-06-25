@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 12:52:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 11:25:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,29 @@ int	ft_parse_redirections(t_content *content, t_expar *expar)
 				if (expar != NULL && dup2(content->infile, STDIN_FILENO) == -1)
 					ft_dup2_pb (expar, content);
 				close(content->infile);
+			}
+			if(content->files[i].type == HDOC)
+			{
+				// int	saved_out;
+				// int	h_fd;
+				// char *line;
+
+				// saved_out = dup(1);
+				// h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
+				// dup2(h_fd, STDOUT_FILENO);
+				// line = get_next_line(0);
+				// ft_putstr_fd(line, 1);
+				// while(line != NULL)
+				// {
+				// 	free(line);
+				// 	line = get_next_line(0);
+				// 	ft_putstr_fd(line, 1);
+				// }
+				// free(line);
+				// printf("content->cmd :\n\n");
+				// ft_display_tab(content->cmd);
+				// printf("content->arg : \n\n");
+				// ft_display_tab(content->arg);
 			}
 			i++;
 		}

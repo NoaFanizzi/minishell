@@ -7,8 +7,12 @@ BUILT_IN_DIR		= built-in
 EXEC_DIR			= exec
 PARSING_DIR			= parsing
 REDIRECTIONS_DIR	= redirections
-ERROR_HANDLING_DIR = error_handling
+ERROR_HANDLING_DIR  = error_handling
+GNL_DIR				= GNL
 
+
+GNL_SRCS		= get_next_line.c get_next_line_utils.c
+GNL_SRCS		:= $(addprefix $(GNL_DIR)/, $(GNL_SRCS))
 
 BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c export_dup.c unset.c
 BUILT_IN_SRCS	:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
@@ -26,11 +30,11 @@ PARSING_SRCS = command_to_str.c quotes_splitting.c space_splitting.c meta_splitt
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
 SRCS		= main.c utils.c \
-			  $(BUILT_IN_SRCS) $(EXEC_SRCS) $(PARSING_SRCS)
+			  $(BUILT_IN_SRCS) $(EXEC_SRCS) $(PARSING_SRCS) $(GNL_SRCS)
 SRCS		:= $(addprefix $(SRC_DIR)/, $(SRCS))
 
 
 
 
-vpath %.c $(SRC_DIR) $(SRC_DIR)/$(BUILT_IN_DIR) $(SRC_DIR)/$(EXEC_DIR) $(SRC_DIR)/$(PARSING_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(REDIRECTIONS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(ERROR_HANDLING_DIR)
+vpath %.c $(SRC_DIR) $(SRC_DIR)/$(BUILT_IN_DIR) $(SRC_DIR)/$(EXEC_DIR) $(SRC_DIR)/$(PARSING_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(REDIRECTIONS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(ERROR_HANDLING_DIR) $(SRC_DIR)/$(GNL_DIR)
 vpath %.h $(INC_DIR)
