@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 09:24:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:58:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_strcat(char *dest, char *src)
 
 char	**ct_get_paths(t_list *var)
 {
-	//size_t	size;
 	char	**options;
 	t_env	*cpy;
 
@@ -53,11 +52,8 @@ char	**ct_get_paths(t_list *var)
 		var = var->next;
 		cpy = (t_env *)var->content;
 	}
-	//size = ft_strlen(cpy->var);
 	options = ft_split(cpy->arg, ':');
-	//ft_display_tab(options);
 	return (options);
-	//TODO Protéger si on supprime juste PATH de la variable d'environnement
 }
 
 void	ft_close_all(t_content *content)

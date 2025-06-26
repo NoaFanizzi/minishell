@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 12:05:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:01:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,71 +31,36 @@ void	ft_deal_with_redir(t_content *content)
 			
 			if(content->files[i].type == HDOC)
 			{
-				//printf("ABERRANT= %s\n", content->cmd_splitted[content->pos][content->files[i].index + 1]);
-				int	saved_out;
 				int	h_fd;
 				int temp_i;
 				char *line;
-				//char *test;
 				size_t	i = 0;
 
 				temp_i = content->files[i].index + 1;
-				//printf("ABERRANT = %s\n", content->cmd_splitted[content->pos][temp_i]);
-				saved_out = dup(1);
 				h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
-				dup2(h_fd, STDOUT_FILENO);
-				ft_putstr_fd("heredoc> ", saved_out);
+				ft_putstr_fd("> ", 1);
 				line = get_next_line(0);
-				ft_putstr_fd("heredoc> ", saved_out);
-				ft_putstr_fd(line, 1);
 				while(line != NULL)
 				{
 					if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1)
 						&& ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
-					{
-						printf("AAAAAAAAAAAAAAAAAAAAA\n");
 						break;
-					}
-					if(ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
-						printf("same content\n");
-					if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1))
-						printf("same length\n");
-					//printf("line length = %zu\n", ft_strlen(line));
-					//printf("eof length = %zu\n", ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1);
-					//printf("line = %s\n", line);
-					//printf("eof = %s\n", content->cmd_splitted[content->pos][temp_i]);
-					// test = ft_itoa(ft_strlen(line));
-					// ft_putstr_fd(test, 1);
-					// free(test);
+					ft_putstr_fd("> ", 1);
+					ft_putstr_fd(line, h_fd);
+					// if(ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
+					// 	printf("same content\n");
+					// if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1))
+					// 	printf("same length\n");
 					free(line);
 					line = get_next_line(0);
-					ft_putstr_fd("heredoc> ", saved_out);
-					ft_putstr_fd(line, 1);
 				}
 				free(line);
-				dup2(saved_out, STDOUT_FILENO); // je remet sur la sortie standard;
+				close(h_fd); // je le close parce qu'il sert plus a rien
+				h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
 				dup2(h_fd, STDIN_FILENO); // je fais lire depuis le fichier temporaire creee
-				close(h_fd); // je le close parce qu'il sert plus arien
-				ft_putstr_fd("on est a la fin et ca sort sur l'entree standard\n", STDOUT_FILENO);
-				
-				
-				// dup2(saved_out, STDOUT_FILENO);
-				// line = get_next_line(h_fd);
-				// if(line)
-				// 	ft_putstr_fd(line, STDOUT_FILENO);
-				// while(line != NULL)
-				// {
-				// 	free(line);
-				// 	get_next_line(line);
-				// 	ft_putstr_fd(line, STDOUT_FILENO);
-				// }
-				// if(line)
-				// 	free(line);
-				// return;
-			// 	printf("content->cmd :\n\n");
-			// 	ft_display_tab(content->cmd);
-			// 	printf("content->arg : \n\n");
-			// 	ft_display_tab(content->arg);
+				close(h_fd); // je le close parce qu'il sert plus a rien
+
+				//ft_putstr_fd("on est a la fin et ca sort sur l'entree standard\n", STDOUT_FILENO);
 			}
 			i++;
 		}
@@ -109,7 +74,6 @@ void	ft_deal_with_pipes(t_content *content)
 		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) == -1)
 		{
 			ft_dup2_pb (content);
-			
 		}
 	}
 	if((content->size > 1 && content->pos < content->size - 1))

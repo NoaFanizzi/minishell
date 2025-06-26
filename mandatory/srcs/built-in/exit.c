@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 09:29:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:02:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_exit(t_content *content)
 	if(content->cmd_splitted)
 		free_command(content->cmd_splitted);
 	if(content->expar)
-		ft_close_pipes(content->array_ptr);
+		ft_close_all(content);
 	if(content->array_ptr)
 		ft_free_array_content(content->array_ptr);
 	exit(error_code);

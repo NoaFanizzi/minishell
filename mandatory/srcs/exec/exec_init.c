@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 12:07:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:56:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,8 +182,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 	redir_value = 0;
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
 	
-	//ft_display_array_content(array);
-
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
@@ -198,10 +196,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		if(redir_value == 0 || redir_value == 2)
 			return;
 	}
-	
-
 	ft_init_pipe(array);
-
 	while(i < array->size)
 	{
 		array->content[i].env = env;
@@ -212,15 +207,10 @@ void	ft_init_exec(t_list **env, t_array *array)
 		if (array->content[i].pid == -1)
 			ft_exit(&array->content[i]);
 		if (array->content[i].pid == 0)
-		{
-			//ft_free_others(array, i);
 			ft_exec_cmd(&array->content[i], env);
-		}
 		i++;
 	}
-	//printf("array.size = %d\n", array->size);
 	ft_close_pipes(array);
 	ft_wait_pid(array);
- 	//ft_free_tab(expar.options);
 }
 
