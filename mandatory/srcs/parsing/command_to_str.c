@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 09:33:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:46:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,8 @@ char	***parse_command(char *line)
 		k++;
 	}
 	//printf("\n\n");
-	//EXPAND
 	
-	contiguous_quotes(&command);
+	expand(command);
 	if (!command)
 		return (NULL);
 	k = 0;
@@ -46,6 +45,19 @@ char	***parse_command(char *line)
 		k++;
 	}
 	//printf("\n\n");
+
+	
+	contiguous_quotes(command);
+	if (!command)
+		return (NULL);
+	k = 0;
+	while (command[k])
+	{
+		//printf("Aword n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	//printf("\n\n");
+
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -56,18 +68,31 @@ char	***parse_command(char *line)
 		k++;
 	}
 	//printf("\n\n");
+	
 	command = meta_splitting(command);
 	if (!command)
-	return (NULL);//error
+		return (NULL);//error
 	k = 0;
 	while (command[k])
 	{
 		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
+	
+	quotes_removal(command);
+	if (!command)
+		return (NULL);//error
+	k = 0;
+	while (command[k])
+	{
+		//printf("word n%d : %s\n", k + 1, command[k]);
+		k++;
+	}
+	//LEAKS DONE UNTIL THERE
+	//NEED TO FREE COMMAND BUT NOT FOR NOW
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
-	return (NULL);
+		return (NULL);
 	//printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
@@ -75,7 +100,7 @@ char	***parse_command(char *line)
 		i = 0;
 		//printf("\ncommand n%d\n", k + 1);
 		if (!cmd_splitted[k][i])
-		//printf("NULL\n");
+			//printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
 			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
@@ -87,60 +112,6 @@ char	***parse_command(char *line)
 	return (cmd_splitted);
 }
 
-int    create_hdoc_struct(t_array *array, char **command)
-{
-    size_t		hdoc_count;
-    size_t		i;
-	size_t		j;
-    
-    i = 0;
-	j = 0;
-    hdoc_count = 0;
-    while (command[i])
-    {
-        if (ft_strncmp(command[i], "<<", 2) == 0)
-        {
-            hdoc_count++;
-            i++;
-        }
-        i++;
-    }
-	//printf("hdoc count : %zu\n", hdoc_count);
-    if (hdoc_count == 0)
-	{
-		i = 0;
-		while((int)i < array->size)
-		{
-
-			array->content[i].hdoc = NULL;
-			i++;
-		}
-        return(0);
-	}
-    array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
-    if (!array->content->hdoc)
-        return(-1);
-    i = 0;
-    while (command[i])
-    {
-		//printf("current : %s\n", command[i]);
-        if (ft_strncmp(command[i], "<<", 2) == 0)
-        {
-            if (command[i + 1][0] == S_QUOTE)
-                array->content->hdoc[j].s_quoted = 1;
-            else
-                array->content->hdoc[j].s_quoted = 0;
-            array->content->hdoc[j].text = NULL;
-            array->content->hdoc[j].size = hdoc_count;
-			//printf("squoted : %d\n",  array->content->hdoc[j].s_quoted);
-			//printf("text : %s\n",  array->content->hdoc[j].text);
-			//printf("size : %zu\n",  array->content->hdoc[j].size);
-			j++;
-        }
-        i++;
-    }
-	return(0);
-}
 
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 {
@@ -156,17 +127,12 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		cmd_index++;
 	}
 	array->content = malloc(( array->size) * sizeof(t_content));
-	//check malloc
 	cmd_index = 0;
-	(void) var;
 	while(cmd_splitted[cmd_index])
 	{
-		if (create_hdoc_struct(array, cmd_splitted[cmd_index]) == -1)
-			return ;//need to see how to check that
-		quotes_removal(cmd_splitted[cmd_index]);
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
-			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
+			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index, var);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
@@ -177,15 +143,15 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 				i++;
 			}
 			i = 0;
-			count = count_cmd_opt(cmd_splitted[cmd_index]);
-			//("count_cmd_opt : %zu\n", count);
+			count = count_cmd_opt(cmd_splitted[cmd_index], var);
+			//printf("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
 				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
-			count = count_arg(cmd_splitted[cmd_index]);
+			count = count_arg(cmd_splitted[cmd_index], var);
 			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
@@ -198,19 +164,19 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		cmd_index++;
 	}
 	//free_command(cmd_splitted);TODOAttention gros problemes en vue
-	fill_struct_size(array, struct_index);
+	fill_struct_size(&array, struct_index);
 	return ;
 }
+ 
 
-
-void    fill_struct_size(t_array *array, size_t struct_index)
+void    fill_struct_size(t_array **array, size_t struct_index)
 {
-	size_t i;
-	
+    size_t i;
+
     i = 0;
     while (i < struct_index)
     {
-		array->content[i].size = struct_index;
+        (*array)->content[i].size = struct_index;
         //(array)->content[i].infile = -3;
         //(array)->content[i].outfile = -3;
         i++;
@@ -228,14 +194,12 @@ void	launch_shell(t_list **var)
 	{
 		line = readline("maxishell$ ");
 		if (line == NULL)
-		break;
-		if (line)
-		add_history(line);
+			break;
 		array.size = 0;
 		array.content = NULL;
 		cmd_splitted = parse_command(line);
 		if (!cmd_splitted)
-		return ;
+			return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		//printf("\n");

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/05/22 16:13:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/26 14:56:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	valid_var_first_char(char c)
 
 int	valid_var_char(char c)
 {
-	if (ft_isalphanum(c) || c == '_')
+	if (ft_isalnum(c) || c == '_')
 		return (1);
 	return (0);
 }
@@ -83,7 +83,7 @@ char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name)
 	{
 		if (j == i)
 		{
-			ft_strlcat(new_word, var_name, size);
+			ft_strlcat(new_word, get_var_value(var_name), size);
 			k += get_true_var_length(var_name);
 			j += get_var_length(&word[j + 1]);
 		}
@@ -101,7 +101,7 @@ char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name)
 char	*expand_word(char *word)
 {
 	char	*var_name;
-	char	new_word;
+	char	*new_word;
 	size_t	i;
 	size_t	true_var_length;
 	size_t	new_length;
@@ -109,7 +109,6 @@ char	*expand_word(char *word)
 	i = 0;
 	true_var_length = 0;
 	new_length = 0;
-	new_word = NULL;
 	while (word[i])
 	{
 		if (word[i] == '$' && valid_var_first_char(word[i + 1]))
