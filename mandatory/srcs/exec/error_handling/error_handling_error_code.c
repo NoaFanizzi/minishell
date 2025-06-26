@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 12:14:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:24:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_free_after_error(t_expar *expar, t_content *content, t_list **env, t_arr
 	ft_free_tab(expar->options);
 	free_command(content->cmd_splitted);
 	ft_free_array_content(array);
-	ft_close_pipes(expar);
+	ft_close_pipes(array);
 	//printf("errno = %d\n", errno);
 	exit(errno);
 }

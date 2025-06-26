@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/25 12:11:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:23:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	
 	stdin_saved = dup(STDIN_FILENO);
 	stdout_saved = dup(STDOUT_FILENO);
-	ft_parse_redirections(&array->content[0], NULL);
+	ft_parse_redirections(&array->content[0]);
 	command = ft_is_built_in(&array->content[0]);
 	if(command == 0)
 	{
@@ -128,28 +128,25 @@ void	ft_display_array_content(t_array *array)
 	}
 }
 
-void	ft_init_pipe(t_expar *expar, t_array *array)
+void	ft_init_pipe(t_array *array)
 {
 	int	i;
 
 	i = 0;
 
-	expar->pipe = malloc(sizeof(*expar->pipe) * (array->size - 1));
-	// if(array->size == 2)
-	// {
-	// 	if(pipe(expar->pipe[0]) == -1)
-	// 		return(ft_exec_failure(expar, 1));
-	// 	return;
-	// }
+	array->pipe = malloc(sizeof(*array->pipe) * (array->size - 1));
 	while(i < array->size - 1)
 	{
-		if (pipe(expar->pipe[i]) == -1)
-			return(ft_exec_failure(expar, 1));
+		if (pipe(array->pipe[i]) == -1)
+		{
+			perror("pipe");
+			ft_exit(&array->content[0]);
+		}
 		i++;
 	}
 }
 
-void	ft_close_pipes(t_expar *expar)
+void	ft_close_pipes(t_array *array)
 {
 	int	i;
 
@@ -163,35 +160,35 @@ void	ft_close_pipes(t_expar *expar)
 	// 	}
 	// 	i++;
 	// }
-	while(i < expar->size - 1)
+	while(i < array->size - 1)
 	{
-		if(expar->pipe)
+		if(array->pipe)
 		{
-			close(expar->pipe[i][0]);
-			close(expar->pipe[i][1]);
+			close(array->pipe[i][0]);
+			close(array->pipe[i][1]);
 		}
 		i++;
 	}
-	free(expar->pipe);
-	expar->pipe = NULL;
+	free(array->pipe);
+	array->pipe = NULL;
 }
 
 void	ft_init_exec(t_list **env, t_array *array)
 {
 	int	i;
 	int redir_value;
-	t_expar expar;
 
 	i = 0;
 	redir_value = 0;
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
-	expar.size = array->size;
-	expar.path = NULL;
+	
 	//ft_display_array_content(array);
 
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
+		array->content[i].expar = NULL;
+
 		i++;
 	}
 	i = 0;
@@ -201,30 +198,28 @@ void	ft_init_exec(t_list **env, t_array *array)
 		if(redir_value == 0 || redir_value == 2)
 			return;
 	}
-	expar.options = ct_get_paths(*env);
-	if (!expar.options)
-		return ;
-
-	ft_init_pipe(&expar, array);
 	
+
+	ft_init_pipe(array);
+
 	while(i < array->size)
 	{
-		
+		array->content[i].env = env;
 		array->content[i].pos = i;
 		array->content[i].size = array->size;
 		array->content[i].pid = fork();
 		if (array->content[i].pid == -1)
-			ft_exec_failure(&expar, 2);
+			ft_exit(&array->content[i]);
 		if (array->content[i].pid == 0)
 		{
 			//ft_free_others(array, i);
-			ft_exec_cmd(&expar, &array->content[i], env, array);
+			ft_exec_cmd(&array->content[i], env);
 		}
 		i++;
 	}
 	//printf("array.size = %d\n", array->size);
-	ft_close_pipes(&expar);
+	ft_close_pipes(array);
 	ft_wait_pid(array);
- 	ft_free_tab(expar.options);
+ 	//ft_free_tab(expar.options);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 12:03:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:24:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char	**ct_get_paths(t_list *var)
 	//TODO Protéger si on supprime juste PATH de la variable d'environnement
 }
 
-void	ft_close_all(t_expar *expar, t_content *content)
+void	ft_close_all(t_content *content)
 {
-	ft_close_pipes(expar);
+	ft_close_pipes(content->array_ptr);
 	if(content && content->infile != -2) //  && content->input != 1
 		close(content->infile);
 	if(content && content->outfile != -2) //  && content->output != 0

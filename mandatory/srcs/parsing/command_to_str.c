@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/24 16:51:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:33:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ char	***parse_command(char *line)
 
 int    create_hdoc_struct(t_array *array, char **command)
 {
-    size_t    hdoc_count;
-    size_t    i;
+    size_t		hdoc_count;
+    size_t		i;
+	size_t		j;
     
     i = 0;
+	j = 0;
     hdoc_count = 0;
     while (command[i])
     {
@@ -103,6 +105,7 @@ int    create_hdoc_struct(t_array *array, char **command)
         }
         i++;
     }
+	//printf("hdoc count : %zu\n", hdoc_count);
     if (hdoc_count == 0)
 	{
 		i = 0;
@@ -120,14 +123,19 @@ int    create_hdoc_struct(t_array *array, char **command)
     i = 0;
     while (command[i])
     {
+		//printf("current : %s\n", command[i]);
         if (ft_strncmp(command[i], "<<", 2) == 0)
         {
             if (command[i + 1][0] == S_QUOTE)
-                array->content->hdoc[i].s_quoted = 1;
+                array->content->hdoc[j].s_quoted = 1;
             else
-                array->content->hdoc[i].s_quoted = 0;
-            array->content->hdoc[i].text = NULL;
-            array->content->hdoc[i].size = hdoc_count;
+                array->content->hdoc[j].s_quoted = 0;
+            array->content->hdoc[j].text = NULL;
+            array->content->hdoc[j].size = hdoc_count;
+			//printf("squoted : %d\n",  array->content->hdoc[j].s_quoted);
+			//printf("text : %s\n",  array->content->hdoc[j].text);
+			//printf("size : %zu\n",  array->content->hdoc[j].size);
+			j++;
         }
         i++;
     }

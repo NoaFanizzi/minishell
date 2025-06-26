@@ -14,7 +14,7 @@ GNL_DIR				= GNL
 GNL_SRCS		= get_next_line.c get_next_line_utils.c
 GNL_SRCS		:= $(addprefix $(GNL_DIR)/, $(GNL_SRCS))
 
-BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c export_dup.c unset.c
+BUILT_IN_SRCS	= echo.c cd.c env.c pwd.c export.c export_dup.c unset.c exit.c
 BUILT_IN_SRCS	:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 
 ERROR_HANDLING_SRCS = error_handling_error_code.c

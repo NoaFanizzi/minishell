@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/25 14:36:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 09:03:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_deal_with_out(t_content *content, t_expar *expar, size_t i)
+int ft_deal_with_out(t_content *content, size_t i)
 {
 	if(content->files[i].type == OUT)
 	{
@@ -23,13 +23,13 @@ int ft_deal_with_out(t_content *content, t_expar *expar, size_t i)
 			return(O_ERROR); //fait les trucs
 		}
 		if (dup2(content->outfile, STDOUT_FILENO) == -1)
-			ft_dup2_pb (expar, content);
+			ft_dup2_pb (content);
 		close(content->outfile);
 	}
 	return(0);
 }
 
-int ft_deal_with_apnd(t_content *content, t_expar *expar, size_t i)
+int ft_deal_with_apnd(t_content *content, size_t i)
 {
 	if(content->files[i].type == APND)
 	{
@@ -39,14 +39,14 @@ int ft_deal_with_apnd(t_content *content, t_expar *expar, size_t i)
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			return(O_ERROR); //fait les trucs
 		}
-		if (expar != NULL && dup2(content->outfile, STDOUT_FILENO) == -1)
-			ft_dup2_pb (expar, content);
+		if (content->expar != NULL && dup2(content->outfile, STDOUT_FILENO) == -1)
+			ft_dup2_pb (content);
 		close(content->outfile);
 	}
 	return(0);
 }
 
-int ft_deal_with_in(t_content *content, t_expar *expar, size_t i)
+int ft_deal_with_in(t_content *content, size_t i)
 {
 	if(content->files[i].type == IN)
 	{
@@ -56,8 +56,8 @@ int ft_deal_with_in(t_content *content, t_expar *expar, size_t i)
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			return(O_ERROR); //fait les trucs
 		}
-		if (expar != NULL && dup2(content->infile, STDIN_FILENO) == -1)
-			ft_dup2_pb (expar, content);
+		if (content->expar != NULL && dup2(content->infile, STDIN_FILENO) == -1)
+			ft_dup2_pb (content);
 		close(content->infile);
 	}
 	return(0);
