@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 12:31:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:51:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	ft_deal_with_wave(t_content *content, t_list **env)
 {
 	if(ft_find_wave(*env, content) == 1)
 		return (1);
-	printf("pas trouve\n");
+	//printf("pas trouve\n");
 	ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
 	return(2);
 }

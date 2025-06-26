@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 14:53:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 16:54:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	// 	i++;
 	// }
 	//printf("------------------------\n");
-	printf("1 child\n");
+	//printf("1 child\n");
 	content->expar = malloc(sizeof(t_expar));
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
@@ -197,7 +197,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	ft_free_tab(content->expar->options);
 	env_converted = ft_convert_env(*env);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
-	printf("aberrant\n");
+	//printf("aberrant\n");
 	//ft_display_tab(env_converted);
 	//ft_display_tab(content->cmd);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)

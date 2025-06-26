@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 14:56:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 17:58:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,12 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	redir_value = 0;
+	if(array->size == 0)
+		return;
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
 	
+	if(array->content == NULL)
+		printf("AAAAAAAAAAAAAAAAAAAAA\n");
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
