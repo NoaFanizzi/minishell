@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 09:26:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:08:22 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int ft_is_command(t_content *content)
 	return (1);
 }
 
-void	ft_is_built_in_child(t_content *content, t_list **env)
+int	ft_is_built_in_child(t_content *content, t_list **env)
 {
 	int return_value;
 	
 	return_value = 0;
 	if (!content->cmd || !content->cmd[0])
-		return;
+		return(1);
 	if(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		return_value = ft_echo(content);
 	else if(ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
@@ -65,9 +65,10 @@ void	ft_is_built_in_child(t_content *content, t_list **env)
 	else if(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
 		return_value = ft_unset(env, content);
 	else
-		return;
+		return(0);
 	content->error_code = return_value;
 	ft_exit(content);
+	return(0);
 	// ft_free_env(*env);
 	// ft_free_tab(expar->options);
 	// free_command(content->cmd_splitted);
@@ -81,7 +82,8 @@ static int	ft_prepare_execution(t_content *content, t_list **env)
 	int	cmd_value;
 
 	cmd_value = 0;
-	ft_is_built_in_child(content, env);
+	if(ft_is_built_in_child(content, env) == 1)
+		ft_exit(content);
 	cmd_value = ft_is_command(content);
 
 	if (cmd_value == 1)

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 09:23:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 12:07:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,11 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	
 	stdin_saved = dup(STDIN_FILENO);
 	stdout_saved = dup(STDOUT_FILENO);
-	ft_parse_redirections(&array->content[0]);
 	command = ft_is_built_in(&array->content[0]);
+	
 	if(command == 0)
 	{
+		ft_parse_redirections(&array->content[0]);
 		ft_is_built_in_dad(array, env);
 	}
 	if(command == 1)
@@ -68,7 +69,7 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 int	ft_is_built_in(t_content *content)
 {
 	if (!content->cmd || !content->cmd[0])
-		return (2);
+		return (1);
 	if((ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
 		||(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
 		||(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
@@ -76,7 +77,6 @@ int	ft_is_built_in(t_content *content)
 		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		||(ft_strncmp(content->cmd[0], "env", 3) == 0 && ft_strlen(content->cmd[0]) == 3))
-		//||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4))
 		return(0);
 	return(1);
 }
@@ -207,6 +207,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		array->content[i].env = env;
 		array->content[i].pos = i;
 		array->content[i].size = array->size;
+		array->content[i].error_code = 0;
 		array->content[i].pid = fork();
 		if (array->content[i].pid == -1)
 			ft_exit(&array->content[i]);
