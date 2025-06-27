@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 17:58:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:51:51 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,9 @@ void	ft_wait_pid(t_array *array)
 	{
 		//printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
 		if(WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
+			array->p_exit_status = WEXITSTATUS(status);
 		else if(WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
+			array->p_exit_status = 128 + WTERMSIG(status);
 		//ft_print_error_message(array->content[i]);
 		pid = waitpid(-1, &status, 0);
 	}
@@ -151,15 +151,6 @@ void	ft_close_pipes(t_array *array)
 	int	i;
 
 	i = 0;
-	// if(expar->size == 1)
-	// {
-	// 	if(expar->pipe)
-	// 	{
-	// 		close(expar->pipe[i][0]);
-	// 		close(expar->pipe[i][1]);
-	// 	}
-	// 	i++;
-	// }
 	while(i < array->size - 1)
 	{
 		if(array->pipe)
@@ -173,7 +164,7 @@ void	ft_close_pipes(t_array *array)
 	array->pipe = NULL;
 }
 
-void	ft_init_exec(t_list **env, t_array *array)
+void	ft_init_exec(t_list **env, t_array *array, int *last_exit_status)
 {
 	int	i;
 	int redir_value;
@@ -183,9 +174,10 @@ void	ft_init_exec(t_list **env, t_array *array)
 	if(array->size == 0)
 		return;
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
+	array->p_exit_status = *last_exit_status;
+	printf("last_exit_status = %d\n", array->p_exit_status);
 	
-	if(array->content == NULL)
-		printf("AAAAAAAAAAAAAAAAAAAAA\n");
+	
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
@@ -203,6 +195,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	ft_init_pipe(array);
 	while(i < array->size)
 	{
+		//array->content[i].env = NULL;
 		array->content[i].env = env;
 		array->content[i].pos = i;
 		array->content[i].size = array->size;

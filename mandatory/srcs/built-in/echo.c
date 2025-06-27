@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/23 15:22:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:53:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_echo(t_content *content)
 		{
 			if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)
 			{
-				status = ft_itoa(g_exit_status);
+				status = ft_itoa(content->array_ptr->p_exit_status);
 				ft_putstr_fd(status, 1);
 				free(status);
 			}

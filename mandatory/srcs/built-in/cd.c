@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 16:51:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:22:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ void	ft_cd(t_content *content, t_list **env)
 	{
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
 		perror(content->arg[0]);
+		content->error_code = 1;
+		//ft_exit(content);
 	}
 	ft_update_pwd(env);
 }

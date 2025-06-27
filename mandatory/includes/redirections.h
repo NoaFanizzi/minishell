@@ -17,6 +17,7 @@ int	ft_get_outfile(t_content *content);
 int ft_deal_with_in(t_content *content, size_t i);
 int ft_deal_with_out(t_content *content, size_t i);
 int ft_deal_with_apnd(t_content *content, size_t i);
+int	ft_deal_with_hdoc(t_content *content, size_t *i);
 
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 15:02:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:21:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_exit(t_content *content)
 	error_code = 0;
 	error_code = content->error_code;
 	if(content->env)
-		ft_free_env(*content->env);
+		ft_free_env(*(content->env));
 	//ft_display_tab(content->expar->options);
 	if(content->expar != NULL)
 	{

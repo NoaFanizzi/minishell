@@ -96,6 +96,7 @@ typedef struct s_array
 	t_content *content;
 	int		(*pipe)[2];
 	int size;
+	int p_exit_status;
 }				t_array;
 
 #endif
