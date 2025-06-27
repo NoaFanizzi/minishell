@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 18:30:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:00:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,7 @@ void	expand(char **command, t_list **var)
 		{
 			while(j < count)
 			{
-				printf("enterd\n");
+				//printf("enterd\n");
 				command[i] = expand_word(command[i], var);
 				if (!command[i])
 					return ;

@@ -30,7 +30,7 @@ void	ft_cd(t_content *content, t_list **env);
 
 //env.c
 t_list	*ft_init_env(char **env);
-void	ft_display_env(t_list *env);
+void	ft_display_env(t_list *env, t_content *content);
 
 //pwd.c
 int		ft_pwd(void);

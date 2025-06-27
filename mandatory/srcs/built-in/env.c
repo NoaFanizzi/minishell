@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 13:10:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:27:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ t_list	*ft_init_env(char **o_env)
 
 	env = NULL;
 	i = 0;
+	if(!o_env)
+	{
+		env = NULL;
+		return(env);
+	}
 	while(o_env[i])
 	{
 		new_env = ft_add_new_link(o_env[i]);
@@ -81,10 +86,16 @@ t_list	*ft_init_env(char **o_env)
 	return(env);
 }
 
-void	ft_display_env(t_list *env)
+void	ft_display_env(t_list *env, t_content *content)
 {
 	t_env *cpy;
 
+	if(!env)
+	{
+		content->error_code = 1;
+		ft_putstr_fd("bash: env: env variable not set\n", STDERR_FILENO);
+		return;
+	}
 	while(env)
 	{
 		cpy = (t_env *)env->content;
@@ -97,4 +108,5 @@ void	ft_display_env(t_list *env)
 		}
 		env = env->next;
 	}
+	content->error_code = 0;
 }

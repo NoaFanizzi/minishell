@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/27 11:52:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 12:32:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,10 +222,9 @@ void	launch_shell(t_list **var)
 	char	*line;
 	char	***cmd_splitted;
 	t_array	array;
-	int last_exit_status;
 	//int i = 0;
 	
-	last_exit_status = 0;
+	array.p_exit_status = 0;
 	while (1)
 	{
 		line = readline("maxishell$ ");
@@ -239,8 +238,7 @@ void	launch_shell(t_list **var)
 		if (!cmd_splitted)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, &array, &last_exit_status);
-		last_exit_status = array.p_exit_status;
+		ft_init_exec(var, &array);
 		//printf("\n");
 		//i++;
 		free_command(cmd_splitted);

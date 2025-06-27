@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 11:53:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:12:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	ft_echo(t_content *content)
 	}
 	if(params == 0)
 		ft_putstr_fd("\n", 1);
+	content->error_code = 0;
 	return(0);
 }
 //petit doute sur le putstr

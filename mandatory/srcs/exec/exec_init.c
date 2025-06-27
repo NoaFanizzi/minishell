@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 11:51:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:54:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_is_built_in_dad(t_array *array, t_list **env)
 		exit(0);
 	}
 	if(ft_strncmp(array->content->cmd[0], "env", 3) == 0 && ft_strlen(array->content->cmd[0]) == 3)
-		ft_display_env(*env);
+		ft_display_env(*env, &array->content[0]);
 }
 
 int	ft_get_redir_dad(t_array *array, t_list **env)
@@ -48,6 +48,7 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	{
 		ft_parse_redirections(&array->content[0]);
 		ft_is_built_in_dad(array, env);
+		array->p_exit_status = array->content[0].error_code;
 	}
 	if(command == 1)
 	{
@@ -105,7 +106,10 @@ void	ft_wait_pid(t_array *array)
 			array->p_exit_status = 128 + WTERMSIG(status);
 		//ft_print_error_message(array->content[i]);
 		pid = waitpid(-1, &status, 0);
+		//printf("array->p_exit_status = %d\n", array->p_exit_status);
 	}
+	//printf("array->p_exit_status_FINALS = %d\n", array->p_exit_status);
+	
 }
 
 void	ft_display_array_content(t_array *array)
@@ -164,7 +168,7 @@ void	ft_close_pipes(t_array *array)
 	array->pipe = NULL;
 }
 
-void	ft_init_exec(t_list **env, t_array *array, int *last_exit_status)
+void	ft_init_exec(t_list **env, t_array *array)
 {
 	int	i;
 	int redir_value;
@@ -174,15 +178,12 @@ void	ft_init_exec(t_list **env, t_array *array, int *last_exit_status)
 	if(array->size == 0)
 		return;
 	array->content[0].size = array->size; // important ne pas supprimer cette lign esinon ça pète dans redir_dad
-	array->p_exit_status = *last_exit_status;
-	printf("last_exit_status = %d\n", array->p_exit_status);
 	
 	
 	while(i < array->size)
 	{
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
-
 		i++;
 	}
 	i = 0;

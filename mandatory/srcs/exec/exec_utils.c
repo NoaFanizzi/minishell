@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 14:58:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:31:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	**ct_get_paths(t_list *var)
 	char	**options;
 	t_env	*cpy;
 
+	if(!var)
+		return(NULL);
 	cpy = (t_env *)var->content;
 	while (var && ft_strncmp(cpy->var, "PATH", 4) != 0)
 	{
