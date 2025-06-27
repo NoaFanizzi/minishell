@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 13:29:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/27 13:57:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,6 @@ int	ft_is_built_in_child(t_content *content, t_list **env)
 	content->error_code = return_value;
 	ft_exit(content);
 	return(0);
-	// ft_free_env(*env);
-	// ft_free_tab(expar->options);
-	// free_command(content->cmd_splitted);
-	// ft_free_array_content(array);
-	// ft_close_pipes(expar);
-	// exit(return_value);
 }
 
 static int	ft_prepare_execution(t_content *content, t_list **env)
@@ -93,15 +87,8 @@ static int	ft_prepare_execution(t_content *content, t_list **env)
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
+		printf("aaaaaaaa\n");
 		ft_exit(content);
-		// if(content->expar->path != NULL)
-		// 	printf("expar->path = %s\n", content->expar->path);
-		// if(content->expar->path)
-		// 	free(content->expar->path);
-		// ft_free_tab(content->expar->options);
-		// ft_free_env(*env);
-		// ft_close_all(content);
-		// ft_free_content(content);
 		exit(127);
 	}
 	return(0);
