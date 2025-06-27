@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/17 17:59:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/25 13:56:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,43 +34,24 @@ int	ft_check_if_in_base(t_list *env, char *str)
 	return(-1);
 }
 
-// void	ft_get_var(t_export *temp, t_content *content)
-// {
-// 	char *temp_value;
-// 	int	i;
-// 	int pos;
-	
-// 	i = 0;
-// 	pos = ft_is_chr(content->arg[i], 61);
-// 	temp->var = ft_calloc((i + 1), sizeof(char));
-// 	while(i < pos)
-// 	{
-// 		temp->var[i] = content->arg[i];
-// 		i++;
-// 	}
-// 	temp->var[i] = '\0';
-// 	pos++;
-// 	if(content->arg[pos] == '\0')
-// 	{
-// 		temp->status = 0;
-// 		return;
-// 	}
-// 	temp_value = ft_strdup(&content->arg[pos]);
-// 	temp->value = ft_atoi(temp_value);
-// 	free(temp_value);
-// }
-
 int	ft_is_a_value(char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while(str[i] && str[i] != '=')
+	// if(str[i] == '=')
+	// 	return(1);
+	while(str[i])
+	{
+		if(str[i] == '=')
+			return(1);
 		i++;
-	if(str[i] == '=')
-		i++;
+	}
+		
+	// if(str[i] == '=')
+	// 	i++;
 	if(str[i] == '\0')
-		return(1);
+		return(0);
 	return(0);
 }
 
@@ -88,10 +69,89 @@ int	ft_is_chr(char *str, char c)
 	return(-1);
 }
 
+int	ft_strcmp(char *s1, char *s2)
+{
+	size_t	i;
+
+	i = 0;
+	while(s1[i] && s2[i])
+	{
+		if(s1[i] - s2[i] != 0)
+			return(s1[i] - s2[i]);
+		i++;
+	}
+	return(s1[i] - s2[i]);
+}
+
+int	ft_check_if_first_nod(t_list *first_nod, t_list *previous)
+{
+	t_env *casted_first;
+	t_env *casted_previous;
+
+	casted_first = (t_env *)first_nod->content;
+	casted_previous = (t_env *)previous->content;
+	if(ft_strcmp(casted_first->var, casted_previous->var) == 0)
+		return(1);
+	return(0);
+}
+
+void ft_display_export(t_list *env_copy)
+{
+    t_list *head = env_copy;
+    t_list *iter;
+    t_list *min;
+    t_list *prev;
+    t_list *prev_min;
+    t_env  *e;
+
+    while (head)
+    {
+        min      = head;
+        prev_min = NULL;
+        prev     = head;
+        iter     = head->next;
+
+        while (iter)
+        {
+            e = (t_env *)iter->content;
+            if (ft_strcmp(e->var, ((t_env *)min->content)->var) < 0)
+            {
+                prev_min = prev;
+                min      = iter;
+            }
+            prev = iter;
+            iter = iter->next;
+        }
+
+        e = (t_env *)min->content;
+        if (e->arg)
+        {
+            ft_putstr_fd("export ", 1);
+            ft_putstr_fd(e->var,    1);
+            ft_putstr_fd("=\"",      1);
+            ft_putstr_fd(e->arg,    1);
+            ft_putstr_fd("\"\n",     1);
+        }
+        else
+        {
+            ft_putstr_fd("export ", 1);
+            ft_putstr_fd(e->var,      1);
+            ft_putstr_fd("\n",         1);
+        }
+
+        if (prev_min)
+            prev_min->next = min->next;
+        else
+            head = min->next;
+
+        ft_lstdelone(min, ft_free_link);
+    }
+}
+
 int	ft_init_export(t_list **env, t_content *content, size_t	i)
 {
 	t_env *link;
-	char	*temp;
+	int	temp;
 	t_list *current;
 	int	pos;
 
@@ -127,24 +187,13 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 		{
 			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
 			{
-				if(ft_is_chr(content->arg[i], '+') != -1) // y'a un +
-				{
-					temp = ft_strjoin(link->arg, content->arg[i]);
-					free(link->arg);
-					link->arg = ft_strdup(temp);
-					free(temp);
-				}
-				else
-				{
-					pos = ft_is_chr(content->arg[i], '='); //TODO la fonction elle marche pas apparemment
-					free(link->arg);
-					link->arg = ft_strdup(&content->arg[i][pos]);
-				}
+				temp = ft_is_chr(content->arg[i], '=');
+				temp++;
+				free(link->arg);
+				link->arg = NULL;
+				link->arg = ft_strdup(&content->arg[i][temp]);
 			}
 		}
-		//ft_free_content(content);
-		// free(content->arg);
-		// free(content->cmd);
 	}
 	return(0);
 }
@@ -153,6 +202,14 @@ int	ft_export(t_list **env, t_content *content)
 	size_t	i;
 
 	i = 0;
+	t_list *cpy;
+
+	if(content->arg == NULL)
+	{
+		cpy = dup_env_list(*env);
+		ft_display_export(cpy);
+		return(0);
+	}
 	while(content->arg[i])
 	{
 		ft_init_export(env, content, i);

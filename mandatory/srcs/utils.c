@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 11:29:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/23 10:36:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@ void	ft_free_tab(char **tab)
 	size_t	i;
 
 	i = 0;
+	//printf("tab[0] = %s\n", tab[0]);
+	if(tab[0] == NULL)
+		return;
 	while(tab[i])
 	{
 		free(tab[i]);
@@ -65,11 +68,14 @@ void ft_free_array_content(t_array *array)
     i = 0;
     if (!array || !array->content)
 		return;
+//	printf("array->size = %d\n", array->size);
     while (i < array->size)
     {
 		//free_command(array->content[i].cmd_splitted);
-        ft_free_tab(array->content[i].cmd);
-		ft_free_tab(array->content[i].arg);
+		if(array->content[i].cmd)
+        	ft_free_tab(array->content[i].cmd);
+		if(array->content[i].arg)
+			ft_free_tab(array->content[i].arg);
 		if(array->content[i].files)
 			free(array->content[i].files);
         i++;
@@ -80,8 +86,10 @@ void ft_free_array_content(t_array *array)
 
 void	ft_free_content(t_content *content)
 {
-	ft_free_tab(content->cmd);
-	ft_free_tab(content->arg);
+	if(content->cmd)
+		ft_free_tab(content->cmd);
+	if(content->arg)
+		ft_free_tab(content->arg);
 	free_command(content->cmd_splitted);
 	if(content->files)
 		free(content->files);

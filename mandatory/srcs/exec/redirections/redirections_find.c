@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 15:56:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 15:01:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,84 +14,80 @@
 #include "redirections.h"
 
 
-int	ft_parse_redirections(t_content *content, t_expar *expar)
+void	ft_deal_with_redir(t_content *content)
 {
-	size_t	i;
-	//int	type;
 	size_t size;
+	size_t	i;
 
-	i = 0;
-	//type = -1;
-	content->infile = -2;
-	content->outfile = -2;
-	if(&content->files[0] != NULL)
+	i = 0;	
+	if(content->files != NULL && &content->files[0] != NULL)
 	{
 		size = content->files[i].size;
 		while(i < size)
 		{
-			if(content->files[i].type == OUT)
+			ft_deal_with_out(content, i);
+			ft_deal_with_apnd(content, i);
+			ft_deal_with_in(content, i);
+			
+			if(content->files[i].type == HDOC)
 			{
-				if(content->outfile != -2)
-					close(content->outfile);
-				//printf("outfile = %s\n",content->cmd_splitted[content->pos][content->files[i].index + 1]);
-				content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-				if(content->outfile == -1)
+				int	h_fd;
+				int temp_i;
+				char *line;
+				size_t	i = 0;
+
+				temp_i = content->files[i].index + 1;
+				h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
+				ft_putstr_fd("> ", 1);
+				line = get_next_line(0);
+				while(line != NULL)
 				{
-					perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
-					return(O_ERROR); //fait les trucs
+					if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1)
+						&& ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
+						break;
+					ft_putstr_fd("> ", 1);
+					ft_putstr_fd(line, h_fd);
+					// if(ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
+					// 	printf("same content\n");
+					// if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[content->pos][temp_i]) + 1))
+					// 	printf("same length\n");
+					free(line);
+					line = get_next_line(0);
 				}
-				if (dup2(content->outfile, STDOUT_FILENO) == -1)
-					ft_dup2_pb (expar, content);
-				close(content->outfile);
-			}
-			if(content->files[i].type == APND)
-			{
-				if(content->outfile != -2)
-					close(content->outfile);
-				content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-				if(content->outfile == -1)
-				{
-					perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
-					return(O_ERROR); //fait les trucs
-				}
-				if (dup2(content->outfile, STDOUT_FILENO) == -1)
-					ft_dup2_pb (expar, content);
-				close(content->outfile);
-			}
-			if(content->files[i].type == IN)
-			{
-				if(content->infile != -2)
-					close(content->infile);
-				content->infile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-				if(content->infile == -1)
-				{
-					perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
-					return(O_ERROR); //fait les trucs
-				}
-				if (dup2(content->infile, STDIN_FILENO) == -1)
-					ft_dup2_pb (expar, content);
-				close(content->infile);
+				free(line);
+				close(h_fd); // je le close parce qu'il sert plus a rien
+				h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
+				dup2(h_fd, STDIN_FILENO); // je fais lire depuis le fichier temporaire creee
+				close(h_fd); // je le close parce qu'il sert plus a rien
+
+				//ft_putstr_fd("on est a la fin et ca sort sur l'entree standard\n", STDOUT_FILENO);
 			}
 			i++;
 		}
 	}
-	if(content->infile == -2)
-	{
-		if(content->size > 1 && content->pos != content->size - 1)
+}
+
+void	ft_deal_with_pipes(t_content *content)
+{
+	if((content->size > 1 && content->pos > 0))
+	{	
+		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) == -1)
 		{
-			if (dup2(expar->pipe[0], STDIN_FILENO) == -1)
-				ft_dup2_pb (expar, content);
-			close(expar->pipe[0]);
+			ft_dup2_pb (content);
 		}
 	}
-	if(content->outfile == -2)
+	if((content->size > 1 && content->pos < content->size - 1))
 	{
-		if(content->size > 1 && content->pos != content->size - 1)
-		{
-			if (dup2(expar->pipe[1], STDOUT_FILENO) == -1)
-				ft_dup2_pb (expar, content);
-			close(expar->pipe[1]);
-		}
+		if (dup2(content->array_ptr->pipe[content->pos][1], STDOUT_FILENO) == -1)
+			ft_dup2_pb (content);
 	}
+}
+
+int	ft_parse_redirections(t_content *content)
+{
+	content->infile = -2;
+	content->outfile = -2;
+	ft_deal_with_pipes(content);
+	ft_deal_with_redir(content);
 	return(0);
 }

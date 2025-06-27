@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
+#include "get_next_line.h"
 
 extern int g_exit_status;
 extern int g_macro_debug;
@@ -32,13 +33,22 @@ t_list	*ft_init_env(char **env);
 void	ft_display_env(t_list *env);
 
 //pwd.c
-void	ft_pwd(void);
+int		ft_pwd(void);
 
 //utils.c
 void	ft_display_tab(char **tab);
 void	ft_free_tab(char **tab);
 void	ft_free_content(t_content *content);
 void	ft_free_env(t_list *env);
+
+int	ft_strcmp(char *s1, char *s2);
+
+//expand_utils.c
+void	expand(char **command, t_list **var);
+int var_exists(char *var_name, t_list *env);
+char *get_var_value(char *var_name, t_list *env);
+size_t	get_true_var_length(char *var_name, t_list *env);
+
 
 
 #endif

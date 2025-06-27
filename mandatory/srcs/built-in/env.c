@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/05/08 16:31:22 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/24 13:10:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ void	ft_display_env(t_list *env)
 	while(env)
 	{
 		cpy = (t_env *)env->content;
-		ft_putstr_fd(cpy->var, 1);
-		ft_putstr_fd(cpy->op, 1);
-		ft_putstr_fd(cpy->arg, 1);
-		ft_putstr_fd("\n", 1);
+		if(cpy->op)
+		{
+			ft_putstr_fd(cpy->var, 1);
+			ft_putstr_fd(cpy->op, 1);
+			ft_putstr_fd(cpy->arg, 1);
+			ft_putstr_fd("\n", 1);
+		}
 		env = env->next;
 	}
 }

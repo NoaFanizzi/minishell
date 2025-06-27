@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/24 11:20:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/06/26 16:47:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 int		main(int argc, char **argv, char **env);
 void	launch_shell(t_list **var);
-char	***parse_command(char *line);
+char	***parse_command(char *line, t_list **var);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
 int	    create_hdoc_struct(t_array *array, char **command);

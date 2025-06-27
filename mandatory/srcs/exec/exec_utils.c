@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/19 10:36:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/26 14:58:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	ft_strcat(char *dest, char *src)
 
 char	**ct_get_paths(t_list *var)
 {
-	//size_t	size;
 	char	**options;
 	t_env	*cpy;
 
@@ -53,17 +52,13 @@ char	**ct_get_paths(t_list *var)
 		var = var->next;
 		cpy = (t_env *)var->content;
 	}
-	//size = ft_strlen(cpy->var);
 	options = ft_split(cpy->arg, ':');
-	//ft_display_tab(options);
 	return (options);
-	//TODO Protéger si on supprime juste PATH de la variable d'environnement
 }
 
-void	ft_close_all(t_expar *expar, t_content *content)
+void	ft_close_all(t_content *content)
 {
-	close(expar->pipe[0]);
-	close(expar->pipe[1]);
+	ft_close_pipes(content->array_ptr);
 	if(content && content->infile != -2) //  && content->input != 1
 		close(content->infile);
 	if(content && content->outfile != -2) //  && content->output != 0
@@ -75,6 +70,8 @@ size_t	ft_tablen(char **tab)
 	size_t	i;
 
 	i = 0;
+	if(!tab)
+		return(0);
 	while(tab[i])
 	{
 		i++;
@@ -105,8 +102,10 @@ char **ft_cmd_join(char **a, char **b)
 		j++;
 	}
 	//ft_display_tab(cmd);
-	ft_free_tab(a);
-	ft_free_tab(b);
+	if(a)
+		ft_free_tab(a);
+	if(b)
+		ft_free_tab(b);
 	return(cmd);
 	
 }
