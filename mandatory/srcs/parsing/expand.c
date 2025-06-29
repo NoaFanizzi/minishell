@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 18:30:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/06/29 21:40:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,14 @@ char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name, t_li
 	return (new_word);
 }
 
-char	*expand_word(char *word, t_list **env)
+char	*expand_word(char *word, t_list **env, size_t counter)
 {
 	char	*var_name;
 	char	*new_word;
 	size_t	i;
 	size_t	true_var_length;
 	size_t	new_length;
+	
 
 	i = 0;
 	true_var_length = 0;
@@ -101,26 +102,43 @@ char	*expand_word(char *word, t_list **env)
 	//printf("word = %s\n", )
 	while (i < length)
 	{
+		printf("word[i] : %c\n", word[i]);
 		if (word[i] == '$' && valid_var_first_char(word[i + 1]))
 		{
-			//printf("AAAAAAAA\n");
-			var_name = get_var_name(&word[i + 1]);
-			//printf("var_name = %s\n", var_name);
-			if (!var_name)
-				return (NULL);
-			if (var_exists(var_name, *env) == 1)//TODO renvoyer 1 si y'a la variable dasn env et 0 sinon (int)
+			if (0 >= counter)
 			{
-				//printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");
-				true_var_length = get_true_var_length(var_name, *env);
-				//printf("true_var_length = %zu\n", true_var_length);
-				new_length = true_var_length + (ft_strlen(word) - get_var_length(&word[i + 1])) + 1;
-				//printf("new_var_length = %zu\n", new_length);
-				new_word = expand_var_in_word(word, i, new_length, var_name, env);
-				//printf("word = %s\n", word);
-				//printf("new_word = %s\n", new_word);
-				if (!new_word)
+				printf("AAAAAAAA\n");
+				printf("counter : %zu\n", counter);
+				var_name = get_var_name(&word[i + 1]);
+				//printf("var_name = %s\n", var_name);
+				if (!var_name)
+				{
+					printf("var doesnt exist\n");
 					return (NULL);
-				i += true_var_length;
+				}
+				if (var_exists(var_name, *env) == 1)//TODO renvoyer 1 si y'a la variable dasn env et 0 sinon (int)
+				{
+					printf("replacing var\n");
+					//printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");
+					true_var_length = get_true_var_length(var_name, *env);
+					//printf("true_var_length = %zu\n", true_var_length);
+					new_length = true_var_length + (ft_strlen(word) - get_var_length(&word[i + 1])) + 1;
+					//printf("new_var_length = %zu\n", new_length);
+					new_word = expand_var_in_word(word, i, new_length, var_name, env);
+					//printf("word = %s\n", word);
+					//printf("new_word = %s\n", new_word);
+					if (!new_word)
+						return (NULL);
+					i += true_var_length;
+					break ;
+				}
+				else
+					i++;
+			}
+			if (counter > 0)
+			{
+				printf("decremented\n");
+				counter--;
 			}
 		}
 		else
@@ -154,24 +172,27 @@ void	expand(char **command, t_list **var)
 	size_t	i;
 	size_t	j;
 	size_t	count;
+	size_t	counter;
 
 	i = 0;
-
+	counter = 0;
 	while (command[i])
 	{
 		j = 0;
 		count = 0;
 		count = ft_count_dollars(command[i]);
+		printf("count : %zu\n", count);
 		if (command[i][0] == S_QUOTE)
 			i++;
 		else
 		{
 			while(j < count)
 			{
-				printf("enterd\n");
-				command[i] = expand_word(command[i], var);
+				printf("entered\n");
+				command[i] = expand_word(command[i], var, counter);
 				if (!command[i])
 					return ;
+				counter++;
 				j++;
 			}
 			i++;
