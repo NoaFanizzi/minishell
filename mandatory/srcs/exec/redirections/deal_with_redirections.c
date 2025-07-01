@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 10:41:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:28:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int ft_deal_with_out(t_content *content, size_t i)
 		if(content->outfile == -1)
 		{
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
+			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
 		}
 		if (dup2(content->outfile, STDOUT_FILENO) == -1)
@@ -37,6 +38,7 @@ int ft_deal_with_apnd(t_content *content, size_t i)
 		if(content->outfile == -1)
 		{
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
+			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
 		}
 		if (content->expar != NULL && dup2(content->outfile, STDOUT_FILENO) == -1)
@@ -54,6 +56,7 @@ int ft_deal_with_in(t_content *content, size_t i)
 		if(content->infile == -1)
 		{
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
+			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
 		}
 		if (content->expar != NULL && dup2(content->infile, STDIN_FILENO) == -1)

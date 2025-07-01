@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 12:56:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:49:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_get_right_op(t_env *link, char *env, size_t i)
 {
+	free((link)->op);
+	(link)->op = NULL;
 	if(env[i] == '+' && env[i+1] == '=')
 	{
 		(link)->op = ft_strdup("+=");
@@ -24,7 +26,6 @@ int	ft_get_right_op(t_env *link, char *env, size_t i)
 		(link)->op = ft_strdup("=");
 		i++;
 	}
-
 	return(i);
 }
 
@@ -33,6 +34,8 @@ int	ft_get_right_arg(t_env *link, char *env, size_t	i)
 	(link)->arg = NULL;
 	if(env[i] != '\0')
 		(link)->arg = ft_strdup(&env[i]);
+	else if ((link)->op)
+		(link)->arg = ft_strdup("");
 	return(i);
 }
 

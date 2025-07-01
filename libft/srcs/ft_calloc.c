@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:47:26 by nofanizz          #+#    #+#             */
-/*   Updated: 2024/11/12 11:13:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:59:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ void	*ft_calloc(size_t elementCount, size_t elementSize)
 	result = malloc(size);
 	if (result == NULL)
 		return (NULL);
-	ft_bzero(result, size);
+	ft_bzero(&result, size);
 	return (result);
 }

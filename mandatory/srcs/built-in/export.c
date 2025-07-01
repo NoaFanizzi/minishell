@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 12:55:49 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:39:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	ft_check_if_in_base(t_list *env, char *str)
 	while(env)
 	{
 		cpy = (t_env *)env->content;
-		printf("cpy->var %s\n", cpy->var);
 		if((ft_strncmp(cpy->var, str, i) == 0)
 			&& (ft_strlen(cpy->var) == i))
 			return(link);
@@ -152,7 +151,6 @@ void ft_display_export(t_list *env_copy)
 int	ft_init_export(t_list **env, t_content *content, size_t	i)
 {
 	t_env *link;
-	int	temp;
 	t_list *current;
 	int	pos;
 
@@ -173,27 +171,10 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 			pos--;
 		}
 		link = (t_env *)current->content;
-		printf("link->var %s\n", link->var);
-		if(link->arg == NULL) //si y'avait pas de value assigned a la variable
+		if(ft_is_a_value(content->arg[i]) == 1) 
 		{
-			printf("ICI BATARD\n");
-			
-			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
-			{
-				free(link->arg);
-				fill_env_arg(&link, content->arg[i], 0);
-			}
-		}
-		else if(link->arg != NULL) // y'avait deja une value assigned
-		{
-			if(ft_is_a_value(content->arg[i]) == 1) //si y'a une value assigned a la variable qu'on est en train d'export
-			{
-				temp = ft_is_chr(content->arg[i], '=');
-				temp++;
-				free(link->arg);
-				link->arg = NULL;
-				link->arg = ft_strdup(&content->arg[i][temp]);
-			}
+			free(link->arg);
+			fill_env_arg(&link, content->arg[i], 0);
 		}
 	}
 	return(0);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/01 11:58:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:28:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,26 +108,14 @@ char	*expand_word(char *word, t_list **env, size_t counter)
 		{
 			if (0 >= counter)
 			{
-				//printf("AAAAAAAA\n");
-				//printf("counter : %zu\n", counter);
 				var_name = get_var_name(&word[i + 1]);
-				//printf("var_name = %s\n", var_name);
 				if (!var_name)
-				{
-					//printf("var doesnt exist\n");
 					return (NULL);
-				}
-				if (var_exists(var_name, *env) == 1)//TODO renvoyer 1 si y'a la variable dasn env et 0 sinon (int)
+				if (var_exists(var_name, *env) == 1)
 				{
-					//printf("replacing var\n");
-					//printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");
 					true_var_length = get_true_var_length(var_name, *env);
-					//printf("true_var_length = %zu\n", true_var_length);
 					new_length = true_var_length + (ft_strlen(word) - get_var_length(&word[i + 1])) + 1;
-					//printf("new_var_length = %zu\n", new_length);
 					new_word = expand_var_in_word(word, i, new_length, var_name, env);
-					//printf("word = %s\n", word);
-					//printf("new_word = %s\n", new_word);
 					free(var_name);
 					if (!new_word)
 						return (NULL);

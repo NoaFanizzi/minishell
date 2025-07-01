@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 16:51:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:20:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,12 @@ size_t	get_true_var_length(char *var_name, t_list *env)
 int var_exists(char *var_name, t_list *env)
 {
 	t_env *cpy;
-
-	cpy = (t_env *)env->content;
-	if((ft_strncmp(cpy->var, var_name, ft_strlen(cpy->var)) == 0)
-		&&(ft_strlen(cpy->var) == ft_strlen(var_name)))
-		return(1);
-	env = env->next;
+	
 	while(env->next)
 	{
 		cpy = (t_env *)env->content;
 		//printf("cpy->var = %s\n", cpy->var);
-		if((ft_strncmp(cpy->var, var_name, ft_strlen(cpy->var)) == 0)
-		&&(ft_strlen(cpy->var) == ft_strlen(var_name)))
+		if(ft_strcmp(cpy->var, var_name) == 0)
 			return(1);
 		env = env->next;
 	}

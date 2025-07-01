@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:54:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 10:58:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 13:12:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,10 +193,11 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
-		free(content->expar->path);
-		ft_free_env(*env);
-		ft_free_tab(content->cmd);
-		exit(EXIT_FAILURE);
+		ft_exit(content);
+		// free(content->expar->path);
+		// ft_free_env(*env);
+		// ft_free_tab(content->cmd);
+		// exit(EXIT_FAILURE);
 	}
 }
 

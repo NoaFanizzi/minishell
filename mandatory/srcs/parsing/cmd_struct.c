@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 16:51:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:36:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	content->files = NULL;
 	if(redir_count == 0)
 		return ;
-	content->files = malloc(redir_count * sizeof(t_files));
+	content->files = ft_calloc((redir_count + 1), sizeof(t_files));
 	if (!content->files)
 		return ;
 	while (cmd[i])

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 12:54:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:15:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	ft_rm_link(t_list **env, int pos);
 
 //exit.c
 void	ft_exit(t_content *content);
+void	ft_free_hdoc(t_heredocs *hdoc);
 
 size_t	ft_tablen(char **tab);
 
