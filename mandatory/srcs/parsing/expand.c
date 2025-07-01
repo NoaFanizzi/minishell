@@ -6,12 +6,11 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/29 21:40:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/01 17:31:51 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
 
 int	valid_var_first_char(char c)
 {
@@ -84,7 +83,35 @@ char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name, t_li
 	return (new_word);
 }
 
-char	*expand_word(char *word, t_list **env, size_t counter)
+int		is_not_after_hdoc(char *word, char **command, size_t i, size_t j)
+{
+	while (i > 1)
+	{
+		i--;
+		if (word[i] == '<' && word[i - 1] == '<')
+			return (0);
+		else if (!ft_isspace(word[i]))
+			return (1);
+	}
+	while (j > 0)// till we find a hdoc or we went through all or we found that there was no heredoc for this dollar
+	{
+		i = 0;
+		while (command[j - 1][i])
+			i++;
+		while (i > 1)
+		{
+			i--;
+			if (command[j - 1][i] == '<' && command[j - 1][i - 1] == '<')
+				return (0);
+			else if (!ft_isspace(command[j - 1][i]))
+				return (1);
+		}
+		j--;
+	}
+	return (1)
+}
+
+char	*expand_word(char *word, char **command, t_list **env, size_t counter, size_t j)
 {
 	char	*var_name;
 	char	*new_word;
@@ -102,8 +129,9 @@ char	*expand_word(char *word, t_list **env, size_t counter)
 	//printf("word = %s\n", )
 	while (i < length)
 	{
+		
 		printf("word[i] : %c\n", word[i]);
-		if (word[i] == '$' && valid_var_first_char(word[i + 1]))
+		if (word[i] == '$' && is_not_after_hdoc(word, command, i, j) && valid_var_first_char(word[i + 1]))
 		{
 			if (0 >= counter)
 			{
@@ -133,7 +161,10 @@ char	*expand_word(char *word, t_list **env, size_t counter)
 					break ;
 				}
 				else
+				{
 					i++;
+					//need to suppress the $USERR if it doesnt exist
+				}
 			}
 			if (counter > 0)
 			{
@@ -189,7 +220,7 @@ void	expand(char **command, t_list **var)
 			while(j < count)
 			{
 				printf("entered\n");
-				command[i] = expand_word(command[i], var, counter);
+				command[i] = expand_word(command[i], command, var, counter, i);
 				if (!command[i])
 					return ;
 				counter++;
