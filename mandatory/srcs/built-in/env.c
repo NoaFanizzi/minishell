@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 13:27:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:56:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,36 +30,37 @@ int	ft_get_right_op(t_env *link, char *env, size_t i)
 
 int	ft_get_right_arg(t_env *link, char *env, size_t	i)
 {
-	if(env[i] == '\0')
-		(link)->arg = NULL;
-	else if(env[i] != '\0')
+	(link)->arg = NULL;
+	if(env[i] != '\0')
 		(link)->arg = ft_strdup(&env[i]);
 	return(i);
 }
 
-t_env	*ft_add_new_link(char *env)
+t_env *fill_env_arg(t_env **link, char *env, size_t *var_len)
 {
 	size_t	i;
-	size_t	length;
-	t_env *link;
 
 	i = 0;
-	link = ft_calloc(1, sizeof(t_env));
-	(link)->exp = 0;
 	while((env[i] != '+' && env[i] != '=')
-		&&(env[i] != '\0'))
+		&& (env[i] != '\0'))
 		i++;
-	length = i;
-	i = ft_get_right_op(link, env, i);
-	i = ft_get_right_arg(link, env, i);
-	(link)->var = ft_calloc((length + 1), sizeof(char));
-	i = 0;
-	while(i < length)
-	{
-		(link)->var[i] = env[i];
-		i++;
-	}
-	(link)->var[i] = '\0';
+	if (var_len)
+		*var_len = i;
+	i = ft_get_right_op(*link, env, i);
+	ft_get_right_arg(*link, env, i);
+	return (*link);
+}
+
+t_env	*ft_add_new_link(char *env)
+{
+	size_t	length;
+	t_env *link;
+	
+	link = ft_calloc(1, sizeof(t_env));
+	length = 0;
+	(link)->op = 0;
+	link = fill_env_arg(&link, env, &length);
+	(link)->var = ft_substr(env, 0, length);
 	return(link);
 }
 

@@ -1,7 +1,8 @@
 {
 	"files.associations": {
 		"minishell.h": "c",
-		"redirections.h": "c"
+		"redirections.h": "c",
+		"string_view": "c"
 	},
 	"C_Cpp.default.compilerPath": ""
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 13:12:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:20:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int	ft_find_wave(t_list *env, t_content *content)
 		cpy = (t_env *)env->content;
 		if(ft_strncmp(cpy->var, "HOME", 4) == 0 && ft_strlen(cpy->var) == 4)
 		{
+			if(cpy->arg == NULL)
+				return(0);
 			content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
 			content->arg[0] = ft_strdup(ft_strdup(cpy->arg));
 			content->arg[1] = NULL;
@@ -106,6 +108,8 @@ int	ft_find_dash(t_list *env, t_content *content)
 		cpy = (t_env *)env->content;
 		if(ft_strncmp(cpy->var, "OLDPWD", 6) == 0 && ft_strlen(cpy->var) == 6)
 		{
+			if(cpy->arg == NULL)
+				return(0);
 			content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
 			content->arg[0] = ft_strdup(ft_strdup(cpy->arg));
 			content->arg[1] = NULL;

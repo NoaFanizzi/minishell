@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/01 11:56:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 11:58:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,23 +103,23 @@ char	*expand_word(char *word, t_list **env, size_t counter)
 	//printf("word = %s\n", )
 	while (i < length)
 	{
-		printf("word[i] : %c\n", word[i]);
+		//printf("word[i] : %c\n", word[i]);
 		if (word[i] == '$' && valid_var_first_char(word[i + 1]))
 		{
 			if (0 >= counter)
 			{
-				printf("AAAAAAAA\n");
-				printf("counter : %zu\n", counter);
+				//printf("AAAAAAAA\n");
+				//printf("counter : %zu\n", counter);
 				var_name = get_var_name(&word[i + 1]);
 				//printf("var_name = %s\n", var_name);
 				if (!var_name)
 				{
-					printf("var doesnt exist\n");
+					//printf("var doesnt exist\n");
 					return (NULL);
 				}
 				if (var_exists(var_name, *env) == 1)//TODO renvoyer 1 si y'a la variable dasn env et 0 sinon (int)
 				{
-					printf("replacing var\n");
+					//printf("replacing var\n");
 					//printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");
 					true_var_length = get_true_var_length(var_name, *env);
 					//printf("true_var_length = %zu\n", true_var_length);
@@ -142,7 +142,7 @@ char	*expand_word(char *word, t_list **env, size_t counter)
 			}
 			if (counter > 0)
 			{
-				printf("decremented\n");
+				//printf("decremented\n");
 				counter--;
 			}
 		}
@@ -186,14 +186,14 @@ void	expand(char **command, t_list **var)
 		j = 0;
 		count = 0;
 		count = ft_count_dollars(command[i]);
-		printf("count : %zu\n", count);
+		//printf("count : %zu\n", count);
 		if (command[i][0] == S_QUOTE)
 			i++;
 		else
 		{
 			while(j < count)
 			{
-				printf("entered\n");
+				//printf("entered\n");
 				command[i] = expand_word(command[i], var, counter);
 				if (!command[i])
 					return ;

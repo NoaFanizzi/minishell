@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 12:29:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 12:54:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_env		*ft_add_new_link(char *env);
 int			ft_is_chr(char *str, char c);
 
 //export.c
+t_env *fill_env_arg(t_env **link, char *env, size_t *var_len);
 int		ft_export(t_list **env, t_content *content);
 int	ft_check_if_in_base(t_list *env, char *str);
 
