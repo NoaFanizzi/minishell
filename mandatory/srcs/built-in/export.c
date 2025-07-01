@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 13:39:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:28:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,12 @@ int	ft_is_a_value(char *str)
 	size_t	i;
 
 	i = 0;
-	// if(str[i] == '=')
-	// 	return(1);
 	while(str[i])
 	{
 		if(str[i] == '=')
 			return(1);
 		i++;
 	}
-		
-	// if(str[i] == '=')
-	// 	i++;
 	if(str[i] == '\0')
 		return(0);
 	return(0);
@@ -69,19 +64,6 @@ int	ft_is_chr(char *str, char c)
 	return(-1);
 }
 
-int	ft_strcmp(char *s1, char *s2)
-{
-	size_t	i;
-
-	i = 0;
-	while(s1[i] && s2[i])
-	{
-		if(s1[i] - s2[i] != 0)
-			return(s1[i] - s2[i]);
-		i++;
-	}
-	return(s1[i] - s2[i]);
-}
 
 int	ft_check_if_first_nod(t_list *first_nod, t_list *previous)
 {
@@ -148,12 +130,41 @@ void ft_display_export(t_list *env_copy)
     }
 }
 
+int	is_number(char c)
+{
+	if(c >= '0' && c <= '9')
+		return(1);
+	return(0);
+}
+
+int	ft_check_var_validity(char *var)
+{
+	size_t	i;
+
+	i = 0;
+	while(var[i])
+	{
+		if(is_number(var[i]) == 1)
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
 int	ft_init_export(t_list **env, t_content *content, size_t	i)
 {
 	t_env *link;
 	t_list *current;
 	int	pos;
 
+	if(ft_check_var_validity(content->arg[i]) == 1)
+	{
+		ft_putstr_fd("maxishell: export: `", STDERR_FILENO);
+		ft_putstr_fd(content->arg[i], STDERR_FILENO);
+		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+		content->error_code = 1;
+		return(1);
+	}
 	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
 	if(pos == -1) // ca veut dire que c'etait pas dedans
 	{
@@ -177,6 +188,7 @@ int	ft_init_export(t_list **env, t_content *content, size_t	i)
 			fill_env_arg(&link, content->arg[i], 0);
 		}
 	}
+	content->error_code = 0;
 	return(0);
 }
 int	ft_export(t_list **env, t_content *content)

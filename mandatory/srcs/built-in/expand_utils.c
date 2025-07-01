@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 14:20:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 15:51:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,4 @@ char *get_var_value(char *var_name, t_list *env)
 		env = env->next;
 	}
 	return(NULL);
-	
-	
 }

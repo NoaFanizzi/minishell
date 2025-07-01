@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 13:28:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 16:01:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int ft_deal_with_out(t_content *content, size_t i)
 		content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->outfile == -1)
 		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
@@ -37,6 +38,7 @@ int ft_deal_with_apnd(t_content *content, size_t i)
 		content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->outfile == -1)
 		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
@@ -55,6 +57,7 @@ int ft_deal_with_in(t_content *content, size_t i)
 		content->infile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->infile == -1)
 		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
 			perror(content->cmd_splitted[content->pos][content->files[i].index + 1]);
 			content->error_code = 1;
 			return(O_ERROR); //fait les trucs
@@ -81,6 +84,13 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			hdoc_count++;
 			temp_i = content->files[*i].index + 1;
 			h_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			if(h_fd == -1)
+			{
+				ft_putstr_fd("maxishell: ", STDERR_FILENO);
+				perror("temp");
+				content->error_code = 1;
+				return(O_ERROR);
+			}
 			ft_putstr_fd("> ", 1);
 			line = get_next_line(0);
 			while(line != NULL)

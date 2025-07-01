@@ -22,33 +22,8 @@ enum	ERROR
 	NO_OUT = -12
 };
 
-//echo.c
-int		ft_echo(t_content *content);
 
-//cd.c
-void	ft_cd(t_content *content, t_list **env);
-
-//env.c
-t_list	*ft_init_env(char **env);
-void	ft_display_env(t_list *env, t_content *content);
-
-//pwd.c
-int		ft_pwd(void);
-
-//utils.c
-void	ft_display_tab(char **tab);
-void	ft_free_tab(char **tab);
-void	ft_free_content(t_content *content);
-void	ft_free_env(t_list *env);
-
-int	ft_strcmp(char *s1, char *s2);
-
-//expand_utils.c
 void	expand(char **command, t_list **var);
-int var_exists(char *var_name, t_list *env);
-char *get_var_value(char *var_name, t_list *env);
-size_t	get_true_var_length(char *var_name, t_list *env);
-
 
 
 #endif

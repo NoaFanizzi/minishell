@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export_dup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:16:50 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 12:17:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 17:40:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_env *dup_env_node(t_env *e)
+t_env *dup_env_node(t_env *e)
 {
     t_env *dup = malloc(sizeof *dup);
     if (!dup) return NULL;

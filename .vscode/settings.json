@@ -3,7 +3,8 @@
 		"minishell.h": "c",
 		"redirections.h": "c",
 		"string_view": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"system_error": "c"
 	},
 	"C_Cpp.default.compilerPath": ""
 }
