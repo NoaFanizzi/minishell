@@ -14,8 +14,7 @@
 #include <readline/history.h>
 #include "get_next_line.h"
 
-extern int g_signal_status;
-extern int g_macro_debug;
+extern t_array *g_array;
 
 enum	ERROR
 {

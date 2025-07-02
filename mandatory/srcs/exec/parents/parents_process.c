@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 12:32:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:05:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,16 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	i = 0;
 	while((int)i < array->size)
 	{
+		//printf("salut\n");
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
 		array->content[i].env = env;
 		array->content[i].pos = i;
 		array->content[i].size = array->size;
-		array->content[i].error_code = 0;
+		array->content[i].error_code = -5;
+		array->content[i].h_fd = -2;
+		array->content[i].stdin_saved = -2;
+		array->content[i].stdout_saved = -2;
 		i++;
 	}
 }
@@ -58,6 +62,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	redir_value = 0;
+	g_array = array;
 	if(array->size == 0)
 		return;
 	ft_load_preliminary_infos(env, array);

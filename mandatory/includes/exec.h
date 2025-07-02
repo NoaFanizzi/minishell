@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 18:45:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:14:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int		ft_deal_with_in(t_content *content, size_t i);
 int		ft_deal_with_hdoc(t_content *content, size_t *i);
 
 //redirections_find.c
-void	ft_deal_with_redir(t_content *content);
+int		ft_deal_with_redir(t_content *content);
 void	ft_deal_with_pipes(t_content *content);
 int		ft_parse_redirections(t_content *content);
 

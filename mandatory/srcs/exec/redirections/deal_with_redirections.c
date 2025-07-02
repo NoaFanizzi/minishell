@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 16:01:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:43:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int ft_deal_with_out(t_content *content, size_t i)
 {
 	if(content->files[i].type == OUT)
 	{
+		if(!(content->cmd_splitted[content->pos][content->files[i].index + 1]))
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			content->error_code = 2;
+			return(O_ERROR);
+		}
 		content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->outfile == -1)
 		{
@@ -35,6 +41,12 @@ int ft_deal_with_apnd(t_content *content, size_t i)
 {
 	if(content->files[i].type == APND)
 	{
+		if(!(content->cmd_splitted[content->pos][content->files[i].index + 1]))
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			content->error_code = 2;
+			return(O_ERROR);
+		}
 		content->outfile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->outfile == -1)
 		{
@@ -54,6 +66,12 @@ int ft_deal_with_in(t_content *content, size_t i)
 {
 	if(content->files[i].type == IN)
 	{
+		if(!(content->cmd_splitted[content->pos][content->files[i].index + 1]))
+		{
+			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			content->error_code = 2;
+			return(O_ERROR);
+		}
 		content->infile = open(content->cmd_splitted[content->pos][content->files[i].index + 1], O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->infile == -1)
 		{
@@ -71,7 +89,6 @@ int ft_deal_with_in(t_content *content, size_t i)
 
 int	ft_deal_with_hdoc(t_content *content, size_t *i)
 {
-	int	h_fd;
 	int temp_i;
 	int	hdoc_count;
 	char *line;
@@ -83,12 +100,13 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 		{
 			hdoc_count++;
 			temp_i = content->files[*i].index + 1;
-			h_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
-			if(h_fd == -1)
+			content->h_fd = open("temp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+			if(content->h_fd == -1)
 			{
 				ft_putstr_fd("maxishell: ", STDERR_FILENO);
 				perror("temp");
 				content->error_code = 1;
+				content->h_fd = -2; // je le remet a -2 pour savoir si je dois close ou pas dans l'exit;
 				return(O_ERROR);
 			}
 			ft_putstr_fd("> ", 1);
@@ -99,20 +117,21 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 					&& ft_strncmp(line, content->cmd_splitted[content->pos][temp_i], ft_strlen(content->cmd_splitted[content->pos][temp_i])) == 0)
 					break;
 				ft_putstr_fd("> ", 1);
-				ft_putstr_fd(line, h_fd);
+				ft_putstr_fd(line, content->h_fd);
 				free(line);
 				line = get_next_line(0);
 			}
 			free(line);
-			close(h_fd); // je le close parce qu'il sert plus a rien
+			close(content->h_fd); // je le close parce qu'il sert plus a rien
+			content->h_fd = -2; // je le remet a -2 pour savoir si je dois close ou pas dans l'exit;
 		}
 		*i += 1;
 	}
 	if(hdoc_count != 0)
 	{
-		h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
-		dup2(h_fd, STDIN_FILENO); // je fais lire depuis le fichier temporaire creee
-		close(h_fd); // je le close parce qu'il sert plus a rien
+		content->h_fd = open("temp", O_RDWR | O_CREAT | O_APPEND, 0644);
+		dup2(content->h_fd, STDIN_FILENO); // je fais lire depuis le fichier temporaire creee
+		close(content->h_fd); // je le close parce qu'il sert plus a rien
 	}
 	return(0);
 }

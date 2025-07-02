@@ -6,26 +6,32 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 12:28:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:04:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_free_hdoc(t_heredocs *hdoc)
+void ft_free_hdoc(t_heredocs *hdoc)
 {
-	if (!hdoc)
-		return;
-	if (hdoc->text)
+    size_t i;
+	size_t	count;
+
+
+	i = 0;
+    if (!hdoc)
+        return;
+    count = hdoc[0].size; // ou stocke le count ailleurs si besoin
+	//printf("count = %zu\n", count);
+    while(i < count)
 	{
-		for (size_t i = 0; i < hdoc->size; i++)
-			free(hdoc->text[i]);
-		free(hdoc->text);
-		hdoc->text = NULL;
+        ft_free_tab(hdoc[i].text);
+		i++;
 	}
-	free(hdoc);
-	hdoc = NULL;
+    free(hdoc);
 }
+
+
 
 int	ft_is_arg_numeric(char *str)
 {
@@ -118,6 +124,17 @@ void	ft_exit(t_content *content)
 	int	error_code;
 	int validity_value;
 
+	if(content->stdin_saved != -2)
+	{
+		close(content->stdin_saved);
+		content->stdin_saved = -2;
+	}
+	if(content->stdout_saved != -2)
+	{
+		close(content->stdout_saved);
+		content->stdout_saved = -2;
+	}
+		
 	if (!content)
 		exit(1);
 	validity_value = ft_check_if_valid_exit(content);

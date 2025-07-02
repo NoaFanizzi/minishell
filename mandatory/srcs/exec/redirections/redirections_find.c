@@ -6,14 +6,14 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 14:31:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:13:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirections.h"
 
-void	ft_deal_with_redir(t_content *content)
+int	ft_deal_with_redir(t_content *content)
 {
 	size_t size;
 	size_t	i;
@@ -25,16 +25,17 @@ void	ft_deal_with_redir(t_content *content)
 		while(i < size)
 		{
 			if(ft_deal_with_out(content, i) == O_ERROR)
-				ft_exit(content);
+				return(1);
 			if(ft_deal_with_apnd(content, i) == O_ERROR)
-				ft_exit(content);
+				return(1);
 			if(ft_deal_with_in(content, i) == O_ERROR)
-				ft_exit(content);
+				return(1);
 			if(ft_deal_with_hdoc(content, &i) == O_ERROR)
-				ft_exit(content);
+				return(1);
 			i++;
 		}
 	}
+	return(0);
 }
 
 void	ft_deal_with_pipes(t_content *content)
@@ -58,6 +59,7 @@ int	ft_parse_redirections(t_content *content)
 	content->infile = -2;
 	content->outfile = -2;
 	ft_deal_with_pipes(content);
-	ft_deal_with_redir(content);
+	if(ft_deal_with_redir(content) == 1)
+		ft_exit(content);
 	return(0);
 }

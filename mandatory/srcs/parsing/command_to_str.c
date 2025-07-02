@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/02 10:30:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 14:27:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int    create_hdoc_struct(t_array *array, char **command)
 		}
         return(0);
 	}
-    array->content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
+    array->content->hdoc = ft_calloc(hdoc_count, sizeof(t_heredocs));
     if (!array->content->hdoc)
         return(-1);
     i = 0;

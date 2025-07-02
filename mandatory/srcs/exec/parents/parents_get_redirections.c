@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 12:40:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:18:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,23 +27,23 @@ int	exit_in_parent(t_array *array)
 
 int	ft_get_redir_dad(t_array *array, t_list **env)
 {
-	int	stdin_saved;
-	int	stdout_saved;
 	int command;
 	
-	stdin_saved = dup(STDIN_FILENO);
-	stdout_saved = dup(STDOUT_FILENO);
+	array->content[0].stdin_saved = dup(STDIN_FILENO);
+	array->content[0].stdout_saved = dup(STDOUT_FILENO);
 	command = ft_is_built_in(&array->content[0]);
 	if(command == 0)
 	{
-		ft_parse_redirections(&array->content[0]);
-		ft_is_built_in_dad(array, env);
+		if(ft_deal_with_redir(&array->content[0]) == 0)
+			ft_is_built_in_dad(array, env);
 		array->p_exit_status = array->content[0].error_code;
 	}
-	dup2(stdin_saved, STDIN_FILENO);
-	close(stdin_saved);
-	dup2(stdout_saved, STDOUT_FILENO);
-	close(stdout_saved);
+	dup2(array->content[0].stdin_saved, STDIN_FILENO);
+	close(array->content[0].stdin_saved);
+	array->content[0].stdin_saved = -2;
+	dup2(array->content[0].stdout_saved, STDOUT_FILENO);
+	close(array->content[0].stdout_saved);
+	array->content[0].stdout_saved = -2;
 	if(command == 1)
 		return(exit_in_parent(array));
 	return(0);
