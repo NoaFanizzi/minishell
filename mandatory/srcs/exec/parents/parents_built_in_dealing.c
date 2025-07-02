@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:54:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 07:59:21 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 17:04:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	ft_is_built_in_dad(t_array *array, t_list **env)
 	if(ft_strcmp(array->content->cmd[0], "cd") == 0)
 		ft_cd(&array->content[0], env);
 	if(ft_strcmp(array->content->cmd[0], "echo") == 0)
+	{
 		ft_echo(&array->content[0]);
+	}
 	if(ft_strcmp(array->content->cmd[0], "env") == 0)
 		ft_display_env(*env, &array->content[0]);
 }

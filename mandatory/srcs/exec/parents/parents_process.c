@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 15:05:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 15:41:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	i = 0;
 	while((int)i < array->size)
 	{
-		//printf("salut\n");
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
 		array->content[i].env = env;

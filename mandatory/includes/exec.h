@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 15:14:21 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 16:18:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_add_new_tab(t_list *env, char **converted, size_t i);
 char	**ft_convert_env(t_list *env);
 
 //exec_free.c
-void	ft_dup2_pb(t_content *content);
+int	ft_dup2_pb(t_content *content, char *str);
 void	ft_exec_failure(t_expar *expar, int i);
 
 //exec_utils.c
