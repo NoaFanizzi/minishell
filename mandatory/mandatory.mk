@@ -13,6 +13,7 @@ CHILDREN_DIR		= children
 PARENTS_DIR			= parents
 PIPES_DIR			= pipes
 UTILS_DIR			= utils
+SIGNALS_DIR			= signals
 
 GNL_SRCS			= get_next_line.c get_next_line_utils.c
 GNL_SRCS			:= $(addprefix $(GNL_DIR)/, $(GNL_SRCS))
@@ -38,8 +39,11 @@ ERROR_HANDLING_SRCS	:= $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS
 UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c
 UTILS_SRCS			:= $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
+SIGNALS_SRCS		= signals.c
+SIGNALS_SRCS		:= $(addprefix $(SIGNALS_DIR)/, $(SIGNALS_SRCS))
+
 # Ici, comme REDIRECTIONS_SRCS a déjà le préfixe redirections/, on ne remet pas exec/ devant :
-EXEC_SRCS = $(REDIRECTIONS_SRCS) $(ERROR_HANDLING_SRCS) $(CHILDREN_SRCS) $(PARENTS_SRCS) $(UTILS_SRCS) $(PIPES_SRCS)
+EXEC_SRCS = $(REDIRECTIONS_SRCS) $(ERROR_HANDLING_SRCS) $(CHILDREN_SRCS) $(PARENTS_SRCS) $(UTILS_SRCS) $(PIPES_SRCS) $(SIGNALS_SRCS)
 
 PARSING_SRCS = command_to_str.c quotes_splitting.c space_splitting.c meta_splitting.c quotes_removal.c command_splitting.c cmd_struct.c charset_split.c test.c contiguous_quotes.c expand.c
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
@@ -50,6 +54,6 @@ SRCS		:= $(addprefix $(SRC_DIR)/, $(SRCS))
 
 vpath %.c $(SRC_DIR) $(SRC_DIR)/$(BUILT_IN_DIR) $(SRC_DIR)/$(EXEC_DIR) $(SRC_DIR)/$(PARSING_DIR) \
 	$(SRC_DIR)/$(EXEC_DIR)/$(REDIRECTIONS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(ERROR_HANDLING_DIR) $(SRC_DIR)/$(GNL_DIR) \
-	$(SRC_DIR)/$(EXEC_DIR)/$(CHILDREN_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(PARENTS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(PIPES_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(UTILS_DIR)
+	$(SRC_DIR)/$(EXEC_DIR)/$(CHILDREN_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(PARENTS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(PIPES_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(UTILS_DIR) $(SRC_DIR)/$(EXEC_DIR)/$(SIGNALS_DIR)
 
 vpath %.h $(INC_DIR)

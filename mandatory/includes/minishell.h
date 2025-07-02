@@ -10,9 +10,11 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "get_next_line.h"
 
-extern int g_exit_status;
+extern int g_signal_status;
 extern int g_macro_debug;
 
 enum	ERROR
@@ -24,6 +26,7 @@ enum	ERROR
 
 
 void	expand(char **command, t_list **var);
+void	deal_with_sigint(int signal);
 
 
 #endif

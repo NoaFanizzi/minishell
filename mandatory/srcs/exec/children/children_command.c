@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 17:03:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:46:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int ft_is_command(t_content *content)
 	char	*adding_slash;
 
 	i = 0;
-	if (content->cmd == NULL || !content->cmd[0])
+	if ((content->cmd == NULL || !content->cmd[0])
+		||(ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
 	while (content->expar->options[i])
 	{

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 18:38:49 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:48:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 		ft_exit(content);
 	cmd_value = ft_is_command(content);
 
-	if (cmd_value == 1)
+	if (cmd_value == 1 || cmd_value == 2)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
 		ft_putstr_fd("bash: ", STDERR_FILENO);
@@ -46,6 +46,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	return(0);
 }
 
+
 void	ft_exec_cmd(t_content *content, t_list **env)
 {
 	char **env_converted;
@@ -53,7 +54,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-	
+
 	ft_load_expar(content, env);
 	if (!content->expar->options)
 		ft_exit(content);

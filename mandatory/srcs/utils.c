@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 15:14:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:33:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	ft_free_tab(char **tab)
 
 	i = 0;
 	//printf("tab[0] = %s\n", tab[0]);
-	if(tab[0] == NULL)
+	if(tab == NULL || tab[0] == NULL)
 		return;
 	while(tab[i])
 	{

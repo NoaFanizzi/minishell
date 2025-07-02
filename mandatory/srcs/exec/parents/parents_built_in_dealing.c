@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:54:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 17:15:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 07:59:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,6 @@ void	ft_is_built_in_dad(t_array *array, t_list **env)
 		ft_cd(&array->content[0], env);
 	if(ft_strcmp(array->content->cmd[0], "echo") == 0)
 		ft_echo(&array->content[0]);
-	if(ft_strcmp(array->content->cmd[0], "exit") == 0)
-	{
-		if(array->content->arg)
-			array->content[0].error_code = ft_atoi(array->content->arg[0]);
-		ft_exit(&array->content[0]);
-	}
 	if(ft_strcmp(array->content->cmd[0], "env") == 0)
 		ft_display_env(*env, &array->content[0]);
 }
@@ -42,7 +36,6 @@ int	ft_is_built_in(t_content *content)
 		||(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
 		||(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
 		||(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
-		||(ft_strncmp(content->cmd[0], "exit", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
 		||(ft_strncmp(content->cmd[0], "env", 3) == 0 && ft_strlen(content->cmd[0]) == 3))
 		return(0);

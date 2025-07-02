@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/27 12:32:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:30:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,17 +217,33 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
+char	*ft_join_prompt(t_array *array)
+{
+	char *error_converted;
+	char *joined_prompt;
+
+	error_converted = ft_itoa(array->p_exit_status);
+	joined_prompt = ft_strjoin( error_converted, " | maxishell$ ");
+	free(error_converted);
+	return(joined_prompt);
+	
+}
+
 void	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
+	char *prompt;
 	t_array	array;
-	//int i = 0;
 	
 	array.p_exit_status = 0;
+	signal(SIGINT, deal_with_sigint);
+	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		line = readline("maxishell$ ");
+		prompt = ft_join_prompt(&array);
+		line = readline(prompt);
+		free(prompt);
 		if (line == NULL)
 			break;
 		if (line)
@@ -239,11 +255,8 @@ void	launch_shell(t_list **var)
 			return ;
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
-		//printf("\n");
-		//i++;
 		free_command(cmd_splitted);
 		ft_free_array_content(&array);
-		//break;
 	}
 }
 

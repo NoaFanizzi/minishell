@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 18:39:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 10:49:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_wait_pid(t_array *array)
 		else if(WIFSIGNALED(status))
 			array->p_exit_status = 128 + WTERMSIG(status);
 		pid = waitpid(-1, &status, 0);
+		//printf("array->exit_status = %d\n", array->p_exit_status);
 	}
 	
 }
