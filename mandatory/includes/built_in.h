@@ -27,7 +27,7 @@ void	ft_display_env(t_list *env, t_content *content);
 
 //exit.c
 void	ft_free_hdoc(t_heredocs *hdoc);
-void	ft_check_if_valid_exit(t_content *content);
+int		ft_check_if_valid_exit(t_content *content);
 void	ft_exit(t_content *content);
 
 //expand_utils.c
