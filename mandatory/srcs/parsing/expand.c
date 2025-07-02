@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/01 17:31:51 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/02 19:02:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*get_var_name(char *word)
 	return (var_name);
 }
 
-char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name, t_list **env)
+char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t_list **env)
 {
 	char	*new_word;
 	char 	*exp_var; //la vraie valeur de la variable expand
@@ -83,38 +83,102 @@ char	*expand_var_in_word(char *word, size_t	i, size_t size, char *var_name, t_li
 	return (new_word);
 }
 
-int		is_not_after_hdoc(char *word, char **command, size_t i, size_t j)
+int		is_var_quoted(char *command, size_t i)
 {
-	while (i > 1)
+	size_t	j;
+
+	j = 0;
+	while (command[j] && j != i)
 	{
-		i--;
-		if (word[i] == '<' && word[i - 1] == '<')
-			return (0);
-		else if (!ft_isspace(word[i]))
-			return (1);
-	}
-	while (j > 0)// till we find a hdoc or we went through all or we found that there was no heredoc for this dollar
-	{
-		i = 0;
-		while (command[j - 1][i])
-			i++;
-		while (i > 1)
+		if (command[j] == S_QUOTE)
 		{
-			i--;
-			if (command[j - 1][i] == '<' && command[j - 1][i - 1] == '<')
-				return (0);
-			else if (!ft_isspace(command[j - 1][i]))
+			while (command[j] && j != i && command[j] != S_QUOTE)
+				j++;
+			if (j == i && command[j] != S_QUOTE)
 				return (1);
 		}
-		j--;
+		else if (command[j] == D_QUOTE)
+		{
+			while (command[j] && j != i && command[j] != D_QUOTE)
+				j++;
+			if (j == i && command[j] != D_QUOTE)
+				return (2);
+		}
+		j++;
 	}
-	return (1)
+	return (0);
 }
 
-char	*expand_word(char *word, char **command, t_list **env, size_t counter, size_t j)
+void	skip_till_quote(int quoted,char *command, size_t *i)
+{
+	if (quoted == 0)
+		return ;
+	else if (quoted == 1)
+	{
+		while (*i > 0 && command[*i] != S_QUOTE)
+			(*i)--;
+	}	
+	else if (quoted == 2)
+	{
+		while (*i > 0 && command[*i] != D_QUOTE)
+			(*i)--;
+	}
+}
+
+int		is_not_after_hdoc(char *command, size_t i)
+{
+	int	quoted;
+
+	quoted = is_var_quoted(command, i);
+	skip_till_quote(quoted, command, &i);
+	if (i > 0)
+		i--;
+	while (i > 0)
+	{
+		if (command[i] == S_QUOTE)
+		{
+			i--;
+			while (i > 0 && command[i] != S_QUOTE)
+				i--; 
+			if (i == 0)//to see
+				return (1);
+		}
+		else if (command[i] == D_QUOTE)
+		{
+			i--;
+			while (i > 0 && command[i] != D_QUOTE)
+				i--; 
+			if (i == 0)//to see
+				return (1);
+		}
+		else if (ft_isspace(command[i]))
+		{
+			i--;
+			while (i > 0 && ft_isspace(command[i]))
+				i--;
+			if (command[i] != '<' && i > 0 && command[i - 1] != '<')
+				return (1);//not an heredoc
+		}
+		else if (command[i] != '<' && command[i - 1] != '<')
+		{
+			i -= 2;
+			while (i > 0 && !ft_isspace(command[i])
+				&& command[i] != S_QUOTE
+				&& command[i] != D_QUOTE
+				&& (command[i] != '<'
+				&& i > 0 && command[i - 1] != '<'))
+				i--;
+		}
+		else
+			return (0);
+	}
+	return (0);
+}
+
+char	*expand_word(char *command, t_list **env)
 {
 	char	*var_name;
-	char	*new_word;
+	char	*new_command;
 	size_t	i;
 	size_t	true_var_length;
 	size_t	new_length;
@@ -123,110 +187,48 @@ char	*expand_word(char *word, char **command, t_list **env, size_t counter, size
 	i = 0;
 	true_var_length = 0;
 	new_length = 0;
-	new_word = NULL;
-	
-	size_t length = ft_strlen(word);
-	//printf("word = %s\n", )
-	while (i < length)
+	new_command = NULL;
+	size_t length = ft_strlen(command);
+	while (i < length)//command[i] ?
 	{
-		
-		printf("word[i] : %c\n", word[i]);
-		if (word[i] == '$' && is_not_after_hdoc(word, command, i, j) && valid_var_first_char(word[i + 1]))
+		if (command[i] == '$' && is_not_after_hdoc(command, i) && valid_var_first_char(command[i + 1]))
 		{
-			if (0 >= counter)
+			var_name = get_var_name(&command[i + 1]);
+			if (!var_name)
+				return (NULL);
+			if (var_exists(var_name, *env) == 1)
 			{
-				printf("AAAAAAAA\n");
-				printf("counter : %zu\n", counter);
-				var_name = get_var_name(&word[i + 1]);
-				//printf("var_name = %s\n", var_name);
-				if (!var_name)
-				{
-					printf("var doesnt exist\n");
+				true_var_length = get_true_var_length(var_name, *env);
+				new_length = true_var_length + (ft_strlen(command) - get_var_length(&command[i + 1])) + 1;
+				new_command = expand_var_in_command(command, i, new_length, var_name, env);
+				if (!new_command)
 					return (NULL);
-				}
-				if (var_exists(var_name, *env) == 1)//TODO renvoyer 1 si y'a la variable dasn env et 0 sinon (int)
-				{
-					printf("replacing var\n");
-					//printf("CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC\n");
-					true_var_length = get_true_var_length(var_name, *env);
-					//printf("true_var_length = %zu\n", true_var_length);
-					new_length = true_var_length + (ft_strlen(word) - get_var_length(&word[i + 1])) + 1;
-					//printf("new_var_length = %zu\n", new_length);
-					new_word = expand_var_in_word(word, i, new_length, var_name, env);
-					//printf("word = %s\n", word);
-					//printf("new_word = %s\n", new_word);
-					if (!new_word)
-						return (NULL);
-					i += true_var_length;
-					break ;
-				}
-				else
-				{
-					i++;
-					//need to suppress the $USERR if it doesnt exist
-				}
-			}
-			if (counter > 0)
-			{
-				printf("decremented\n");
-				counter--;
+				length = ft_strlen(command);
+				i = 0;
+				continue ;
 			}
 		}
 		else
 			i++;
-		//break;
 	}
-	if (!new_word)
-		return (word);
-	free(word);
-	return (new_word);
+	if (!new_command)
+		return (command);
+	free(command);
+	return (new_command);
 }
 
-size_t	ft_count_dollars(char *str)
-{
-	size_t	i;
-	size_t	count;
+// size_t	ft_count_dollars(char *str)
+// {
+// 	size_t	i;
+// 	size_t	count;
 
-	i = 0;
-	count = 0;
-	while(str[i])
-	{
-		if(str[i] == '$')
-			count++;
-		i++;
-	}
-	return(count);
-}
-
-void	expand(char **command, t_list **var)
-{
-	size_t	i;
-	size_t	j;
-	size_t	count;
-	size_t	counter;
-
-	i = 0;
-	counter = 0;
-	while (command[i])
-	{
-		j = 0;
-		count = 0;
-		count = ft_count_dollars(command[i]);
-		printf("count : %zu\n", count);
-		if (command[i][0] == S_QUOTE)
-			i++;
-		else
-		{
-			while(j < count)
-			{
-				printf("entered\n");
-				command[i] = expand_word(command[i], command, var, counter, i);
-				if (!command[i])
-					return ;
-				counter++;
-				j++;
-			}
-			i++;
-		}
-	}
-}
+// 	i = 0;
+// 	count = 0;
+// 	while(str[i])
+// 	{
+// 		if(str[i] == '$')
+// 			count++;
+// 		i++;
+// 	}
+// 	return(count);
+// }

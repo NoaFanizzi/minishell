@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 16:56:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:55:21 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,23 @@
 char	***parse_command(char *line, t_list **var)
 {	
 	char 	**command = NULL;
+	char	*str;
 	char	***cmd_splitted = NULL;
 	int		k;
 	int		i;
 
 	k = 0;
-	command = quotes_splitting(command, line);
+	str = ft_strdup(line);
+	if (!str)
+		return (NULL);
 	free(line);
+	
+	str = expand_word(str, var);
+	if (!str)
+		return (NULL);
+	
+	command = quotes_splitting(command, str);
+	free(str);
 	if (!command)
 		return (NULL);//error
 	while (command[k])
@@ -35,7 +45,6 @@ char	***parse_command(char *line, t_list **var)
 	}
 	//printf("\n\n");
 	//EXPAND
-	expand(command, var);
 	contiguous_quotes(&command);
 	if (!command)
 		return (NULL);
