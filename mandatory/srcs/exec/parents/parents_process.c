@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 15:41:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/02 18:54:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].size = array->size;
 		array->content[i].error_code = -5;
 		array->content[i].h_fd = -2;
+		array->content[i].infile = -2;
+		array->content[i].outfile = -2;
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
 		i++;
