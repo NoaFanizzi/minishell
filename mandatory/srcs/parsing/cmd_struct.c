@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 16:51:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 17:12:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	redir_count = count_redir(cmd);
 	content->redir_count = redir_count;
 	content->files = NULL;
-	if(redir_count == 0)
+	if (redir_count == 0)
 		return ;
 	content->files = malloc(redir_count * sizeof(t_files));
 	if (!content->files)

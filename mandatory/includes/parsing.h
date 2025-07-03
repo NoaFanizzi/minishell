@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/03 09:28:41 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/03 17:15:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	launch_shell(t_list **var);
 char	***parse_command(char *line, t_list **var);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
-int	    create_hdoc_struct(t_array *array, char **command);
+int	    create_hdoc_struct(char **command, t_content *content);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
