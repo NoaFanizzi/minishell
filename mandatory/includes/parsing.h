@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/02 18:56:17 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/03 09:28:41 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,6 @@ void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
 char	**join_prev_quotes(char **command, size_t i);
 void	contiguous_quotes(char ***command);
 
-char	*expand_word(char *command, t_list **env);
+char	*expand(char *command, t_list **env);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/02 18:55:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/03 10:49:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,31 @@ char	***parse_command(char *line, t_list **var)
 		return (NULL);
 	free(line);
 	
-	str = expand_word(str, var);
+	str = expand(str, var);
 	if (!str)
 		return (NULL);
-	
+	printf("str = %s\n\n", str);
 	command = quotes_splitting(command, str);
 	free(str);
 	if (!command)
 		return (NULL);//error
-	while (command[k])
+	k = 0;
+		while (command[k])
 	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
+		printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
-	//EXPAND
+	printf("\n\n");
 	contiguous_quotes(&command);
 	if (!command)
 		return (NULL);
 	k = 0;
 	while (command[k])
 	{
-		//printf("Aword n%d : %s\n", k + 1, command[k]);
+		printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	//printf("\n\n");
+	printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -77,17 +77,17 @@ char	***parse_command(char *line, t_list **var)
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
 	return (NULL);
-	//printf("\n\n");
+	printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		//printf("\ncommand n%d\n", k + 1);
+		printf("\ncommand n%d\n", k + 1);
 		if (!cmd_splitted[k][i])
-		//printf("NULL\n");
+			printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;

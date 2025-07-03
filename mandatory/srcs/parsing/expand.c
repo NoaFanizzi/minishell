@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/02 19:02:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/03 10:44:46 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,138 +83,160 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 	return (new_word);
 }
 
-int		is_var_quoted(char *command, size_t i)
+int is_not_after_hdoc(const char *cmd, size_t var_index)
 {
-	size_t	j;
+	size_t i = 0;
+	int in_squote = 0;
+	int in_dquote = 0;
 
-	j = 0;
-	while (command[j] && j != i)
+	while (cmd[i])
 	{
-		if (command[j] == S_QUOTE)
-		{
-			while (command[j] && j != i && command[j] != S_QUOTE)
-				j++;
-			if (j == i && command[j] != S_QUOTE)
-				return (1);
-		}
-		else if (command[j] == D_QUOTE)
-		{
-			while (command[j] && j != i && command[j] != D_QUOTE)
-				j++;
-			if (j == i && command[j] != D_QUOTE)
-				return (2);
-		}
-		j++;
-	}
-	return (0);
-}
+		// Handle quote state
+		if (!in_dquote && cmd[i] == '\'')
+			in_squote = !in_squote;
+		else if (!in_squote && cmd[i] == '\"')
+			in_dquote = !in_dquote;
 
-void	skip_till_quote(int quoted,char *command, size_t *i)
-{
-	if (quoted == 0)
-		return ;
-	else if (quoted == 1)
-	{
-		while (*i > 0 && command[*i] != S_QUOTE)
-			(*i)--;
-	}	
-	else if (quoted == 2)
-	{
-		while (*i > 0 && command[*i] != D_QUOTE)
-			(*i)--;
-	}
-}
+		// Detect `<<` only when not inside quotes
+		if (!in_squote && !in_dquote && cmd[i] == '<' && cmd[i + 1] == '<')
+		{
+			i += 2;
 
-int		is_not_after_hdoc(char *command, size_t i)
-{
-	int	quoted;
+			// Skip whitespace
+			while (cmd[i] && ft_isspace(cmd[i]))
+				i++;
 
-	quoted = is_var_quoted(command, i);
-	skip_till_quote(quoted, command, &i);
-	if (i > 0)
-		i--;
-	while (i > 0)
-	{
-		if (command[i] == S_QUOTE)
-		{
-			i--;
-			while (i > 0 && command[i] != S_QUOTE)
-				i--; 
-			if (i == 0)//to see
-				return (1);
-		}
-		else if (command[i] == D_QUOTE)
-		{
-			i--;
-			while (i > 0 && command[i] != D_QUOTE)
-				i--; 
-			if (i == 0)//to see
-				return (1);
-		}
-		else if (ft_isspace(command[i]))
-		{
-			i--;
-			while (i > 0 && ft_isspace(command[i]))
-				i--;
-			if (command[i] != '<' && i > 0 && command[i - 1] != '<')
-				return (1);//not an heredoc
-		}
-		else if (command[i] != '<' && command[i - 1] != '<')
-		{
-			i -= 2;
-			while (i > 0 && !ft_isspace(command[i])
-				&& command[i] != S_QUOTE
-				&& command[i] != D_QUOTE
-				&& (command[i] != '<'
-				&& i > 0 && command[i - 1] != '<'))
-				i--;
+			// Now parse the delimiter token
+			in_squote = 0;
+			in_dquote = 0;
+
+			while (cmd[i])
+			{
+				if (i == var_index)
+					return 0; // ✅ $ is inside the delimiter
+
+				if (!in_dquote && cmd[i] == '\'')
+					in_squote = !in_squote;
+				else if (!in_squote && cmd[i] == '"')
+					in_dquote = !in_dquote;
+
+				// Unquoted delimiter boundary
+				if (!in_squote && !in_dquote &&
+					(ft_isspace(cmd[i]) || cmd[i] == '|' ||
+					 cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '\0'))
+					break;
+
+				i++;
+			}
 		}
 		else
-			return (0);
+		{
+			i++;
+		}
 	}
-	return (0);
+	return 1;
 }
 
-char	*expand_word(char *command, t_list **env)
+
+// int	is_not_after_hdoc(char *command, size_t i)
+// {
+// 	int	quoted;
+
+// 	quoted = is_var_quoted(command, i);
+// 	printf("is_quoted = %d\n", quoted);
+// 	skip_till_quote(quoted, command, &i);
+// 	if (i > 0)
+// 		i--;
+// 	printf("i = %zu\n", i);
+// 	while (i > 0)
+// 	{
+// 		if (command[i] == S_QUOTE)
+// 		{
+// 			i--;
+// 			while (i > 0 && command[i] != S_QUOTE)
+// 				i--; 
+// 			if (i == 0)//to see
+// 			{
+// 				printf("hdoc = 1\n");
+// 				return (1);
+// 			}
+// 		}
+// 		else if (command[i] == D_QUOTE)
+// 		{
+// 			i--;
+// 			while (i > 0 && command[i] != D_QUOTE)
+// 				i--; 
+// 			if (i == 0)//to see
+// 			{
+// 				printf("hdoc = 1\n");
+// 				return (1);
+// 			}
+// 		}
+// 		else if (ft_isspace(command[i]))
+// 		{
+// 			i--;
+// 			while (i > 0 && ft_isspace(command[i]))
+// 				i--;
+// 			if (command[i] != '<' && i > 0 && command[i - 1] != '<')
+// 			{
+// 				printf("hdoc = 1\n");
+// 				return (1);
+// 			};//not an heredoc
+// 		}
+// 		else if (command[i] != '<' && command[i - 1] != '<')
+// 		{
+// 			i -= 2;
+// 			while (i > 0 && !ft_isspace(command[i])
+// 				&& command[i] != S_QUOTE
+// 				&& command[i] != D_QUOTE
+// 				&& (command[i] != '<'
+// 				&& i > 0 && command[i - 1] != '<'))
+// 				i--;
+// 		}
+// 		else
+// 		{
+// 			printf("hdoc = 0\n");
+// 			return (0);
+// 		}
+// 	}
+// 	printf("hdoc = 0\n");
+// 	return (0);
+// }
+
+char *expand_word(char *command, t_list **env)
 {
-	char	*var_name;
-	char	*new_command;
+	char *var_name;
+	char *new_command;
 	size_t	i;
 	size_t	true_var_length;
-	size_t	new_length;
-	
+	size_t new_length;
 
 	i = 0;
 	true_var_length = 0;
 	new_length = 0;
 	new_command = NULL;
-	size_t length = ft_strlen(command);
-	while (i < length)//command[i] ?
+	while (command[i])
 	{
 		if (command[i] == '$' && is_not_after_hdoc(command, i) && valid_var_first_char(command[i + 1]))
 		{
 			var_name = get_var_name(&command[i + 1]);
 			if (!var_name)
-				return (NULL);
-			if (var_exists(var_name, *env) == 1)
+				return NULL;
+			if (var_exists(var_name, *env))
 			{
 				true_var_length = get_true_var_length(var_name, *env);
-				new_length = true_var_length + (ft_strlen(command) - get_var_length(&command[i + 1])) + 1;
+				new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
 				new_command = expand_var_in_command(command, i, new_length, var_name, env);
+				free(var_name);
 				if (!new_command)
-					return (NULL);
-				length = ft_strlen(command);
-				i = 0;
-				continue ;
+					return NULL;
+				return new_command;  // only one expansion per call
 			}
+			free(var_name);
 		}
-		else
-			i++;
+		i++;
 	}
-	if (!new_command)
-		return (command);
-	free(command);
-	return (new_command);
+	return command;  // nothing changed
 }
 
 // size_t	ft_count_dollars(char *str)
@@ -232,3 +254,34 @@ char	*expand_word(char *command, t_list **env)
 // 	}
 // 	return(count);
 // }
+
+char *expand(char *command, t_list **env)
+{
+	char *new_command;
+	char *temp;
+	int counter = 0;
+
+	new_command = ft_strdup(command);
+	if (!new_command)
+		return NULL;
+
+	while (1)
+	{
+		temp = expand_word(new_command, env);  // always expand first valid `$`
+		if (temp == new_command)  // nothing was expanded, we are done
+			break;
+		free(new_command);
+		new_command = temp;
+		counter++;
+		if (counter > 1000) // safety guard
+		{
+			fprintf(stderr, "Error: too many variable expansions (infinite loop?)\n");
+			free(new_command);
+			return NULL;
+		}
+	}
+	free(command);
+	return new_command;
+}
+
+
