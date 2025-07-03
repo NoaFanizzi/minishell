@@ -51,7 +51,7 @@ int		ft_init_export(t_list **env, t_content *content, size_t	i);
 int		ft_export(t_list **env, t_content *content);
 
 //pwd.c
-int		ft_pwd(void);
+int		ft_pwd(t_content *content);
 
 //unset.c
 void	ft_free_link(void *content);

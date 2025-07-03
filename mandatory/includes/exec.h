@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 16:18:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 07:44:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,12 @@ void	ft_strcat(char *dest, char *src);
 char	**ct_get_paths(t_list *var);
 char **ft_cmd_join(char **a, char **b);
 void	ft_display_array_content(t_array *array);
+
+//----------------------------ERROR-----------------------------------------
+
+//error_handling.c
+int	ft_open_error(t_content *content, char *str);
+int	ft_dup2_pb(t_content *content, char *str);
 
 
 

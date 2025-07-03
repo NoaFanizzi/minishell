@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 17:28:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:48:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,13 @@ int	ft_export(t_list **env, t_content *content)
 	if(content->arg == NULL)
 	{
 		cpy = dup_env_list(*env);
+		if(!cpy)
+		{
+			perror("maxishell: malloc");
+			content->error_code = 1;
+			return(1);
+		}
+		content->error_code = 0;
 		ft_display_export(cpy);
 		return(0);
 	}
@@ -209,5 +216,6 @@ int	ft_export(t_list **env, t_content *content)
 		ft_init_export(env, content, i);
 		i++;
 	}
+	content->error_code = 0;
 	return(0);
 }

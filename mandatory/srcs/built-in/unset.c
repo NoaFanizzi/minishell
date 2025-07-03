@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 17:37:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:50:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,15 @@ int	ft_unset(t_list **env, t_content *content)
 
 	i = 0;
     if(!content->arg)
+	{
+		content->error_code = 0;
         return(0);
+	}
     while(content->arg[i])
 	{
 		ft_init_unset(env, content, i);
 		i++;	
 	}
+	content->error_code = 0;
 	return(0);
 }

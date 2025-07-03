@@ -3,5 +3,6 @@
 
 #include "minishell.h"
 
+char *ft_get_temp_file(t_content *content);
 
 #endif

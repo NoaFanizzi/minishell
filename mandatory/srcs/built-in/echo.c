@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 13:12:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 13:41:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ int	ft_echo(t_content *content)
 		params = 1;
 	if(content->arg)
 	{
+		printf("content->arg[0] = %s\n", content->arg[i]);
+		// while(content->cmd[i] && ft_is_arg(content->cmd[i]) == 1)
+		// {
+		// 	printf("i = %zu\n", i);
+		// 	printf("content->cmd[i] = %s\n", content->cmd[i]);
+		// 	i++;
+		// }
+		while(content->cmd[i])
+		{
+			printf("i = %zu\n", i);
+			printf("content->cmd[i] = %s\n", content->cmd[i]);
+			i++;
+		}
 		while(content->arg[i])
 		{
 			if(ft_strncmp(content->arg[i], "$?", 2) == 0 && ft_strlen(content->arg[i]) == 2)

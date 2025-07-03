@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/26 16:50:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 12:27:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,10 +328,6 @@ char	**join_prev_simple(char **command, size_t i)
 	free_words(command);
 	return (joined);
 }
-
-
-
-
 
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j)
 {

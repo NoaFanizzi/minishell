@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 18:54:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:07:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,25 @@ void	ft_wait_pid(t_array *array)
 {
 	pid_t pid;
 	int status;
+	int sig;
 
 	status = 0;
+	sig = 0;
 	(void)array;
 	pid = waitpid(-1, &status, 0);
 	while(pid > 0)
 	{
+		
 		if(WIFEXITED(status))
 			array->p_exit_status = WEXITSTATUS(status);
-		else if(WIFSIGNALED(status))
-			array->p_exit_status = 128 + WTERMSIG(status);
-		pid = waitpid(-1, &status, 0);
+		if(WIFSIGNALED(status))
+		{
+			sig = WTERMSIG(status);
+			if(sig != SIGPIPE)
+				array->p_exit_status = 128 + WTERMSIG(status);
+		}
 		//printf("array->exit_status = %d\n", array->p_exit_status);
+		pid = waitpid(-1, &status, 0);
 	}
 	
 }
@@ -39,6 +46,7 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	size_t	i;
 
 	i = 0;
+	array->pipe = NULL;
 	while((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;
@@ -56,6 +64,45 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	}
 }
 
+int	ft_process_here_doc(t_array *array)
+{
+	int	i;
+	size_t	j;
+	size_t	size;
+	int returned_value;
+
+	i = 0;
+	j = 0;
+	dprintf(STDERR_FILENO, "array->size = %d\n", array->size);
+	ft_display_array_content(array);
+	while(i < array->size)
+	{
+		dprintf(STDERR_FILENO, "i = %d\n", i);
+		size = array->content[i].files[i].size;
+		dprintf(STDERR_FILENO, "array->content[i].files[i].size = %zu\n", array->content[i].files[i].size);
+		while(j < size)
+		{
+			if(array->content[i].files[j].type == HDOC)
+			{
+				dprintf(STDERR_FILENO, "array->content[i].files[j].index = %d\n", array->content[i].files[j].index);
+				returned_value = ft_deal_with_hdoc(&array->content[i], &j);
+				break;
+			}
+			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
+			if(returned_value == O_ERROR)
+			{
+				dprintf(STDERR_FILENO, "value returned = %d\n", returned_value);
+				return(1);
+			}
+			j++;
+		}
+		i++;
+		j = 0;
+	}
+	ft_putstr_fd("didn't exit in ft_process_here_doc function\n", STDERR_FILENO);
+	return(0);
+}
+
 void	ft_init_exec(t_list **env, t_array *array)
 {
 	int	i;
@@ -64,9 +111,11 @@ void	ft_init_exec(t_list **env, t_array *array)
 	i = 0;
 	redir_value = 0;
 	g_array = array;
+	//ft_display_array_content(array);
 	if(array->size == 0)
 		return;
 	ft_load_preliminary_infos(env, array);
+	//ft_process_here_doc(array);
 	if(array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);

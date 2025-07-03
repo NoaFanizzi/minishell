@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes_initialisation.c                             :+:      :+:    :+:   */
+/*   pipes_dealing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 16:52:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 08:13:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_close_pipes(t_array *array)
 	int	i;
 
 	i = 0;
+	if(!array->pipe)
+		return;
 	while(i < array->size - 1)
 	{
 		if(array->pipe)
