@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 17:21:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/04 09:37:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ int	ft_is_arg_numeric(char *str)
 int		ft_is_last_arg_numeric(t_content *content)
 {
 	size_t	i;
-	size_t	j;
 
 	i = 0;
-	j = 0;
 	while(content->arg[i + 1])
 		i++;
 	if(ft_is_arg_numeric(content->arg[i]) == 1)
