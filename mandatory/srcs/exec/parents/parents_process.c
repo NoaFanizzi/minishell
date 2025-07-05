@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 15:07:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 12:19:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,33 +73,30 @@ int	ft_process_here_doc(t_array *array)
 
 	i = 0;
 	j = 0;
-	dprintf(STDERR_FILENO, "array->size = %d\n", array->size);
-	ft_display_array_content(array);
 	while(i < array->size)
 	{
-		dprintf(STDERR_FILENO, "i = %d\n", i);
-		size = array->content[i].files[i].size;
-		dprintf(STDERR_FILENO, "array->content[i].files[i].size = %zu\n", array->content[i].files[i].size);
-		while(j < size)
+		if(array->content->hdoc)
 		{
-			if(array->content[i].files[j].type == HDOC)
+			size = array->content[i].files[0].size;
+			j = 0;
+			while(j < size)
 			{
-				dprintf(STDERR_FILENO, "array->content[i].files[j].index = %d\n", array->content[i].files[j].index);
+				if(array->content[i].files[j].type == HDOC)
+				{
+					returned_value = ft_deal_with_hdoc(&array->content[i], &j);
+					break;
+				}
 				returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-				break;
+				if(returned_value == O_ERROR)
+				{
+					dprintf(STDERR_FILENO, "value returned = %d\n", returned_value);
+					return(1);
+				}
+				j++;
 			}
-			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-			if(returned_value == O_ERROR)
-			{
-				dprintf(STDERR_FILENO, "value returned = %d\n", returned_value);
-				return(1);
-			}
-			j++;
 		}
 		i++;
-		j = 0;
 	}
-	ft_putstr_fd("didn't exit in ft_process_here_doc function\n", STDERR_FILENO);
 	return(0);
 }
 
@@ -115,7 +112,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 	if(array->size == 0)
 		return;
 	ft_load_preliminary_infos(env, array);
-	//ft_process_here_doc(array);
 	if(array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
@@ -123,6 +119,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 			return;
 	}
 	ft_init_pipe(array);
+	ft_process_here_doc(array);
 	while(i < array->size)
 	{
 		array->content[i].pid = fork();

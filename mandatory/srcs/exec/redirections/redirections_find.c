@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 11:45:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 12:14:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,28 @@ int	ft_use_hdoc(t_content *content, size_t i)
 	int position;
 
 	position = 0;
-	if(content->files[i].type == IN)
+	if(content->files[i].type == HDOC)
 	{
 		position = content->pos;
 		if(content->pos % 2 != 0)
 			position += 1;
 		temp_file = ft_get_temp_file(content);
-		content->infile = open("temp_file", O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-		free(temp_file);
+		content->infile = open(temp_file, O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->infile == -1)
-			return(ft_open_error(content, content->cmd_splitted[position][content->files[i].index + 1]));
+		{
+			unlink(temp_file);
+			free(temp_file);
+			return(ft_open_error(content, "temp_file"));
+		}
 		if (dup2(content->infile, STDIN_FILENO) == -1)
-			return(ft_dup2_pb (content, content->cmd_splitted[position][content->files[i].index + 1]));
+		{
+			unlink(temp_file);
+			free(temp_file);
+			return(ft_dup2_pb (content, "temp_file"));
+		}
 		close(content->infile);
+		unlink(temp_file);
+		free(temp_file);
 		content->infile = -2;
 	}
 	return(0);
@@ -43,6 +52,8 @@ int	ft_deal_with_redir(t_content *content)
 	size_t	i;
 
 	i = 0;
+	if(content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
+		ft_process_here_doc(content->array_ptr);
 	if(content->files != NULL && &content->files[0] != NULL)
 	{
 		size = content->files[i].size;

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:34:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:45:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	***parse_command(char *line, t_list **var)
 	str = expand(str, var);
 	if (!str)
 		return (NULL);
-	printf("str = %s\n\n", str);
+	//printf("str = %s\n\n", str);
 	command = quotes_splitting(command, str);
 	free(str);
 	if (!command)
@@ -38,20 +38,20 @@ char	***parse_command(char *line, t_list **var)
 	k = 0;
 		while (command[k])
 	{
-		printf("word n%d : %s\n", k + 1, command[k]);
+		//printf("word n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	contiguous_quotes(&command);
 	if (!command)
 		return (NULL);
 	k = 0;
 	while (command[k])
 	{
-		printf("Aword n%d : %s\n", k + 1, command[k]);
+		//printf("Aword n%d : %s\n", k + 1, command[k]);
 		k++;
 	}
-	printf("\n\n");
+	//printf("\n\n");
 	command = space_splitting(command);
 	if (!command)
 		return (NULL);//error
@@ -73,18 +73,18 @@ char	***parse_command(char *line, t_list **var)
 	}
 	cmd_splitted = command_splitting(command);
 	if (!cmd_splitted)
-	return (NULL);
-	printf("\n\n");
+		return (NULL);
+	//printf("\n\n");
 	k = 0;
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		printf("\ncommand n%d\n", k + 1);
-		if (!cmd_splitted[k][i])
-			printf("NULL\n");
+		//printf("\ncommand n%d\n", k + 1);
+		// if (!cmd_splitted[k][i])
+		// 	printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;
@@ -112,7 +112,7 @@ int    create_hdoc_struct(char **command, t_content *content)
         }
         i++;
     }
-	printf("hdoc count : %zu\n", hdoc_count);
+	//printf("hdoc count : %zu\n", hdoc_count);
     if (hdoc_count == 0)
 	{
 		content->hdoc = NULL;
@@ -124,7 +124,7 @@ int    create_hdoc_struct(char **command, t_content *content)
 			return(-1);
     while (command[i])
     {
-		printf("current : %s\n", command[i]);
+		//printf("current : %s\n", command[i]);
         if (ft_strncmp(command[i], "<<", 2) == 0)
         {
             if (command[i + 1][0] == S_QUOTE || command[i + 1][0] == D_QUOTE)
@@ -133,16 +133,15 @@ int    create_hdoc_struct(char **command, t_content *content)
                 content->hdoc[j].s_quoted = 0;
             content->hdoc[j].text = NULL;
             content->hdoc[j].size = hdoc_count;
-			printf("squoted : %d\n",  content->hdoc[j].s_quoted);
+			//printf("squoted : %d\n",  content->hdoc[j].s_quoted);
 			//printf("text : %s\n",  content->hdoc[j].text);
-			printf("size : %zu\n\n",  content->hdoc[j].size);
+			//printf("size : %zu\n\n",  content->hdoc[j].size);
 			j++;
         }
         i++;
     }
 	return(0);
 }
-
 
 char	*ft_join_prompt(t_array *array)
 {

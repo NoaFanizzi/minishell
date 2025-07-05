@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 12:06:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 12:15:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	char *line;
 	char *temp_file;
 	int position;
-	
+		
 	hdoc_count = 0;
 	position = 0;
 	while(*i < content->files->size && content->files[*i].type == HDOC)
@@ -125,9 +125,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			hdoc_count++;
 			temp_i = content->files[*i].index + 1;
 			temp_file = ft_get_temp_file(content);
-			ft_putstr_fd("variable = ", STDERR_FILENO);
-			ft_putstr_fd(content->cmd_splitted[position][temp_i], STDERR_FILENO);
-			ft_putstr_fd("\n", STDERR_FILENO);
 			content->h_fd = open(temp_file, O_RDWR | O_CREAT | O_TRUNC, 0644);
 			free(temp_file);
 			//unlink("temp");
@@ -138,7 +135,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			}
 			ft_putstr_fd("> ", 1);
 			line = get_next_line(0);
-			
 			while(line != NULL)
 			{
 				if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[position][temp_i]) + 1)
@@ -154,21 +150,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			content->h_fd = -2; // je le remet a -2 pour savoir si je dois close ou pas dans l'exit;
 		}
 		*i += 1;
-	}
-	if(hdoc_count != 0)
-	{
-		temp_file = ft_get_temp_file(content);
-		content->h_fd = open(temp_file, O_RDWR | O_CREAT | O_APPEND, 0644);
-		if(dup2(content->h_fd, STDIN_FILENO) == -1) // je fais lire depuis le fichier temporaire creee
-		{
-			unlink(temp_file);
-			free(temp_file);
-			return(ft_dup2_pb(content, "h_fd"));
-		}
-			
-		close(content->h_fd); // je le close parce qu'il sert plus a rien
-		unlink(temp_file);
-		free(temp_file);
 	}
 	return(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 07:44:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 11:54:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		ft_get_redir_dad(t_array *array, t_list **env);
 void	ft_wait_pid(t_array *array);
 void	ft_load_preliminary_infos(t_list **env, t_array *array);
 void	ft_init_exec(t_list **env, t_array *array);
+int     ft_process_here_doc(t_array *array);
 
 
 //----------------------------PIPES-----------------------------------------

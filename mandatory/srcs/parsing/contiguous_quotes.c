@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:15:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:40:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -471,12 +471,12 @@ void	contiguous_quotes(char ***cmd)
 	command = *cmd;
 	while (command[i])
 	{
-		printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
+		//printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
 		if (is_quote(command[i][0]))
 		{
 			if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && is_quote(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				printf("prev_quotes\n");
+				//printf("prev_quotes\n");
 				command = join_prev_quotes(command, i);
 				if (!command)
 				return ;
@@ -485,7 +485,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0) && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				printf("prev_simple\n");
+				//printf("prev_simple\n");
 				command = join_prev_simple(command, i);
 				if (!command)
 				return ;
@@ -495,7 +495,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (command[i + 1] && is_quote(command[i + 1][0]))
 			{
-				printf("next_quotes\n");
+				//printf("next_quotes\n");
 				command = join_next_quotes(command, i);
 				if (!command)
 					return ;
@@ -503,7 +503,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0) && is_not_pipe_redir(command[i + 1][0]))
 			{
-				printf("next_simple\n");
+				//printf("next_simple\n");
 				command = join_next_simple(command, i);
 				if (!command)
 				return ;
