@@ -13,6 +13,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "get_next_line.h"
+#include <sys/stat.h>
 
 extern t_array *g_array;
 

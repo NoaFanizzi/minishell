@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:16:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 22:31:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 			ft_strlcat(new_word, exp_var, size); //TODO return la variable (char *)
 			k += ft_strlen(exp_var); //TODO donne les length de la var (size_t);
 			j += get_var_length(&word[j + 1]);
+			free(exp_var);
 		}
 		else
 		{
