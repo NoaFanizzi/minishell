@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/02 17:21:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/05 10:26:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	launch_shell(t_list **var);
 char	***parse_command(char *line, t_list **var);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
-int	    create_hdoc_struct(t_array *array, char **command);
+int    create_hdoc_struct(char **command, t_content *content);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -98,6 +98,9 @@ void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
 char	**join_prev_quotes(char **command, size_t i);
 void	contiguous_quotes(char ***command);
+
+char	*expand(char *command, t_list **env);
+
 
 
 

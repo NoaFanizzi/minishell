@@ -24,7 +24,6 @@ enum	ERROR
 };
 
 
-void	expand(char **command, t_list **var);
 void	deal_with_sigint(int signal);
 
 
