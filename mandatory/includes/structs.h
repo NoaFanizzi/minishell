@@ -84,6 +84,9 @@ typedef struct s_content
 	int pos;
 	int redir_count;
 	int error_code;
+	int h_fd;
+	int	stdin_saved;
+	int stdout_saved;
 	struct s_array *array_ptr;
 	t_expar *expar;
 	t_list **env;
@@ -96,6 +99,7 @@ typedef struct s_array
 	t_content *content;
 	int		(*pipe)[2];
 	int size;
+	int p_exit_status;
 }				t_array;
 
 #endif

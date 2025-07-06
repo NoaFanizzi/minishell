@@ -3,16 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:38:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/24 16:29:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 14:50:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-// unset.c
 #include "minishell.h"
 
 void	ft_free_link(void *content)
@@ -26,29 +23,6 @@ void	ft_free_link(void *content)
         free(link->arg);
     free(link);
 }
-
-
-// void	ft_rm_link(t_list **env, int pos)
-// {
-// 	int	i;
-// 	t_list *temp;
-// 	t_list *current;
-
-// 	i = 0;
-// 	temp = NULL;
-// 	current = *env;
-// 	while(i < pos - 1)
-// 	{
-// 		current = current->next;
-// 		i++;
-// 	}
-// 	temp = current->next;
-// 	current->next = current->next->next;
-// 	ft_lstdelone(temp, (void *)ft_free_link);
-// }
-
-// unset.c (toujours)
-
 
 void	ft_rm_link(t_list **env, int pos)
 {
@@ -76,7 +50,6 @@ void	ft_rm_link(t_list **env, int pos)
     if (!prev || !prev->next)
         return;
 
-    // 5) Détacher et supprimer
     to_del      = prev->next;
     prev->next  = to_del->next;
     ft_lstdelone(to_del, ft_free_link);
@@ -85,13 +58,9 @@ void	ft_rm_link(t_list **env, int pos)
 
 void	ft_rm_first_link(t_list **env)
 {
-	//int	i;
 	t_list *temp;
-	//t_list *current;
 
-	//i = 0;
 	temp = NULL;
-	//current = *env;
 	temp = *env;
 	*env = (*env)->next;
 	ft_lstdelone(temp, (void *)ft_free_link);
@@ -117,11 +86,15 @@ int	ft_unset(t_list **env, t_content *content)
 
 	i = 0;
     if(!content->arg)
+	{
+		content->error_code = 0;
         return(0);
+	}
     while(content->arg[i])
 	{
 		ft_init_unset(env, content, i);
 		i++;	
 	}
+	content->error_code = 0;
 	return(0);
 }

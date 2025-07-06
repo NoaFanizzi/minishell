@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 14:58:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 15:02:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ char	**ct_get_paths(t_list *var)
 	char	**options;
 	t_env	*cpy;
 
+	if(!var)
+		return(NULL);
 	cpy = (t_env *)var->content;
 	while (var && ft_strncmp(cpy->var, "PATH", 4) != 0)
 	{
@@ -59,10 +61,33 @@ char	**ct_get_paths(t_list *var)
 void	ft_close_all(t_content *content)
 {
 	ft_close_pipes(content->array_ptr);
-	if(content && content->infile != -2) //  && content->input != 1
+	if((content && content->infile != -2)
+		&&(content->infile != -1))
+	{
 		close(content->infile);
-	if(content && content->outfile != -2) //  && content->output != 0
+		content->infile = -2;
+	}
+	if((content && content->outfile != -2)
+		&&(content->outfile != -1))
+	{
 		close(content->outfile);
+		content->outfile = -2;
+	}
+	if(content->h_fd != -2 && content->h_fd != -1)
+	{
+		close(content->h_fd);
+		content->h_fd = -2;
+	}
+	if(content->stdin_saved != -2 && content->stdin_saved != -1)
+	{
+		close(content->stdin_saved);
+		content->stdin_saved = -2;
+	}
+	if(content->stdout_saved != -2 && content->stdout_saved != -1)
+	{
+		close(content->stdout_saved);
+		content->stdout_saved = -2;
+	}
 }
 
 size_t	ft_tablen(char **tab)
@@ -110,22 +135,27 @@ char **ft_cmd_join(char **a, char **b)
 	
 }
 
-// int	main(int argc, char **argv, char **env)
-// {
-// 	size_t	i;
-// 	t_expar	expar;
-// 	int		exit_status;
 
-// 	i = 0;
-// 	exit_status = 0;
-// 	if (argc != 5)
-// 		exit(0);
-// 	if (!(argv[2]) || !(argv[3]))
-// 		exit(127);
-// 	if (!*env)
-// 		return (127);
-// 	pipex(argv, env, &expar);
-// 	waitpid(expar.pid_1, &exit_status, 0);
-// 	waitpid(expar.pid_2, &exit_status, 0);
-// 	return (WEXITSTATUS(exit_status));
-// }
+void	ft_display_array_content(t_array *array)
+{
+	int	i;
+
+	i = 0;
+	while(i < array->size)
+	{
+		printf("content[%d] : \n\n", i);
+		printf("-----cmd-----|\n");
+		ft_display_tab(array->content[i].cmd);
+		printf("-------------|\n\n");
+		if(array->content[i].arg[0])
+		{
+			printf("-----args----|\n");
+			ft_display_tab(array->content[i].arg);
+			printf("-------------|\n\n");
+		}
+		if(array->content[i].files)
+		//printf("infile : %d\n", array->content[i].infile);
+		//printf("outfile : %d\n", array->content[i].outfile);
+		i++;
+	}
+}

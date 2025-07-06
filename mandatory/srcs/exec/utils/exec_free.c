@@ -1,38 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 15:21:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 16:47:00 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/03 07:41:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-int	ft_atoi(const char *str)
+
+
+void	ft_exec_failure(t_expar *expar, int i)
 {
-	size_t	i;
-	int		s;
-	int		result;
-
-	i = 0;
-	result = 0;
-	s = 1;
-	while ((str[i] >= 9 && str[i] <= 13) || (str[i] == ' '))
-		i++;
-	if (str[i] == '+' || str[i] == '-')
-	{
-		if (str[i] == '-')
-			s = -s;
-		i++;
-	}
-	while (str[i] >= '0' && str[i] <= '9')
-	{
-		result = (result * 10) + (str[i] - 48);
-		i++;
-	}
-	return (result * s);
+	if (i == 1)
+		perror("pipe");
+	if (i == 2)
+		perror("fork");
+	free(expar->options);
+	return;
 }

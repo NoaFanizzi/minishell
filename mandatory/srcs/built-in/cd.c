@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 16:51:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:10:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,19 @@ int	ft_update_pwd(t_list **env)
 	return(1);
 }
 
-int	ft_update_opwd(t_list **env)
+int	ft_access_dir(t_content *content)
+{
+	if (chdir(content->arg[0]) == -1)
+	{
+		content->error_code = 1;
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		perror(content->arg[0]);
+		return(1);
+	}
+	return(0);
+}
+
+int	ft_update_opwd(t_list **env, t_content *content)
 {
 	t_list *current;
 	t_env *link;
@@ -50,12 +62,17 @@ int	ft_update_opwd(t_list **env)
 	while(current)
 	{
 		link = (t_env *)current->content;
-		if(ft_strncmp(link->var, "OLDPWD", 6) == 0 && ft_strlen(link->var) == 6)
+		if (ft_strncmp(link->var, "OLDPWD", 6) == 0 && ft_strlen(link->var) == 6)
 		{
+			if(ft_access_dir(content) == 1)
+			{
+				free(path);
+				return (1);
+			}
 			free(link->arg);
 			link->arg = ft_strdup(path);
 			free(path);
-			return(0);
+			return (0);
 		}
 		current = current->next;
 	}
@@ -72,9 +89,12 @@ int	ft_find_wave(t_list *env, t_content *content)
 		cpy = (t_env *)env->content;
 		if(ft_strncmp(cpy->var, "HOME", 4) == 0 && ft_strlen(cpy->var) == 4)
 		{
+			if(cpy->arg == NULL)
+				return(0);
 			content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
-			content->arg[0] = ft_strdup(ft_strdup(cpy->arg));
+			content->arg[0] = ft_strdup(cpy->arg);
 			content->arg[1] = NULL;
+			content->error_code = 0;
 			return(1);
 		}
 		env = env->next;
@@ -91,12 +111,14 @@ int	ft_find_dash(t_list *env, t_content *content)
 		cpy = (t_env *)env->content;
 		if(ft_strncmp(cpy->var, "OLDPWD", 6) == 0 && ft_strlen(cpy->var) == 6)
 		{
+			if(cpy->arg == NULL)
+				return(0);
 			content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
-			content->arg[0] = ft_strdup(ft_strdup(cpy->arg));
-			content->arg[1] = NULL;
+			content->arg[0] = ft_strdup(cpy->arg);
 			ft_putstr_fd(content->arg[0], STDOUT_FILENO);
 			ft_putstr_fd("\n", STDOUT_FILENO);
-			return(1);
+			content->error_code = 0;
+			return (1);
 		}
 		env = env->next;
 	}
@@ -111,6 +133,7 @@ int	ft_deal_with_dash(t_content *content, t_list **env)
 		if(ft_find_dash(*env, content) == 1)
 			return (1);
 		ft_putstr_fd("bash: cd: OLDPWD not set\n", STDERR_FILENO);
+		content->error_code = 1;
 		return(2);
 	}
 	return(0);
@@ -122,6 +145,7 @@ int	ft_deal_with_wave(t_content *content, t_list **env)
 		return (1);
 	//printf("pas trouve\n");
 	ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
+	content->error_code = 1;
 	return(2);
 }
 
@@ -129,6 +153,7 @@ void	ft_cd(t_content *content, t_list **env)
 {
 	if(ft_tablen(content->arg) > 1)
 	{
+		content->error_code = 1;
 		ft_putstr_fd("maxishell: cd: too many arguments\n", STDERR_FILENO);
 		return;
 	}
@@ -139,12 +164,10 @@ void	ft_cd(t_content *content, t_list **env)
 		if(ft_deal_with_wave(content, env) == 2)
 		return;	
 	}
-	ft_update_opwd(env);
-	if (chdir(content->arg[0]) == -1)
-	{
-		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		perror(content->arg[0]);
-	}
+	if(ft_update_opwd(env, content) == 1)
+		return;
 	ft_update_pwd(env);
+	content->error_code = 0;
+
 }
 

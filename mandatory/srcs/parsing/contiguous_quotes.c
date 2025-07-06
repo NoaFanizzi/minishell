@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/03 16:29:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/05 10:40:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 		k++;	
 	rem_and_shift(command[j]);
 	rem_and_shift(command[i]);
-	printf("j = |%s|\n", command[j]);
-	printf("i = |%s|\n", command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
 	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
@@ -304,7 +302,7 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 	}
 }
 
-	
+
 char	**join_prev_simple(char **command, size_t i)
 {
 	size_t	size;
@@ -330,10 +328,6 @@ char	**join_prev_simple(char **command, size_t i)
 	free_words(command);
 	return (joined);
 }
-
-
-
-
 
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j)
 {
@@ -468,7 +462,6 @@ void	shift_words(char **command, size_t i)
 	command[i] = 0;
 }
 
-
 void	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
@@ -478,12 +471,12 @@ void	contiguous_quotes(char ***cmd)
 	command = *cmd;
 	while (command[i])
 	{
-		printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
+		//printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
 		if (is_quote(command[i][0]))
 		{
 			if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && is_quote(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				printf("prev_quotes\n");
+				//printf("prev_quotes\n");
 				command = join_prev_quotes(command, i);
 				if (!command)
 				return ;
@@ -492,7 +485,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0) && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				printf("prev_simple\n");
+				//printf("prev_simple\n");
 				command = join_prev_simple(command, i);
 				if (!command)
 				return ;
@@ -502,7 +495,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (command[i + 1] && is_quote(command[i + 1][0]))
 			{
-				printf("next_quotes\n");
+				//printf("next_quotes\n");
 				command = join_next_quotes(command, i);
 				if (!command)
 					return ;
@@ -510,7 +503,7 @@ void	contiguous_quotes(char ***cmd)
 			}
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0) && is_not_pipe_redir(command[i + 1][0]))
 			{
-				printf("next_simple\n");
+				//printf("next_simple\n");
 				command = join_next_simple(command, i);
 				if (!command)
 				return ;
@@ -528,6 +521,7 @@ void	contiguous_quotes(char ***cmd)
 	}
 	//printf("\n\n");
 }
+
 
 
 // command

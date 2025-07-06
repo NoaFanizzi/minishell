@@ -6,26 +6,26 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 17:59:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 08:19:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		count_commands(char **command)
+int        count_commands(char **command)
 {
-	size_t	i;
-	size_t	count;
+    size_t    i;
+    size_t    count;
 
-	i = 0;
-	count = 0;
-	while (command[i])
-	{
-		if (command[i][0] == '|')
-			count++;
-		i++;
-	}
-	return (count + count + 1);
+    i = 0;
+    count = 0;
+    while (command[i])
+    {
+        if (command[i][0] == '|')
+            count++;
+        i++;
+    }
+    return (count + count + 1);
 }
 
 int		count_command_words(char **command)
@@ -136,6 +136,7 @@ char	***init_splitted(char ***splitted, char **command)
 	k = 0;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
+	//printf("cmd_count = %d\n", cmd_count);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
 		return (NULL);//malloc error
@@ -143,7 +144,8 @@ char	***init_splitted(char ***splitted, char **command)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
-		splitted[k] = malloc((cmd_words_count + 1) * sizeof(char *));
+		//printf("cmd_words_count = %d\n", cmd_words_count);
+		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
 		if (!splitted[k])
 			return (free_command(splitted));//malloc error
 		k++;

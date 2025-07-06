@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/03 17:12:00 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/05 09:46:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	redir_count = count_redir(cmd);
 	content->redir_count = redir_count;
 	content->files = NULL;
-	if (redir_count == 0)
+	if(redir_count == 0)
 		return ;
-	content->files = malloc(redir_count * sizeof(t_files));
+	content->files = ft_calloc((redir_count + 1), sizeof(t_files));
 	if (!content->files)
 		return ;
 	while (cmd[i])
@@ -112,10 +112,10 @@ size_t	count_cmd_opt(char **cmd)
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '-')
-		count++;
+			count++;
 		else if (strncmp(cmd[i], "<", 1) != 0
 		|| strncmp(cmd[i], ">", 1) != 0)
-		break ;
+			break ;
 		i++;
 	}
 	return (count);
@@ -211,16 +211,16 @@ size_t	count_arg(char **cmd)
 	{
 		if (cmd[i][0] == '-')
 			i++;
-		else if (strncmp(cmd[i], "<", 1) == 0
-			|| strncmp(cmd[i], ">", 1) == 0)
+		else if (ft_strncmp(cmd[i], "<", 1) == 0
+			|| ft_strncmp(cmd[i], ">", 1) == 0)
 			i += 2;
 		else
 			break ;
 	}
 	while (cmd[i])
 	{
-		if ((strncmp(cmd[i], "<", 1) == 0
-		|| strncmp(cmd[i], ">", 1) == 0))
+		if ((ft_strncmp(cmd[i], "<", 1) == 0
+		|| ft_strncmp(cmd[i], ">", 1) == 0))
 			i += 2;
 		else
 		{

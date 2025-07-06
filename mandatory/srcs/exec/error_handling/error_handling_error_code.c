@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/26 09:24:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/03 09:53:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,44 @@ void	ft_free_after_error(t_expar *expar, t_content *content, t_list **env, t_arr
 	ft_close_pipes(array);
 	//printf("errno = %d\n", errno);
 	exit(errno);
+}
+
+int	ft_open_error(t_content *content, char *str)
+{
+	char *error_message;
+
+	error_message = NULL;
+	error_message = ft_strjoin("maxishell: ", str);
+	if(!error_message)
+	{
+		perror("maxishell: malloc");
+		error_message = NULL;
+		content->error_code = 1;
+		return(O_ERROR);
+	}
+	perror(error_message);
+	free(error_message);
+	ft_close_all(content);
+	content->error_code = 1;
+	return(O_ERROR);
+}
+
+int	ft_dup2_pb(t_content *content, char *str)
+{
+	char *error_message;
+
+	error_message = NULL;
+	error_message = ft_strjoin("maxishell: ", str);
+	if(!error_message)
+	{
+		perror("maxishell: malloc");
+		error_message = NULL;
+		content->error_code = 1;
+		return(O_ERROR);
+	}
+	perror(error_message);
+	free(error_message);
+	ft_close_all(content);
+	content->error_code = 1;
+	return(O_ERROR);
 }

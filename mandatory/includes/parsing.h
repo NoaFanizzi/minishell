@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/03 17:15:18 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/05 10:26:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	launch_shell(t_list **var);
 char	***parse_command(char *line, t_list **var);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
-int	    create_hdoc_struct(char **command, t_content *content);
+int    create_hdoc_struct(char **command, t_content *content);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -100,5 +100,8 @@ char	**join_prev_quotes(char **command, size_t i);
 void	contiguous_quotes(char ***command);
 
 char	*expand(char *command, t_list **env);
+
+
+
 
 #endif
