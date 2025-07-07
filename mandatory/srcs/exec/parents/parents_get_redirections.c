@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_get_redirections.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 15:14:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:46:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,5 +55,6 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	array->content[0].stdout_saved = -2;
 	if(command == 1)
 		return(exit_in_parent(array));
+	printf("HEREEEEEEE\n");
 	return(0);
 }

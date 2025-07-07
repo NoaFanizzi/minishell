@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:19:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:47:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,21 @@ void	ft_wait_pid(t_array *array)
 	pid = waitpid(-1, &status, 0);
 	while(pid > 0)
 	{
-		
-		if(WIFEXITED(status))
-			array->p_exit_status = WEXITSTATUS(status);
-		if(WIFSIGNALED(status))
+		if(pid == array->content[array->size - 1].pid)
 		{
-			sig = WTERMSIG(status);
-			if(sig != SIGPIPE)
-				array->p_exit_status = 128 + WTERMSIG(status);
+			if(WIFEXITED(status))
+				array->p_exit_status = WEXITSTATUS(status);
+			if(WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if(sig != SIGPIPE)
+					array->p_exit_status = 128 + WTERMSIG(status);
+				printf("sig = %d\n", sig);
+			}
 		}
 		//printf("array->exit_status = %d\n", array->p_exit_status);
 		pid = waitpid(-1, &status, 0);
 	}
-	
 }
 
 
@@ -72,7 +74,7 @@ int	ft_process_here_doc(t_array *array)
 	int returned_value;
 
 	i = 0;
-	j = 0;
+	returned_value = 0;
 	while(i < array->size)
 	{
 		if(array->content->hdoc)
@@ -82,16 +84,9 @@ int	ft_process_here_doc(t_array *array)
 			while(j < size)
 			{
 				if(array->content[i].files[j].type == HDOC)
-				{
 					returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-					break;
-				}
-				returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-				if(returned_value == O_ERROR)
-				{
-					dprintf(STDERR_FILENO, "value returned = %d\n", returned_value);
+				if(returned_value == O_ERROR || returned_value == 1)
 					return(1);
-				}
 				j++;
 			}
 		}
@@ -107,7 +102,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	redir_value = 0;
-	g_array = array;
 	//ft_display_array_content(array);
 	if(array->size == 0)
 		return;
@@ -119,7 +113,12 @@ void	ft_init_exec(t_list **env, t_array *array)
 			return;
 	}
 	ft_init_pipe(array);
-	ft_process_here_doc(array);
+	if(ft_process_here_doc(array) == 1)
+	{
+		ft_close_pipes(array);
+		return;
+	}
+	signal(SIGINT, SIG_IGN);
 	while(i < array->size)
 	{
 		array->content[i].pid = fork();
@@ -131,5 +130,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	}
 	ft_close_pipes(array);
 	ft_wait_pid(array);
+	signal(SIGINT, deal_with_sigint);
+	//dprintf(STDERR_FILENO, "ON EST BIEN LA\n");
 }
 

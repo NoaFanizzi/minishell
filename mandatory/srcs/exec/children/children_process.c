@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 23:45:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/06 21:04:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 
 void	child_handler()
 {
-	ft_exit(&g_array->content[0]);
+	g_signal = 1;
 }
 
 void	ft_exec_cmd(t_content *content, t_list **env)

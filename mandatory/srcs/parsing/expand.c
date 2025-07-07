@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 22:31:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 10:27:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,7 +281,12 @@ char *expand(char *command, t_list **env)
 			return NULL;
 		}
 	}
-	free(command);
+	if(command)
+	{
+		//printf("command = %s\n", command);
+		free(command);
+		command = NULL;
+	}
 	return new_command;
 }
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:14:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:09:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,10 @@ int	ft_deal_with_redir(t_content *content)
 
 	i = 0;
 	if(content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
-		ft_process_here_doc(content->array_ptr);
+	{
+		if(ft_process_here_doc(content->array_ptr) == 1)
+			return(1);
+	}
 	if(content->files != NULL && &content->files[0] != NULL)
 	{
 		size = content->files[i].size;

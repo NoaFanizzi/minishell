@@ -15,7 +15,7 @@
 #include "get_next_line.h"
 #include <sys/stat.h>
 
-extern t_array *g_array;
+extern int g_signal;
 
 enum	ERROR
 {
@@ -26,6 +26,7 @@ enum	ERROR
 
 
 void	deal_with_sigint(int signal);
+void	deal_with_sigint_hdoc(int signal);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:27:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 11:49:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,12 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	char *temp_file;
 	char *expanded_line;
 	int position;
-		
+	
+
+	signal(SIGINT, deal_with_sigint_hdoc);
 	hdoc_count = 0;
 	position = 0;
+	content->stdin_saved = dup(STDIN_FILENO);
 	while(*i < content->files->size && content->files[*i].type == HDOC)
 	{
 		position = content->pos;
@@ -134,24 +137,39 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 				content->h_fd = -2;
 				return(ft_open_error(content, "h_fd"));
 			}
-			ft_putstr_fd("> ", 1);
-			line = get_next_line(0);
-			while(line != NULL)
+			
+			while(1)
 			{
-				if(ft_strlen(line) == (ft_strlen(content->cmd_splitted[position][temp_i]) + 1)
-					&& ft_strncmp(line, content->cmd_splitted[position][temp_i], ft_strlen(content->cmd_splitted[position][temp_i])) == 0)
+				line = readline("> ");
+				if(g_signal == SIGINT)
+				{
+					dup2(content->stdin_saved, STDIN_FILENO);
+					free(line);
+					temp_file = ft_get_temp_file(content);
+					unlink(temp_file);
+					free(temp_file);
+					close(content->h_fd);
+					close(content->stdin_saved);
+					content->stdin_saved = -2;
+					content->error_code = 130;
+					g_signal = 0;
+					return(1);
+				}
+				if(!line || ft_strcmp(line, content->cmd_splitted[position][temp_i]) == 0)
 					break;
-				ft_putstr_fd("> ", 1);
 				expanded_line = expand(line, content->env);
-				ft_putstr_fd(expanded_line, content->h_fd);
+				ft_putendl_fd(expanded_line, content->h_fd);
 				free(expanded_line);
-				line = get_next_line(0);
 			}
-			free(line);
+			if(line)
+				free(line);
 			close(content->h_fd); // je le close parce qu'il sert plus a rien
 			content->h_fd = -2; // je le remet a -2 pour savoir si je dois close ou pas dans l'exit;
 		}
 		*i += 1;
 	}
+	close(content->stdin_saved);
+	content->stdin_saved = -2;
+	signal(SIGINT, deal_with_sigint);
 	return(0);
 }
