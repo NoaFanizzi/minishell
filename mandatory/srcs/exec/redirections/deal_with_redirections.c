@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 11:49:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:30:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	char *expanded_line;
 	int position;
 	
-
-	signal(SIGINT, deal_with_sigint_hdoc);
 	hdoc_count = 0;
 	position = 0;
 	content->stdin_saved = dup(STDIN_FILENO);
@@ -170,6 +168,5 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	}
 	close(content->stdin_saved);
 	content->stdin_saved = -2;
-	signal(SIGINT, deal_with_sigint);
 	return(0);
 }

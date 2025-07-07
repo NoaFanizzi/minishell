@@ -27,6 +27,7 @@ enum	ERROR
 
 void	deal_with_sigint(int signal);
 void	deal_with_sigint_hdoc(int signal);
+void	deal_with_signals_in_exec(int signal);
 
 
 #endif
