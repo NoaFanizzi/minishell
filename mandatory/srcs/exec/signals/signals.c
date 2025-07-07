@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 08:20:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 12:26:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:47:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,16 @@
 void	deal_with_sigint(int signal)
 {
 	g_signal = signal;
-	write(1, "\n", 1);
+	ft_putendl_fd("^C", STDERR_FILENO);
 	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
-	//printf("g_signal = %d\n", 1);
-	//dprintf(STDERR_FILENO, "g_signal = %d\n", g_signal);
 }
 
 void	deal_with_sigint_hdoc(int signal)
 {
 	g_signal = signal;
+	ft_putstr_fd("^C", STDERR_FILENO);
 	close(STDIN_FILENO);
 	//printf("g_signal = %d\n", 1);
 	//dprintf(STDERR_FILENO, "g_signal = %d\n", g_signal);

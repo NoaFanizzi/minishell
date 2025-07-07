@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:45:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/07 12:44:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,10 +239,14 @@ void	launch_shell(t_list **var)
 	array.p_exit_status = 0;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	rl_catch_signals = 0;
 	while (1)
 	{
 		prompt = ft_join_prompt(&array);
 		line = readline(prompt);
+		if(g_signal == SIGINT)
+			array.p_exit_status = 128 + SIGINT;
+		g_signal = 0;
 		free(prompt);
 		if (line == NULL)
 			break;
@@ -257,5 +261,6 @@ void	launch_shell(t_list **var)
 		ft_init_exec(var, &array);
 		free_command(cmd_splitted);
 		ft_free_array_content(&array);
+
 	}
 }
