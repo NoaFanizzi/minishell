@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 12:30:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:27:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	ft_wait_pid(array);
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	deal_with_signal_after_exec();
 	//dprintf(STDERR_FILENO, "ON EST BIEN LA\n");
 }
 

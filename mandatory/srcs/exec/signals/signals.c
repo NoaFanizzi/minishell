@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 08:20:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 12:47:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/08 17:28:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,15 @@ void	deal_with_sigint_hdoc(int signal)
 
 void	deal_with_signals_in_exec(int signal)
 {
-	if(signal == SIGQUIT)
+	g_signal = signal;
+}
+
+void	deal_with_signal_after_exec(void)
+{
+	if(g_signal == 0)
+		return;
+	if(g_signal == SIGQUIT)
 		ft_putstr_fd("Quit (core dumped)", STDERR_FILENO);
 	ft_putstr_fd("\n", STDERR_FILENO);
+	g_signal = 0;
 }
