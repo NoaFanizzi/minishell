@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 12:30:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/08 10:20:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,11 @@ char *ft_get_temp_file(t_content *content)
 int	ft_deal_with_hdoc(t_content *content, size_t *i)
 {
 	int temp_i;
-	int	hdoc_count;
 	char *line;
 	char *temp_file;
 	char *expanded_line;
 	int position;
 	
-	hdoc_count = 0;
 	position = 0;
 	content->stdin_saved = dup(STDIN_FILENO);
 	while(*i < content->files->size && content->files[*i].type == HDOC)
@@ -124,7 +122,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			position += 1;
 		if(content->files[*i].type == HDOC)
 		{
-			hdoc_count++;
 			temp_i = content->files[*i].index + 1;
 			temp_file = ft_get_temp_file(content);
 			content->h_fd = open(temp_file, O_RDWR | O_CREAT | O_TRUNC, 0644);
