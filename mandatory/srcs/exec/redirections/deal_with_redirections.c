@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:27:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:57:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,13 +108,13 @@ char *ft_get_temp_file(t_content *content)
 int	ft_deal_with_hdoc(t_content *content, size_t *i)
 {
 	int temp_i;
-	int	hdoc_count;
+	//int	hdoc_count;
 	char *line;
 	char *temp_file;
 	char *expanded_line;
 	int position;
 		
-	hdoc_count = 0;
+	//hdoc_count = 0;
 	position = 0;
 	while(*i < content->files->size && content->files[*i].type == HDOC)
 	{
@@ -123,7 +123,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			position += 1;
 		if(content->files[*i].type == HDOC)
 		{
-			hdoc_count++;
+			//hdoc_count++;
 			temp_i = content->files[*i].index + 1;
 			temp_file = ft_get_temp_file(content);
 			content->h_fd = open(temp_file, O_RDWR | O_CREAT | O_TRUNC, 0644);

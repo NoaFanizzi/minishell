@@ -3,16 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:45:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/10 20:57:21 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 //check cases when there is one commnad, or nothing or idk but you understood
+
+//syntax error: unexpected end of input after `|'.     pipe end
+//syntax error near unexpected token `|'.       pipe beginning
+//syntax error near unexpected token `<'.        wrong redirection
+//syntax error: unmatched quote      unclosed quotes
+
 
 char	***parse_command(char *line, t_list **var)
 {	
@@ -79,12 +85,12 @@ char	***parse_command(char *line, t_list **var)
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		//printf("\ncommand n%d\n", k + 1);
-		// if (!cmd_splitted[k][i])
-		// 	printf("NULL\n");
+		printf("\ncommand n%d\n", k + 1);
+		if (!cmd_splitted[k][i])
+		 	printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;
@@ -177,7 +183,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
 			if (create_hdoc_struct(cmd_splitted[cmd_index], &array->content[struct_index]) == -1)
-				return ;//need to see how to check that
+			return ;//need to see how to check that
 			quotes_removal(cmd_splitted[cmd_index]);
 			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
 			//test
@@ -229,6 +235,36 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
+int	check_syntax(char ***cmd_splitted)
+{
+	size_t	i;
+	size_t	j;
+	
+	i = 0;
+	while (cmd_splitted[i])
+	{
+		j = 0;
+		if (cmd_splitted[0][0][0] == '|')
+		{
+			printf("bash: syntax error near unexpected token `|'\n");
+			return (1);
+		}
+		while (cmd_splitted[i][j])
+		{
+			// if (check_redir(cmd_splitted[i][j]))//print the message inside the function
+			// 	return (1);
+			j++;
+		}
+		i++;
+	}
+	if (cmd_splitted[i - 1][j - 1][ft_strlen(cmd_splitted[i - 1][j - 1]) - 1] == '|')
+	{
+		printf("bash: syntax error: unexpected end of input after `|'\n");
+		return (1);
+	}
+	return (0);
+}
+
 void	launch_shell(t_list **var)
 {
 	char	*line;
@@ -253,6 +289,8 @@ void	launch_shell(t_list **var)
 		cmd_splitted = parse_command(line, var);
 		if (!cmd_splitted)
 			return ;
+		if (check_syntax(cmd_splitted))
+			return ;//need to free maybe
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		free_command(cmd_splitted);

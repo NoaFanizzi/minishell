@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 09:46:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/10 01:12:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ size_t	count_redir(char **cmd)
 			|| strncmp(cmd[i], ">", 1) == 0)
 		{
 			count++;
-			i++;	
+			i++;
 		}
-		i++;
+		else
+			i++;
 	}
 	return (count);
 }
@@ -92,7 +93,8 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			j++;
 			i++;
 		}
-		i++;
+		else
+			i++;
 	}	
 	if (j == 0)
 		content->files = NULL;

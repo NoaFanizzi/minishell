@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:14:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/06 15:59:04 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@
 int	ft_use_hdoc(t_content *content, size_t i)
 {
 	char *temp_file;
-	int position;
+	//int position;
 
-	position = 0;
+	//position = 0;
 	if(content->files[i].type == HDOC)
 	{
-		position = content->pos;
-		if(content->pos % 2 != 0)
-			position += 1;
+		//position = content->pos;
+		// if(content->pos % 2 != 0)
+		// 	position += 1;
 		temp_file = ft_get_temp_file(content);
 		content->infile = open(temp_file, O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		if(content->infile == -1)
