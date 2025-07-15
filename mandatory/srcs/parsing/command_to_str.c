@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/15 17:19:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 18:35:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,11 +229,34 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
+void check_tty(char **line)
+{
+	if (isatty(STDIN_FILENO))
+        *line = readline("minishell$ ");
+    else
+        *line = readline(NULL);
+}
+void	*manage_readline(char **line, t_array *array)
+{
+	char *prompt;
+	
+	prompt = ft_join_prompt(array);
+	check_tty(line);
+	if(g_signal == SIGINT)
+		array->p_exit_status = 128 + SIGINT;
+	g_signal = 0;
+	free(prompt);
+	if (*line == NULL)
+		return(NULL);
+	if (*line && *line)
+		add_history(*line);
+	return(NULL);
+}
+
 void	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
-	char *prompt;
 	t_array	array;
 	
 	array.p_exit_status = 0;
@@ -242,16 +265,7 @@ void	launch_shell(t_list **var)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		prompt = ft_join_prompt(&array);
-		line = readline(prompt);
-		if(g_signal == SIGINT)
-			array.p_exit_status = 128 + SIGINT;
-		g_signal = 0;
-		free(prompt);
-		if (line == NULL)
-			break;
-		if (line && *line)
-			add_history(line);
+		manage_readline(&line, &array);
 		array.size = 0;
 		array.content = NULL;
 		cmd_splitted = parse_command(line, var);
