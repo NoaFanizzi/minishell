@@ -4,7 +4,12 @@
 		"redirections.h": "c",
 		"string_view": "c",
 		"libft.h": "c",
-		"system_error": "c"
+		"system_error": "c",
+		"array": "c",
+		"initializer_list": "c",
+		"ranges": "c",
+		"span": "c",
+		"utility": "c"
 	},
 	"C_Cpp.default.compilerPath": ""
 }

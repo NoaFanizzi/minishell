@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/07 11:09:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:08:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_use_hdoc(t_content *content, size_t i)
 	position = 0;
 	if(content->files[i].type == HDOC)
 	{
+		//dprintf(STDERR_FILENO, "One hdoc found\n");
 		position = content->pos;
 		if(content->pos % 2 != 0)
 			position += 1;
@@ -62,13 +63,13 @@ int	ft_deal_with_redir(t_content *content)
 		size = content->files[i].size;
 		while(i < size)
 		{
+			if(ft_use_hdoc(content, i) == O_ERROR)
+				return(1);
 			if(ft_deal_with_out(content, i) == O_ERROR)
 				return(1);
 			if(ft_deal_with_apnd(content, i) == O_ERROR)
 				return(1);
 			if(ft_deal_with_in(content, i) == O_ERROR)
-				return(1);
-			if(ft_use_hdoc(content, i) == O_ERROR)
 				return(1);
 			i++;
 		}
@@ -96,6 +97,7 @@ int	ft_parse_redirections(t_content *content)
 {
 	content->infile = -2;
 	content->outfile = -2;
+	//printf("slt garcon\n\n\n");
 	ft_deal_with_pipes(content);
 	if(ft_deal_with_redir(content) == 1)
 		ft_exit(content);

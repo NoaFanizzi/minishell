@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/08 17:27:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:55:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 
 	i = 0;
 	array->pipe = NULL;
+	array->p_exit_status = 0;
 	while((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;
@@ -76,8 +77,9 @@ int	ft_process_here_doc(t_array *array)
 	returned_value = 0;
 	while(i < array->size)
 	{
-		if(array->content->hdoc)
+		if(array->content[i].hdoc)
 		{
+			//printf("size = array->content[i].files[0].size = %zu\n", size = array->content[i].files[0].size);
 			size = array->content[i].files[0].size;
 			j = 0;
 			while(j < size)
@@ -137,6 +139,5 @@ void	ft_init_exec(t_list **env, t_array *array)
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	deal_with_signal_after_exec();
-	//dprintf(STDERR_FILENO, "ON EST BIEN LA\n");
 }
 

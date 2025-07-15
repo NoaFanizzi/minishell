@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/08 10:20:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:08:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ int ft_deal_with_out(t_content *content, size_t i)
 	position = 0;
 	if(content->files[i].type == OUT)
 	{
+		//dprintf(STDERR_FILENO, "one out found\n");
 		position = content->pos;
-		if(content->pos % 2 != 0)
-			position += 1;
+		//dprintf(STDERR_FILENO, "content->files[i].pos BEFORE = %zu\n", position);
+		if(content->pos != 0)
+			position += position;
+		//dprintf(STDERR_FILENO, "content->files[i].pos AFTER = %zu\n", position);
+		//dprintf(STDERR_FILENO, "content->cmd_splitted[position][content->files[i].index + 2] = %s\n", content->cmd_splitted[position][content->files[i].index + 1]);
 		if((content->cmd_splitted[position][content->files[i].index + 1]) == NULL)
 		{
-			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			//dprintf(STDERR_FILENO, "PROBLEMM\n");
+			ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
 			content->error_code = 2;
 			return(O_ERROR);
 		}
@@ -48,11 +53,11 @@ int ft_deal_with_apnd(t_content *content, size_t i)
 	if(content->files[i].type == APND)
 	{
 		position = content->pos;
-		if(content->pos % 2 != 0)
-			position += 1;
+		if(content->pos != 0)
+			position += position;
 		if(!(content->cmd_splitted[position][content->files[i].index + 1]))
 		{
-			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
 			content->error_code = 2;
 			return(O_ERROR);
 		}
@@ -75,11 +80,11 @@ int ft_deal_with_in(t_content *content, size_t i)
 	if(content->files[i].type == IN)
 	{
 		position = content->pos;
-		if(content->pos % 2 != 0)
-			position += 1;
+		if(content->pos != 0)
+			position += position;
 		if(!(content->cmd_splitted[position][content->files[i].index + 1]))
 		{
-			ft_putstr_fd("bash: syntax error near unexpected token `newline'\n", STDERR_FILENO);
+			ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
 			content->error_code = 2;
 			return(O_ERROR);
 		}
@@ -118,8 +123,8 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	while(*i < content->files->size && content->files[*i].type == HDOC)
 	{
 		position = content->pos;
-		if(content->pos % 2 != 0)
-			position += 1;
+		if(content->pos != 0)
+			position += position;
 		if(content->files[*i].type == HDOC)
 		{
 			temp_i = content->files[*i].index + 1;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/08 17:32:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 12:46:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,13 @@ size_t	get_true_var_length(char *var_name, t_list *env)
 {
 	t_env *cpy;
 
+	if(ft_strcmp(var_name, "$?") == 0)
+		return(ft_strlen(var_name));
 	cpy = get_env(var_name, env);
 	if(cpy)
 		return(ft_strlen(cpy->arg));
 	return(0);
 }
-
-
 
 char *get_var_value(char *var_name, t_list *env)
 {

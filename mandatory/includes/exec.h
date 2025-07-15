@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 11:54:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 14:47:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	ft_exec_failure(t_expar *expar, int i);
 //exec_utils.c
 void	ft_strcpy(char *dest, char *src);
 void	ft_strcat(char *dest, char *src);
-char	**ct_get_paths(t_list *var);
+char	**ct_get_paths(t_list *var, t_content *content);
 char **ft_cmd_join(char **a, char **b);
 void	ft_display_array_content(t_array *array);
 

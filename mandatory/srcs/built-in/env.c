@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 13:49:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:09:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	ft_display_env(t_list *env, t_content *content)
 	if(!env)
 	{
 		content->error_code = 1;
-		ft_putstr_fd("bash: env: env variable not set\n", STDERR_FILENO);
+		ft_putstr_fd("maxishell: env: env variable not set\n", STDERR_FILENO);
 		return;
 	}
 	while(env)

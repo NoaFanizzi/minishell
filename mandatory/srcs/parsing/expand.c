@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/08 18:08:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/15 13:23:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,10 +274,10 @@ char *expand_word(char *command, t_list **env)
 			var_name = get_var_name(&command[i + 1]);
 			if (!var_name)
 				return (NULL);
-			printf("var name : %s\n", var_name);
-			if (var_exists(var_name, *env))
+			//printf("var name : %s\n", var_name);
+			if (var_exists(var_name, *env) || ft_strcmp(var_name, "$?") == 0)
 			{
-				printf("found var\n");
+				//printf("found var\n");
 				true_var_length = get_true_var_length(var_name, *env);
 				new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
 				new_command = expand_var_in_command(command, i, new_length, var_name, env);
@@ -288,9 +288,9 @@ char *expand_word(char *command, t_list **env)
 			}
 			else
 			{
-				printf("got here\n");
+				//printf("got here\n");
 				new_command = remove_var(command, i);
-				printf("nc = %s\n", new_command);
+				//printf("nc = %s\n", new_command);
 				return (new_command);
 			}
 			free(var_name);

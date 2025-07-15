@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/06 21:04:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:13:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ int	ft_load_expar(t_content *content, t_list **env)
 	content->expar = malloc(sizeof(t_expar));
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
-	content->expar->options = ct_get_paths(*env);
-	if (!content->expar->options)
-		ft_exit(content);
+	content->expar->options = ct_get_paths(*env, content);
 	return(0);
 }
 

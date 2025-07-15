@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/06 00:31:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:00:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ int ft_is_path_command(t_content *content)
 		content->expar->path = ft_strdup(content->cmd[0]);
 		return(0);
 	}
-	printf("AHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH\n");
 	return(1);
 }
 

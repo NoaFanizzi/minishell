@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 14:10:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 15:02:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	ft_deal_with_dash(t_content *content, t_list **env)
 	{
 		if(ft_find_dash(*env, content) == 1)
 			return (1);
-		ft_putstr_fd("bash: cd: OLDPWD not set\n", STDERR_FILENO);
+		ft_putstr_fd("maxishell: cd: OLDPWD not set\n", STDERR_FILENO);
 		content->error_code = 1;
 		return(2);
 	}
@@ -144,7 +144,7 @@ int	ft_deal_with_wave(t_content *content, t_list **env)
 	if(ft_find_wave(*env, content) == 1)
 		return (1);
 	//printf("pas trouve\n");
-	ft_putstr_fd("bash: cd: HOME not set\n", STDERR_FILENO);
+	ft_putstr_fd("maxishell: cd: HOME not set\n", STDERR_FILENO);
 	content->error_code = 1;
 	return(2);
 }

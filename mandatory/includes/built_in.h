@@ -34,6 +34,7 @@ void	ft_exit(t_content *content);
 size_t	get_true_var_length(char *var_name, t_list *env);
 int		var_exists(char *var_name, t_list *env);
 char	*get_var_value(char *var_name, t_list *env);
+t_env	*get_env(char *var_name, t_list *env);
 
 //export_dup.c
 t_env	*dup_env_node(t_env *e);

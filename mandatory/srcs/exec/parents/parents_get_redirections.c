@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_get_redirections.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/08 16:55:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 13:12:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,25 @@ int	exit_in_parent(t_array *array)
 
 // ft_dup_in_dad
 
-int	ft_get_redir_dad(t_array *array, t_list **env)
+int	ft_save_stdin(t_array *array)
 {
-	int command;
-	
-	command = 0;
 	array->content[0].stdin_saved = dup(STDIN_FILENO);
 	if(array->content[0].stdin_saved == -1)
 		return(ft_dup2_pb(&array->content[0], "stdin"));
 	array->content[0].stdout_saved = dup(STDOUT_FILENO);
 	if(array->content[0].stdout_saved == -1)
 		return(ft_dup2_pb(&array->content[0], "stdout"));
+	return(0);
+}
+
+int	ft_get_redir_dad(t_array *array, t_list **env)
+{
+	int command;
+	
+	command = 0;
+	
+	if(ft_save_stdin(array) == O_ERROR)
+		return(O_ERROR);
 	command = ft_is_built_in(&array->content[0]);
 	if(command == 0)
 	{
@@ -45,15 +53,15 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 			ft_is_built_in_dad(array, env);
 		array->p_exit_status = array->content[0].error_code;
 	}
-	if(dup2(array->content[0].stdin_saved, STDIN_FILENO) == -1)
-		return(ft_dup2_pb(&array->content[0], "stdin"));
-	close(array->content[0].stdin_saved);
+	if (dup2(array->content[0].stdin_saved, STDIN_FILENO) == -1)
+		return (ft_dup2_pb(&array->content[0], "stdin"));
+	close (array->content[0].stdin_saved);
 	array->content[0].stdin_saved = -2;
-	if(dup2(array->content[0].stdout_saved, STDOUT_FILENO) == -1)
-		return(ft_dup2_pb(&array->content[0], "stdout"));
-	close(array->content[0].stdout_saved);
+	if (dup2(array->content[0].stdout_saved, STDOUT_FILENO) == -1)
+		return (ft_dup2_pb(&array->content[0], "stdout"));
+	close (array->content[0].stdout_saved);
 	array->content[0].stdout_saved = -2;
-	if(command == 1)
-		return(exit_in_parent(array));
+	if (command == 1)
+		return( exit_in_parent(array));
 	return(0);
 }
