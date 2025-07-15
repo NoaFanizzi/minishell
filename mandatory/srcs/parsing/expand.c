@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/08 16:44:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/08 18:08:01 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*get_var_name(char *word)
 		return (NULL);
 	return (var_name);
 }
+
+
 
 char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t_list **env)
 {
@@ -204,6 +206,55 @@ int is_not_after_hdoc(const char *cmd, size_t var_index)
 // 	return (0);
 // }
 
+
+char *remove_var(char *command, size_t i)
+{
+	size_t j;
+	size_t	k;
+	char	*new_command;
+
+	j = 0;
+	k = 0;
+	//printf("i = %zu\n", i);
+	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])  + 1) * sizeof(char));
+	if (!new_command)
+		return (NULL);
+	while (command[j] && j != i)
+		new_command[j++] = command[k++];
+	//printf("j = %zu, 1we are here : %s\n", j, &command[j]);
+	k++;
+	while (command[k] && valid_var_char(command[k]))
+		k++;
+	//printf("j = %zu, 2we are here : %s\n", j, &command[j]);
+	//printf("new_command1 = %s\n", new_command);
+	while (command[k])
+	{
+		new_command[j++] = command[k++];
+		//printf("nc[j] : %c, c[j] : %c\n", new_command[j], command[j]);
+	}
+	//printf("j = %zu, 3we are here : %s\n", j, &command[j]);
+	//printf("new_command2 = %s\n", new_command);
+	new_command[j] = 0;
+	return (new_command);
+}
+
+int is_in_single_quotes(const char *cmd, size_t pos)
+{
+	int in_squote = 0;
+	int in_dquote = 0;
+	size_t i = 0;
+
+	while (i < pos && cmd[i])
+	{
+		if (!in_dquote && cmd[i] == '\'')
+			in_squote = !in_squote;
+		else if (!in_squote && cmd[i] == '"')
+			in_dquote = !in_dquote;
+		i++;
+	}
+	return in_squote;
+}
+
 char *expand_word(char *command, t_list **env)
 {
 	char *var_name;
@@ -218,26 +269,35 @@ char *expand_word(char *command, t_list **env)
 	new_command = NULL;
 	while (command[i])
 	{
-		if (command[i] == '$' && is_not_after_hdoc(command, i) && valid_var_first_char(command[i + 1]))
+		if (command[i] == '$' && is_not_after_hdoc(command, i) && !is_in_single_quotes(command, i) && valid_var_first_char(command[i + 1]))
 		{
 			var_name = get_var_name(&command[i + 1]);
 			if (!var_name)
-				return NULL;
+				return (NULL);
+			printf("var name : %s\n", var_name);
 			if (var_exists(var_name, *env))
 			{
+				printf("found var\n");
 				true_var_length = get_true_var_length(var_name, *env);
 				new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
 				new_command = expand_var_in_command(command, i, new_length, var_name, env);
 				free(var_name);
 				if (!new_command)
-					return NULL;
-				return new_command;  // only one expansion per call
+					return (NULL);
+				return (new_command);  // only one expansion per call
+			}
+			else
+			{
+				printf("got here\n");
+				new_command = remove_var(command, i);
+				printf("nc = %s\n", new_command);
+				return (new_command);
 			}
 			free(var_name);
 		}
 		i++;
 	}
-	return command;  // nothing changed
+	return (command);  // nothing changed
 }
 
 // size_t	ft_count_dollars(char *str)
@@ -281,12 +341,7 @@ char *expand(char *command, t_list **env)
 			return NULL;
 		}
 	}
-	if(command)
-	{
-		//printf("command = %s\n", command);
-		free(command);
-		command = NULL;
-	}
+	free(command);
 	return new_command;
 }
 
