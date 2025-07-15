@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 17:17:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:24:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
 
+	content->error_code = 0;
 	ft_load_expar(content, env);
 	if (!content->expar->options)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/06 21:13:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:20:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ int	main(int argc, char **argv, char **env)
 	var = ft_init_env(env);
 	launch_shell(&var);
 	ft_free_env(var);
+	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/15 14:00:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:19:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,6 +261,5 @@ void	launch_shell(t_list **var)
 		ft_init_exec(var, &array);
 		free_command(cmd_splitted);
 		ft_free_array_content(&array);
-
 	}
 }

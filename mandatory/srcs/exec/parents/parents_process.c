@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 13:55:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/15 17:22:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	i = 0;
 	redir_value = 0;
 	//ft_display_array_content(array);
+	array->p_exit_status = 0;
 	if(array->size == 0)
 		return;
 	ft_load_preliminary_infos(env, array);
