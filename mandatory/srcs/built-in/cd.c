@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/16 13:33:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/16 17:58:49 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_update_pwd(t_list **env)
+int	ft_update_pwd(t_list **env, t_content *content)
 {
 	//t_list *current;
 	t_env *current;
@@ -26,20 +26,89 @@ int	ft_update_pwd(t_list **env)
 	if(!current)
 		return(1);
 	free(current->arg);
-	current->arg = ft_strdup(path);
+	if(!path)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(content->arg[0], STDOUT_FILENO);
+		ft_putendl_fd(": No such file or directory", STDOUT_FILENO);
+		current->arg = ft_strdup("");
+	}
+	if(path)
+		current->arg = ft_strdup(path);
 	free(path);
 	return(0);
 }
 
+char *ft_strncpy(char *src, char *dest, size_t	length)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < length)
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return(dest);
+}
+
+char *get_absolute_path(t_content *content)
+{
+	char *path;
+	char *temp;
+	t_env *test;
+	size_t	i;
+
+	i = 0;
+	temp = NULL;
+	test = get_env("PWD", *content->env);
+	if(ft_strcmp(content->arg[0], "..") == 0)
+	{
+		if(test->arg[i])
+		{
+			while(test->arg[i])
+				i++;
+			while(test->arg[i] != '/')
+				i--;
+		}
+		path = ft_calloc((i + 1), sizeof(char));
+		path = ft_strncpy(test->arg, path, i);
+	}
+	else
+	{
+		
+		temp = ft_strjoin(test->arg, "/");
+		path = ft_strjoin(temp, content->arg[0]);
+	}
+	free(temp);
+	return(path);
+}
+
 int	ft_access_dir(t_content *content)
 {
+	char *path;
+	path = get_absolute_path(content);
+	printf("path = %s\n", path);
+	if(access(path, X_OK) == -1)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		free(path);
+		return(1);
+	}
 	if (chdir(content->arg[0]) == -1)
 	{
 		content->error_code = 1;
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		perror(content->arg[0]);
+		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		free(path);
+		//perror(content->arg[0]);
 		return(1);
 	}
+	free(path);
 	return(0);
 }
 
@@ -138,6 +207,7 @@ void	ft_cd(t_content *content, t_list **env)
 	int params;
 
 	params = 0;
+	content->error_code = 0;
 	if(ft_tablen(content->arg) > 1)
 	{
 		content->error_code = 1;
@@ -155,11 +225,10 @@ void	ft_cd(t_content *content, t_list **env)
 		return;
 	if(ft_update_opwd(env) == 1)
 		return;
-	if(ft_update_pwd(env) == 1)
+	if(ft_update_pwd(env, content) == 1)
 		return;
 	if(params == 1)
 		ft_putendl_fd(content->arg[0], STDOUT_FILENO);
-	content->error_code = 0;
 
 }
 

@@ -4,7 +4,7 @@
 #include "minishell.h"
 
 //cd.c
-int		ft_update_pwd(t_list **env);
+int		ft_update_pwd(t_list **env, t_content *content);
 int		ft_access_dir(t_content *content);
 int		ft_update_opwd(t_list **env);
 int		ft_find_wave(t_list *env, t_content *content);
