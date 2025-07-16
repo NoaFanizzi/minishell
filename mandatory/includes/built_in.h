@@ -6,7 +6,7 @@
 //cd.c
 int		ft_update_pwd(t_list **env);
 int		ft_access_dir(t_content *content);
-int		ft_update_opwd(t_list **env, t_content *content, int params);
+int		ft_update_opwd(t_list **env);
 int		ft_find_wave(t_list *env, t_content *content);
 int		ft_find_dash(t_list *env, t_content *content);
 int		ft_deal_with_dash(t_content *content, t_list **env, int *params);

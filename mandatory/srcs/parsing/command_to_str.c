@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/15 18:35:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/16 13:21:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void    fill_struct_size(t_array *array, size_t struct_index)
 void check_tty(char **line)
 {
 	if (isatty(STDIN_FILENO))
-        *line = readline("minishell$ ");
+        *line = readline("maxishell$ ");
     else
         *line = readline(NULL);
 }

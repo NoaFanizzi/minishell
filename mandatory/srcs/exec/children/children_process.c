@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 17:24:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/16 12:29:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	if (cmd_value == 1 || cmd_value == 2)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
-		ft_putstr_fd("bash: ", STDERR_FILENO);
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
