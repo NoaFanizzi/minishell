@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 13:18:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:44:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	char *temp_file;
 	char *expanded_line;
 	int position;
-	int suff_temp;
+	size_t suff_temp;
 	
 	position = 0;
 	content->stdin_saved = dup(STDIN_FILENO);
@@ -158,13 +158,26 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 				{
 					dup2(content->stdin_saved, STDIN_FILENO);
 					free(line);
-					temp_file = ft_get_temp_file(content, suff_temp);
-					unlink(temp_file);
-					free(temp_file);
+					suff_temp = *i;
+					while(suff_temp > 0)
+					{
+						temp_file = ft_get_temp_file(content, suff_temp);
+						content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
+						while(content->h_fd == -1)
+						{
+							free(temp_file);
+							temp_file = ft_get_temp_file(content, suff_temp);
+							content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
+							suff_temp--;
+						}
+						unlink(temp_file);
+						free(temp_file);
+					}
+					//temp_file = ft_get_temp_file(content, suff_temp);
 					close(content->h_fd);
 					close(content->stdin_saved);
 					content->stdin_saved = -2;
-					content->error_code = 130;
+					content->array_ptr->p_exit_status = 130;
 					g_signal = 0;
 					return(1);
 				}

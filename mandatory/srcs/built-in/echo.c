@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 12:48:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:55:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,6 @@ int	ft_echo(t_content *content)
 	params = 0;
 	is_space = 0;
 
-	if(ft_strcmp(content->arg[0], "$?") == 0)
-	{
-		printf("%d\n", content->array_ptr->p_exit_status);
-		content->error_code = 0;
-		return(0);
-	}
 	if(content->cmd[1] != NULL && ft_is_arg(content->cmd[1]) == 0)
 		params = 1;
 	i = 1;
