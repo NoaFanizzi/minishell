@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 14:47:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:36:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		ft_is_command(t_content *content);
 int		ft_load_expar(t_content *content, t_list **env);
 int		ft_prepare_execution(t_content *content, t_list **env);
 void	ft_exec_cmd(t_content *content, t_list **env);
+void	child_management(t_list **env, t_array *array);
 
 //errors_handling
 

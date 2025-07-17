@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/16 12:29:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:36:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,3 +81,24 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 		ft_exit(content);
 	}
 }
+
+void child_management(t_list **env, t_array *array)
+{
+	int	i;
+
+	i = 0;
+	while(i < array->size)
+	{
+		array->content[i].pid = fork();
+		if (array->content[i].pid == -1)
+			ft_exit(&array->content[i]);
+		if (array->content[i].pid == 0)
+			ft_exec_cmd(&array->content[i], env);
+		i++;
+	}
+	ft_close_pipes(array);
+	ft_wait_pid(array);
+	signal(SIGINT, deal_with_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+

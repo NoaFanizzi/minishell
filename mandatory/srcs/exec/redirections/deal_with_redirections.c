@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 18:27:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:28:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			// }
 			*i += 1;
 			content->array_ptr->hdoc_length += *i;
-			dprintf(STDERR_FILENO, "content->array_ptr->hdoc_length = %d\n", content->array_ptr->hdoc_length);
 			while(1)
 			{
 				line = readline("> ");
@@ -161,7 +160,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 					dup2(content->stdin_saved, STDIN_FILENO);
 					free(line);
 					suff_temp = content->array_ptr->hdoc_length;
-					dprintf(STDERR_FILENO, "supp_temp = %zu\n", suff_temp);
 					// if(suff_temp == 0)
 					// {
 					// 	temp_file = ft_get_temp_file(content, suff_temp);
@@ -175,7 +173,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 					while(suff_temp + 1 > 0)
 					{
 						temp_file = ft_get_temp_file(content, suff_temp);
-						dprintf(STDERR_FILENO, "temp_file first iteration = %s\n", temp_file);
 						content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_TRUNC, 0644);
 						while(content->h_fd == -1 && (suff_temp + 1) > 0)
 						{
@@ -190,7 +187,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 						if(content->h_fd != -1)
 							close(content->h_fd);
 						content->h_fd = -1;
-						dprintf(STDERR_FILENO, "temp_file = %s\n", temp_file);
 						unlink(temp_file);
 						free(temp_file);
 					}
@@ -221,6 +217,5 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	close(content->stdin_saved);
 	content->stdin_saved = -2;
 	return(0);
-	printf("slt\n");
 }
 // @$#W%$E^%XR&C^UTYG

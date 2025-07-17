@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 17:43:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:37:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,6 @@ void	ft_exit(t_content *content)
 	if(validity_value == 1 && content->array_ptr->size == 1)
 		return;
 	error_code = get_right_error_code(content);
-	printf("error_code = %d\n", error_code);
 	//error_code = content->error_code;
 	if (content->env)
 		ft_free_env(*(content->env));

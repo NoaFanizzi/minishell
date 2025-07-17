@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 17:47:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:43:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ int	ft_process_here_doc(t_array *array)
 	return(0);
 }
 
+
 void	ft_init_exec(t_list **env, t_array *array)
 {
 	int	i;
@@ -108,8 +109,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 
 	i = 0;
 	redir_value = 0;
-	//ft_display_array_content(array);
-	//array->p_exit_status = 0;
 	if(array->size == 0)
 		return;
 	ft_load_preliminary_infos(env, array);
@@ -121,25 +120,11 @@ void	ft_init_exec(t_list **env, t_array *array)
 	}
 	ft_init_pipe(array);
 	if(ft_process_here_doc(array) == 1)
-	{
-		ft_close_pipes(array);
-		return;
-	}
-	signal(SIGINT, deal_with_signals_in_exec);
-	signal(SIGQUIT, deal_with_signals_in_exec);
-	while(i < array->size)
-	{
-		array->content[i].pid = fork();
-		if (array->content[i].pid == -1)
-			ft_exit(&array->content[i]);
-		if (array->content[i].pid == 0)
-			ft_exec_cmd(&array->content[i], env);
-		i++;
-	}
-	ft_close_pipes(array);
-	ft_wait_pid(array);
+		return(ft_close_pipes(array));
+	child_management(env, array);
 	signal(SIGINT, deal_with_sigint);
-	signal(SIGQUIT, SIG_IGN);
+	signal(SIGQUIT, deal_with_signals_in_exec);
+
 	deal_with_signal_after_exec();
 }
 
