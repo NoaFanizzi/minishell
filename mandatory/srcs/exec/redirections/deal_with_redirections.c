@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 17:45:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 18:27:28 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,5 +221,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	close(content->stdin_saved);
 	content->stdin_saved = -2;
 	return(0);
+	printf("slt\n");
 }
 // @$#W%$E^%XR&C^UTYG
