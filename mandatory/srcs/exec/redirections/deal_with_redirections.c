@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 14:44:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:45:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			position += position;
 		if(content->files[*i].type == HDOC)
 		{
-			suff_temp = content->pos;
+			suff_temp = 0;
 			temp_i = content->files[*i].index + 1;
 			temp_file = ft_get_temp_file(content, suff_temp);
 			content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
@@ -150,7 +150,9 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			// 	content->h_fd = -2;
 			// 	return(ft_open_error(content, "h_fd"));
 			// }
-			
+			*i += 1;
+			content->array_ptr->hdoc_length += *i;
+			dprintf(STDERR_FILENO, "content->array_ptr->hdoc_length = %d\n", content->array_ptr->hdoc_length);
 			while(1)
 			{
 				line = readline("> ");
@@ -158,27 +160,50 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 				{
 					dup2(content->stdin_saved, STDIN_FILENO);
 					free(line);
-					suff_temp = *i;
-					while(suff_temp > 0)
+					suff_temp = content->array_ptr->hdoc_length;
+					dprintf(STDERR_FILENO, "supp_temp = %zu\n", suff_temp);
+					// if(suff_temp == 0)
+					// {
+					// 	temp_file = ft_get_temp_file(content, suff_temp);
+					// 	//dprintf(STDERR_FILENO, "temp_file = %s\n", temp_file);
+					// 	content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_TRUNC, 0644);
+					// 	unlink(temp_file);
+					// 	free(temp_file);
+					// }
+					close(content->h_fd);
+					content->h_fd = -1;
+					while(suff_temp + 1 > 0)
 					{
 						temp_file = ft_get_temp_file(content, suff_temp);
-						content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
-						while(content->h_fd == -1)
+						dprintf(STDERR_FILENO, "temp_file first iteration = %s\n", temp_file);
+						content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_TRUNC, 0644);
+						while(content->h_fd == -1 && (suff_temp + 1) > 0)
 						{
+							//dprintf(STDERR_FILENO, "CA DEVRAIT PAS RENTRER LA\n");
 							free(temp_file);
 							temp_file = ft_get_temp_file(content, suff_temp);
-							content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
+							//dprintf(STDERR_FILENO, "\ntemp_file in loop = %s\n", temp_file);
+							content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_TRUNC, 0644);
+							//dprintf(STDERR_FILENO, "content->h_fd = %d\n", content->h_fd);
 							suff_temp--;
 						}
+						if(content->h_fd != -1)
+							close(content->h_fd);
+						content->h_fd = -1;
+						dprintf(STDERR_FILENO, "temp_file = %s\n", temp_file);
 						unlink(temp_file);
 						free(temp_file);
 					}
 					//temp_file = ft_get_temp_file(content, suff_temp);
-					close(content->h_fd);
+					if(content->h_fd != -1)
+					{
+						close(content->h_fd);
+					}
 					close(content->stdin_saved);
 					content->stdin_saved = -2;
 					content->array_ptr->p_exit_status = 130;
 					g_signal = 0;
+					content->h_fd = -2;
 					return(1);
 				}
 				if(!line || ft_strcmp(line, content->cmd_splitted[position][temp_i]) == 0)
@@ -192,9 +217,9 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			close(content->h_fd); // je le close parce qu'il sert plus a rien
 			content->h_fd = -2; // je le remet a -2 pour savoir si je dois close ou pas dans l'exit;
 		}
-		*i += 1;
 	}
 	close(content->stdin_saved);
 	content->stdin_saved = -2;
 	return(0);
 }
+// @$#W%$E^%XR&C^UTYG

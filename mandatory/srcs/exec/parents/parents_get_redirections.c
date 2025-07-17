@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 13:12:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:43:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	exit_in_parent(t_array *array)
 			array->content[0].error_code = ft_atoi(array->content->arg[0]);
 		ft_putstr_fd("exit\n", STDERR_FILENO);
 		ft_exit(&array->content[0]);
+		array->p_exit_status = array->content[0].error_code;
 		return(2);
 	}
 	return(1);
@@ -62,6 +63,6 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	close (array->content[0].stdout_saved);
 	array->content[0].stdout_saved = -2;
 	if (command == 1)
-		return( exit_in_parent(array));
+		return(exit_in_parent(array));
 	return(0);
 }
