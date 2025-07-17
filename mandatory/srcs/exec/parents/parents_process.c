@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 15:02:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 17:47:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 
 	i = 0;
 	array->pipe = NULL;
+	array->hdoc_length = 0;
 	//array->p_exit_status = 0;
 	while((int)i < array->size)
 	{
@@ -121,7 +122,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 	ft_init_pipe(array);
 	if(ft_process_here_doc(array) == 1)
 	{
-		dprintf(STDERR_FILENO, "array->p_exit_status = %d\n", array->p_exit_status);
 		ft_close_pipes(array);
 		return;
 	}
@@ -136,7 +136,6 @@ void	ft_init_exec(t_list **env, t_array *array)
 			ft_exec_cmd(&array->content[i], env);
 		i++;
 	}
-	dprintf(STDERR_FILENO, "array->p_exit_status = %d\n", array->p_exit_status);
 	ft_close_pipes(array);
 	ft_wait_pid(array);
 	signal(SIGINT, deal_with_sigint);

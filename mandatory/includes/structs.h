@@ -100,6 +100,7 @@ typedef struct s_array
 	int		(*pipe)[2];
 	int size;
 	int p_exit_status;
+	int hdoc_length;
 }				t_array;
 
 #endif
