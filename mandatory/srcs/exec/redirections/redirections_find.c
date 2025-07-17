@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 17:08:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:37:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,25 @@ int	ft_use_hdoc(t_content *content, size_t i)
 {
 	char *temp_file;
 	int position;
+	int	suff_temp;
 
 	position = 0;
 	if(content->files[i].type == HDOC)
 	{
 		//dprintf(STDERR_FILENO, "One hdoc found\n");
 		position = content->pos;
+		suff_temp = 0;
 		if(content->pos % 2 != 0)
 			position += 1;
-		temp_file = ft_get_temp_file(content);
-		content->infile = open(temp_file, O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+		temp_file = ft_get_temp_file(content, suff_temp);
+		content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+		while(content->infile == -1)
+		{
+			free(temp_file);
+			temp_file = ft_get_temp_file(content, suff_temp);
+			content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+			suff_temp++;
+		}
 		if(content->infile == -1)
 		{
 			unlink(temp_file);
@@ -82,9 +91,7 @@ void	ft_deal_with_pipes(t_content *content)
 	if((content->size > 1 && content->pos > 0))
 	{	
 		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) == -1)
-		{
 			ft_dup2_pb (content, "pipe");
-		}
 	}
 	if((content->size > 1 && content->pos < content->size - 1))
 	{

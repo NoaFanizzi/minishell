@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 17:08:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/17 13:18:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,13 +99,17 @@ int ft_deal_with_in(t_content *content, size_t i)
 	return(0);
 }
 
-char *ft_get_temp_file(t_content *content)
+char *ft_get_temp_file(t_content *content, int pos)
 {
 	char *converted_pos;
 	char *temp_file;
 	
-	converted_pos = ft_itoa(content->pos);
+	converted_pos = ft_itoa(pos);
 	temp_file = ft_strjoin("temp", converted_pos);
+	if(!temp_file)
+	{
+		ft_exit(content);
+	}
 	free(converted_pos);
 	return(temp_file);
 }
@@ -117,6 +121,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	char *temp_file;
 	char *expanded_line;
 	int position;
+	int suff_temp;
 	
 	position = 0;
 	content->stdin_saved = dup(STDIN_FILENO);
@@ -127,16 +132,24 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			position += position;
 		if(content->files[*i].type == HDOC)
 		{
+			suff_temp = content->pos;
 			temp_i = content->files[*i].index + 1;
-			temp_file = ft_get_temp_file(content);
-			content->h_fd = open(temp_file, O_RDWR | O_CREAT | O_TRUNC, 0644);
+			temp_file = ft_get_temp_file(content, suff_temp);
+			content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
+			while(content->h_fd == -1)
+			{
+				free(temp_file);
+				temp_file = ft_get_temp_file(content, suff_temp);
+				content->h_fd = open(temp_file, O_RDWR | O_EXCL | O_CREAT | O_TRUNC, 0644);
+				suff_temp++;
+			}
 			free(temp_file);
 			//unlink("temp");
-			if(content->h_fd == -1)
-			{
-				content->h_fd = -2;
-				return(ft_open_error(content, "h_fd"));
-			}
+			// if(content->h_fd == -1)
+			// {
+			// 	content->h_fd = -2;
+			// 	return(ft_open_error(content, "h_fd"));
+			// }
 			
 			while(1)
 			{
@@ -145,7 +158,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 				{
 					dup2(content->stdin_saved, STDIN_FILENO);
 					free(line);
-					temp_file = ft_get_temp_file(content);
+					temp_file = ft_get_temp_file(content, suff_temp);
 					unlink(temp_file);
 					free(temp_file);
 					close(content->h_fd);
