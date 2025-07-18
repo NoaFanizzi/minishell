@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 18:43:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:30:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	ft_wait_pid(t_array *array)
 {
@@ -41,7 +40,6 @@ void	ft_wait_pid(t_array *array)
 	}
 }
 
-
 void	ft_load_preliminary_infos(t_list **env, t_array *array)
 {
 	size_t	i;
@@ -67,47 +65,10 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	}
 }
 
-int	ft_process_here_doc(t_array *array)
-{
-	int	i;
-	size_t	j;
-	size_t	size;
-	int returned_value;
-
-	i = 0;
-	returned_value = 0;
-	while(i < array->size)
-	{
-		if(array->content[i].hdoc)
-		{
-			//printf("size = array->content[i].files[0].size = %zu\n", size = array->content[i].files[0].size);
-			size = array->content[i].files[0].size;
-			j = 0;
-			while(j < size)
-			{
-				if(array->content[i].files[j].type == HDOC)
-				{
-					signal(SIGINT, deal_with_sigint_hdoc);
-					returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-					signal(SIGINT, deal_with_sigint);
-				}
-				if(returned_value == O_ERROR || returned_value == 1)
-					return(1);
-				j++;
-			}
-		}
-		i++;
-	}
-	return(0);
-}
-
-
 void	ft_init_exec(t_list **env, t_array *array)
 {
-	int	i;
 	int redir_value;
 
-	i = 0;
 	redir_value = 0;
 	if(array->size == 0)
 		return;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/16 17:58:49 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:28:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	ft_update_pwd(t_list **env, t_content *content)
 {
 	//t_list *current;
 	t_env *current;
-	t_env *link;
+	//t_env *link;
 	char	*path;
 
-	link = NULL;
+	//link = NULL;
 	path = NULL;
 	path = getcwd(NULL, 0);
 	current = get_env("PWD", *env);

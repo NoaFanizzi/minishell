@@ -30,7 +30,7 @@ PARENTS_SRCS		:= $(addprefix $(PARENTS_DIR)/, $(PARENTS_SRCS))
 PIPES_SRCS			= pipes_dealing.c
 PIPES_SRCS			:= $(addprefix $(PIPES_DIR)/, $(PIPES_SRCS))
 
-REDIRECTIONS_SRCS 	= deal_with_redirections.c redirections_find.c
+REDIRECTIONS_SRCS 	= deal_with_redirections.c redirections_find.c here_doc.c
 REDIRECTIONS_SRCS 	:= $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 
 ERROR_HANDLING_SRCS	= error_handling_error_code.c

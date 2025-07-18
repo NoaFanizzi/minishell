@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 18:28:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:52:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,11 @@ int ft_deal_with_out(t_content *content, size_t i)
 	position = 0;
 	if(content->files[i].type == OUT)
 	{
-		//dprintf(STDERR_FILENO, "one out found\n");
 		position = content->pos;
-		//dprintf(STDERR_FILENO, "content->files[i].pos BEFORE = %zu\n", position);
 		if(content->pos != 0)
 			position += position;
-		//dprintf(STDERR_FILENO, "content->files[i].pos AFTER = %zu\n", position);
-		//dprintf(STDERR_FILENO, "content->cmd_splitted[position][content->files[i].index + 2] = %s\n", content->cmd_splitted[position][content->files[i].index + 1]);
 		if((content->cmd_splitted[position][content->files[i].index + 1]) == NULL)
 		{
-			//dprintf(STDERR_FILENO, "PROBLEMM\n");
 			ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", STDERR_FILENO);
 			content->error_code = 2;
 			return(O_ERROR);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_built_in_dealing.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:54:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 17:34:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:50:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int	ft_is_built_in(t_content *content)
 {
 	if (!content->cmd || !content->cmd[0])
 		return (1);
-	if((ft_strncmp(content->cmd[0], "export", 6) == 0 && ft_strlen(content->cmd[0]) == 6)
-		||(ft_strncmp(content->cmd[0], "unset", 5) == 0 && ft_strlen(content->cmd[0]) == 5)
-		||(ft_strncmp(content->cmd[0], "pwd", 3) == 0 && ft_strlen(content->cmd[0]) == 3)
-		||(ft_strncmp(content->cmd[0], "cd", 2) == 0 && ft_strlen(content->cmd[0]) == 2)
-		||(ft_strncmp(content->cmd[0], "echo", 4) == 0 && ft_strlen(content->cmd[0]) == 4)
-		||(ft_strncmp(content->cmd[0], "env", 3) == 0 && ft_strlen(content->cmd[0]) == 3))
+	if((ft_strcmp(content->cmd[0], "export") == 0)
+		||(ft_strcmp(content->cmd[0], "unset") == 0)
+		||(ft_strcmp(content->cmd[0], "pwd") == 0)
+		||(ft_strcmp(content->cmd[0], "cd") == 0)
+		||(ft_strcmp(content->cmd[0], "echo") == 0)
+		||(ft_strcmp(content->cmd[0], "env") == 0))
 		return(0);
 	return(1);
 }

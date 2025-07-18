@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 13:37:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:51:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_deal_with_redir(t_content *content)
 	size_t size;
 	size_t	i;
 
-	i = 0;
+	i = -1;
 	if(content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
 	{
 		if(ft_process_here_doc(content->array_ptr) == 1)
@@ -69,8 +69,8 @@ int	ft_deal_with_redir(t_content *content)
 	}
 	if(content->files != NULL && &content->files[0] != NULL)
 	{
-		size = content->files[i].size;
-		while(i < size)
+		size = content->files[0].size;
+		while(++i < size)
 		{
 			if(ft_use_hdoc(content, i) == O_ERROR)
 				return(1);
@@ -80,7 +80,6 @@ int	ft_deal_with_redir(t_content *content)
 				return(1);
 			if(ft_deal_with_in(content, i) == O_ERROR)
 				return(1);
-			i++;
 		}
 	}
 	return(0);
@@ -104,7 +103,6 @@ int	ft_parse_redirections(t_content *content)
 {
 	content->infile = -2;
 	content->outfile = -2;
-	//printf("slt garcon\n\n\n");
 	ft_deal_with_pipes(content);
 	if(ft_deal_with_redir(content) == 1)
 		ft_exit(content);

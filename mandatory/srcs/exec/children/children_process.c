@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 18:36:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 12:47:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 int	ft_load_expar(t_content *content, t_list **env)
 {
+	content->error_code = 0;
 	content->expar = malloc(sizeof(t_expar));
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
 	content->expar->options = ct_get_paths(*env, content);
+	if (!content->expar->options)
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		content->error_code = 127;
+		ft_exit(content);
+	}
 	return(0);
 }
 
@@ -57,17 +66,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
-
-	content->error_code = 0;
 	ft_load_expar(content, env);
-	if (!content->expar->options)
-	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		content->error_code = 127;
-		ft_exit(content);
-	}
 	if(ft_parse_redirections(content) == O_ERROR)
 		ft_exit(content);
 	ft_prepare_execution(content, env);
