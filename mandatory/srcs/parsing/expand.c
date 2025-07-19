@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 17:45:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 18:00:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,10 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 	exp_var = NULL;
 	new_word = ft_calloc(size + 1, sizeof(char));
 	if (!new_word)
+	{
+		free(word);
 		return (NULL);
+	}
 	while (word[j])
 	{
 		if (j == i)
@@ -79,6 +82,7 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 			new_word[k++] = word[j++];
 	}
 	new_word[k] = 0;
+	free(word);
 	return (new_word);
 }
 
@@ -214,7 +218,10 @@ char *remove_var(char *command, size_t i)
 	//printf("i = %zu\n", i);
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])  + 1) * sizeof(char));
 	if (!new_command)
+	{
+		free(command);
 		return (NULL);
+	}
 	while (command[j] && j != i)
 		new_command[j++] = command[k++];
 	//printf("j = %zu, 1we are here : %s\n", j, &command[j]);
@@ -231,6 +238,7 @@ char *remove_var(char *command, size_t i)
 	//printf("j = %zu, 3we are here : %s\n", j, &command[j]);
 	//printf("new_command2 = %s\n", new_command);
 	new_command[j] = 0;
+	free(command);
 	return (new_command);
 }
 
@@ -261,7 +269,10 @@ char	*expand_error_code(char *command, size_t i, t_array *array)
 	k = 0;
 	new_cmd = malloc(ft_strlen(command) * sizeof(char));
 	if (!new_cmd)
+	{
+		free(command);
 		return (NULL);
+	}
 	printf("before\n");
 	printf("%d\n", array->p_exit_status);//segfault when accessing this
 	printf("after\n");
@@ -278,6 +289,7 @@ char	*expand_error_code(char *command, size_t i, t_array *array)
 			new_cmd[k++] = command[j++];
 	}
 	new_cmd[k] = 0;
+	free(command);
 	return (new_cmd);
 }
 
@@ -330,6 +342,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 					new_command = remove_var(new_command, i);
 					printf("nc = %s\n", new_command);
 				}
+				free(var_name);
 			}
 		}
 		else
