@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/06 15:57:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 15:06:54 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 					&& ft_strncmp(line, content->cmd_splitted[position][temp_i], ft_strlen(content->cmd_splitted[position][temp_i])) == 0)
 					break;
 				ft_putstr_fd("> ", 1);
-				expanded_line = expand(line, content->env);
+				expanded_line = expand_word(line, content->env, content->array_ptr);
 				ft_putstr_fd(expanded_line, content->h_fd);
 				free(expanded_line);
 				line = get_next_line(0);

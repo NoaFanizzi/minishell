@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/10 20:57:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 15:06:03 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 //syntax error: unmatched quote      unclosed quotes
 
 
-char	***parse_command(char *line, t_list **var)
+char	***parse_command(char *line, t_list **var, t_array *array)
 {	
 	char 	**command = NULL;
 	char	*str;
@@ -33,7 +33,7 @@ char	***parse_command(char *line, t_list **var)
 	if (!str)
 		return (NULL);
 	free(line);
-	str = expand(str, var);
+	str = expand_word(str, var, array);
 	if (!str)
 		return (NULL);
 	//printf("str = %s\n\n", str);
@@ -191,8 +191,8 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
+				// printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				// printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
@@ -200,7 +200,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				// printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
@@ -208,7 +208,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				// printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -235,29 +235,90 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
+// problem if we have two different commands :  echo >> | cat file
+int check_redir(char ***cmd, size_t i, size_t j)
+{
+	size_t	k;
+
+	k = 0;
+	// printf("command i : %s\n", cmd[i][j]);
+	// printf("command i + 1 : %s\n", cmd[i][j + 1]);
+	while (cmd[i][j][k])
+	{
+		if (cmd[i][j][k] == '<' || cmd[i][j][k] == '>')
+		{
+			k++;
+			if ((cmd[i][j][k - 1] == '<' && cmd[i][j][k] == '<')
+				|| (cmd[i][j][k - 1] == '>' && cmd[i][j][k] == '>'))
+				k++;
+			// printf("cmd[i][j][k] : %c\n", cmd[i][j][k]);
+			// printf("cmd[i][j + 1] : %s\n", cmd[i][j + 1]);
+			if (cmd[i][j +  1] == 0)
+			{
+				if (cmd[i + 1])
+					printf("bash: syntax error near unexpected token `|'\n");
+				else
+					printf("bash: syntax error near unexpected token `newline'\n");
+				return (1);
+			}
+			else if (cmd[i][j][k] == 0
+				 && cmd[i][j + 1]
+				 && cmd[i][j + 1][0]
+				 && (cmd[i][j + 1][0] == '|' || cmd[i][j + 1][0] == '>' || cmd[i][j + 1][0] == '<'))
+			{
+				if (cmd[i][j + 1][0] == '>' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '>')
+					printf("bash: syntax error near unexpected token `>>'\n");	
+				else if (cmd[i][j + 1][0] == '<' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '<')
+					printf("bash: syntax error near unexpected token `<<'\n");
+				else
+					printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j + 1][0]);	
+				return (1);
+			}
+			else if (cmd[i][j][k] == '|' || cmd[i][j][k] == '>' || cmd[i][j][k] == '<')
+			{
+				if (cmd[i][j][k] == '>' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
+					printf("bash: syntax error near unexpected token `>>'\n");	
+				else if (cmd[i][j][k] == '<' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
+					printf("bash: syntax error near unexpected token `<<'\n");
+				else
+					printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j][k]);	
+				return (1);
+			}
+		}
+		k++;
+	}
+	return (0);
+}
+
 int	check_syntax(char ***cmd_splitted)
 {
 	size_t	i;
 	size_t	j;
 	
 	i = 0;
+	if (!cmd_splitted || !cmd_splitted[0] || !cmd_splitted[0][0])
+		return (1);
+	if (cmd_splitted[0][0][0] == '|')
+	{
+		printf("bash: syntax error near unexpected token `|'\n");
+		return (1);
+	}
 	while (cmd_splitted[i])
 	{
 		j = 0;
-		if (cmd_splitted[0][0][0] == '|')
-		{
-			printf("bash: syntax error near unexpected token `|'\n");
-			return (1);
-		}
 		while (cmd_splitted[i][j])
 		{
-			// if (check_redir(cmd_splitted[i][j]))//print the message inside the function
-			// 	return (1);
+			if (check_redir(cmd_splitted, i, j))//print the message inside the function
+			  	return (1);
 			j++;
 		}
 		i++;
 	}
-	if (cmd_splitted[i - 1][j - 1][ft_strlen(cmd_splitted[i - 1][j - 1]) - 1] == '|')
+	printf("i : %zu\n", i);
+	printf("str : %s\n", cmd_splitted[i - 1][0]);
+	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
+		cmd_splitted[i - 1][0][0] == '|' &&
+		cmd_splitted[i - 1][0][1] == '\0')
 	{
 		printf("bash: syntax error: unexpected end of input after `|'\n");
 		return (1);
@@ -286,7 +347,7 @@ void	launch_shell(t_list **var)
 			add_history(line);
 		array.size = 0;
 		array.content = NULL;
-		cmd_splitted = parse_command(line, var);
+		cmd_splitted = parse_command(line, var, &array);
 		if (!cmd_splitted)
 			return ;
 		if (check_syntax(cmd_splitted))

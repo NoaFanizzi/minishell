@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/08 18:08:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 16:53:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	valid_var_first_char(char c)
 {
-	if (ft_isalpha(c) || c == '_')
+	if (ft_isalpha(c) || c == '_' || c == '?')
 		return (1);
 	return (0);
 }
@@ -76,11 +76,7 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 			free(exp_var);
 		}
 		else
-		{
-			new_word[k] = word[j];
-			j++;
-			k++;
-		}
+			new_word[k++] = word[j++];
 	}
 	new_word[k] = 0;
 	return (new_word);
@@ -255,10 +251,39 @@ int is_in_single_quotes(const char *cmd, size_t pos)
 	return in_squote;
 }
 
-char *expand_word(char *command, t_list **env)
+char	*expand_error_code(char *command, size_t i, t_array *array)
+{
+	size_t	j;
+	size_t	k;
+	char	*new_cmd;
+
+	j = 0;
+	k = 0;
+	new_cmd = malloc(ft_strlen(command) * sizeof(char));
+	if (!new_cmd)
+		return (NULL);
+	printf("before\n");
+	printf("%d\n", array->p_exit_status);//segfault when accessing this
+	printf("after\n");
+	while (command[j])
+	{
+		if (j == i)
+		{
+			printf("hhhhhhh\n");
+			new_cmd[k] = array->p_exit_status + 48;
+			k++;
+			j += 2;
+		}
+		else
+			new_cmd[k++] = command[j++];
+	}
+	new_cmd[k] = 0;
+	return (new_cmd);
+}
+
+char	*expand_word(char *command, t_list **env, t_array *array)
 {
 	char *var_name;
-	char *new_command;
 	size_t	i;
 	size_t	true_var_length;
 	size_t new_length;
@@ -266,38 +291,46 @@ char *expand_word(char *command, t_list **env)
 	i = 0;
 	true_var_length = 0;
 	new_length = 0;
-	new_command = NULL;
 	while (command[i])
 	{
 		if (command[i] == '$' && is_not_after_hdoc(command, i) && !is_in_single_quotes(command, i) && valid_var_first_char(command[i + 1]))
 		{
-			var_name = get_var_name(&command[i + 1]);
-			if (!var_name)
-				return (NULL);
-			printf("var name : %s\n", var_name);
-			if (var_exists(var_name, *env))
+			if (command[i + 1] == '?')
 			{
-				printf("found var\n");
-				true_var_length = get_true_var_length(var_name, *env);
-				new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
-				new_command = expand_var_in_command(command, i, new_length, var_name, env);
-				free(var_name);
-				if (!new_command)
+				printf("here\n");
+				command = expand_error_code(command, i , array);
+				if (!command)
 					return (NULL);
-				return (new_command);  // only one expansion per call
+				i++;
 			}
 			else
 			{
-				printf("got here\n");
-				new_command = remove_var(command, i);
-				printf("nc = %s\n", new_command);
-				return (new_command);
+				var_name = get_var_name(&command[i + 1]);
+				if (!var_name)
+					return (NULL);
+				printf("var name : %s\n", var_name);
+				if (var_exists(var_name, *env))
+				{
+					printf("found var\n");
+					true_var_length = get_true_var_length(var_name, *env);
+					new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
+					command = expand_var_in_command(command, i, new_length, var_name, env);
+					if (!command)
+						return (NULL);
+					i += true_var_length;
+				}
+				else
+				{
+					printf("got here\n");
+					command = remove_var(command, i);
+					printf("nc = %s\n", command);
+				}
 			}
-			free(var_name);
 		}
-		i++;
+		else
+			i++;
 	}
-	return (command);  // nothing changed
+	return (command);
 }
 
 // size_t	ft_count_dollars(char *str)
@@ -316,7 +349,7 @@ char *expand_word(char *command, t_list **env)
 // 	return(count);
 // }
 
-char *expand(char *command, t_list **env)
+char *expand(char *command, t_list **env, t_array *array)
 {
 	char *new_command;
 	char *temp;
@@ -328,7 +361,7 @@ char *expand(char *command, t_list **env)
 
 	while (1)
 	{
-		temp = expand_word(new_command, env);  // always expand first valid `$`
+		temp = expand_word(new_command, env, array);  // always expand first valid `$`
 		if (temp == new_command)  // nothing was expanded, we are done
 			break;
 		free(new_command);
