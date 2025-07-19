@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 18:00:10 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 18:12:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,50 +350,4 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 	}
 	return (new_command);
 }
-
-// size_t	ft_count_dollars(char *str)
-// {
-// 	size_t	i;
-// 	size_t	count;
-
-// 	i = 0;
-// 	count = 0;
-// 	while(str[i])
-// 	{
-// 		if(str[i] == '$')
-// 			count++;
-// 		i++;
-// 	}
-// 	return(count);
-// }
-
-char *expand(char *command, t_list **env, t_array *array)
-{
-	char *new_command;
-	char *temp;
-	int counter = 0;
-
-	new_command = ft_strdup(command);
-	if (!new_command)
-		return NULL;
-
-	while (1)
-	{
-		temp = expand_word(new_command, env, array);  // always expand first valid `$`
-		if (temp == new_command)  // nothing was expanded, we are done
-			break;
-		free(new_command);
-		new_command = temp;
-		counter++;
-		if (counter > 1000) // safety guard
-		{
-			fprintf(stderr, "Error: too many variable expansions (infinite loop?)\n");
-			free(new_command);
-			return NULL;
-		}
-	}
-	free(command);
-	return new_command;
-}
-
 
