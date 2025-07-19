@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 16:53:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 17:45:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,6 +284,7 @@ char	*expand_error_code(char *command, size_t i, t_array *array)
 char	*expand_word(char *command, t_list **env, t_array *array)
 {
 	char *var_name;
+	char *new_command;
 	size_t	i;
 	size_t	true_var_length;
 	size_t new_length;
@@ -291,21 +292,25 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 	i = 0;
 	true_var_length = 0;
 	new_length = 0;
-	while (command[i])
+	new_command = ft_strdup(command);
+	if (!new_command)
+		return (NULL);
+	free(command);
+	while (new_command[i])
 	{
-		if (command[i] == '$' && is_not_after_hdoc(command, i) && !is_in_single_quotes(command, i) && valid_var_first_char(command[i + 1]))
+		if (new_command[i] == '$' && is_not_after_hdoc(new_command, i) && !is_in_single_quotes(new_command, i) && valid_var_first_char(new_command[i + 1]))
 		{
-			if (command[i + 1] == '?')
+			if (new_command[i + 1] == '?')
 			{
 				printf("here\n");
-				command = expand_error_code(command, i , array);
-				if (!command)
+				new_command = expand_error_code(new_command, i , array);
+				if (!new_command)
 					return (NULL);
 				i++;
 			}
 			else
 			{
-				var_name = get_var_name(&command[i + 1]);
+				var_name = get_var_name(&new_command[i + 1]);
 				if (!var_name)
 					return (NULL);
 				printf("var name : %s\n", var_name);
@@ -313,24 +318,24 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 				{
 					printf("found var\n");
 					true_var_length = get_true_var_length(var_name, *env);
-					new_length = true_var_length + ft_strlen(command) - get_var_length(&command[i + 1]) + 1;
-					command = expand_var_in_command(command, i, new_length, var_name, env);
-					if (!command)
+					new_length = true_var_length + ft_strlen(new_command) - get_var_length(&new_command[i + 1]) + 1;
+					new_command = expand_var_in_command(new_command, i, new_length, var_name, env);
+					if (!new_command)
 						return (NULL);
 					i += true_var_length;
 				}
 				else
 				{
 					printf("got here\n");
-					command = remove_var(command, i);
-					printf("nc = %s\n", command);
+					new_command = remove_var(new_command, i);
+					printf("nc = %s\n", new_command);
 				}
 			}
 		}
 		else
 			i++;
 	}
-	return (command);
+	return (new_command);
 }
 
 // size_t	ft_count_dollars(char *str)
