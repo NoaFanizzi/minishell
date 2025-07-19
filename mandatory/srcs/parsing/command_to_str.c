@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 15:06:03 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/19 18:09:19 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,7 +351,10 @@ void	launch_shell(t_list **var)
 		if (!cmd_splitted)
 			return ;
 		if (check_syntax(cmd_splitted))
-			return ;//need to free maybe
+		{
+			free_command(cmd_splitted);
+			return ;
+		}
 		analyse_command(cmd_splitted, &array, *var);
 		ft_init_exec(var, &array);
 		free_command(cmd_splitted);
