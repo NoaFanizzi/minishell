@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/03 08:19:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:07:55 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,12 @@ int        count_commands(char **command)
     count = 0;
     while (command[i])
     {
-        if (command[i][0] == '|')
+		if (!command[i + 1] && command[i][0] == '|')
+		{
+			count++;
+			return (count + count);
+		}
+        else if (command[i][0] == '|')
             count++;
         i++;
     }

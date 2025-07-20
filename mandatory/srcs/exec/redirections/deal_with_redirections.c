@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/18 12:52:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/20 13:32:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 				}
 				if(!line || ft_strcmp(line, content->cmd_splitted[position][temp_i]) == 0)
 					break;
-				expanded_line = expand(line, content->env);
+				expanded_line = expand_word(line, content->env, content->array_ptr);
 				ft_putendl_fd(expanded_line, content->h_fd);
 				free(expanded_line);
 			}
