@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/02 17:22:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/20 15:40:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void ft_free_array_content(t_array *array)
 {
     int i;
     i = 0;
+
     if (!array || !array->content)
 		return;
 //	printf("array->size = %d\n", array->size);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/20 13:31:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/20 15:50:22 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char	***parse_command(char *line, t_list **var, t_array *array)
 	//printf("str = %s\n\n", str);
 	command = quotes_splitting(command, str);
 	free(str);
+	printf("SALUTSALUT\n");
 	if (!command)
 		return (NULL);//error
 	k = 0;
@@ -306,8 +307,8 @@ int	check_syntax(char ***cmd_splitted)
 		}
 		i++;
 	}
-	printf("i : %zu\n", i);
-	printf("str : %s\n", cmd_splitted[i - 1][0]);
+	//printf("i : %zu\n", i);
+	//printf("str : %s\n", cmd_splitted[i - 1][0]);
 	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
 		cmd_splitted[i - 1][0][0] == '|' &&
 		cmd_splitted[i - 1][0][1] == '\0')
@@ -360,9 +361,17 @@ void	launch_shell(t_list **var)
 		cmd_splitted = parse_command(line, var, &array);
 		if (!cmd_splitted)
 			return ;
-		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, &array);
-		free_command(cmd_splitted);
-		ft_free_array_content(&array);
+		else if (check_syntax(cmd_splitted) == 1)
+		{
+			array.p_exit_status = 2;
+			free_command(cmd_splitted);
+		}
+		else
+		{
+			analyse_command(cmd_splitted, &array, *var);
+			ft_init_exec(var, &array);
+			free_command(cmd_splitted);
+			ft_free_array_content(&array);
+		}
 	}
 }

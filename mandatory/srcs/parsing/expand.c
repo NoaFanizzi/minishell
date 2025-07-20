@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/20 13:25:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/20 15:54:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,9 +274,9 @@ char	*expand_error_code(char *command, size_t i, t_array *array)
 	trimmed_cmd = ft_calloc((i + 2), sizeof(char));
 	ft_strlcat(trimmed_cmd, command, (i + 1));
 	new_cmd = ft_strjoin(trimmed_cmd, error_code);
-	free(command);
 	free(error_code);
 	free(trimmed_cmd);
+	free(command);
 	return (new_cmd);
 }
 
