@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/20 15:50:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:08:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 //check cases when there is one commnad, or nothing or idk but you understood
 
-char	***parse_command(char *line, t_list **var, t_array *array)
+char	***parse_command(char **line, t_list **var, t_array *array)
 {	
 	char 	**command = NULL;
 	char	*str;
@@ -23,17 +23,18 @@ char	***parse_command(char *line, t_list **var, t_array *array)
 	int		i;
 
 	k = 0;
-	str = ft_strdup(line);
+	str = ft_strdup(*line);
 	if (!str)
 		return (NULL);
-	free(line);
+	free(*line);
+	*line = NULL;
 	str = expand_word(str, var, array);
 	if (!str)
 		return (NULL);
 	//printf("str = %s\n\n", str);
 	command = quotes_splitting(command, str);
 	free(str);
-	printf("SALUTSALUT\n");
+	//printf("SALUTSALUT\n");
 	if (!command)
 		return (NULL);//error
 	k = 0;
@@ -331,14 +332,15 @@ void	*manage_readline(char **line, t_array *array)
 	char *prompt;
 	
 	prompt = ft_join_prompt(array);
-	check_tty(line, prompt);
+	//check_tty(line, prompt);
+	*line = readline(prompt);
 	if(g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
 	free(prompt);
 	if (*line == NULL)
 		return(NULL);
-	if (*line && *line)
+	if (line && *line)
 		add_history(*line);
 	return(NULL);
 }
@@ -348,6 +350,7 @@ void	launch_shell(t_list **var)
 	char	*line;
 	char	***cmd_splitted;
 	t_array	array;
+	char *temp_line;
 	
 	array.p_exit_status = 0;
 	signal(SIGINT, deal_with_sigint);
@@ -358,18 +361,24 @@ void	launch_shell(t_list **var)
 		manage_readline(&line, &array);
 		array.size = 0;
 		array.content = NULL;
-		cmd_splitted = parse_command(line, var, &array);
+		temp_line = ft_strdup(line);
+		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
 			return ;
 		else if (check_syntax(cmd_splitted) == 1)
 		{
-			array.p_exit_status = 2;
+			if(line[0] != '\0')
+				array.p_exit_status = 2;
+			if(line[0] == '\0')
+				array.p_exit_status = 0;
+			free(line);
 			free_command(cmd_splitted);
 		}
 		else
 		{
 			analyse_command(cmd_splitted, &array, *var);
 			ft_init_exec(var, &array);
+			free(line);
 			free_command(cmd_splitted);
 			ft_free_array_content(&array);
 		}

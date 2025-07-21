@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/18 12:47:21 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:25:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void child_management(t_list **env, t_array *array)
 	int	i;
 
 	i = 0;
+	signal(SIGINT, deal_with_signals_in_exec);
+	signal(SIGQUIT, deal_with_signals_in_exec);
 	while(i < array->size)
 	{
 		array->content[i].pid = fork();
@@ -97,7 +99,5 @@ void child_management(t_list **env, t_array *array)
 	}
 	ft_close_pipes(array);
 	ft_wait_pid(array);
-	signal(SIGINT, deal_with_sigint);
-	signal(SIGQUIT, SIG_IGN);
 }
 

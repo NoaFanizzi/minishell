@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/18 12:30:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:25:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 		return(ft_close_pipes(array));
 	child_management(env, array);
 	signal(SIGINT, deal_with_sigint);
-	signal(SIGQUIT, deal_with_signals_in_exec);
-
+	signal(SIGQUIT, SIG_IGN);
 	deal_with_signal_after_exec();
 }
 

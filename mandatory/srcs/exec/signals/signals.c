@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 08:20:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 13:47:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 12:41:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	deal_with_sigint(int signal)
 {
+	//printf("\ndeal_with_sigint called\n");
 	g_signal = signal;
 	ft_putendl_fd("^C", STDERR_FILENO);
 	rl_replace_line("", 0);
@@ -23,6 +24,7 @@ void	deal_with_sigint(int signal)
 
 void	deal_with_sigint_hdoc(int signal)
 {
+	//printf("\ndeal_with_sigint_hdoc called\n");
 	g_signal = signal;
 	ft_putstr_fd("^C", STDERR_FILENO);
 	close(STDIN_FILENO);
@@ -32,6 +34,7 @@ void	deal_with_sigint_hdoc(int signal)
 
 void	deal_with_signals_in_exec(int signal)
 {
+	//printf("\ndeal_with_signals_in_exec called\n");
 	g_signal = signal;
 }
 
