@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:23:30 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 13:13:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:24:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ int	ft_pwd(t_content *content)
 	path = getcwd(NULL, 0);
 	if(!path)
 	{
+		content->array_ptr->is_lost = 1;
 		content->error_code = 1;
-		perror("pwd error");
+		ft_putendl_fd("pwd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory", STDERR_FILENO);
 		return (1);
 	}
 	content->error_code = 0;

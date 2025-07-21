@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/18 12:28:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 16:51:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,17 @@ int	ft_update_pwd(t_list **env, t_content *content)
 	free(current->arg);
 	if(!path)
 	{
+		content->error_code = 1;
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(content->arg[0], STDOUT_FILENO);
 		ft_putendl_fd(": No such file or directory", STDOUT_FILENO);
 		current->arg = ft_strdup("");
 	}
 	if(path)
+	{
+		content->array_ptr->is_lost = 0;
 		current->arg = ft_strdup(path);
+	}
 	free(path);
 	return(0);
 }
@@ -88,26 +92,46 @@ char *get_absolute_path(t_content *content)
 int	ft_access_dir(t_content *content)
 {
 	char *path;
+	//char *pwd;
 	path = get_absolute_path(content);
 	printf("path = %s\n", path);
-	if(access(path, X_OK) == -1)
-	{
-		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(content->arg[0], STDERR_FILENO);
-		ft_putendl_fd(": Not a directory", STDERR_FILENO);
-		free(path);
-		return(1);
-	}
-	if (chdir(content->arg[0]) == -1)
-	{
-		content->error_code = 1;
-		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(content->arg[0], STDERR_FILENO);
-		ft_putendl_fd(": Not a directory", STDERR_FILENO);
-		free(path);
-		//perror(content->arg[0]);
-		return(1);
-	}
+	
+	// if(access(path, X_OK) == -1)
+	// {
+	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
+	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
+	// 	free(path);
+	// 	content->error_code = 1;
+	// 	return(1);
+	// }
+	// printf("content->arg[0] = %s\n", content->arg[0]);
+	// pwd = getcwd(NULL, 0) == -1;
+	// if (!pwd) // perdu
+	// {
+	// }
+	// if (chdir(content->arg[0]) == -1)
+	// {
+	// 	content->error_code = 1;
+	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
+	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
+	// 	free(path);
+	// 	//perror(content->arg[0]);
+	// 	return(1);
+	// }
+	// // else
+
+	// if (chdir(content->arg[0]) == -1)
+	// 	{
+	// 		content->error_code = 1;
+	// 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+	// 		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+	// 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+	// 		free(path);
+	// 		//perror(content->arg[0]);
+	// 		return(1);
+	// 	}
 	free(path);
 	return(0);
 }

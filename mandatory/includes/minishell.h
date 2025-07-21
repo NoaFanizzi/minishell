@@ -14,6 +14,7 @@
 #include <readline/history.h>
 #include "get_next_line.h"
 #include <sys/stat.h>
+#include <sys/select.h>
 
 extern int g_signal;
 

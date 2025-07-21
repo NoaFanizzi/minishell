@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/16 18:51:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:56:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	//array = NULL;
 
+	printf("fd max = %d\n", FD_SETSIZE);
 	if (!isatty(STDOUT) || !isatty(STDIN))
 	{
 		printf("minishell: not a tty\n");

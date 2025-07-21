@@ -101,6 +101,7 @@ typedef struct s_array
 	int size;
 	int p_exit_status;
 	int hdoc_length;
+	int is_lost;
 }				t_array;
 
 #endif

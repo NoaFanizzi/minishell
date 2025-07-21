@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/15 14:48:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:13:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,17 @@ char	**ct_get_paths(t_list *var, t_content *content)
 	options = ft_split(cpy->arg, ':');
 	if(!options)
 		ft_exit(content);
+	if(!options[0])
+	{
+		free(options);
+		options = NULL;
+	}
 	return (options);
 }
 
 void	ft_close_all(t_content *content)
 {
+	printf("close_all ft\n");
 	ft_close_pipes(content->array_ptr);
 	if((content && content->infile != -2)
 		&&(content->infile != -1))

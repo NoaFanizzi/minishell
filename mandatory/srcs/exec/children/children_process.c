@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 13:59:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 17:45:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,13 +89,22 @@ void child_management(t_list **env, t_array *array)
 	signal(SIGQUIT, deal_with_signals_in_exec);
 	while(i < array->size)
 	{
-		array->content[i].pid = fork();
+		if(i == 4)
+			array->content[i].pid = -1;
+		else
+			array->content[i].pid = fork();
 		if (array->content[i].pid == -1)
+		{
+			perror("maxishell: fork");
+			array->p_exit_status = 1;
+			ft_close_pipes(array);
 			ft_exit(&array->content[i]);
+		}
 		if (array->content[i].pid == 0)
 			ft_exec_cmd(&array->content[i], env);
 		i++;
 	}
+	dprintf(STDERR_FILENO, "slt\n");
 	ft_close_pipes(array);
 	ft_wait_pid(array);
 }
