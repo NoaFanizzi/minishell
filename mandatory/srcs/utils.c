@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/20 15:40:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:52:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,15 @@ void	ft_display_tab(char **tab)
 	size_t	i;
 
 	i = 0;
+	printf("je suis bien dans la fonction display_tab\n");
 	if(!tab)
+	{
+		printf("tab est nul\n");
 		return;
+	}
 	while(tab[i])
 	{
+		printf("wtf\n");
 		ft_putstr_fd(tab[i], STDOUT_FILENO);
 		ft_putstr_fd("\n", 1);
 		i++;

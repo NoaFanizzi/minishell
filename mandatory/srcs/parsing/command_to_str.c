@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/21 13:08:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:11:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,8 +369,6 @@ void	launch_shell(t_list **var)
 		{
 			if(line[0] != '\0')
 				array.p_exit_status = 2;
-			if(line[0] == '\0')
-				array.p_exit_status = 0;
 			free(line);
 			free_command(cmd_splitted);
 		}
