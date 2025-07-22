@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 17:45:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/22 21:49:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void child_management(t_list **env, t_array *array)
 			ft_exec_cmd(&array->content[i], env);
 		i++;
 	}
-	dprintf(STDERR_FILENO, "slt\n");
 	ft_close_pipes(array);
 	ft_wait_pid(array);
 }

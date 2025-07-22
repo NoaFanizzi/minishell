@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/20 13:40:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/22 21:47:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,22 @@ int ft_is_path_command(t_content *content)
         || (ft_strncmp(content->cmd[0], "./", 2) == 0)
         || (ft_strncmp(content->cmd[0], "../", 3) == 0)
         || (ft_strcmp(content->cmd[0], "..") == 0)
-        || (ft_strcmp(content->cmd[0], ".") == 0))
+        || (ft_strcmp(content->cmd[0], ".") == 0)
+        || (content->cmd[0][1] == '/'))
 		is_command = 1;
 	//printf("salut\n");
-	if (is_command == 1 && access(content->cmd[0], X_OK) == 1)
+	if (is_command == 1 && access(content->cmd[0], X_OK) == 0)
 	{
 		content->expar->path = ft_strdup(content->cmd[0]);
 		return(0);
+	}
+	if(is_command == 1)
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		perror("");
+		ft_exit(content);
 	}
 	return(1);
 }
@@ -84,8 +93,8 @@ int ft_is_command(t_content *content)
 	if ((content->cmd == NULL || !content->cmd[0])
 		||(ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
-	// if(ft_is_path_command(content) == 0)
-	// 	return(0);
+	if(ft_is_path_command(content) == 0)
+		return(0);
 	while (content->expar->options[i])
 	{
 		adding_slash = ft_strjoin(content->expar->options[i], "/");
