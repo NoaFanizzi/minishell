@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 17:56:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/22 17:54:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ int	main(int argc, char **argv, char **env)
 	(void)argv;
 	//array = NULL;
 
-	printf("fd max = %d\n", FD_SETSIZE);
+	//printf("fd max = %d\n", FD_SETSIZE);
+	if(argc != 1)
+		return(0);
 	if (!isatty(STDOUT) || !isatty(STDIN))
 	{
 		printf("minishell: not a tty\n");
