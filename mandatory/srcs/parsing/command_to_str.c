@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 18:09:19 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/22 21:07:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				// printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
@@ -208,7 +208,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				// printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -239,11 +239,13 @@ void    fill_struct_size(t_array *array, size_t struct_index)
 int check_redir(char ***cmd, size_t i, size_t j)
 {
 	size_t	k;
+	size_t	len;
 
 	k = 0;
+	len = ft_strlen(cmd[i][j]);
 	// printf("command i : %s\n", cmd[i][j]);
 	// printf("command i + 1 : %s\n", cmd[i][j + 1]);
-	while (cmd[i][j][k])
+	while (k < len)
 	{
 		if (cmd[i][j][k] == '<' || cmd[i][j][k] == '>')
 		{
