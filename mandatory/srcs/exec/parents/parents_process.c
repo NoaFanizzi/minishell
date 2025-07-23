@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 13:41:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 17:37:49 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,10 @@ void	ft_init_exec(t_list **env, t_array *array)
 		return;
 	}
 	if(ft_process_here_doc(array) == 1)
+	{
+		printf("ft_init_exec\n");
 		return(ft_close_pipes(array));
+	}
 	child_management(env, array);
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);

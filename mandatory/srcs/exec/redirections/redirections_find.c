@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 15:53:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:09:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	ft_use_hdoc(t_content *content, size_t i)
 	int position;
 
 	position = 0;
-	//ft_display_int_array(content->fd_array);
 	if(content->files[i].type == HDOC)
 	{
 		position = content->pos;

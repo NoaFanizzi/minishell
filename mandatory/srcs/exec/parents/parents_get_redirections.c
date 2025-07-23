@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 17:43:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:18:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_get_redir_dad(t_array *array, t_list **env)
 	command = 0;
 	
 	if(ft_save_stdin(array) == O_ERROR)
-		return(O_ERROR);
+		return(0);
 	command = ft_is_built_in(&array->content[0]);
 	if(command == 0)
 	{

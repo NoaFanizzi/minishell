@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/21 13:11:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:13:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,7 +345,7 @@ void	*manage_readline(char **line, t_array *array)
 	return(NULL);
 }
 
-void	launch_shell(t_list **var)
+int	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
@@ -364,7 +364,7 @@ void	launch_shell(t_list **var)
 		temp_line = ft_strdup(line);
 		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
-			return ;
+			return (1);
 		else if (check_syntax(cmd_splitted) == 1)
 		{
 			if(line[0] != '\0')
@@ -380,5 +380,7 @@ void	launch_shell(t_list **var)
 			free_command(cmd_splitted);
 			ft_free_array_content(&array);
 		}
+		printf("back in command_to_str\n");
 	}
+	return(0);
 }
