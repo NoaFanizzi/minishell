@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_find.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/18 12:51:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 12:34:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	ft_use_hdoc(t_content *content, size_t i)
 		suff_temp = 0;
 		if(content->pos % 2 != 0)
 			position += 1;
-		temp_file = ft_get_temp_file(content, suff_temp);
+		temp_file = ft_get_temp_file();
 		content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 		while(content->infile == -1)
 		{
 			free(temp_file);
-			temp_file = ft_get_temp_file(content, suff_temp);
+			temp_file = ft_get_temp_file();
 			content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
 			suff_temp++;
 		}
