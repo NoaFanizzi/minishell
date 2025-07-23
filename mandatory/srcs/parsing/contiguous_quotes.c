@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/05 10:40:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 01:07:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,62 +466,69 @@ void	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
 	char	**command;
+	int		merged;
 
 	i = 0;
 	command = *cmd;
 	while (command[i])
 	{
-		//printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
+		merged = 0;
+		printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
 		if (is_quote(command[i][0]))
 		{
 			if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && is_quote(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				//printf("prev_quotes\n");
+				printf("prev_quotes\n");
 				command = join_prev_quotes(command, i);
 				if (!command)
 				return ;
 				*cmd = command;
 				i--;
+				merged = 1;
 			}
 			else if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0) && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
-				//printf("prev_simple\n");
+				printf("prev_simple\n");
 				command = join_prev_simple(command, i);
 				if (!command)
 				return ;
 				*cmd = command;
 				//if (command && command[i - 1] && (len_until_space_backward(command[i - 1]) == ft_strlen(command[i - 1])))
-					i--;
+				i--;
+				merged = 1;
 			}
 			else if (command[i + 1] && is_quote(command[i + 1][0]))
 			{
-				//printf("next_quotes\n");
+				printf("next_quotes\n");
 				command = join_next_quotes(command, i);
 				if (!command)
 					return ;
 				*cmd = command;
+				merged = 1;
 			}
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0) && is_not_pipe_redir(command[i + 1][0]))
 			{
-				//printf("next_simple\n");
+				printf("next_simple\n");
 				command = join_next_simple(command, i);
 				if (!command)
 				return ;
 				//shift_words(command, i + 1);
 				*cmd = command;
+				merged = 1;
+				i++;
 			}
 		}
-		i++;
+		if (merged == 0)
+			i++;
+		int k = 0;
+		while (command[k])
+		{
+			printf("Bword n%d : %s\n", k + 1, command[k]);
+			k++;
+		}
+		printf("\n\n");
 	}
-	int k = 0;
-	while (command[k])
-	{
-		//printf("Bword n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//printf("\n\n");
 }
-
 
 
 // command

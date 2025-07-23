@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/22 21:07:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/23 23:36:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,7 @@
 
 //check cases when there is one commnad, or nothing or idk but you understood
 
-//syntax error: unexpected end of input after `|'.     pipe end
-//syntax error near unexpected token `|'.       pipe beginning
-//syntax error near unexpected token `<'.        wrong redirection
-//syntax error: unmatched quote      unclosed quotes
-
-
-char	***parse_command(char *line, t_list **var, t_array *array)
+char	***parse_command(char **line, t_list **var, t_array *array)
 {	
 	char 	**command = NULL;
 	char	*str;
@@ -29,16 +23,18 @@ char	***parse_command(char *line, t_list **var, t_array *array)
 	int		i;
 
 	k = 0;
-	str = ft_strdup(line);
+	str = ft_strdup(*line);
 	if (!str)
 		return (NULL);
-	free(line);
+	free(*line);
+	*line = NULL;
 	str = expand_word(str, var, array);
 	if (!str)
 		return (NULL);
 	//printf("str = %s\n\n", str);
 	command = quotes_splitting(command, str);
 	free(str);
+	//printf("SALUTSALUT\n");
 	if (!command)
 		return (NULL);//error
 	k = 0;
@@ -85,12 +81,12 @@ char	***parse_command(char *line, t_list **var, t_array *array)
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		printf("\ncommand n%d\n", k + 1);
-		if (!cmd_splitted[k][i])
-		 	printf("NULL\n");
+		//printf("\ncommand n%d\n", k + 1);
+		// if (!cmd_splitted[k][i])
+		//  	printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;
@@ -98,7 +94,6 @@ char	***parse_command(char *line, t_list **var, t_array *array)
 	free_words(command);
 	return (cmd_splitted);
 }
-
 
 int    create_hdoc_struct(char **command, t_content *content)
 {
@@ -183,7 +178,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
 			if (create_hdoc_struct(cmd_splitted[cmd_index], &array->content[struct_index]) == -1)
-			return ;//need to see how to check that
+				return ;//need to see how to check that
 			quotes_removal(cmd_splitted[cmd_index]);
 			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
 			//test
@@ -191,8 +186,8 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				// printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				// printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
+				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
@@ -200,7 +195,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
@@ -208,7 +203,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -235,7 +230,6 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
-// problem if we have two different commands :  echo >> | cat file
 int check_redir(char ***cmd, size_t i, size_t j)
 {
 	size_t	k;
@@ -287,7 +281,8 @@ int check_redir(char ***cmd, size_t i, size_t j)
 				return (1);
 			}
 		}
-		k++;
+		if(cmd[i][j][k])
+			k++;
 	}
 	return (0);
 }
@@ -316,8 +311,8 @@ int	check_syntax(char ***cmd_splitted)
 		}
 		i++;
 	}
-	printf("i : %zu\n", i);
-	printf("str : %s\n", cmd_splitted[i - 1][0]);
+	//printf("i : %zu\n", i);
+	//printf("str : %s\n", cmd_splitted[i - 1][0]);
 	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
 		cmd_splitted[i - 1][0][0] == '|' &&
 		cmd_splitted[i - 1][0][1] == '\0')
@@ -328,38 +323,66 @@ int	check_syntax(char ***cmd_splitted)
 	return (0);
 }
 
-void	launch_shell(t_list **var)
+void check_tty(char **line, char *prompt)
+{
+	if (isatty(STDIN_FILENO))
+        *line = readline(prompt);
+    else
+        *line = readline(NULL);
+}
+void	*manage_readline(char **line, t_array *array)
+{
+	char *prompt;
+	
+	prompt = ft_join_prompt(array);
+	//check_tty(line, prompt);
+	*line = readline(prompt);
+	if(g_signal == SIGINT)
+		array->p_exit_status = 128 + SIGINT;
+	g_signal = 0;
+	free(prompt);
+	if (*line == NULL)
+		return(NULL);
+	if (line && *line)
+		add_history(*line);
+	return(NULL);
+}
+
+int	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
-	char *prompt;
 	t_array	array;
+	char *temp_line;
 	
 	array.p_exit_status = 0;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
+	//rl_catch_signals = 0;
 	while (1)
 	{
-		prompt = ft_join_prompt(&array);
-		line = readline(prompt);
-		free(prompt);
-		if (line == NULL)
-			break;
-		if (line)
-			add_history(line);
+		manage_readline(&line, &array);
 		array.size = 0;
 		array.content = NULL;
-		cmd_splitted = parse_command(line, var, &array);
+		temp_line = ft_strdup(line);
+		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
-			return ;
-		if (check_syntax(cmd_splitted))
+			return (1);
+		else if (check_syntax(cmd_splitted) == 1)
 		{
+			if(line[0] != '\0')
+				array.p_exit_status = 2;
+			free(line);
 			free_command(cmd_splitted);
-			return ;
 		}
-		analyse_command(cmd_splitted, &array, *var);
-		ft_init_exec(var, &array);
-		free_command(cmd_splitted);
-		ft_free_array_content(&array);
+		else
+		{
+			analyse_command(cmd_splitted, &array, *var);
+			ft_init_exec(var, &array);
+			free(line);
+			free_command(cmd_splitted);
+			ft_free_array_content(&array);
+		}
 	}
+	return(0);
 }

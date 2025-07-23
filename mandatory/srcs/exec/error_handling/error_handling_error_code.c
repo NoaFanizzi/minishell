@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 09:53:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:15:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,6 @@ int	ft_dup2_pb(t_content *content, char *str)
 	free(error_message);
 	ft_close_all(content);
 	content->error_code = 1;
+	content->array_ptr->p_exit_status = 1;
 	return(O_ERROR);
 }

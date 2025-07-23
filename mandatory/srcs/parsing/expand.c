@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 18:12:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/23 17:59:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,6 @@ char	*get_var_name(char *word)
 		return (NULL);
 	return (var_name);
 }
-
-
 
 char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t_list **env)
 {
@@ -261,34 +259,23 @@ int is_in_single_quotes(const char *cmd, size_t pos)
 
 char	*expand_error_code(char *command, size_t i, t_array *array)
 {
-	size_t	j;
-	size_t	k;
-	char	*new_cmd;
+	char *error_code;
+	char *trimmed_cmd;
+	char *new_cmd;
 
-	j = 0;
-	k = 0;
-	new_cmd = malloc(ft_strlen(command) * sizeof(char));
+	(void)i;
+	error_code = ft_itoa(array->p_exit_status);
+	new_cmd = ft_calloc(i + ft_strlen(error_code) + 1, sizeof(char));
 	if (!new_cmd)
 	{
 		free(command);
 		return (NULL);
 	}
-	printf("before\n");
-	printf("%d\n", array->p_exit_status);//segfault when accessing this
-	printf("after\n");
-	while (command[j])
-	{
-		if (j == i)
-		{
-			printf("hhhhhhh\n");
-			new_cmd[k] = array->p_exit_status + 48;
-			k++;
-			j += 2;
-		}
-		else
-			new_cmd[k++] = command[j++];
-	}
-	new_cmd[k] = 0;
+	trimmed_cmd = ft_calloc((i + 2), sizeof(char));
+	ft_strlcat(trimmed_cmd, command, (i + 1));
+	new_cmd = ft_strjoin(trimmed_cmd, error_code);
+	free(error_code);
+	free(trimmed_cmd);
 	free(command);
 	return (new_cmd);
 }
@@ -314,7 +301,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 		{
 			if (new_command[i + 1] == '?')
 			{
-				printf("here\n");
+				//printf("here\n");
 				new_command = expand_error_code(new_command, i , array);
 				if (!new_command)
 					return (NULL);
@@ -325,10 +312,10 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 				var_name = get_var_name(&new_command[i + 1]);
 				if (!var_name)
 					return (NULL);
-				printf("var name : %s\n", var_name);
+				//printf("var name : %s\n", var_name);
 				if (var_exists(var_name, *env))
 				{
-					printf("found var\n");
+					//printf("found var\n");
 					true_var_length = get_true_var_length(var_name, *env);
 					new_length = true_var_length + ft_strlen(new_command) - get_var_length(&new_command[i + 1]) + 1;
 					new_command = expand_var_in_command(new_command, i, new_length, var_name, env);
@@ -338,9 +325,9 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 				}
 				else
 				{
-					printf("got here\n");
+					//printf("got here\n");
 					new_command = remove_var(new_command, i);
-					printf("nc = %s\n", new_command);
+					//printf("nc = %s\n", new_command);
 				}
 				free(var_name);
 			}

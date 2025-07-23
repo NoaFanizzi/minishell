@@ -14,8 +14,9 @@
 #include <readline/history.h>
 #include "get_next_line.h"
 #include <sys/stat.h>
+#include <sys/select.h>
 
-extern t_array *g_array;
+extern int g_signal;
 
 enum	ERROR
 {
@@ -26,6 +27,9 @@ enum	ERROR
 
 
 void	deal_with_sigint(int signal);
+void	deal_with_sigint_hdoc(int signal);
+void	deal_with_signals_in_exec(int signal);
+void	deal_with_signal_after_exec(void);
 
 
 #endif

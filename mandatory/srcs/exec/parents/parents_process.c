@@ -3,43 +3,66 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 12:19:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:56:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
 void	ft_wait_pid(t_array *array)
 {
-	pid_t pid;
-	int status;
-	int sig;
+	pid_t	pid;
+	int		status;
+	int		sig;
 
 	status = 0;
 	sig = 0;
 	(void)array;
 	pid = waitpid(-1, &status, 0);
-	while(pid > 0)
+	while (pid > 0)
 	{
-		
-		if(WIFEXITED(status))
-			array->p_exit_status = WEXITSTATUS(status);
-		if(WIFSIGNALED(status))
+		if (pid == array->content[array->size - 1].pid)
 		{
-			sig = WTERMSIG(status);
-			if(sig != SIGPIPE)
-				array->p_exit_status = 128 + WTERMSIG(status);
+			if (WIFEXITED(status))
+				array->p_exit_status = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if (sig != SIGPIPE)
+					array->p_exit_status = 128 + WTERMSIG(status);
+			}
 		}
-		//printf("array->exit_status = %d\n", array->p_exit_status);
+		// printf("array->exit_status = %d\n", array->p_exit_status);
 		pid = waitpid(-1, &status, 0);
 	}
-	
 }
 
+void	ft_display_int_array(int *array)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < FD_SETSIZE)
+	{
+		printf("array[i] = %d\n", array[i]);
+		i++;
+	}
+}
+
+void	ft_fill_array(int *tab)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < FD_SETSIZE)
+	{
+		tab[i] = -8;
+		i++;
+	}
+}
 
 void	ft_load_preliminary_infos(t_list **env, t_array *array)
 {
@@ -47,7 +70,10 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 
 	i = 0;
 	array->pipe = NULL;
-	while((int)i < array->size)
+	array->hdoc_length = 0;
+	array->is_lost = 0;
+	// array->p_exit_status = 0;
+	while ((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
@@ -60,76 +86,35 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].outfile = -2;
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
+		ft_fill_array(array->content[i].fd_array);
+		// ft_display_int_array(array->content[i].fd_array);
 		i++;
 	}
-}
-
-int	ft_process_here_doc(t_array *array)
-{
-	int	i;
-	size_t	j;
-	size_t	size;
-	int returned_value;
-
-	i = 0;
-	j = 0;
-	while(i < array->size)
-	{
-		if(array->content->hdoc)
-		{
-			size = array->content[i].files[0].size;
-			j = 0;
-			while(j < size)
-			{
-				if(array->content[i].files[j].type == HDOC)
-				{
-					returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-					break;
-				}
-				returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-				if(returned_value == O_ERROR)
-				{
-					dprintf(STDERR_FILENO, "value returned = %d\n", returned_value);
-					return(1);
-				}
-				j++;
-			}
-		}
-		i++;
-	}
-	return(0);
 }
 
 void	ft_init_exec(t_list **env, t_array *array)
 {
-	int	i;
-	int redir_value;
+	int	redir_value;
 
-	i = 0;
 	redir_value = 0;
-	g_array = array;
-	//ft_display_array_content(array);
-	if(array->size == 0)
-		return;
+	if (array->size == 0)
+		return ;
 	ft_load_preliminary_infos(env, array);
-	if(array->size == 1)
+	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
-		if(redir_value == 0 || redir_value == 2)
-			return;
+		if (redir_value == 0 || redir_value == 2)
+			return ;
 	}
-	ft_init_pipe(array);
-	ft_process_here_doc(array);
-	while(i < array->size)
+	if (ft_init_pipe(array) == 1)
 	{
-		array->content[i].pid = fork();
-		if (array->content[i].pid == -1)
-			ft_exit(&array->content[i]);
-		if (array->content[i].pid == 0)
-			ft_exec_cmd(&array->content[i], env);
-		i++;
+		array->p_exit_status = 1;
+		return ;
 	}
-	ft_close_pipes(array);
-	ft_wait_pid(array);
+	if (ft_process_here_doc(array) == 1)
+		return (ft_close_pipes(array));
+	child_management(env, array);
+	signal(SIGINT, deal_with_sigint);
+	signal(SIGQUIT, SIG_IGN);
+	deal_with_signal_after_exec();
 }
-

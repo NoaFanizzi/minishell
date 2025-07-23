@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/19 15:06:40 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/23 17:55:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@
 #define S_QUOTE 39
 
 int		main(int argc, char **argv, char **env);
-void	launch_shell(t_list **var);
-char	***parse_command(char *line, t_list **var, t_array *array);
+int	launch_shell(t_list **var);
+char	***parse_command(char **line, t_list **var, t_array *array);
 void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var);
 void    fill_struct_size(t_array *array, size_t struct_index);
 int    create_hdoc_struct(char **command, t_content *content);

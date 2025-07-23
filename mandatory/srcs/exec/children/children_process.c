@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 23:45:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:58:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,25 @@
 
 int	ft_load_expar(t_content *content, t_list **env)
 {
-	content->expar = malloc(sizeof(t_expar));
+	content->error_code = 0;
+	content->expar = malloc(sizeof(t_expar)); // PROTECTED
+	if(!content->expar)
+	{
+		content->error_code = 1;
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		ft_exit(content);
+	}
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
-	content->expar->options = ct_get_paths(*env);
+	content->expar->options = ct_get_paths(*env, content);
 	if (!content->expar->options)
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+		content->error_code = 127;
 		ft_exit(content);
+	}
 	return(0);
 }
 
@@ -35,7 +48,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	if (cmd_value == 1 || cmd_value == 2)
 	{
 		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
-		ft_putstr_fd("bash: ", STDERR_FILENO);
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
@@ -46,10 +59,9 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	return(0);
 }
 
-
 void	child_handler()
 {
-	ft_exit(&g_array->content[0]);
+	g_signal = 1;
 }
 
 void	ft_exec_cmd(t_content *content, t_list **env)
@@ -59,10 +71,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
-
 	ft_load_expar(content, env);
-	if (!content->expar->options)
-		ft_exit(content);
 	if(ft_parse_redirections(content) == O_ERROR)
 		ft_exit(content);
 	ft_prepare_execution(content, env);
@@ -76,3 +85,32 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 		ft_exit(content);
 	}
 }
+
+void child_management(t_list **env, t_array *array)
+{
+	int	i;
+
+	i = 0;
+	signal(SIGINT, deal_with_signals_in_exec);
+	signal(SIGQUIT, deal_with_signals_in_exec);
+	while(i < array->size)
+	{
+		if(i == 4)
+			array->content[i].pid = -1;
+		else
+			array->content[i].pid = fork();
+		if (array->content[i].pid == -1)
+		{
+			perror("maxishell: fork");
+			array->p_exit_status = 1;
+			ft_close_pipes(array);
+			ft_exit(&array->content[i]);
+		}
+		if (array->content[i].pid == 0)
+			ft_exec_cmd(&array->content[i], env);
+		i++;
+	}
+	ft_close_pipes(array);
+	ft_wait_pid(array);
+}
+

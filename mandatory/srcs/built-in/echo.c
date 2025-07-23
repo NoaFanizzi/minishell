@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/04 10:50:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:35:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_is_arg(char *cmd)
 	i++;
 	if(cmd[i] == '\0')
 	{
-		ft_putstr_fd(cmd, 1);
-		ft_putstr_fd(" ", 1);
+		//ft_putstr_fd(cmd, 1);
+		//ft_putstr_fd(" ", 1);
 		return(1);
 	}
 	while(cmd[i])
@@ -47,6 +47,7 @@ int	ft_echo(t_content *content)
 
 	params = 0;
 	is_space = 0;
+
 	if(content->cmd[1] != NULL && ft_is_arg(content->cmd[1]) == 0)
 		params = 1;
 	i = 1;

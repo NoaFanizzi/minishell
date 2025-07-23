@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 14:48:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:58:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,9 +142,12 @@ int	ft_check_var_validity(char *var)
 	size_t	i;
 
 	i = 0;
-	while(var[i])
+	if(ft_isalpha(var[i]) == 0 && var[i] != '_')
+		return(1);
+	i++;
+	while(var[i] && var[i] != '=')
 	{
-		if(is_number(var[i]) == 1)
+		if(ft_isalnum(var[i]) == 0 && var[i] != '_')
 			return(1);
 		i++;
 	}

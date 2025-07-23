@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 13:12:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:14:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	ft_is_built_in_child(t_content *content, t_list **env)
 		return_value = ft_unset(env, content);
 	else if(ft_strcmp(content->cmd[0], "pwd") == 0)
 		ft_pwd(content);
+	else if(ft_strcmp(content->cmd[0], "cd") == 0)
+		ft_cd(content, env);
 	else if(ft_strcmp(content->cmd[0], "exit") == 0)
 	{
 		if(content->arg)

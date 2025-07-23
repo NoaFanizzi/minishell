@@ -4,13 +4,13 @@
 #include "minishell.h"
 
 //cd.c
-int		ft_update_pwd(t_list **env);
+int		ft_update_pwd(t_list **env, t_content *content);
 int		ft_access_dir(t_content *content);
-int		ft_update_opwd(t_list **env, t_content *content);
+int		ft_update_opwd(t_list **env);
 int		ft_find_wave(t_list *env, t_content *content);
 int		ft_find_dash(t_list *env, t_content *content);
-int		ft_deal_with_dash(t_content *content, t_list **env);
-int		ft_deal_with_wave(t_content *content, t_list **env);
+int		ft_deal_with_dash(t_content *content, t_list **env, int *params);
+int		ft_deal_with_wave(t_content *content, t_list **env, int *params);
 void	ft_cd(t_content *content, t_list **env);
 
 //echo.c
@@ -34,6 +34,7 @@ void	ft_exit(t_content *content);
 size_t	get_true_var_length(char *var_name, t_list *env);
 int		var_exists(char *var_name, t_list *env);
 char	*get_var_value(char *var_name, t_list *env);
+t_env	*get_env(char *var_name, t_list *env);
 
 //export_dup.c
 t_env	*dup_env_node(t_env *e);

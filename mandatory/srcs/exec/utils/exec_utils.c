@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/03 15:02:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/22 21:48:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,24 @@ void	ft_strcat(char *dest, char *src)
 	dest[i] = '\0';
 }
 
-char	**ct_get_paths(t_list *var)
+char	**ct_get_paths(t_list *var, t_content *content)
 {
 	char	**options;
 	t_env	*cpy;
 
 	if(!var)
 		return(NULL);
-	cpy = (t_env *)var->content;
-	while (var && ft_strncmp(cpy->var, "PATH", 4) != 0)
-	{
-		var = var->next;
-		cpy = (t_env *)var->content;
-	}
+	cpy = get_env("PATH", var);
+	if(cpy == NULL)
+		return(NULL);
 	options = ft_split(cpy->arg, ':');
+	if(!options)
+		ft_exit(content);
+	if(!options[0])
+	{
+		free(options);
+		options = NULL;
+	}
 	return (options);
 }
 

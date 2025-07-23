@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/05 11:54:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:08:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 #include "built_in.h"
 #include "get_next_line.h"
 #include <errno.h>
+
+
+
+void	ft_display_int_array(int *array);
 
 
 //NOTHING
@@ -56,6 +60,7 @@ int		ft_is_command(t_content *content);
 int		ft_load_expar(t_content *content, t_list **env);
 int		ft_prepare_execution(t_content *content, t_list **env);
 void	ft_exec_cmd(t_content *content, t_list **env);
+void	child_management(t_list **env, t_array *array);
 
 //errors_handling
 
@@ -82,7 +87,7 @@ int     ft_process_here_doc(t_array *array);
 //----------------------------PIPES-----------------------------------------
 
 //pipes_dealing.c
-void	ft_init_pipe(t_array *array);
+int	ft_init_pipe(t_array *array);
 void	ft_close_pipes(t_array *array);
 
 //----------------------------REDIRECTIONS-----------------------------------------
@@ -102,18 +107,18 @@ int		ft_parse_redirections(t_content *content);
 
 //exec_env_converted.c
 size_t	ft_env_length(t_list *env);
-int	ft_add_new_tab(t_list *env, char **converted, size_t i);
+int		ft_add_new_tab(t_list *env, char **converted, size_t i);
 char	**ft_convert_env(t_list *env);
 
 //exec_free.c
-int	ft_dup2_pb(t_content *content, char *str);
+int		ft_dup2_pb(t_content *content, char *str);
 void	ft_exec_failure(t_expar *expar, int i);
 
 //exec_utils.c
 void	ft_strcpy(char *dest, char *src);
 void	ft_strcat(char *dest, char *src);
-char	**ct_get_paths(t_list *var);
-char **ft_cmd_join(char **a, char **b);
+char	**ct_get_paths(t_list *var, t_content *content);
+char	**ft_cmd_join(char **a, char **b);
 void	ft_display_array_content(t_array *array);
 
 //----------------------------ERROR-----------------------------------------

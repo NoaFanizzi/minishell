@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/01 13:49:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/21 13:32:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	ft_get_right_op(t_env *link, char *env, size_t i)
 {
 	free((link)->op);
 	(link)->op = NULL;
+	if(env[i] == '\0')
+		(link)->op = NULL;
 	if(env[i] == '+' && env[i+1] == '=')
 	{
 		(link)->op = ft_strdup("+=");
@@ -32,6 +34,8 @@ int	ft_get_right_op(t_env *link, char *env, size_t i)
 int	ft_get_right_arg(t_env *link, char *env, size_t	i)
 {
 	(link)->arg = NULL;
+	if(env[i] == '\0')
+		(link)->arg = NULL;
 	if(env[i] != '\0')
 		(link)->arg = ft_strdup(&env[i]);
 	else if ((link)->op)
@@ -97,7 +101,7 @@ void	ft_display_env(t_list *env, t_content *content)
 	if(!env)
 	{
 		content->error_code = 1;
-		ft_putstr_fd("bash: env: env variable not set\n", STDERR_FILENO);
+		ft_putstr_fd("maxishell: env: env variable not set\n", STDERR_FILENO);
 		return;
 	}
 	while(env)
