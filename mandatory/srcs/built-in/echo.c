@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/17 14:55:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:35:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	ft_is_arg(char *cmd)
 	i++;
 	if(cmd[i] == '\0')
 	{
-		ft_putstr_fd(cmd, 1);
-		ft_putstr_fd(" ", 1);
+		//ft_putstr_fd(cmd, 1);
+		//ft_putstr_fd(" ", 1);
 		return(1);
 	}
 	while(cmd[i])

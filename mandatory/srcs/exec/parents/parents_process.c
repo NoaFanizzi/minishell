@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 17:37:49 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:16:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,28 @@
 
 void	ft_wait_pid(t_array *array)
 {
-	pid_t pid;
-	int status;
-	int sig;
+	pid_t	pid;
+	int		status;
+	int		sig;
 
 	status = 0;
 	sig = 0;
 	(void)array;
 	pid = waitpid(-1, &status, 0);
-	while(pid > 0)
+	while (pid > 0)
 	{
-		if(pid == array->content[array->size - 1].pid)
+		if (pid == array->content[array->size - 1].pid)
 		{
-			if(WIFEXITED(status))
+			if (WIFEXITED(status))
 				array->p_exit_status = WEXITSTATUS(status);
-			if(WIFSIGNALED(status))
+			if (WIFSIGNALED(status))
 			{
 				sig = WTERMSIG(status);
-				if(sig != SIGPIPE)
+				if (sig != SIGPIPE)
 					array->p_exit_status = 128 + WTERMSIG(status);
 			}
 		}
-		//printf("array->exit_status = %d\n", array->p_exit_status);
+		// printf("array->exit_status = %d\n", array->p_exit_status);
 		pid = waitpid(-1, &status, 0);
 	}
 }
@@ -45,7 +45,7 @@ void	ft_display_int_array(int *array)
 	size_t	i;
 
 	i = 0;
-	while(i < FD_SETSIZE)
+	while (i < FD_SETSIZE)
 	{
 		printf("array[i] = %d\n", array[i]);
 		i++;
@@ -57,7 +57,7 @@ void	ft_fill_array(int *tab)
 	size_t	i;
 
 	i = 0;
-	while(i < FD_SETSIZE)
+	while (i < FD_SETSIZE)
 	{
 		tab[i] = -8;
 		i++;
@@ -72,8 +72,8 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	array->pipe = NULL;
 	array->hdoc_length = 0;
 	array->is_lost = 0;
-	//array->p_exit_status = 0;
-	while((int)i < array->size)
+	// array->p_exit_status = 0;
+	while ((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
@@ -87,38 +87,37 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
 		ft_fill_array(array->content[i].fd_array);
-		//ft_display_int_array(array->content[i].fd_array);
+		// ft_display_int_array(array->content[i].fd_array);
 		i++;
 	}
 }
 
 void	ft_init_exec(t_list **env, t_array *array)
 {
-	int redir_value;
+	int	redir_value;
 
 	redir_value = 0;
-	if(array->size == 0)
-		return;
+	if (array->size == 0)
+		return ;
 	ft_load_preliminary_infos(env, array);
-	if(array->size == 1)
+	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
-		if(redir_value == 0 || redir_value == 2)
-			return;
+		if (redir_value == 0 || redir_value == 2)
+			return ;
 	}
-	if(ft_init_pipe(array) == 1)
+	if (ft_init_pipe(array) == 1)
 	{
 		array->p_exit_status = 1;
-		return;
+		return ;
 	}
-	if(ft_process_here_doc(array) == 1)
+	if (ft_process_here_doc(array) == 1)
 	{
 		printf("ft_init_exec\n");
-		return(ft_close_pipes(array));
+		return (ft_close_pipes(array));
 	}
 	child_management(env, array);
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	deal_with_signal_after_exec();
 }
-
