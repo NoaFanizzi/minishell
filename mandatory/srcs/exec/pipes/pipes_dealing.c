@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 18:15:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:57:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_init_pipe(t_array *array)
 		ft_putstr_fd("maxishell: cannot make pipe for command: Too many open files", STDERR_FILENO);
 		return(1);
 	}
-	array->pipe = malloc(sizeof(*array->pipe) * (array->size - 1));
+	if(array->size != 1)
+		array->pipe = malloc(sizeof(*array->pipe) * (array->size - 1));
 	while(i < array->size - 1)
 	{
 		if (pipe(array->pipe[i]) == -1)

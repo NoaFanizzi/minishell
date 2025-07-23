@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 15:53:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:58:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 int	ft_load_expar(t_content *content, t_list **env)
 {
 	content->error_code = 0;
-	content->expar = malloc(sizeof(t_expar));
+	content->expar = malloc(sizeof(t_expar)); // PROTECTED
+	if(!content->expar)
+	{
+		content->error_code = 1;
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		ft_exit(content);
+	}
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
 	content->expar->options = ct_get_paths(*env, content);
