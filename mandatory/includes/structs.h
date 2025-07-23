@@ -9,8 +9,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
-
+#include <sys/stat.h>
+#include <sys/select.h>
 
 enum debug
 {
@@ -90,6 +90,7 @@ typedef struct s_content
 	struct s_array *array_ptr;
 	t_expar *expar;
 	t_list **env;
+	int fd_array[FD_SETSIZE];
 
 }			t_content;
 

@@ -6,51 +6,47 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 12:34:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:53:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirections.h"
 
+int	get_hdoc_fd(int *array)
+{
+	size_t	i;
+	int fd;
+
+	i = 0;
+	while(i < FD_SETSIZE && array[i] == -42)
+		i++;
+	if(i == FD_SETSIZE)
+	{
+		//TODO jsp quoi faire
+		ft_putstr_fd("maxishell: too much fd opened\n", STDERR_FILENO);
+		return(-100);
+	}
+	fd = array[i];
+	array[i] = -42;
+	return(fd);
+}
+
 int	ft_use_hdoc(t_content *content, size_t i)
 {
-	char *temp_file;
 	int position;
-	int	suff_temp;
 
 	position = 0;
+	//ft_display_int_array(content->fd_array);
 	if(content->files[i].type == HDOC)
 	{
-		//dprintf(STDERR_FILENO, "One hdoc found\n");
 		position = content->pos;
-		suff_temp = 0;
 		if(content->pos % 2 != 0)
 			position += 1;
-		temp_file = ft_get_temp_file();
-		content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-		while(content->infile == -1)
-		{
-			free(temp_file);
-			temp_file = ft_get_temp_file();
-			content->infile = open(temp_file, O_RDONLY | O_EXCL, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
-			suff_temp++;
-		}
-		if(content->infile == -1)
-		{
-			unlink(temp_file);
-			free(temp_file);
-			return(ft_open_error(content, "temp_file"));
-		}
+		content->infile = get_hdoc_fd(content->fd_array);
 		if (dup2(content->infile, STDIN_FILENO) == -1)
-		{
-			unlink(temp_file);
-			free(temp_file);
 			return(ft_dup2_pb (content, "temp_file"));
-		}
 		close(content->infile);
-		unlink(temp_file);
-		free(temp_file);
 		content->infile = -2;
 	}
 	return(0);

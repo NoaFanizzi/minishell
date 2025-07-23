@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 18:06:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 13:41:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,30 @@ void	ft_wait_pid(t_array *array)
 	}
 }
 
+void	ft_display_int_array(int *array)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < FD_SETSIZE)
+	{
+		printf("array[i] = %d\n", array[i]);
+		i++;
+	}
+}
+
+void	ft_fill_array(int *tab)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < FD_SETSIZE)
+	{
+		tab[i] = -8;
+		i++;
+	}
+}
+
 void	ft_load_preliminary_infos(t_list **env, t_array *array)
 {
 	size_t	i;
@@ -62,6 +86,8 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].outfile = -2;
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
+		ft_fill_array(array->content[i].fd_array);
+		//ft_display_int_array(array->content[i].fd_array);
 		i++;
 	}
 }

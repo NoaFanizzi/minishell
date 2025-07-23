@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 18:05:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:08:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 #include "built_in.h"
 #include "get_next_line.h"
 #include <errno.h>
+
+
+
+void	ft_display_int_array(int *array);
 
 
 //NOTHING

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 13:52:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/23 16:06:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,19 @@ void	ft_free_files(t_content *content)
 	content->files = NULL;
 }
 
+void	ft_close_array_fd(int *array)
+{
+	size_t	i;
+
+	i = 0;
+	while(i < FD_SETSIZE)
+	{
+		if(array[i] != -42 && array[i] != -8)
+			close(array[i]);
+		i++;
+	}
+}
+
 void ft_free_array_content(t_array *array)
 {
     int i;
@@ -107,6 +120,7 @@ void ft_free_array_content(t_array *array)
 			ft_free_hdoc(array->content[i].hdoc);
 		if (array->content[i].h_fd != (-2))
 			close(array->content[i].h_fd);
+		ft_close_array_fd(array->content[i].fd_array);
         i++;
     }
     free(array->content);
