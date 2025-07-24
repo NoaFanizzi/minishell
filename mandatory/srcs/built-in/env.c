@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 14:15:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:02:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,21 @@ t_env	*ft_add_new_link(char *env)
 	size_t	length;
 	t_env *link;
 	
-	link = ft_calloc(1, sizeof(t_env));
+	link = ft_calloc(1, sizeof(t_env)); //PROTECTED
 	if(!link)
 		return(NULL);
 	length = 0;
 	(link)->op = 0;
 	link = fill_env_arg(&link, env, &length);
-	(link)->var = ft_substr(env, 0, length);
+	(link)->var = ft_substr(env, 0, length); //PROTECTED
+	if(!link->var)
+	{
+		free(link->arg);
+		free(link->var);
+		free(link->op);
+		free(link);
+		return(NULL);
+	}
 	return(link);
 }
 
@@ -89,10 +97,18 @@ t_list	*ft_init_env(char **o_env)
 	while(o_env[i])
 	{
 		new_env = ft_add_new_link(o_env[i]);
-		ft_lstadd_back(&env, ft_lstnew(new_env));
+		if(!new_env)
+			return(NULL);
+		if(ft_lstadd_back(&env, ft_lstnew(new_env)) == 1)
+		{
+			free(new_env->arg);
+			free(new_env->op);
+			free(new_env->var);
+			free(new_env);
+			return(NULL);
+		}
 		i++;
 	}
-	//env->next = NULL;
 	return(env);
 }
 

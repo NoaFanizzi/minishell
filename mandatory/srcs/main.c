@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 16:07:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:42:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,14 @@ int	main(int argc, char **argv, char **env)
 	if (!isatty(STDOUT) || !isatty(STDIN))
 	{
 		printf("minishell: not a tty\n");
-		exit(0);
+		exit(1);
 	}
 	var = ft_init_env(env);
+	if(!var)
+	{
+		perror("maxishell: ");
+		return(1);
+	}
 	returned_value = launch_shell(&var);
 	ft_free_env(var);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
