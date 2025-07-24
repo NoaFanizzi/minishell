@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/24 16:20:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:42:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ int check_redir(char ***cmd, size_t i, size_t j)
 					printf("bash: syntax error near unexpected token `|'\n");
 				else
 					printf("bash: syntax error near unexpected token `newline'\n");
+				// else if (/* ici identification redirection vers variable environnement + message erreur, PUIS else syntax error de base*/)
 				return (1);
 			}
 			else if (cmd[i][j][k] == 0
@@ -334,7 +335,10 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	
 	prompt = ft_join_prompt(array);
 	//check_tty(line, prompt);
-	*line = readline(prompt);
+	if (prompt)
+		*line = readline(prompt);
+	else
+		*line = readline("minishell>");
 	if(g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
