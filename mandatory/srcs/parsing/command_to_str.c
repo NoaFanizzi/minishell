@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/23 23:36:00 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/24 18:20:29 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 	int		i;
 
 	k = 0;
+	if (quotes_checker(*line))
+		return (NULL);
 	str = ft_strdup(*line);
 	if (!str)
 		return (NULL);

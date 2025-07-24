@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_splitting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/20 13:30:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:18:08 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,8 +120,6 @@ char	**quotes_splitting(char **command, char *line)
 
 	i = 0;
 	k = 0;
-	if (quotes_checker(line) == 1)
-		return (NULL); // quote_error
 	command = malloc((split_quote_count(line) + 1) * sizeof(char *));
 	if (!command)
 		return (NULL); // malloc error
