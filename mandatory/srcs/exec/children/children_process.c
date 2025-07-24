@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 15:10:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:07:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,15 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	int	cmd_value;
 
 	cmd_value = 0;
-	printf("ft_prepare_execution\n");
 	if(ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
 	cmd_value = ft_is_command(content);
-
 	if (cmd_value == 1 || cmd_value == 2)
 	{
-		//ft_try_builtin et si c'est pas bon, la faut faut print command not found et faire tout le reste
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
-		//printf("aaaaaaaa\n");
 		ft_exit(content);
 		exit(127);
 	}
@@ -70,7 +66,6 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	char **env_converted;
 	env_converted = NULL;
 
-	dprintf(STDERR_FILENO, "CHILDDD\n");
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
 	ft_load_expar(content, env);
@@ -79,7 +74,13 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	ft_prepare_execution(content, env);
 	ft_close_all(content);
 	ft_free_tab(content->expar->options);
+	content->expar->options = NULL;
 	env_converted = ft_convert_env(*env);
+	if(!env_converted)
+	{
+		ft_open_error(content, NULL);
+		ft_exit(content);
+	}
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{

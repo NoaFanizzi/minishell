@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:51:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 13:55:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:18:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,12 @@ int	ft_add_new_tab(t_list *env, char **converted, size_t i)
 	t_env *cpy;
 	char *temp;
 
+	temp = NULL;
 	cpy = (t_env *)env->content;
 	if(cpy->op)
 		temp = ft_strjoin(cpy->var, cpy->op);
+	if(!temp)
+		return(-1);
 	if(!cpy->op)
 		temp = ft_strdup(cpy->var);
 	if(!temp)
@@ -57,13 +60,16 @@ char	**ft_convert_env(t_list *env)
 	
 	i = 0;
 	length = ft_env_length(env);
-	converted = ft_calloc((length + 1), sizeof(char *));
+	converted = ft_calloc((length + 1), sizeof(char *)); //PROTECTED
 	if(!converted)
 		return(NULL);
 	while(env)
 	{
 		if(ft_add_new_tab(env, converted, i) == -1)
+		{
+			free(converted);
 			return(NULL);
+		}
 		i++;
 		env = env->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 16:29:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:06:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,12 @@ int	ft_init_export(t_list **env, t_content *content, size_t i)
 			ft_open_error(content, "link malloc");
 			return(1);
 		}
-		ft_lstadd_back(env, ft_lstnew(link));
+		if(ft_lstadd_back(env, ft_lstnew(link)) == 1)
+		{
+			content->array_ptr->p_exit_status = 1;
+			ft_open_error(content, "link malloc");
+			return(1);
+		}
 		if (link->arg != NULL)
 			link->exp = 1;
 	}

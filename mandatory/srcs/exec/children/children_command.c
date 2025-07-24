@@ -6,17 +6,22 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 15:09:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:27:47 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_check_if_command(char *cmd, char **path)
+int	ft_check_if_command(char *cmd, char **path, t_content *content)
 {
 	if (access(cmd, X_OK) == 0)
 	{
 		*path = ft_strdup(cmd);
+		if(!(*path))
+		{
+			ft_open_error(content, NULL);
+			ft_exit(content);
+		}
 		return (0);
 	}
 	return (1);
@@ -27,9 +32,7 @@ int	ft_is_dir(char *str, int *exit_code)
 	struct stat infos;
 
 	if (stat(str, &infos) == -1)
-	{
         return 0;
-    }
 	if(S_ISDIR(infos.st_mode))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
@@ -59,7 +62,6 @@ int ft_is_path_command(t_content *content)
 {
 	int	is_command;
 
-	printf("ft_is_path_command\n");
 	is_command = 0;
     if ((content->cmd[0][0] == '/')
         || (ft_strncmp(content->cmd[0], "./", 2) == 0)
@@ -68,10 +70,15 @@ int ft_is_path_command(t_content *content)
         || (ft_strcmp(content->cmd[0], ".") == 0)
         || (content->cmd[0][1] == '/'))
 		is_command = 1;
-	printf("salut\n");
 	if (is_command == 1 && access(content->cmd[0], X_OK) == 0)
 	{
-		content->expar->path = ft_strdup(content->cmd[0]);
+		content->expar->path = ft_strdup(content->cmd[0]); //PROTECTED
+		if(!content->expar->path)
+		{
+			ft_open_error(content, content->expar->path);
+			content->error_code = 1;
+			ft_exit(content);
+		}
 		return(0);
 	}
 	if(is_command == 1)
@@ -91,7 +98,6 @@ int ft_is_command(t_content *content)
 	char	*adding_slash;
 
 	i = 0;
-	printf("ft_is_command\n");
 	if ((content->cmd == NULL || !content->cmd[0])
 		||(ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
@@ -99,14 +105,19 @@ int ft_is_command(t_content *content)
 		return(0);
 	while (content->expar->options[i])
 	{
-		adding_slash = ft_strjoin(content->expar->options[i], "/");
+		adding_slash = ft_strjoin(content->expar->options[i], "/"); //PROTECTED
 		if (!adding_slash)
-			return (1);
-		content->expar->path = ft_strjoin(adding_slash, content->cmd[0]);
+		{
+			ft_open_error(content, NULL);
+			ft_exit(content);
+		}
+		content->expar->path = ft_strjoin(adding_slash, content->cmd[0]); //PROTECTED
 		free(adding_slash);
 		if (!content->expar->path)
-			return (1);
-		//printf("content->expar->path = %s\n", content->expar->path);
+		{
+			ft_open_error(content, NULL);
+			ft_exit(content);
+		}
 		if (access(content->expar->path, F_OK) == 0)
 		{
 			if (access(content->expar->path, X_OK) == 1)
@@ -124,7 +135,7 @@ int ft_is_command(t_content *content)
 		content->expar->path = NULL;
 		i++;
 	}
-	if(ft_check_if_command(content->cmd[0], &content->expar->path) == 0)
+	if(ft_check_if_command(content->cmd[0], &content->expar->path, content) == 0)
 		return (0);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 15:06:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:59:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ char	**ct_get_paths(t_list *var, t_content *content)
 	char	**options;
 	t_env	*cpy;
 
+	options = NULL;
 	if(!var)
 		return(NULL);
 	cpy = get_env("PATH", var);

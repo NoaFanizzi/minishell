@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 13:45:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:18:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	ft_close_all(t_content *content);
 int		ft_is_built_in_child(t_content *content, t_list **env);
 
 //children_command.c
-int		ft_check_if_command(char *cmd, char **path);
+int		ft_check_if_command(char *cmd, char **path, t_content *content);
 int		ft_is_command(t_content *content);
 
 //children_process.c
@@ -87,7 +87,7 @@ int     ft_process_here_doc(t_array *array);
 //----------------------------PIPES-----------------------------------------
 
 //pipes_dealing.c
-int	ft_init_pipe(t_array *array);
+int		ft_init_pipe(t_array *array);
 void	ft_close_pipes(t_array *array);
 
 //----------------------------REDIRECTIONS-----------------------------------------

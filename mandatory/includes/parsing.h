@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/23 17:55:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 17:25:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ char	**twisted_fill_splitted(const char *s, const char *charset, char **splitted
 void	quotes_removal(char **command);
 void	rem_and_shift(char *command);
 
-int		ft_check_if_command(char *cmd, char **path);
 int 	ft_is_command_parsing(t_expar *expar, char *command);
 int		ft_try(t_list *var, char *command);
 
