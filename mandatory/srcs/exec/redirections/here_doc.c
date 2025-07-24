@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 13:20:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:21:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_process_here_doc(t_array *array)
 			size = array->content[i].files[0].size;
 			if(loop_hdoc(array, size, i) == 1)
 			{
-				array->p_exit_status = 1;
+				//array->p_exit_status = 1;
 				return(1);
 			}
 		}
