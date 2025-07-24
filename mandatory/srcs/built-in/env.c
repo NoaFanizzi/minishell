@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 13:32:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:15:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ t_env	*ft_add_new_link(char *env)
 	t_env *link;
 	
 	link = ft_calloc(1, sizeof(t_env));
+	if(!link)
+		return(NULL);
 	length = 0;
 	(link)->op = 0;
 	link = fill_env_arg(&link, env, &length);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:55:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:20:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ int loop_hdoc(t_array *array, size_t size, size_t i)
 			signal(SIGINT, deal_with_sigint);
 		}
 		if(returned_value == O_ERROR || returned_value == 1)
-		{
-			printf("going to return\n");
 			return(1);
-		}
 		j++;
 	}
     return(0);

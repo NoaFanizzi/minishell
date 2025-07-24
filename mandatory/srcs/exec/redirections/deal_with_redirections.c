@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:07:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:40:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,10 @@ int ft_deal_with_out(t_content *content, size_t i)
 			content->error_code = 2;
 			return(O_ERROR);
 		}
-		content->outfile = open(content->cmd_splitted[position][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+		content->outfile = open(content->cmd_splitted[position][content->files[i].index + 1], O_WRONLY | O_CREAT | O_TRUNC, 0644); //PROTECTED
 		if(content->outfile == -1)
 			return(ft_open_error(content, content->cmd_splitted[position][content->files[i].index + 1]));
-
-		if (dup2(content->outfile, STDOUT_FILENO) == -1)
+		if (dup2(content->outfile, STDOUT_FILENO) == -1) //PROTECTED
 			return(ft_dup2_pb (content, content->cmd_splitted[position][content->files[i].index + 1]));
 		close(content->outfile);
 		content->outfile = -2;
@@ -56,10 +55,10 @@ int ft_deal_with_apnd(t_content *content, size_t i)
 			content->error_code = 2;
 			return(O_ERROR);
 		}
-		content->outfile = open(content->cmd_splitted[position][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+		content->outfile = open(content->cmd_splitted[position][content->files[i].index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644); //PROTECTED
 		if(content->outfile == -1)
 			return(ft_open_error(content, content->cmd_splitted[position][content->files[i].index + 1]));
-		if (dup2(content->outfile, STDOUT_FILENO) == -1)
+		if (dup2(content->outfile, STDOUT_FILENO) == -1) //PROTECTED
 			return(ft_dup2_pb (content, content->cmd_splitted[position][content->files[i].index + 1]));
 		close(content->outfile);
 		content->outfile = -2;
@@ -83,10 +82,10 @@ int ft_deal_with_in(t_content *content, size_t i)
 			content->error_code = 2;
 			return(O_ERROR);
 		}
-		content->infile = open(content->cmd_splitted[position][content->files[i].index + 1], O_RDONLY, 0644);//TODO ducoup l'index c'est le fichier ou le token > ou < ?
+		content->infile = open(content->cmd_splitted[position][content->files[i].index + 1], O_RDONLY, 0644); //PROTECTED
 		if(content->infile == -1)
 			return(ft_open_error(content, content->cmd_splitted[position][content->files[i].index + 1]));
-		if (dup2(content->infile, STDIN_FILENO) == -1)
+		if (dup2(content->infile, STDIN_FILENO) == -1) //PROTECTED
 			return(ft_dup2_pb (content, content->cmd_splitted[position][content->files[i].index + 1]));
 		close(content->infile);
 		content->infile = -2;
@@ -165,7 +164,7 @@ void	ft_close_open(t_content *content, char *temp_file)
 	i = 0;
 	old_fd = content->h_fd;
 	close(content->h_fd);
-	content->h_fd = open(temp_file, O_RDWR | O_CREAT ,0644);
+	content->h_fd = open(temp_file, O_RDONLY | O_CREAT ,0644);
 	while(content->fd_array[i] != old_fd)
 		i++;
 	content->fd_array[i] =content->h_fd;

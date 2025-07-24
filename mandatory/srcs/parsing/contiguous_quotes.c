@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/23 18:02:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 12:44:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -466,11 +466,13 @@ void	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
 	char	**command;
+	int		merged;
 
 	i = 0;
 	command = *cmd;
 	while (command[i])
 	{
+		merged = 0;
 		//printf("checking command[%zu] = [%s], first char = [%c] (ascii: %d)\n", i, command[i], command[i][0], command[i][0]);
 		if (is_quote(command[i][0]))
 		{
@@ -482,6 +484,7 @@ void	contiguous_quotes(char ***cmd)
 				return ;
 				*cmd = command;
 				i--;
+				merged = 1;
 			}
 			else if (i > 0 && command[i - 1] && ft_strlen(command[i - 1]) > 0 && (ft_isspace(command[i - 1][ft_strlen(command[i - 1]) - 1]) == 0) && is_not_pipe_redir(command[i - 1][ft_strlen(command[i - 1]) - 1]))
 			{
@@ -491,7 +494,8 @@ void	contiguous_quotes(char ***cmd)
 				return ;
 				*cmd = command;
 				//if (command && command[i - 1] && (len_until_space_backward(command[i - 1]) == ft_strlen(command[i - 1])))
-					i--;
+				i--;
+				merged = 1;
 			}
 			else if (command[i + 1] && is_quote(command[i + 1][0]))
 			{
@@ -500,6 +504,7 @@ void	contiguous_quotes(char ***cmd)
 				if (!command)
 					return ;
 				*cmd = command;
+				merged = 1;
 			}
 			else if (command[i + 1] && (ft_isspace(command[i + 1][0]) == 0) && is_not_pipe_redir(command[i + 1][0]))
 			{
@@ -509,19 +514,21 @@ void	contiguous_quotes(char ***cmd)
 				return ;
 				//shift_words(command, i + 1);
 				*cmd = command;
+				merged = 1;
+				i++;
 			}
 		}
-		i++;
+		if (merged == 0)
+			i++;
+		int k = 0;
+		while (command[k])
+		{
+			//printf("Bword n%d : %s\n", k + 1, command[k]);
+			k++;
+		}
+		//printf("\n\n");
 	}
-	int k = 0;
-	while (command[k])
-	{
-		//printf("Bword n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//printf("\n\n");
 }
-
 
 
 // command

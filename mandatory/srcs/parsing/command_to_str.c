@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/23 18:51:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:49:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -365,7 +365,10 @@ int	launch_shell(t_list **var)
 		temp_line = ft_strdup(line);
 		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
-			return (1);
+		{
+			array.p_exit_status = 1;
+			continue ;
+		}
 		else if (check_syntax(cmd_splitted) == 1)
 		{
 			if(line[0] != '\0')

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 15:08:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:45:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	ft_free_after_error(t_expar *expar, t_content *content, t_list **env, t_arr
 
 
 //parents_built_in.c
-void	ft_is_built_in_dad(t_array *array, t_list **env);
+int		ft_is_built_in_dad(t_array *array, t_list **env);
 int		ft_is_built_in(t_content *content);
 
 //parents_get_redirections.c

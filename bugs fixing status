@@ -1,0 +1,15 @@
+control + d probleme pas d'exit
+
+
+
+here doc ctrl D qui met pas de message
+
+
+here doc ctrl C set l'erreur a 1 au lieu de 130
+
+
+echo $? qui leak
+
+
+ctrl D bugge si env -i
+env -i /bin/ls qui marche pas

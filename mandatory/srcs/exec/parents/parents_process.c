@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:56:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 14:45:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,14 @@ void	ft_init_exec(t_list **env, t_array *array)
 	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
-		if (redir_value == 0 || redir_value == 2)
+		if (redir_value == 0 || redir_value == 2 || redir_value == -10)
+		{
+			if(array->content[0].stdin_saved != -2)
+				close(array->content[0].stdin_saved);
+			if(array->content[0].stdout_saved != -2)
+				close(array->content[0].stdout_saved);
 			return ;
+		}
 	}
 	if (ft_init_pipe(array) == 1)
 	{

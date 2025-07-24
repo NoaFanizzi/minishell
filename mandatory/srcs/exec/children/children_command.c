@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/22 21:47:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 15:09:42 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int ft_is_path_command(t_content *content)
 {
 	int	is_command;
 
+	printf("ft_is_path_command\n");
 	is_command = 0;
     if ((content->cmd[0][0] == '/')
         || (ft_strncmp(content->cmd[0], "./", 2) == 0)
@@ -67,7 +68,7 @@ int ft_is_path_command(t_content *content)
         || (ft_strcmp(content->cmd[0], ".") == 0)
         || (content->cmd[0][1] == '/'))
 		is_command = 1;
-	//printf("salut\n");
+	printf("salut\n");
 	if (is_command == 1 && access(content->cmd[0], X_OK) == 0)
 	{
 		content->expar->path = ft_strdup(content->cmd[0]);
@@ -90,6 +91,7 @@ int ft_is_command(t_content *content)
 	char	*adding_slash;
 
 	i = 0;
+	printf("ft_is_command\n");
 	if ((content->cmd == NULL || !content->cmd[0])
 		||(ft_strcmp(content->cmd[0], "") == 0))
 		return (2);

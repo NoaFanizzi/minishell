@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 16:09:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 13:32:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_use_hdoc(t_content *content, size_t i)
 		if(content->pos % 2 != 0)
 			position += 1;
 		content->infile = get_hdoc_fd(content->fd_array);
-		if (dup2(content->infile, STDIN_FILENO) == -1)
+		if (dup2(content->infile, STDIN_FILENO) == -1) //PROTECTED
 			return(ft_dup2_pb (content, "temp_file"));
 		close(content->infile);
 		content->infile = -2;
@@ -84,13 +84,21 @@ void	ft_deal_with_pipes(t_content *content)
 {
 	if((content->size > 1 && content->pos > 0))
 	{	
-		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) == -1)
+		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) == -1) //PROTECTED
+		{
+			content->error_code = 1;
 			ft_dup2_pb (content, "pipe");
+			ft_exit(content);
+		}
 	}
 	if((content->size > 1 && content->pos < content->size - 1))
 	{
-		if (dup2(content->array_ptr->pipe[content->pos][1], STDOUT_FILENO) == -1)
+		if (dup2(content->array_ptr->pipe[content->pos][1], STDOUT_FILENO) == -1) //PROTECTED
+		{
+			content->error_code = 1;
 			ft_dup2_pb (content, "pipe");
+			ft_exit(content);
+		}
 	}
 }
 
