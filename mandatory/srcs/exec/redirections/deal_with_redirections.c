@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 13:40:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:22:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,6 +209,24 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 			while(1)
 			{
 				line = readline("> ");
+				if (!line)
+				{
+					unlink(temp_file);
+					free(temp_file);
+					if(dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
+						return(ft_dup2_pb(content, "content->stdin_saved"));
+					free(line);
+					close(content->h_fd);
+					content->h_fd = -1;
+					if(content->h_fd != -1)
+						close(content->h_fd);
+					close(content->stdin_saved);
+					content->stdin_saved = -2;
+					content->array_ptr->p_exit_status = 130;
+					g_signal = 0;
+					content->h_fd = -2;
+					return(1);
+				}
 				if(g_signal == SIGINT)
 				{
 					unlink(temp_file);

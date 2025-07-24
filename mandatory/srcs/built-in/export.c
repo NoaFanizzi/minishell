@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 14:15:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:17:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,14 +164,12 @@ int	ft_init_export(t_list **env, t_content *content, size_t i)
 		return (1);
 	}
 	pos = ft_check_if_in_base(*env, content->arg[i]);
-		// ça me return la position de où c'est dans la liste
-	if (pos == -1)                                   
-		// ca veut dire que c'etait pas dedans
+	if (pos == -1)
 	{
-		link = ft_add_new_link(content->arg[i]);
+		link = NULL; //ft_add_new_link(content->arg[i]);
 		if(!link)
 		{
-			
+			return(ft_open_error(content, "link malloc"));
 		}
 		ft_lstadd_back(env, ft_lstnew(link));
 		if (link->arg != NULL)

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/24 14:49:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:20:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,7 +328,7 @@ void check_tty(char **line, char *prompt)
     else
         *line = readline(NULL);
 }
-void	*manage_readline(char **line, t_array *array)
+void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char *prompt;
 	
@@ -340,7 +340,12 @@ void	*manage_readline(char **line, t_array *array)
 	g_signal = 0;
 	free(prompt);
 	if (*line == NULL)
-		return(NULL);
+	{
+		array->p_exit_status = 1;
+		ft_free_env(*var);
+		exit(1);
+		//ft_exit(&array->content[0]);
+	}
 	if (line && *line)
 		add_history(*line);
 	return(NULL);
@@ -359,7 +364,7 @@ int	launch_shell(t_list **var)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		manage_readline(&line, &array);
+		manage_readline(&line, &array, var);
 		array.size = 0;
 		array.content = NULL;
 		temp_line = ft_strdup(line);
