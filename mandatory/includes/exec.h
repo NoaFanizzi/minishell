@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:53:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:12:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,15 @@ int		ft_add_new_tab(t_list *env, char **converted, size_t i);
 char	**ft_convert_env(t_list *env);
 
 //exec_free.c
-int		ft_dup2_pb(t_content *content, char *str);
 void	ft_exec_failure(t_expar *expar, int i);
+void	ft_free_one_chain_element(t_env *env);
 
 //exec_utils.c
 char	**ct_get_paths(t_list *var, t_content *content);
 char	**ft_cmd_join(char **a, char **b);
 void	ft_display_array_content(t_array *array);
 int     ft_contains_dir(t_content *content);
+void	ft_display_env(t_list *env, t_content *content);
 
 //exec_utils_2.c
 void	add_new_fd_in_array(t_content *content);

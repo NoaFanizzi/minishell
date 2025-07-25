@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:55:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 14:45:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,29 @@ int	ft_contains_dir(t_content *content)
 		|| (content->cmd[0][1] == '/'))
 		return (1);
 	return (0);
+}
+
+void	ft_display_env(t_list *env, t_content *content)
+{
+	t_env	*cpy;
+
+	if (!env)
+	{
+		content->error_code = 1;
+		ft_putstr_fd ("maxishell: env: env variable not set\n", STDERR_FILENO);
+		return ;
+	}
+	while (env)
+	{
+		cpy = (t_env *)env->content;
+		if (cpy->op)
+		{
+			ft_putstr_fd(cpy->var, 1);
+			ft_putstr_fd(cpy->op, 1);
+			ft_putstr_fd(cpy->arg, 1);
+			ft_putstr_fd("\n", 1);
+		}
+		env = env->next;
+	}
+	content->error_code = 0;
 }
