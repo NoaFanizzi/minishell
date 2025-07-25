@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/18 18:07:55 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/25 10:22:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,61 +75,6 @@ void	*free_command(char ***splitted)
 	splitted = NULL;
 	return (NULL);
 }
-
-// void	*free_command(char ***splitted)
-// {
-// 	size_t	i;
-
-// 	if (!splitted || !*splitted)
-// 		return (NULL);
-// 	i = 0;
-// 	while ((*splitted)[i])
-// 	{
-// 		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
-// 		i++;
-// 	}
-// 	free(*splitted); // free le tableau de char **
-// 	*splitted = NULL;
-// 	return (NULL);
-// }
-
-// void *free_command(char ***splitted)
-// {
-//     size_t i;
-
-//     if (!splitted || !*splitted)
-//         return (NULL);
-//     i = 0;
-//     while ((*splitted)[i])
-//     {
-//         free((*splitted)[i]);  // Libère chaque chaîne (char *)
-//         i++;
-//     }
-//     free(*splitted);  // Libère le tableau principal
-//     *splitted = NULL;
-//     return (NULL);
-// }
-
-// void	*free_command(char ***splitted)
-// {
-// 	size_t	i;
-
-// 	if (!splitted || !*splitted)
-// 		return (NULL);
-// 	i = 0;
-// 	while ((*splitted)[i])
-// 	{
-// 		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
-// 		i++;
-// 	}
-// 	free(*splitted); // free le tableau de char **
-// 	*splitted = NULL;
-// 	return (NULL);
-// }
-
-
-
-
 
 char	***init_splitted(char ***splitted, char **command)
 {

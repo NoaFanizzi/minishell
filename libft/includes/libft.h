@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:40:45 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 16:49:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 11:18:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),
 						void (*del)(void *));
 int					ft_strcmp(char *s1, char *s2);
+void				ft_strcat(char *dest, char *src);
+void				ft_strcpy(char *dest, char *src);
 
 
 #endif

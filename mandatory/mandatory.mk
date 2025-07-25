@@ -30,13 +30,13 @@ PARENTS_SRCS		:= $(addprefix $(PARENTS_DIR)/, $(PARENTS_SRCS))
 PIPES_SRCS			= pipes_dealing.c
 PIPES_SRCS			:= $(addprefix $(PIPES_DIR)/, $(PIPES_SRCS))
 
-REDIRECTIONS_SRCS 	= deal_with_redirections.c redirections_find.c here_doc.c
+REDIRECTIONS_SRCS 	= deal_with_redirections.c redirections_find.c here_doc_parents.c here_doc_child.c in.c out.c temp_file_generation.c
 REDIRECTIONS_SRCS 	:= $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 
 ERROR_HANDLING_SRCS	= error_handling_error_code.c
 ERROR_HANDLING_SRCS	:= $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS))
 
-UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c
+UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c
 UTILS_SRCS			:= $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
 SIGNALS_SRCS		= signals.c

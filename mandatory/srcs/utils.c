@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/24 18:04:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 10:22:49 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	ft_free_tab(char **tab)
 	size_t	i;
 
 	i = 0;
-	//printf("tab[0] = %s\n", tab[0]);
 	if(tab == NULL || tab[0] == NULL)
 		return;
 	while(tab[i])
@@ -101,10 +100,8 @@ void ft_free_array_content(t_array *array)
 
     if (!array || !array->content)
 		return;
-//	printf("array->size = %d\n", array->size);
     while (i < array->size)
     {
-		//free_command(array->content[i].cmd_splitted);
 		if(array->content[i].cmd)
         	ft_free_tab(array->content[i].cmd);
 		if(array->content[i].arg)

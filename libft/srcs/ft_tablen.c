@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:14:23 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/07/25 11:20:54 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/25 11:21:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_exec_failure(t_expar *expar, int i)
+size_t	ft_tablen(char **tab)
 {
-	if (i == 1)
-		perror("pipe");
-	if (i == 2)
-		perror("fork");
-	free(expar->options);
-	return ;
+	size_t	i;
+
+	i = 0;
+	if (!tab)
+		return (0);
+	while (tab[i])
+	{
+		i++;
+	}
+	return (i);
 }

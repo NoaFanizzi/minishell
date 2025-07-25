@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:14:23 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/07/25 11:17:01 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/25 11:17:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_exec_failure(t_expar *expar, int i)
+void	ft_strcat(char *dest, char *src)
 {
-	if (i == 1)
-		perror("pipe");
-	if (i == 2)
-		perror("fork");
-	free(expar->options);
-	return ;
+	size_t	i;
+	size_t	j;
+
+	i = ft_strlen(dest);
+	j = 0;
+	while (src[j])
+	{
+		dest[i] = src[j];
+		i++;
+		j++;
+	}
+	dest[i] = '\0';
 }

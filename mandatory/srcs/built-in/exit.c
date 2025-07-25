@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 17:45:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 10:23:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ void ft_free_hdoc(t_heredocs *hdoc)
 	i = 0;
     if (!hdoc)
         return;
-    count = hdoc[0].size; // ou stocke le count ailleurs si besoin
-	//printf("count = %zu\n", count);
+    count = hdoc[0].size;
     while(i < count)
 	{
         ft_free_tab(hdoc[i].text);
@@ -94,17 +93,11 @@ int	ft_check_if_valid_exit(t_content *content)
 		{
 			ft_putstr_fd("maxishell: exit: ", 1);
 			ft_putstr_fd(content->arg[0], 1);
-			ft_putstr_fd(": numeric argument required\n", 1);
+			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
 			content->error_code = 2;
 			return(0);
 		}
-		if(ft_is_many_numbers(content) > 1)
-		{
-			ft_putstr_fd("maxishell: exit: too many arguments\n", 1);
-			content->error_code = 1;
-			return(1);
-		}
-		if(ft_is_last_arg_numeric(content) == 1)
+		if(ft_is_many_numbers(content) > 1 || ft_is_last_arg_numeric(content) == 1)
 		{
 			ft_putstr_fd("maxishell: exit: too many arguments\n", STDERR_FILENO);
 			content->error_code = 1;
@@ -122,7 +115,6 @@ int	get_right_error_code(t_content *content)
 		return(content->error_code);
 	else
 		return(content->array_ptr->p_exit_status);
-
 }
 
 void	ft_exit(t_content *content)
@@ -130,23 +122,12 @@ void	ft_exit(t_content *content)
 	int	error_code;
 	int validity_value;
 
-	if(content->stdin_saved != -2)
-	{
-		close(content->stdin_saved);
-		content->stdin_saved = -2;
-	}
-	if(content->stdout_saved != -2)
-	{
-		close(content->stdout_saved);
-		content->stdout_saved = -2;
-	}
 	if (!content)
 		exit(1);
 	validity_value = ft_check_if_valid_exit(content);
 	if(validity_value == 1 && content->array_ptr->size == 1)
 		return;
 	error_code = get_right_error_code(content);
-	//error_code = content->error_code;
 	if (content->env)
 		ft_free_env(*(content->env));
 	if (content->expar)
