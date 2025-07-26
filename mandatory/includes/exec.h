@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 12:12:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:33:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,12 @@ int     ft_process_here_doc(t_array *array);
 void	ft_load_temp_file(int random_fd, char **random_file);
 int     ft_get_temp_file(char **random_file, t_content *content);
 
+//check_dir_availability
+void    check_point(t_content *content);
+int     check_slash(t_content *content);
+void    check_dir(t_content *content, struct stat st);
+void    check_dir_availability(t_content *content);
+
 //----------------------------UTILS-----------------------------------------
 
 //exec_env_converted.c
@@ -156,6 +162,7 @@ void	ft_close_all(t_content *content);
 //error_handling.c
 int	ft_open_error(t_content *content, char *str);
 int	ft_dup2_pb(t_content *content, char *str);
+int	get_right_error_code(t_content *content);
 
 
 

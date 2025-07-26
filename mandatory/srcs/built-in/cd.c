@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 16:51:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:42:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,12 @@ int	ft_access_dir(t_content *content)
 {
 	char	*path;
 
-	// char *pwd;
+	char *pwd;
 	path = get_absolute_path(content);
 	printf("path = %s\n", path);
 	// if(access(path, X_OK) == -1)
 	// {
+	// 	printf("first crashed\n");
 	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
 	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
 	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
@@ -104,33 +105,26 @@ int	ft_access_dir(t_content *content)
 	// 	content->error_code = 1;
 	// 	return(1);
 	// }
-	// printf("content->arg[0] = %s\n", content->arg[0]);
-	// pwd = getcwd(NULL, 0) == -1;
-	// if (!pwd) // perdu
-	// {
-	// }
-	// if (chdir(content->arg[0]) == -1)
-	// {
-	// 	content->error_code = 1;
-	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
-	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
-	// 	free(path);
-	// 	//perror(content->arg[0]);
-	// 	return(1);
-	// }
-	// // else
-	// if (chdir(content->arg[0]) == -1)
-	// 	{
-	// 		content->error_code = 1;
-	// 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	// 		ft_putstr_fd(content->arg[0], STDERR_FILENO);
-	// 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
-	// 		free(path);
-	// 		//perror(content->arg[0]);
-	// 		return(1);
-	// 	}
+
+	if (chdir(content->arg[0]) == -1)
+	{
+		pwd = getcwd(NULL, 0);
+		if(!pwd)
+		{
+			ft_putstr_fd("cd: error retrieving current directory: getcwd: ", STDERR_FILENO);
+			ft_putstr_fd("cannot access parent directories: No such file or directory\n", STDERR_FILENO);
+		}
+		free(pwd);
+		content->error_code = 1;
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		free(path);
+		//perror(content->arg[0]);
+		return(1);
+	}
 	free(path);
+	ft_putstr_fd("aberrant\n", STDERR_FILENO);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:54:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 11:40:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,25 @@ int	ft_is_dir(char *str, int *exit_code)
 
 int	ft_is_path_command(t_content *content)
 {
-	int	is_command;
+	int			is_command;
+	struct stat	st;
 
 	is_command = ft_contains_dir(content);
-	if (is_command == 1 && access(content->cmd[0], X_OK) == 0)
-	{
-		content->expar->path = ft_strdup(content->cmd[0]); // PROTECTED
-		if (!content->expar->path)
-		{
-			ft_open_error(content, content->expar->path);
-			content->error_code = 1;
-			ft_exit(content);
-		}
-		return (0);
-	}
 	if (is_command == 1)
 	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": ", STDERR_FILENO);
-		perror("");
-		ft_exit(content);
+		check_point(content);
+		if (access(content->cmd[0], X_OK) == 0)
+		{
+			if (check_slash(content) == 0)
+				return (0);
+		}
+		else
+		{
+			if (stat(content->cmd[0], &st) == 0)
+				check_dir(content, st);
+			else
+				check_dir_availability(content);
+		}
 	}
 	return (1);
 }

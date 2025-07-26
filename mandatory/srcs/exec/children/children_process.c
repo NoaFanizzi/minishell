@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:26:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 15:07:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	env_converted = ft_convert_env(*env);
 	if (!env_converted)
 	{
-		printf("AAAAAAsalut\n");
 		ft_open_error(content, NULL);
 		ft_exit(content);
 	}

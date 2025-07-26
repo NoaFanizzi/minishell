@@ -18,3 +18,5 @@ env -i /bin/ls qui marche pas
 -Norme
 -Fix le cd
 -Regarder pour fix le env-i parce que je suis pas d'accord avec le fait de pas lancer minishell quand on fait env-i au lancement
+-Mettre le message end offile jsp quoi quand control + d dans le here_doc
+-Fix le bail du tab

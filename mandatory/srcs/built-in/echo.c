@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 13:12:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:42:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/25 14:59:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_is_arg(char *cmd)
 	return (0);
 }
 
-void	launch_echo(t_content *content, size_t i, int is_space)
+void	ft_launch_echo(t_content *content, size_t i, int is_space)
 {
 	while (content->cmd[i])
 	{
