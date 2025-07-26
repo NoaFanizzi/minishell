@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 20:11:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:24:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,19 @@ int	ft_is_arg_numeric(char *str)
 	size_t	i;
 
 	i = 0;
-	if(str[0] == '-' || str[0] == '+')
+	if (str[0] == '-')
+	{
+		if (ft_strcmp(&str[0], "-9223372036854775808") < 0)
+			return (1);
 		i++;
-	// if(ft_strcmp("2147483647", &str[i]) < 0)
-	// 	return(1);
+	}
+	else
+	{
+		if (str[0] == '+')
+			i++;
+		if (ft_strcmp(&str[i], "9223372036854775807") < 0)
+			return (1);
+	}
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')

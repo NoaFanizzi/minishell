@@ -91,8 +91,8 @@ char	*get_absolute_path(t_content *content)
 int	ft_access_dir(t_content *content)
 {
 	char	*path;
+	char	*pwd;
 
-	char *pwd;
 	path = get_absolute_path(content);
 	printf("path = %s\n", path);
 	// if(access(path, X_OK) == -1)
@@ -105,14 +105,15 @@ int	ft_access_dir(t_content *content)
 	// 	content->error_code = 1;
 	// 	return(1);
 	// }
-
 	if (chdir(content->arg[0]) == -1)
 	{
 		pwd = getcwd(NULL, 0);
-		if(!pwd)
+		if (!pwd)
 		{
-			ft_putstr_fd("cd: error retrieving current directory: getcwd: ", STDERR_FILENO);
-			ft_putstr_fd("cannot access parent directories: No such file or directory\n", STDERR_FILENO);
+			ft_putstr_fd("cd: error retrieving current directory: getcwd: ",
+				STDERR_FILENO);
+			ft_putstr_fd("cannot access parent directories: No such file or directory\n",
+				STDERR_FILENO);
 		}
 		free(pwd);
 		content->error_code = 1;
@@ -120,8 +121,8 @@ int	ft_access_dir(t_content *content)
 		ft_putstr_fd(content->arg[0], STDERR_FILENO);
 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
 		free(path);
-		//perror(content->arg[0]);
-		return(1);
+		// perror(content->arg[0]);
+		return (1);
 	}
 	free(path);
 	ft_putstr_fd("aberrant\n", STDERR_FILENO);
