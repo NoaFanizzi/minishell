@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:39:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 20:06:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_right_error_code(t_content *content)
 {
-	if (content->error_code != -5)
+	if (content->error_code != -500)
 		return (content->error_code);
 	else
 		return (content->array_ptr->p_exit_status);
