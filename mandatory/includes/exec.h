@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 13:21:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:27:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ int     get_hdoc_fd(int *array);
 int     ft_use_hdoc(t_content *content, size_t i);
 int     loop_hdoc(t_array *array, size_t size, size_t i);
 int     ft_process_here_doc(t_array *array);
+int     h_expansion(char *line, t_content *content, char *temp_file);
 
 //temp_file_generation.c
 void	ft_load_temp_file(int random_fd, char **random_file);

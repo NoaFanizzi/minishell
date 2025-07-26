@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_to_str.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/24 18:42:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 14:18:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 		exit(1);
 		//ft_exit(&array->content[0]);
 	}
-	if (line && *line)
+	if (line && *line && **line != '\0')
 		add_history(*line);
 	return(NULL);
 }
