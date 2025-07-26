@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:45:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:46:15 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,14 +84,13 @@ void	ft_display_array_content(t_array *array)
 	}
 }
 
-int	ft_contains_dir(t_content *content)
+int	ft_contains_dir(char *path)
 {
-	if ((content->cmd[0][0] == '/')
-		|| (ft_strncmp(content->cmd[0], "./", 2) == 0)
-		|| (ft_strncmp(content->cmd[0], "../", 3) == 0)
-		|| (ft_strcmp(content->cmd[0], "..") == 0)
-		|| (ft_strcmp(content->cmd[0], ".") == 0)
-		|| (content->cmd[0][1] == '/'))
+	if ((path[0] == '/')
+		|| (ft_strncmp(path, "./", 2) == 0)
+		|| (ft_strncmp(path, "../", 3) == 0)
+		|| (ft_strcmp(path, "..") == 0)
+		|| (ft_strcmp(path, ".") == 0))
 		return (1);
 	return (0);
 }

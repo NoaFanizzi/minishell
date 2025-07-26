@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 13:27:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 16:57:51 by bcabocel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	ft_close_all(t_content *content);
 int		ft_is_built_in_child(t_content *content, t_list **env);
 
 //children_command.c
-int		ft_check_if_command(char *cmd, char **path, t_content *content);
 int		ft_is_command(t_content *content);
 
 //children_process.c
@@ -128,10 +127,7 @@ void	ft_load_temp_file(int random_fd, char **random_file);
 int     ft_get_temp_file(char **random_file, t_content *content);
 
 //check_dir_availability
-void    check_point(t_content *content);
-int     check_slash(t_content *content);
-void    check_dir(t_content *content, struct stat st);
-void    check_dir_availability(t_content *content);
+void    check_exist(t_content *content, char *path);
 
 //----------------------------UTILS-----------------------------------------
 
@@ -148,7 +144,7 @@ void	ft_free_one_chain_element(t_env *env);
 char	**ct_get_paths(t_list *var, t_content *content);
 char	**ft_cmd_join(char **a, char **b);
 void	ft_display_array_content(t_array *array);
-int     ft_contains_dir(t_content *content);
+int     ft_contains_dir(char *path);
 void	ft_display_env(t_list *env, t_content *content);
 
 //exec_utils_2.c

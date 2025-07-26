@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+         #
+#    By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 13:45:35 by nofanizz          #+#    #+#              #
-#    Updated: 2025/06/19 12:54:16 by nofanizz         ###   ########.fr        #
+#    Updated: 2025/07/26 15:15:05 by bcabocel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,6 +72,9 @@ fclean:
 	@rm -f $(BINARIES)
 
 re: fclean all
+
+val: all
+	valgrind --suppressions=rl.supp --track-fds=all --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME) 
 
 -include $(DEPS)
 

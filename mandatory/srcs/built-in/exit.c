@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:39:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 15:03:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,10 @@ int	ft_is_arg_numeric(char *str)
 	size_t	i;
 
 	i = 0;
+	// if(str[0] == '-' || str[0] == '+')
+	// 	i++;
+	// if(ft_strcmp("2147483647", &str[i]) < 0)
+	// 	return(1);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
@@ -66,11 +70,14 @@ int	ft_is_many_numbers(t_content *content)
 
 int	ft_check_if_valid_exit(t_content *content)
 {
+	//printf("slt\n");
 	if (!content->cmd)
 		return (0);
+	//printf("AAAA\n");
 	if ((ft_strcmp(content->cmd[0], "exit") == 0)
 		&& (ft_tablen(content->arg) >= 1))
 	{
+		//printf("here\n");
 		if (ft_is_arg_numeric(content->arg[0]) == 1) // check pour le first
 		{
 			ft_putstr_fd("maxishell: exit: ", 1);
@@ -88,7 +95,10 @@ int	ft_check_if_valid_exit(t_content *content)
 			return (1);
 		}
 		if (content->arg)
+		{
 			content->error_code = ft_atoi(content->arg[0]);
+			printf("content->error_code = %d\n", content->error_code);
+		}
 	}
 	return (0);
 }
@@ -119,5 +129,6 @@ void	ft_exit(t_content *content)
 		free_command(content->cmd_splitted);
 	if (content->array_ptr)
 		ft_free_array_content(content->array_ptr);
+	//printf("error_code = %d\n", error_code);
 	exit(error_code);
 }
