@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 17:00:41 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:31:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,33 +25,21 @@ int	ft_load_expar(t_content *content, t_list **env)
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
 	content->expar->options = ct_get_paths(*env, content); // PROTECTED
-	if (!content->expar->options)
-	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-		content->error_code = 127;
-	}
+	// if (!content->expar->options)
+	// {
+	// 	ft_putstr_fd("maxishell: ", STDERR_FILENO);
+	// 	ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+	// 	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
+	// 	content->error_code = 127;
+	// }
 	return (0);
 }
 
 int	ft_prepare_execution(t_content *content, t_list **env)
 {
-	int	cmd_value;
-
-	cmd_value = 0;
 	if (ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
-	cmd_value = ft_is_command(content);
-	if (cmd_value == 1 || cmd_value == 2)
-	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		content->error_code = 127;
-		ft_exit(content);
-		exit(127);
-	}
+	ft_is_command(content);
 	return (0);
 }
 

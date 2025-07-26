@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/26 14:18:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:20:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,7 +150,7 @@ char	*ft_join_prompt(t_array *array)
 	char *joined_prompt;
 
 	error_converted = ft_itoa(array->p_exit_status);
-	joined_prompt = ft_strjoin( error_converted, " | maxishell$ ");
+	joined_prompt = ft_strjoin(error_converted, "\001\033[1;36m\002 | maxishell \001\033[0m\002");
 	free(error_converted);
 	return(joined_prompt);
 	
@@ -338,16 +338,16 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	if (prompt)
 		*line = readline(prompt);
 	else
-		*line = readline("minishell>");
+		*line = readline("maxishell>");
 	if(g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
 	free(prompt);
 	if (*line == NULL)
 	{
-		array->p_exit_status = 1;
+		array->p_exit_status = 0;
 		ft_free_env(*var);
-		exit(1);
+		exit(array->p_exit_status);
 		//ft_exit(&array->content[0]);
 	}
 	if (line && *line && **line != '\0')

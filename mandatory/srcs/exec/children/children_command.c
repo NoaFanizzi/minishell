@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 17:01:18 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/07/26 19:31:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	check_exist(t_content *content, char *path)
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
 		ft_exit(content);
 	}
@@ -77,7 +77,7 @@ int	ft_is_command(t_content *content)
 
 	i = 0;
 	if ((content->cmd == NULL || !content->cmd[0]) 
-		|| (ft_strcmp(content->cmd[0], "") == 0) || !content->expar->options)
+		|| (ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
 	content->expar->path = ft_strdup(content->cmd[0]);
 	if (!content->expar->path)
@@ -87,7 +87,7 @@ int	ft_is_command(t_content *content)
 	}
 	if (ft_contains_dir(content->expar->path) == 0)
 	{
-		while (content->expar->options[i])
+		while (content->expar->options && content->expar->options[i])
 		{
 			free(content->expar->path);
 			content->expar->path = NULL;
