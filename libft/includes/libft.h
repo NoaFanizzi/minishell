@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:40:45 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:18:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 12:59:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ char				*ft_strrchr(const char *string, int searchedChar);
 int					ft_lower(int c);
 int					ft_toupper(int c);
 int					ft_atoi(const char *str);
+size_t				ft_atol(const char *str);
 void				*ft_memset(void *s, int c, size_t n);
 char				*ft_strnstr(const char *str, const char *to_find,
 						size_t len);

@@ -6,11 +6,27 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:10:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:26:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	h_expansion(char *line, t_content *content, char *temp_file)
+{
+	char	*expanded_line;
+
+	expanded_line = expand_word(line, content->env, content->array_ptr);
+		// PROTECTED
+	if (!expanded_line)
+	{
+		free(temp_file);
+		return (ft_open_error(content, "expanded_line"));
+	}
+	ft_putendl_fd(expanded_line, content->h_fd);
+	free(expanded_line);
+	return (0);
+}
 
 int	get_hdoc_fd(int *array)
 {

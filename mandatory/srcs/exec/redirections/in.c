@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:03:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:12:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:25:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ int	check_in(t_content *content, size_t i, size_t position)
 				content->cmd_splitted[position][content->files[i].index + 1]));
 	if (dup2(content->infile, STDIN_FILENO) == -1) // PROTECTED
 		return (ft_dup2_pb(content,
-				content->cmd_splitted[position][content->files[i].index
-				+ 1]));
+				content->cmd_splitted[position][content->files[i].index + 1]));
 	close(content->infile);
 	content->infile = -2;
 	return (0);
@@ -45,7 +44,7 @@ int	ft_deal_with_in(t_content *content, size_t i)
 			content->error_code = 2;
 			return (O_ERROR);
 		}
-		if (check_in (content, i, position) == O_ERROR)
+		if (check_in(content, i, position) == O_ERROR)
 			return (O_ERROR);
 	}
 	return (0);

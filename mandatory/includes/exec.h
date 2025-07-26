@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 11:33:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:21:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_deal_with_pipes(t_content *content);
 int		ft_parse_redirections(t_content *content);
 
 //here_doc_parents.c
-int     controld_hdoc_dealing(t_content *content, char *temp_file, char *line);
+int	controld_hdoc_dealing(char *line, t_content *content, int *data, char *temp_file);
 int     sigint_hdoc_dealing(t_content *content, char *temp_file, char *line);
 int     ft_launch_here_doc(t_content *content, int *data, char *temp_file);
 int     prepare_hdoc(t_content *content, size_t *i, char *temp_file);

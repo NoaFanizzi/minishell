@@ -6,30 +6,36 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:13:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/26 13:26:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	controld_hdoc_dealing(t_content *content, char *temp_file, char *line)
+int	controld_hdoc_dealing(char *line, t_content *content, int *data,
+		char *temp_file)
 {
+	char	*temp;
+
 	if (!line)
 	{
-		unlink(temp_file);
-		free(temp_file);
-		if (dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
-			return (ft_dup2_pb(content, "content->stdin_saved"));
-		free(line);
-		close(content->h_fd);
-		content->h_fd = -1;
-		if (content->h_fd != -1)
-			close(content->h_fd);
-		close(content->stdin_saved);
-		content->stdin_saved = -2;
-		content->array_ptr->p_exit_status = 0;
-		g_signal = 0;
-		content->h_fd = -2;
+		temp = ft_itoa(data[2]); // PROTECTED
+		if (!temp)
+		{
+			close(content->stdin_saved);
+			unlink(temp_file);
+			free(temp_file);
+			free(line);
+			ft_open_error(content, NULL);
+			ft_exit(content);
+		}
+		ft_putstr_fd("maxishell: warning: here-document at line ",
+			STDERR_FILENO);
+		ft_putstr_fd(temp, STDERR_FILENO);
+		free(temp);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
+		ft_putstr_fd(content->cmd_splitted[data[0]][data[1]], STDERR_FILENO);
+		ft_putstr_fd("')\n", STDERR_FILENO);
 		return (1);
 	}
 	return (0);
@@ -61,26 +67,21 @@ int	sigint_hdoc_dealing(t_content *content, char *temp_file, char *line)
 int	ft_launch_here_doc(t_content *content, int *data, char *temp_file)
 {
 	char	*line;
-	char	*expanded_line;
 
+	data[2] = 0;
 	while (1)
 	{
 		line = readline("> ");
+		data[2] += 1;
 		if (sigint_hdoc_dealing(content, temp_file, line) == 1)
 			return (1);
-		if (controld_hdoc_dealing(content, temp_file, line) == 1)
-			return (1);
+		if (controld_hdoc_dealing(line, content, data, temp_file) == 1)
+			break ;
 		if (!line || ft_strcmp(line,
 				content->cmd_splitted[data[0]][data[1]]) == 0)
 			break ;
-		expanded_line = expand_word(line, content->env, content->array_ptr); // PROTECTED
-		if (!expanded_line)
-		{
-			free(temp_file);
-			return (ft_open_error(content, "expanded_line"));
-		}
-		ft_putendl_fd(expanded_line, content->h_fd);
-		free(expanded_line);
+		if (h_expansion(line, content, temp_file) == O_ERROR)
+			return (O_ERROR);
 	}
 	if (line)
 		free(line);
@@ -89,7 +90,7 @@ int	ft_launch_here_doc(t_content *content, int *data, char *temp_file)
 
 int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 {
-	int	data[3];
+	int	data[4];
 
 	data[0] = content->pos;
 	if (content->pos != 0)
