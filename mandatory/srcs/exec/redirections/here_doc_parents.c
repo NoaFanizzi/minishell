@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 13:26:01 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:33:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	sigint_hdoc_dealing(t_content *content, char *temp_file, char *line)
 {
 	if (g_signal == SIGINT)
 	{
+		if(!*content->env)
+			ft_putstr_fd("\n", STDERR_FILENO);
 		unlink(temp_file);
 		free(temp_file);
 		if (dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
