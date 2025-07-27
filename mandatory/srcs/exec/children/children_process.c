@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 21:32:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 22:48:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_load_expar(t_content *content, t_list **env)
 int	ft_prepare_execution(t_content *content, t_list **env)
 {
 	int returned_value;
+	
 	if (ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
 	returned_value = ft_is_command(content);
@@ -49,7 +50,6 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 		content->error_code = 127;
 		ft_exit(content);
 	}
-	printf("returned_value = %d\n", returned_value);
 	return (0);
 }
 
