@@ -6,29 +6,48 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 15:44:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 16:40:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	check_exist(t_content *content, char *path)
+void	check_f_ok(t_content *content, char *path)
 {
-	if (access(path, F_OK) == -1 || !ft_contains_dir(path))
+	if (access(path, F_OK) == -1)
 	{
-		ft_putstr_fd("AHAHAHAH\n", STDERR_FILENO);
+		if (!(*content->env) && !ft_contains_dir(path))
+		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
+			ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+			ft_putstr_fd(": command not found\n", STDERR_FILENO);
+			content->error_code = 127;
+			ft_exit(content);
+		}
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
-		content->error_code = 127;
+		content->error_code = 126;
 		ft_exit(content);
 	}
-	if(!ft_strcmp(path, "..") || !ft_strcmp(path, "."))
+}
+
+void	check_exist(t_content *content, char *path)
+{
+	if (!ft_strncmp(path, "..", 2) || !ft_strcmp(path, "."))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": command not found\n", STDERR_FILENO);
 		content->error_code = 127;
+		ft_exit(content);
+	}
+	if (!ft_contains_dir(path))
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
+		content->error_code = 126;
 		ft_exit(content);
 	}
 }
@@ -59,7 +78,7 @@ int	ft_is_path_command(t_content *content)
 
 int	check_command_validity(t_content *content, size_t i)
 {
-	char *adding_slash;
+	char	*adding_slash;
 
 	adding_slash = ft_strjoin(content->expar->options[i], "/"); // PROTECTED
 	if (!adding_slash)
@@ -67,7 +86,8 @@ int	check_command_validity(t_content *content, size_t i)
 		ft_open_error(content, NULL);
 		ft_exit(content);
 	}
-	content->expar->path = ft_strjoin(adding_slash, content->cmd[0]); // PROTECTED
+	content->expar->path = ft_strjoin(adding_slash, content->cmd[0]);
+		// PROTECTED
 	free(adding_slash);
 	if (!content->expar->path)
 	{
@@ -84,7 +104,7 @@ int	ft_is_command(t_content *content)
 	size_t	i;
 
 	i = 0;
-	if ((content->cmd == NULL || !content->cmd[0]) 
+	if ((content->cmd == NULL || !content->cmd[0])
 		|| (ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
 	content->expar->path = ft_strdup(content->cmd[0]);

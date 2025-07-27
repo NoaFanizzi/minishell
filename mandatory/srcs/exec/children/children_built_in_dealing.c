@@ -32,8 +32,8 @@ int	ft_is_built_in_child(t_content *content, t_list **env)
 		return_value = ft_echo(content);
 	else if (ft_strcmp(content->cmd[0], "export") == 0)
 		return_value = ft_export(env, content);
-	else if ((ft_strcmp(content->cmd[0], "env") == 0 && ft_tablen(content->cmd) == 1)
-			&&(!content->arg))
+	else if ((ft_strcmp(content->cmd[0], "env") == 0
+			&& ft_tablen(content->cmd) == 1) && (!content->arg))
 		ft_display_env(*env, content);
 	else if (ft_strcmp(content->cmd[0], "unset") == 0)
 		return_value = ft_unset(env, content);
