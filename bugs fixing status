@@ -1,8 +1,8 @@
 //ctrl D bugge si env -i
 //env -i /bin/ls qui marche pas
 
--CHECK pour le int max de l'exit
+//-CHECK pour le int max de l'exit
 -Changer le fonctionnement des pipes pour en mettre 2
 -Fix le cd
 //-Regarder pour fix le env-i parce que je suis pas d'accord avec le fait de pas lancer minishell quand on fait env-i au lancement
--Fix le bail du tab
+//-Fix le bail du tab
