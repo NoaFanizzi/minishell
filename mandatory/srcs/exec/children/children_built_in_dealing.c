@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:45:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 11:48:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	ft_is_built_in_child(t_content *content, t_list **env)
 		return_value = ft_echo(content);
 	else if (ft_strcmp(content->cmd[0], "export") == 0)
 		return_value = ft_export(env, content);
-	else if (ft_strcmp(content->cmd[0], "env") == 0)
+	else if ((ft_strcmp(content->cmd[0], "env") == 0 && ft_tablen(content->cmd) == 1)
+			&&(!content->arg))
 		ft_display_env(*env, content);
 	else if (ft_strcmp(content->cmd[0], "unset") == 0)
 		return_value = ft_unset(env, content);

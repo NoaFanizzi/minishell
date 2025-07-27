@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 19:31:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:44:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 void	check_exist(t_content *content, char *path)
 {
-	if (access(path, F_OK) == -1 || !ft_contains_dir(path)
-		|| !ft_strcmp(path, "..") || !ft_strcmp(path, ".")) 
+	if (access(path, F_OK) == -1 || !ft_contains_dir(path))
+	{
+		ft_putstr_fd("AHAHAHAH\n", STDERR_FILENO);
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
+		content->error_code = 127;
+		ft_exit(content);
+	}
+	if(!ft_strcmp(path, "..") || !ft_strcmp(path, "."))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);

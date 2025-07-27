@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/27 11:30:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 15:47:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//check cases when there is one commnad, or nothing or idk but you understood
+//check cases when there is one command, or nothing or idk but you understood
 
 char	***parse_command(char **line, t_list **var, t_array *array)
 {	
@@ -345,6 +345,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	free(prompt);
 	if (*line == NULL)
 	{
+		ft_putstr_fd("\nexit\n", STDERR_FILENO);
 		array->p_exit_status = 0;
 		ft_free_env(*var);
 		exit(array->p_exit_status);
