@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/10 01:12:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/26 19:07:44 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].type = HDOC;
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
+			rem_and_shift(cmd[i + 1]);
 			content->files[j].eof = ft_strdup(cmd[i + 1]);
 			j++;
 			i++;
@@ -72,6 +73,8 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
 			content->files[j].eof = NULL;
+			rem_and_shift(cmd[i + 1]);
+			printf("file = %s\n", cmd[i + 1]);
 			j++;
 			i++;
 		}
@@ -81,6 +84,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
 			content->files[j].eof = NULL;
+			rem_and_shift(cmd[i + 1]);
 			j++;
 			i++;
 		}
@@ -90,6 +94,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 			content->files[j].index = i;
 			content->files[j].size = redir_count;
 			content->files[j].eof = NULL;
+			rem_and_shift(cmd[i + 1]);
 			j++;
 			i++;
 		}
@@ -144,6 +149,7 @@ void	identify_cmd_opt(char **cmd, t_content *content)
 	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
 	if (!content->cmd[j])
 		return ;
+	rem_and_shift(content->cmd[j]);
 	j++;
 	i++;
 	while (cmd[i])
@@ -276,6 +282,7 @@ void	identify_arg(char **cmd, t_content *content)
 			content->arg[j] = ft_strdup(cmd[i]);
 			if (!content->arg[j])
 				return ;
+			rem_and_shift(content->arg[j]);
 			j++;
 			i++;
 		}		

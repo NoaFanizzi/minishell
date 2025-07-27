@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 13:09:00 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/26 18:21:59 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	rem_and_shift(char *command)
 
 	i = 0;
 	j = 1;
+	printf("command[0] = %c\n", command[0]);
+	if (command[0] != D_QUOTE && command[0] != S_QUOTE)
+		return ;
 	while (command[j])
 	{
 		if (!command[j + 1])
@@ -38,8 +41,7 @@ void	quotes_removal(char **command)
 	k = 0;
 	while (command[k])
 	{
-		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
-			rem_and_shift(command[k]);
+		rem_and_shift(command[k]);
 		k++;
 	}
 }

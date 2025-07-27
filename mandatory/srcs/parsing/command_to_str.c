@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/24 18:20:29 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 00:43:44 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 	int		i;
 
 	k = 0;
-	if (quotes_checker(*line))
-		return (NULL);
 	str = ft_strdup(*line);
 	if (!str)
 		return (NULL);
@@ -83,12 +81,12 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 	while (cmd_splitted[k])
 	{
 		i = 0;
-		//printf("\ncommand n%d\n", k + 1);
-		// if (!cmd_splitted[k][i])
-		//  	printf("NULL\n");
+		printf("\ncommand n%d\n", k + 1);
+		if (!cmd_splitted[k][i])
+		 	printf("NULL\n");
 		while (cmd_splitted[k][i])
 		{
-			//printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
+			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
 			i++;
 		}
 		k++;
@@ -181,15 +179,15 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 		{
 			if (create_hdoc_struct(cmd_splitted[cmd_index], &array->content[struct_index]) == -1)
 				return ;//need to see how to check that
-			quotes_removal(cmd_splitted[cmd_index]);
+			//quotes_removal(cmd_splitted[cmd_index]);
 			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
 			//test
 			size_t i = 0;
 			size_t count = count_redir(cmd_splitted[cmd_index]);
 			while (i < count)
 			{
-				//printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				//printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
+				printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
+				printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
 				i++;
 			}
 			i = 0;
@@ -197,7 +195,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//("count_cmd_opt : %zu\n", count);
 			while (i < count)
 			{
-				//printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
+				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
 				i++;
 			}
 			i = 0;
@@ -205,7 +203,7 @@ void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
 			//printf("count_arg : %zu\n", count);
 			while (i < count)
 			{
-				//printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
+				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
 				i++;
 			}
 			//test			
@@ -232,98 +230,106 @@ void    fill_struct_size(t_array *array, size_t struct_index)
     }
 }
 
-int check_redir(char ***cmd, size_t i, size_t j)
-{
-	size_t	k;
-	size_t	len;
+// int check_redir(char ***cmd, size_t i, size_t j)
+// {
+// 	size_t	k;
 
-	k = 0;
-	len = ft_strlen(cmd[i][j]);
-	// printf("command i : %s\n", cmd[i][j]);
-	// printf("command i + 1 : %s\n", cmd[i][j + 1]);
-	while (k < len)
-	{
-		if (cmd[i][j][k] == '<' || cmd[i][j][k] == '>')
-		{
-			k++;
-			if ((cmd[i][j][k - 1] == '<' && cmd[i][j][k] == '<')
-				|| (cmd[i][j][k - 1] == '>' && cmd[i][j][k] == '>'))
-				k++;
-			// printf("cmd[i][j][k] : %c\n", cmd[i][j][k]);
-			// printf("cmd[i][j + 1] : %s\n", cmd[i][j + 1]);
-			if (cmd[i][j +  1] == 0)
-			{
-				if (cmd[i + 1])
-					printf("bash: syntax error near unexpected token `|'\n");
-				else
-					printf("bash: syntax error near unexpected token `newline'\n");
-				return (1);
-			}
-			else if (cmd[i][j][k] == 0
-				 && cmd[i][j + 1]
-				 && cmd[i][j + 1][0]
-				 && (cmd[i][j + 1][0] == '|' || cmd[i][j + 1][0] == '>' || cmd[i][j + 1][0] == '<'))
-			{
-				if (cmd[i][j + 1][0] == '>' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '>')
-					printf("bash: syntax error near unexpected token `>>'\n");	
-				else if (cmd[i][j + 1][0] == '<' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '<')
-					printf("bash: syntax error near unexpected token `<<'\n");
-				else
-					printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j + 1][0]);	
-				return (1);
-			}
-			else if (cmd[i][j][k] == '|' || cmd[i][j][k] == '>' || cmd[i][j][k] == '<')
-			{
-				if (cmd[i][j][k] == '>' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
-					printf("bash: syntax error near unexpected token `>>'\n");	
-				else if (cmd[i][j][k] == '<' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
-					printf("bash: syntax error near unexpected token `<<'\n");
-				else
-					printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j][k]);	
-				return (1);
-			}
-		}
-		if(cmd[i][j][k])
-			k++;
-	}
-	return (0);
-}
+// 	k = 0;
+// 	// printf("command i : %s\n", cmd[i][j]);
+// 	// printf("command i + 1 : %s\n", cmd[i][j + 1]);
+// 	if (cmd[i][j][k] == '<' || cmd[i][j][k] == '>')
+// 	{
+// 		k++;
+// 		if ((cmd[i][j][k - 1] == '<' && cmd[i][j][k] && cmd[i][j][k] == '<')
+// 			|| (cmd[i][j][k - 1] == '>' && cmd[i][j][k] && cmd[i][j][k] == '>'))
+// 			k++;
+// 		// printf("cmd[i][j][k] : %c\n", cmd[i][j][k]);
+// 		// printf("cmd[i][j + 1] : %s\n", cmd[i][j + 1]);
+// 		printf("%s\n", cmd[i][j +  1]);
+// 		if (cmd[i][j + 1] == 0)
+// 		{
+// 			if (k >= 2 && cmd[i][j][k - 1] == '<' && cmd[i][j][k] && cmd[i][j][k] == '<')
+// 			{
+// 				if (cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
+// 					printf("bash: syntax error near unexpected token `<<'\n");
+// 				else
+// 					printf("bash: syntax error near unexpected token `<'\n");
+// 			}
+// 			else if (k >= 2 && cmd[i][j][k - 1] == '>' && cmd[i][j][k] && cmd[i][j][k] == '>')
+// 			{
+// 				if (cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
+// 					printf("bash: syntax error near unexpected token `>>'\n");
+// 				else
+// 					printf("bash: syntax error near unexpected token `>'\n");
+// 			}
+// 			else if (cmd[i + 1])
+// 				printf("bash: syntax error near unexpected token `|'\n");
+// 			else
+// 				printf("bash: syntax error near unexpected token `newline'\n");
+// 			return (1);
+// 		}
+// 		else if (cmd[i][j][k] == 0
+// 				&& cmd[i][j + 1]
+// 				&& cmd[i][j + 1][0]
+// 				&& (cmd[i][j + 1][0] == '|' || cmd[i][j + 1][0] == '>' || cmd[i][j + 1][0] == '<'))
+// 		{
+// 			if (cmd[i][j + 1][0] == '>' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '>')
+// 				printf("bash: syntax error near unexpected token `>>'\n");	
+// 			else if (cmd[i][j + 1][0] == '<' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '<')
+// 				printf("bash: syntax error near unexpected token `<<'\n");
+// 			else
+// 				printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j + 1][0]);	
+// 			return (1);
+// 		}
+// 		else if (cmd[i][j][k] == '|' || cmd[i][j][k] == '>' || cmd[i][j][k] == '<')
+// 		{
+// 			if (cmd[i][j][k] == '>' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
+// 				printf("bash: syntax error near unexpected token `>>'\n");	
+// 			else if (cmd[i][j][k] == '<' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
+// 				printf("bash: syntax error near unexpected token `<<'\n");
+// 			else
+// 				printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j][k]);	
+// 			return (1);
+// 		}
+// 	}
+// 	return (0);
+// }
 
-int	check_syntax(char ***cmd_splitted)
-{
-	size_t	i;
-	size_t	j;
+// int	check_syntax(char ***cmd_splitted)
+// {
+// 	size_t	i;
+// 	size_t	j;
 	
-	i = 0;
-	if (!cmd_splitted || !cmd_splitted[0] || !cmd_splitted[0][0])
-		return (1);
-	if (cmd_splitted[0][0][0] == '|')
-	{
-		printf("bash: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	while (cmd_splitted[i])
-	{
-		j = 0;
-		while (cmd_splitted[i][j])
-		{
-			if (check_redir(cmd_splitted, i, j))//print the message inside the function
-			  	return (1);
-			j++;
-		}
-		i++;
-	}
-	//printf("i : %zu\n", i);
-	//printf("str : %s\n", cmd_splitted[i - 1][0]);
-	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
-		cmd_splitted[i - 1][0][0] == '|' &&
-		cmd_splitted[i - 1][0][1] == '\0')
-	{
-		printf("bash: syntax error: unexpected end of input after `|'\n");
-		return (1);
-	}
-	return (0);
-}
+// 	i = 0;
+// 	if (!cmd_splitted || !cmd_splitted[0] || !cmd_splitted[0][0])
+// 		return (1);
+// 	if (cmd_splitted[0][0][0] == '|')
+// 	{
+// 		printf("bash: syntax error near unexpected token `|'\n");
+// 		return (1);
+// 	}
+// 	while (cmd_splitted[i])
+// 	{
+// 		j = 0;
+// 		while (cmd_splitted[i][j])
+// 		{
+// 			if (check_redir(cmd_splitted, i, j))//print the message inside the function
+// 			  	return (1);
+// 			j++;
+// 		}
+// 		i++;
+// 	}
+// 	//printf("i : %zu\n", i);
+// 	//printf("str : %s\n", cmd_splitted[i - 1][0]);
+// 	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
+// 		cmd_splitted[i - 1][0][0] == '|' &&
+// 		cmd_splitted[i - 1][0][1] == '\0')
+// 	{
+// 		printf("bash: syntax error: unexpected end of input after `|'\n");
+// 		return (1);
+// 	}
+// 	return (0);
+// }
 
 void check_tty(char **line, char *prompt)
 {
@@ -350,6 +356,148 @@ void	*manage_readline(char **line, t_array *array)
 	return(NULL);
 }
 
+int check_redir(char *cmd, size_t *i)
+{
+	char	op;
+	int		op_count;
+	int		spaced_after;
+
+	op = cmd[*i];
+	op_count = 1;
+	spaced_after = 0;
+	(*i)++;
+	// Count consecutive same operators (like >> or <<)
+	while (cmd[*i] == op)
+	{
+		op_count++;
+		(*i)++;
+	}
+
+	if (op_count >= 4) // more than >> or << (like >>>) => invalid
+	{
+		printf("bash: syntax error near unexpected token `%c%c'\n", op, op);
+		return (1);
+	}
+	else if (op_count == 3)
+	{
+		printf("bash: syntax error near unexpected token `%c'\n", op);
+		return (1);
+	}
+
+	// Skip spaces after operator
+	while (cmd[*i] && ft_isspace(cmd[*i]))
+	{
+		spaced_after = 1;
+		(*i)++;
+	}
+
+	// If nothing after operator(s)
+	if (!cmd[*i])
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+
+	// If the next token is another redirection or pipe
+	if (cmd[*i] == '>' || cmd[*i] == '<' || cmd[*i] == '|')
+	{
+		// If spaced or same operator again → invalid
+		if (spaced_after || cmd[*i] != op)
+		{
+			if (spaced_after && cmd[*i + 1] && cmd[*i + 1] == cmd[*i])
+				printf("bash: syntax error near unexpected token `%c%c'\n", cmd[*i], cmd[*i]);
+			else
+				printf("bash: syntax error near unexpected token `%c'\n", cmd[*i]);
+			return (1);
+		}
+	}
+	return (0);
+}
+
+int	check_pipe_start(char *cmd)
+{
+	size_t	i;
+
+	i = 0;
+	while (cmd[i] && ft_isspace(cmd[i]))
+		i++;
+	if (cmd[i] && cmd[i] == '|')
+	{
+		printf("bash: syntax error near unexpected token `|'\n");
+		return (1);
+	}
+	return (0);
+}
+
+int check_pipe_end(char *cmd)
+{
+	size_t	i;
+
+	i = ft_strlen(cmd) - 1;
+	while (i > 0 && ft_isspace(cmd[i]))
+		i--;
+	if (cmd[i] && cmd[i] == '|')
+	{
+		printf("bash: syntax error near unexpected token `newline'\n");
+		return (1);
+	}
+	return (0);
+}
+
+int	check_syntax(char *cmd)
+{
+	size_t	i;
+	int     in_squote;
+	int     in_dquote;
+
+	i = 0;
+	in_squote = 0;
+	in_dquote = 0;
+	if (quotes_checker(cmd))
+		return (1);
+	if (check_pipe_start(cmd))
+		return (1);
+	while (cmd[i])
+	{
+		// --- Handle quote state ---
+		if (!in_dquote && cmd[i] == '\'')
+		{
+			in_squote = !in_squote;
+			i++;
+			continue;
+		}
+		else if (!in_squote && cmd[i] == '"')
+		{
+			in_dquote = !in_dquote;
+			i++;
+			continue;
+		}
+
+		// --- Only check syntax if NOT inside quotes ---
+		if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
+		{
+			if (check_redir(cmd, &i))
+				return (1);
+		}
+		else if (!in_squote && !in_dquote && cmd[i] == '|')
+		{
+			i++;
+			while (cmd[i] && ft_isspace(cmd[i]))
+				i++;
+			if (cmd[i] == '|')
+			{
+				printf("bash: syntax error near unexpected token `|'\n");
+				return (1);
+			}
+		}
+		i++;
+	}
+	if (check_pipe_end(cmd))
+		return (1);
+	return (0);
+}
+
+
 int	launch_shell(t_list **var)
 {
 	char	*line;
@@ -367,16 +515,18 @@ int	launch_shell(t_list **var)
 		array.size = 0;
 		array.content = NULL;
 		temp_line = ft_strdup(line);
+		if (check_syntax(temp_line))
+			return (1);
 		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
 			return (1);
-		else if (check_syntax(cmd_splitted) == 1)
-		{
-			if(line[0] != '\0')
-				array.p_exit_status = 2;
-			free(line);
-			free_command(cmd_splitted);
-		}
+		// else if (check_syntax(cmd_splitted) == 1)
+		// {
+		// 	if(line[0] != '\0')
+		// 		array.p_exit_status = 2;
+		// 	free(line);
+		// 	free_command(cmd_splitted);
+		// }
 		else
 		{
 			analyse_command(cmd_splitted, &array, *var);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/23 17:59:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 17:54:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ size_t	get_var_length(char *word)
 	len = 0;
 	while (word[len] && valid_var_char(word[len]))
 		len++;
+	printf("var length = %zu\n", len + 1);
 	return (len + 1);
 }
 
@@ -137,72 +138,55 @@ int is_not_after_hdoc(const char *cmd, size_t var_index)
 	}
 	return 1;
 }
+int is_after_great(const char *cmd, size_t var_index)
+{
+    size_t i = 0;
+    int in_squote = 0;
+    int in_dquote = 0;
 
+    while (cmd[i])
+    {
+        // Handle quote state
+        if (!in_dquote && cmd[i] == '\'')
+            in_squote = !in_squote;
+        else if (!in_squote && cmd[i] == '"')
+            in_dquote = !in_dquote;
 
-// int	is_not_after_hdoc(char *command, size_t i)
-// {
-// 	int	quoted;
+        // Detect one or more '>' when not inside quotes
+        if (!in_squote && !in_dquote && (cmd[i] == '>' && cmd[i] == '<'))
+        {
+            // Skip all consecutive '>' (>, >>, >>> ...)
+            while (cmd[i] == '>' || cmd[i] == '<')
+                i++;
 
-// 	quoted = is_var_quoted(command, i);
-// 	printf("is_quoted = %d\n", quoted);
-// 	skip_till_quote(quoted, command, &i);
-// 	if (i > 0)
-// 		i--;
-// 	printf("i = %zu\n", i);
-// 	while (i > 0)
-// 	{
-// 		if (command[i] == S_QUOTE)
-// 		{
-// 			i--;
-// 			while (i > 0 && command[i] != S_QUOTE)
-// 				i--; 
-// 			if (i == 0)//to see
-// 			{
-// 				printf("hdoc = 1\n");
-// 				return (1);
-// 			}
-// 		}
-// 		else if (command[i] == D_QUOTE)
-// 		{
-// 			i--;
-// 			while (i > 0 && command[i] != D_QUOTE)
-// 				i--; 
-// 			if (i == 0)//to see
-// 			{
-// 				printf("hdoc = 1\n");
-// 				return (1);
-// 			}
-// 		}
-// 		else if (ft_isspace(command[i]))
-// 		{
-// 			i--;
-// 			while (i > 0 && ft_isspace(command[i]))
-// 				i--;
-// 			if (command[i] != '<' && i > 0 && command[i - 1] != '<')
-// 			{
-// 				printf("hdoc = 1\n");
-// 				return (1);
-// 			};//not an heredoc
-// 		}
-// 		else if (command[i] != '<' && command[i - 1] != '<')
-// 		{
-// 			i -= 2;
-// 			while (i > 0 && !ft_isspace(command[i])
-// 				&& command[i] != S_QUOTE
-// 				&& command[i] != D_QUOTE
-// 				&& (command[i] != '<'
-// 				&& i > 0 && command[i - 1] != '<'))
-// 				i--;
-// 		}
-// 		else
-// 		{
-// 			printf("hdoc = 0\n");
-// 			return (0);
-// 		}
-// 	}
-// 	printf("hdoc = 0\n");
-// 	return (0);
-// }
+            // Skip whitespace
+            while (cmd[i] && ft_isspace(cmd[i]))
+                i++;
+
+            // Now i is at the first non-space after >
+            if (i == var_index)
+                return 1; // ✅ var is the first thing after >
+
+            // Otherwise: token starts with something else -> no need to continue
+            // Skip this token until a delimiter
+            in_squote = 0;
+            in_dquote = 0;
+            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
+            {
+                if (!in_dquote && cmd[i] == '\'')
+                    in_squote = !in_squote;
+                else if (!in_squote && cmd[i] == '"')
+                    in_dquote = !in_dquote;
+                i++;
+            }
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return 0; // Not after >
+}
 
 
 char *remove_var(char *command, size_t i)
@@ -280,6 +264,37 @@ char	*expand_error_code(char *command, size_t i, t_array *array)
 	return (new_cmd);
 }
 
+int quotes_after(const char *cmd, size_t i)
+{
+    int in_squote = 0;
+    int in_dquote = 0;
+    size_t j = 0;
+
+    // Step 1: Track quote state up to index i
+    while (cmd[j] && j <= i)
+    {
+        if (!in_dquote && cmd[j] == '\'')
+            in_squote = !in_squote;
+        else if (!in_squote && cmd[j] == '"')
+            in_dquote = !in_dquote;
+        j++;
+    }
+
+    // If we're already inside quotes at i, return false
+    if (in_squote || in_dquote)
+        return 0;
+
+    // Step 2: Check the immediate next character
+    if (!cmd[j])
+        return 0; // End of string
+
+    if (cmd[j] == '\'' || cmd[j] == '"')
+        return 1; // Directly adjacent quote
+
+    return 0;
+}
+
+
 char	*expand_word(char *command, t_list **env, t_array *array)
 {
 	char *var_name;
@@ -325,8 +340,13 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 				}
 				else
 				{
-					//printf("got here\n");
-					new_command = remove_var(new_command, i);
+					if (is_after_great(new_command, i) && !quotes_after(new_command, i + get_var_length(&new_command[i + 1]) - 1))
+					{
+						printf("bash: $%s: ambiguous redirect\n", var_name);
+						return (NULL);
+					}
+					else
+						new_command = remove_var(new_command, i);
 					//printf("nc = %s\n", new_command);
 				}
 				free(var_name);
