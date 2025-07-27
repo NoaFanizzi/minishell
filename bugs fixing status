@@ -6,3 +6,5 @@
 -Fix le cd
 //-Regarder pour fix le env-i parce que je suis pas d'accord avec le fait de pas lancer minishell quand on fait env-i au lancement
 //-Fix le bail du tab
+
+PROBLEME MAINTENANT J'AI PERMISSION DENIED QUI S'AFFICHE LORDSQUE JE FAIS UNE COMMANDE QUI EXISTE PAS

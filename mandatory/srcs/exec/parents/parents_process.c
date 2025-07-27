@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 11:32:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 18:13:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 	i = 0;
 	array->pipe = NULL;
 	array->hdoc_length = 0;
-	array->is_lost = 0;
 	while ((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;

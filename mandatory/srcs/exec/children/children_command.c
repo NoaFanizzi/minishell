@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 16:40:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 21:42:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,35 +34,14 @@ void	check_f_ok(t_content *content, char *path)
 
 void	check_exist(t_content *content, char *path)
 {
-	if (!ft_strncmp(path, "..", 2) || !ft_strcmp(path, "."))
-	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": command not found\n", STDERR_FILENO);
-		content->error_code = 127;
-		ft_exit(content);
-	}
-	if (!ft_contains_dir(path))
+	struct stat	st;
+
+	if (ft_contains_dir(path))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 		ft_putstr_fd(": no such file or directory\n", STDERR_FILENO);
-		content->error_code = 126;
-		ft_exit(content);
-	}
-}
-
-int	ft_is_path_command(t_content *content)
-{
-	struct stat	st;
-
-	check_exist(content, content->expar->path);
-	if (access(content->expar->path, X_OK) == -1)
-	{
-		ft_putstr_fd("maxishell: ", STDERR_FILENO);
-		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-		ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
-		content->error_code = 126;
+		content->error_code = 127;
 		ft_exit(content);
 	}
 	if (stat(content->expar->path, &st) == 0 && (S_ISDIR(st.st_mode)))
@@ -73,6 +52,31 @@ int	ft_is_path_command(t_content *content)
 		content->error_code = 126;
 		ft_exit(content);
 	}
+}
+
+int	ft_is_path_command(t_content *content)
+{
+	if (!ft_strncmp(content->expar->path, "..", 2) || !ft_strcmp(content->expar->path, "."))
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putstr_fd(": command not found\n", STDERR_FILENO);
+		content->error_code = 127;
+		ft_exit(content);
+	}
+	if (access(content->expar->path, F_OK) == 0)
+	{
+		if(access(content->expar->path, X_OK) == -1)
+		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
+			ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
+			content->error_code = 126;
+			ft_exit(content);	
+		}
+		return(0);
+	}
+	check_exist(content, content->expar->path);
 	return (1);
 }
 
@@ -120,10 +124,15 @@ int	ft_is_command(t_content *content)
 			free(content->expar->path);
 			content->expar->path = NULL;
 			if (check_command_validity(content, i) == 0)
-				break ;
+			{
+				return(0);
+			}
 			i++;
 		}
 	}
-	ft_is_path_command(content);
+	free(content->expar->path);
+	content->expar->path = ft_strdup(content->cmd[0]);
+	if(ft_is_path_command(content) == 1)
+		return(1);
 	return (0);
 }

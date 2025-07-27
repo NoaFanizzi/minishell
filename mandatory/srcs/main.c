@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 10:55:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 21:43:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,6 @@ int	main(int argc, char **argv, char **env)
 		exit(1);
 	}
 	var = ft_init_env(env);
-    if(!var)
-    {
-        printf("l'env est NULL\n");
-    }
 	display_header();
 	returned_value = launch_shell(&var);
 	ft_free_env(var);

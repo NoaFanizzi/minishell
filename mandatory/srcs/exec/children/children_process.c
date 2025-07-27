@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 16:43:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/27 21:32:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,19 @@ int	ft_load_expar(t_content *content, t_list **env)
 
 int	ft_prepare_execution(t_content *content, t_list **env)
 {
+	int returned_value;
 	if (ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
-	ft_is_command(content);
+	returned_value = ft_is_command(content);
+	if(returned_value == 1)
+	{
+		ft_putstr_fd("maxishell: ", STDERR_FILENO);
+		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+		ft_putendl_fd(": command not found", STDERR_FILENO);
+		content->error_code = 127;
+		ft_exit(content);
+	}
+	printf("returned_value = %d\n", returned_value);
 	return (0);
 }
 
@@ -69,7 +79,6 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 		ft_exit(content);
 	}
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
-	ft_putendl_fd(content->expar->path, STDERR_FILENO);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
