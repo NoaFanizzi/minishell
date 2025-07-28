@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:11:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:21:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:53:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,9 @@ void	add_new_fd_in_array(t_content *content)
 	size_t	i;
 
 	i = 0;
-	while (content->fd_array[i] != -8 && i < FD_SETSIZE)
+	while (content->fd_array[i] != -8 && i < content->hdoc_length)
 		i++;
-	if (i == FD_SETSIZE)
-	{
-		// TODO Jsp quoi faire et faut aussi que je set le exit_code
-		ft_putstr_fd("maxishell: too much fd opened", STDERR_FILENO);
-	}
+	printf("content->h_fd = %d and position in array = %zu\n", content->h_fd, i);
 	content->fd_array[i] = content->h_fd;
 }
 

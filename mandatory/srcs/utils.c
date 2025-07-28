@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 16:42:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:22:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -81,17 +80,24 @@ void	ft_free_files(t_content *content)
 	content->files = NULL;
 }
 
-void	ft_close_array_fd(int *array)
+void	ft_close_array_fd(t_content *content)
 {
 	size_t	i;
 
 	i = 0;
-	while(i < FD_SETSIZE)
+	while(i < content->hdoc_length)
 	{
-		if(array[i] != -42 && array[i] != -8)
-			close(array[i]);
+		if(content->fd_array[i] != -42 && content->fd_array[i] != -8)
+			close(content->fd_array[i]);
 		i++;
 	}
+	i = 0;
+	// while(i < content->hdoc_length)
+	// {
+	// 	free(&content->fd_array[i]);
+	// 	i++;
+	// }
+	free(content->fd_array);
 }
 
 void ft_free_array_content(t_array *array)
@@ -113,7 +119,7 @@ void ft_free_array_content(t_array *array)
 			ft_free_hdoc(array->content[i].hdoc);
 		if (array->content[i].h_fd != (-2))
 			close(array->content[i].h_fd);
-		ft_close_array_fd(array->content[i].fd_array);
+		ft_close_array_fd(&array->content[i]);
         i++;
     }
     free(array->content);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 16:26:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:30:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ int     prepare_hdoc(t_content *content, size_t *i, char *temp_file);
 int     ft_deal_with_hdoc(t_content *content, size_t *i);
 
 //here_doc_child.c
-int     get_hdoc_fd(int *array);
+int     get_hdoc_fd(t_content *content);
 int     ft_use_hdoc(t_content *content, size_t i);
 int     loop_hdoc(t_array *array, size_t size, size_t i);
 int     ft_process_here_doc(t_array *array);

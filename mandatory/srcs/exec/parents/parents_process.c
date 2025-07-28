@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 18:13:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 18:23:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,48 @@ void	ft_fill_array(int *tab)
 	}
 }
 
+int	count_hdoc(t_content *content)
+{
+	size_t	i;
+	size_t	count;
+	size_t	length;
+
+	i = 0;
+	count = 0;
+	length = 0;
+	if(content->files)
+		length = content->files->size;
+	while(i < length)
+	{
+		if(content->files[i].type == HDOC)
+			count++;
+		i++;
+	}
+	return(count);
+}
+void ft_load_hdoc_fd(t_content *content)
+{
+	size_t	i;
+
+	i = 0;
+	content->hdoc_length = count_hdoc(content);
+	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1), sizeof(int));
+	while(i < content->hdoc_length)
+	{
+		content->fd_array[i] = -8;
+		i++;
+	}
+	if(!content->fd_array)
+		return;
+}
+
 void	ft_load_preliminary_infos(t_list **env, t_array *array)
 {
 	size_t	i;
 
 	i = 0;
 	array->pipe = NULL;
-	array->hdoc_length = 0;
+	array->content[i].hdoc_length = 0;
 	while ((int)i < array->size)
 	{
 		array->content[i].array_ptr = array;
@@ -83,10 +118,12 @@ void	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].outfile = -2;
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
-		ft_fill_array(array->content[i].fd_array);
+		ft_load_hdoc_fd(&array->content[i]);
+		//ft_fill_array(array->content[i].fd_array);
 		i++;
 	}
 }
+
 
 void	ft_init_exec(t_list **env, t_array *array)
 {

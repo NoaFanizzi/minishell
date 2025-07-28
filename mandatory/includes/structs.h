@@ -90,8 +90,8 @@ typedef struct s_content
 	struct s_array *array_ptr;
 	t_expar *expar;
 	t_list **env;
-	int fd_array[FD_SETSIZE];
-
+	int *fd_array;
+	size_t hdoc_length;
 }			t_content;
 
 
@@ -101,7 +101,6 @@ typedef struct s_array
 	int		(*pipe)[2];
 	int size;
 	int p_exit_status;
-	int hdoc_length;
 }				t_array;
 
 #endif
