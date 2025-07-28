@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 16:05:10 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 21:43:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:16:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ int	main(int argc, char **argv, char **env)
 {
 	t_list *var;
 	int returned_value;
+	t_array	array;
 	
 	(void)argc;
 	(void)argv;
 
     var = NULL;
+	array.p_exit_status = 0;
 	if(argc != 1)
 		return(0);
 	if (!isatty(STDOUT) || !isatty(STDIN))
@@ -55,9 +57,9 @@ int	main(int argc, char **argv, char **env)
 		printf("minishell: not a tty\n");
 		exit(1);
 	}
-	var = ft_init_env(env);
+	var = ft_init_env(env, &array);
 	display_header();
-	returned_value = launch_shell(&var);
+	returned_value = launch_shell(&var, &array);
 	ft_free_env(var);
 	ft_putstr_fd("exit\n", STDOUT_FILENO);
 	exit(returned_value);

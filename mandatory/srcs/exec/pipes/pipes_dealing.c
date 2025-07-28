@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_dealing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 10:39:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:51:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	ft_init_pipe(t_array *array)
 	int	i;
 
 	i = 0;
-	if (array->size >= FD_SETSIZE)
+	if (array->size * 2 >= FD_SETSIZE)
 	{
 		ft_putstr_fd("maxishell: cannot make pipe", STDERR_FILENO);
-		ft_putstr_fd("for command: Too many open files", STDERR_FILENO);
+		ft_putendl_fd("for command: Too many open files", STDERR_FILENO);
 		array->p_exit_status = 1;
 		return (1);
 	}

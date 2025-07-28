@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 20:24:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:18:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,8 @@ int	ft_is_arg_numeric(char *str)
 	size_t	i;
 
 	i = 0;
-	if (str[0] == '-')
-	{
-		if (ft_strcmp(&str[0], "-9223372036854775808") < 0)
-			return (1);
-		i++;
-	}
-	else
-	{
-		if (str[0] == '+')
-			i++;
-		if (ft_strcmp(&str[i], "9223372036854775807") < 0)
-			return (1);
-	}
+	if (check_long_min_max(str, &i) == 1)
+		return (1);
 	while (str[i])
 	{
 		if (str[i] >= '0' && str[i] <= '9')
@@ -79,8 +68,6 @@ int	ft_is_many_numbers(t_content *content)
 
 int	ft_check_if_valid_exit(t_content *content)
 {
-	if (!content->cmd)
-		return (0);
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
 	content->arg = NULL;
 	if ((ft_strcmp(content->cmd[0], "exit") == 0)

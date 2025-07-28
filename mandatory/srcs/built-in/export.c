@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 14:31:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:16:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,10 @@ int	ft_is_not_already_inside(t_content *content, size_t i)
 {
 	t_env	*link;
 
-	link = ft_add_new_link(content->arg[i]); // PROTECTED
+	link = ft_add_new_link(content->arg[i], content->array_ptr); // PROTECTED
 	if (!link)
 	{
+		(void)i;
 		content->array_ptr->p_exit_status = 1;
 		ft_open_error(content, "link malloc");
 		return (1);
@@ -55,7 +56,7 @@ int	ft_is_not_already_inside(t_content *content, size_t i)
 	return (0);
 }
 
-void	ft_is_already_inside(t_content *content, int pos, size_t i)
+int	ft_is_already_inside(t_content *content, int pos, size_t i)
 {
 	t_list	*current;
 	t_env	*link;
@@ -70,8 +71,13 @@ void	ft_is_already_inside(t_content *content, int pos, size_t i)
 	if (ft_is_a_value(content->arg[i]) == 1)
 	{
 		free(link->arg);
-		fill_env_arg(&link, content->arg[i], 0);
+		if (fill_env_arg(&link, content->arg[i], 0) == 1)
+		{
+			ft_open_error(content, NULL);
+			return (1);
+		}
 	}
+	return (0);
 }
 
 int	ft_init_export(t_list **env, t_content *content, size_t i)
@@ -89,15 +95,13 @@ int	ft_init_export(t_list **env, t_content *content, size_t i)
 	pos = ft_check_if_in_base(*env, content->arg[i]);
 	if (pos == -1)
 	{
-		printf("not inside\n");
 		if (ft_is_not_already_inside(content, i) == 1)
 			return (1);
-		printf("returned 0\n");
 	}
 	else // ca veut dire que c'etait deja dedans
 	{
-		printf("inside\n");
-		ft_is_already_inside(content, pos, i);
+		if (ft_is_already_inside(content, pos, i) == 1)
+			return (1);
 	}
 	content->error_code = 0;
 	return (0);

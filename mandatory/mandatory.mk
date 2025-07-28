@@ -18,7 +18,7 @@ SIGNALS_DIR			= signals
 GNL_SRCS			= get_next_line.c get_next_line_utils.c
 GNL_SRCS			:= $(addprefix $(GNL_DIR)/, $(GNL_SRCS))
 
-BUILT_IN_SRCS		= echo.c cd.c env.c pwd.c export.c export_dup.c expand_utils.c export_display.c unset.c exit.c 
+BUILT_IN_SRCS		= echo.c cd.c cd_dash.c cd_utils.c env.c pwd.c export.c export_dup.c expand_utils.c export_display.c unset.c exit.c 
 BUILT_IN_SRCS		:= $(addprefix $(BUILT_IN_DIR)/, $(BUILT_IN_SRCS))
 
 CHILDREN_SRCS		= children_built_in_dealing.c children_command.c children_process.c
@@ -36,7 +36,7 @@ REDIRECTIONS_SRCS 	:= $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 ERROR_HANDLING_SRCS	= error_handling_error_code.c
 ERROR_HANDLING_SRCS	:= $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS))
 
-UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c
+UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c exec_utils_3.c
 UTILS_SRCS			:= $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
 SIGNALS_SRCS		= signals.c

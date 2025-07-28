@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 14:23:30 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 18:12:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:55:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int	ft_pwd(t_content *content)
 	if (!path)
 	{
 		content->error_code = 1;
-		ft_putendl_fd("pwd: error retrieving current ", STDERR_FILENO);
-		ft_putendl_fd("directory: getcwd: cannot access parent", STDERR_FILENO);
+		ft_putstr_fd("pwd: error retrieving current ", STDERR_FILENO);
+		ft_putstr_fd("directory: getcwd: cannot access parent ", STDERR_FILENO);
 		ft_putendl_fd("directories: No such file or directory", STDERR_FILENO);
 		return (1);
 	}

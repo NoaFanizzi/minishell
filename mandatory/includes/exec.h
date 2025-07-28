@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bcabocel <bcabocel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/26 16:57:51 by bcabocel         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:26:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ char	**ft_convert_env(t_list *env);
 
 //exec_free.c
 void	ft_exec_failure(t_expar *expar, int i);
-void	ft_free_one_chain_element(t_env *env);
+void	*ft_free_one_chain_element(t_env *env, t_array *array);
 
 //exec_utils.c
 char	**ct_get_paths(t_list *var, t_content *content);
@@ -153,6 +153,9 @@ void	ft_close_open(t_content *content, char *temp_file);
 void	ft_close_in_out_saved(t_content *content);
 void	ft_close_std(t_content *content);
 void	ft_close_all(t_content *content);
+
+//exec_utils_3.c
+int		check_long_min_max(char *str, size_t *i);
 
 //----------------------------ERROR-----------------------------------------
 

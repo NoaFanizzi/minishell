@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_get_redirections.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 09:11:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 13:26:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,18 @@ int	exit_in_parent(t_array *array)
 
 int	ft_save_stdin(t_array *array)
 {
-	array->content[0].stdin_saved = dup(STDIN_FILENO);
+	array->content[0].stdin_saved = dup(STDIN_FILENO); //PROTECTED
 	if (array->content[0].stdin_saved == -1)
+	{
+		array->content[0].stdin_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdin"));
-	array->content[0].stdout_saved = dup(STDOUT_FILENO);
+	}
+	array->content[0].stdout_saved = dup(STDOUT_FILENO); //PROTECTED
 	if (array->content[0].stdout_saved == -1)
+	{
+		array->content->stdout_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdout"));
+	}
 	return (0);
 }
 
