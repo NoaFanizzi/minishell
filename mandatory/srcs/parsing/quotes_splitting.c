@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/24 18:18:08 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 22:16:48 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,16 @@
 
 //NEED TO DO THE FREES
 //NEED TO FIND A WAY FOR THE NORMINETTE OTHER THAN STATIC STRUCTURE
+
+void	skip_inside_quotes(size_t *i, size_t *j, char *line, int *count)
+{
+	*j = *i;
+	while (line[*j] && line[*j] != D_QUOTE && line[*j] != S_QUOTE)
+		(*j)++;
+	if (*j > *i)
+		(*count)++;
+	*i = *j;
+}
 
 int	split_quote_count(char *line)
 {
@@ -27,14 +37,7 @@ int	split_quote_count(char *line)
 	while (line[i])
 	{
 		if (line[i] != D_QUOTE && line[i] != S_QUOTE)
-		{
-			j = i;
-			while (line[j] && line[j] != D_QUOTE && line[j] != S_QUOTE)
-				j++;
-			if (j > i)
-				count++;
-			i = j;
-		}
+			skip_inside_quotes(&i, &j, line, &count);
 		else
 		{
 			quote = line[i];
