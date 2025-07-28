@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 19:03:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 21:15:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,6 @@ int	ft_load_expar(t_content *content, t_list **env)
 	content->expar->size = content->array_ptr->size;
 	content->expar->path = NULL;
 	content->expar->options = ct_get_paths(*env, content); // PROTECTED
-	// if (!content->expar->options)
-	// {
-	// 	ft_putstr_fd("maxishell: ", STDERR_FILENO);
-	// 	ft_putstr_fd(content->cmd[0], STDERR_FILENO);
-	// 	ft_putendl_fd(": No such file or directory", STDERR_FILENO);
-	// 	content->error_code = 127;
-	// }
 	return (0);
 }
 
@@ -72,13 +65,20 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	ft_prepare_execution(content, env);
 	ft_close_all(content);
 	ft_free_tab(content->expar->options);
+	content->expar->options = NULL;
 	env_converted = ft_convert_env(*env);
 	if (!env_converted)
 	{
 		ft_open_error(content, NULL);
 		ft_exit(content);
 	}
-	content->cmd = ft_cmd_join(content->cmd, content->arg);
+	content->cmd = ft_cmd_join(content->cmd, content->arg, content);
+	if(!content->cmd)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		ft_free_tab(env_converted);
+		ft_exit(content);
+	}
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
@@ -101,7 +101,7 @@ void	child_management(t_list **env, t_array *array)
 			perror("maxishell: fork");
 			array->p_exit_status = 1;
 			ft_close_pipes(array);
-			ft_exit(&array->content[i]);
+			return;
 		}
 		if (array->content[i].pid == 0)
 			ft_exec_cmd(&array->content[i], env);

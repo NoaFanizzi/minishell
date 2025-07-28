@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 19:05:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:24:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	ft_deal_with_redir(t_content *content)
 	}
 	if (content->files != NULL && &content->files[0] != NULL)
 	{
-		//rintf()
 		size = content->files[0].size;
 		while (++i < size)
 		{

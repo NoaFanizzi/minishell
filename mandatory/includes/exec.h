@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 17:30:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:34:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int		ft_get_redir_dad(t_array *array, t_list **env);
 
 //parents_process.c
 void	ft_wait_pid(t_array *array);
-void	ft_load_preliminary_infos(t_list **env, t_array *array);
+int		ft_load_preliminary_infos(t_list **env, t_array *array);
 void	ft_init_exec(t_list **env, t_array *array);
 int     ft_process_here_doc(t_array *array);
 
@@ -142,7 +142,7 @@ void	*ft_free_one_chain_element(t_env *env, t_array *array);
 
 //exec_utils.c
 char	**ct_get_paths(t_list *var, t_content *content);
-char	**ft_cmd_join(char **a, char **b);
+char	**ft_cmd_join(char **a, char **b, t_content *content);
 void	ft_display_array_content(t_array *array);
 int     ft_contains_dir(char *path);
 void	ft_display_env(t_list *env, t_content *content);

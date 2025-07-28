@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_command.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 21:42:21 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:34:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,25 @@ int	check_command_validity(t_content *content, size_t i)
 	return (1);
 }
 
+int	check_validity_in_dir(t_content *content)
+{
+	size_t	i;
+
+	i = 0;
+	if (ft_contains_dir(content->expar->path) == 0)
+	{
+		while (content->expar->options && content->expar->options[i])
+		{
+		free(content->expar->path);
+		content->expar->path = NULL;
+		if (check_command_validity(content, i) == 0)
+			return(0);
+		i++;
+		}
+	}
+	return(1);
+	
+}
 int	ft_is_command(t_content *content)
 {
 	size_t	i;
@@ -111,27 +130,21 @@ int	ft_is_command(t_content *content)
 	if ((content->cmd == NULL || !content->cmd[0])
 		|| (ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
-	content->expar->path = ft_strdup(content->cmd[0]);
+	content->expar->path = ft_strdup(content->cmd[0]); //PROTECTED
 	if (!content->expar->path)
 	{
 		ft_open_error(content, NULL);
 		ft_exit(content);
 	}
-	if (ft_contains_dir(content->expar->path) == 0)
-	{
-		while (content->expar->options && content->expar->options[i])
-		{
-			free(content->expar->path);
-			content->expar->path = NULL;
-			if (check_command_validity(content, i) == 0)
-			{
-				return(0);
-			}
-			i++;
-		}
-	}
+	if(check_validity_in_dir(content) == 0)
+		return(0);
 	free(content->expar->path);
 	content->expar->path = ft_strdup(content->cmd[0]);
+	if(!content->expar->path)
+	{
+		ft_open_error(content, NULL);
+		ft_exit(content);
+	}
 	if(ft_is_path_command(content) == 1)
 		return(1);
 	return (0);

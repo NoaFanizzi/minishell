@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 16:18:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 21:12:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,14 @@ int	ft_is_many_numbers(t_content *content)
 
 int	ft_check_if_valid_exit(t_content *content)
 {
-	content->cmd = ft_cmd_join(content->cmd, content->arg);
+	if(!content->cmd)
+		return(0);
+	content->cmd = ft_cmd_join(content->cmd, content->arg, content);
+	if(!content->cmd)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		return(0);
+	}
 	content->arg = NULL;
 	if ((ft_strcmp(content->cmd[0], "exit") == 0)
 		&& (ft_tablen(content->cmd) > 1))

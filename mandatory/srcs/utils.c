@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 17:22:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 21:02:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,12 @@ void	ft_close_array_fd(t_content *content)
 	size_t	i;
 
 	i = 0;
+	if(content->stdin_saved != -2)
+		close(content->stdin_saved);
+	if(content->stdout_saved != -2)
+		close(content->stdout_saved);
+	if(!content->fd_array)
+		return;
 	while(i < content->hdoc_length)
 	{
 		if(content->fd_array[i] != -42 && content->fd_array[i] != -8)
