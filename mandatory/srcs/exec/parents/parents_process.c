@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:57:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 22:08:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,6 @@ void	ft_wait_pid(t_array *array)
 	}
 }
 
-void	ft_display_int_array(int *array)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < FD_SETSIZE)
-	{
-		printf("array[i] = %d\n", array[i]);
-		i++;
-	}
-}
-
-void	ft_fill_array(int *tab)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < FD_SETSIZE)
-	{
-		tab[i] = -8;
-		i++;
-	}
-}
-
 int	count_hdoc(t_content *content)
 {
 	size_t	i;
@@ -72,35 +48,37 @@ int	count_hdoc(t_content *content)
 	i = 0;
 	count = 0;
 	length = 0;
-	if(content->files)
+	if (content->files)
 		length = content->files->size;
-	while(i < length)
+	while (i < length)
 	{
-		if(content->files[i].type == HDOC)
+		if (content->files[i].type == HDOC)
 			count++;
 		i++;
 	}
-	return(count);
+	return (count);
 }
-int ft_load_hdoc_fd(t_content *content)
+
+int	ft_load_hdoc_fd(t_content *content)
 {
 	size_t	i;
 
 	i = 0;
 	content->hdoc_length = count_hdoc(content);
-	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1), sizeof(int)); //PROTECTED
-	if(!content->fd_array)
+	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
+			sizeof(int)); // PROTECTED
+	if (!content->fd_array)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		content->array_ptr->p_exit_status = 1;
-		return(0);
+		return (0);
 	}
-	while(i < content->hdoc_length)
+	while (i < content->hdoc_length)
 	{
 		content->fd_array[i] = -8;
 		i++;
 	}
-	return(1);
+	return (1);
 }
 
 int	ft_load_preliminary_infos(t_list **env, t_array *array)
@@ -123,13 +101,12 @@ int	ft_load_preliminary_infos(t_list **env, t_array *array)
 		array->content[i].outfile = -2;
 		array->content[i].stdin_saved = -2;
 		array->content[i].stdout_saved = -2;
-		if(ft_load_hdoc_fd(&array->content[i]) == 0)
-			return(0);
+		if (ft_load_hdoc_fd(&array->content[i]) == 0)
+			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
-
 
 void	ft_init_exec(t_list **env, t_array *array)
 {
@@ -138,8 +115,8 @@ void	ft_init_exec(t_list **env, t_array *array)
 	redir_value = 0;
 	if (array->size == 0)
 		return ;
-	if(!ft_load_preliminary_infos(env, array))
-		return;
+	if (!ft_load_preliminary_infos(env, array))
+		return ;
 	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);

@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 08:20:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 11:19:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 22:06:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	child_handler(int signal)
+{
+	(void)signal;
+	g_signal = 1;
+}
 
 void	deal_with_sigint(int signal)
 {

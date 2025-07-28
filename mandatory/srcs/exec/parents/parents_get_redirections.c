@@ -30,13 +30,13 @@ int	exit_in_parent(t_array *array)
 
 int	ft_save_stdin(t_array *array)
 {
-	array->content[0].stdin_saved = dup(STDIN_FILENO); //PROTECTED
+	array->content[0].stdin_saved = dup(STDIN_FILENO); // PROTECTED
 	if (array->content[0].stdin_saved == -1)
 	{
 		array->content[0].stdin_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdin"));
 	}
-	array->content[0].stdout_saved = dup(STDOUT_FILENO); //PROTECTED
+	array->content[0].stdout_saved = dup(STDOUT_FILENO); // PROTECTED
 	if (array->content[0].stdout_saved == -1)
 	{
 		array->content->stdout_saved = -2;

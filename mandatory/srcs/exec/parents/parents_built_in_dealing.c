@@ -27,8 +27,9 @@ int	ft_is_built_in_dad(t_array *array, t_list **env)
 		ft_cd(&array->content[0], env);
 	if (ft_strcmp(array->content[0].cmd[0], "echo") == 0)
 		return_value = ft_echo(&array->content[0]);
-	if ((ft_strcmp(array->content[0].cmd[0], "env") == 0 && ft_tablen(array->content[0].cmd) == 1)
-		&&(!array->content[0].arg))
+	if ((ft_strcmp(array->content[0].cmd[0], "env") == 0
+			&& ft_tablen(array->content[0].cmd) == 1)
+		&& (!array->content[0].arg))
 		ft_display_env(*env, &array->content[0]);
 	return (return_value);
 }
@@ -42,8 +43,8 @@ int	ft_is_built_in(t_content *content)
 		|| (ft_strcmp(content->cmd[0], "pwd") == 0)
 		|| (ft_strcmp(content->cmd[0], "cd") == 0)
 		|| (ft_strcmp(content->cmd[0], "echo") == 0)
-		|| ((ft_strcmp(content->cmd[0], "env") == 0 && ft_tablen(content->cmd) == 1)
-			&&(!content->arg)))
+		|| ((ft_strcmp(content->cmd[0], "env") == 0
+				&& ft_tablen(content->cmd) == 1) && (!content->arg)))
 		return (0);
 	return (1);
 }

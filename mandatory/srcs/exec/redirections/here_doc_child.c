@@ -17,7 +17,7 @@ int	h_expansion(char *line, t_content *content, char *temp_file)
 	char	*expanded_line;
 
 	expanded_line = expand_word(line, content->env, content->array_ptr);
-		// PROTECTED
+	// PROTECTED
 	if (!expanded_line)
 	{
 		free(temp_file);

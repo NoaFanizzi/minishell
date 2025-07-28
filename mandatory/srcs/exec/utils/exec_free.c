@@ -47,5 +47,5 @@ void	*ft_free_one_chain_element(t_env *env, t_array *array)
 	free(env->op);
 	free(env->var);
 	free(env);
-	return(NULL);
+	return (NULL);
 }

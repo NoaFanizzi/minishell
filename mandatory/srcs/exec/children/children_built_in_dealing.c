@@ -3,14 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   children_built_in_dealing.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/27 11:48:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 21:58:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_is_command(t_content *content)
+{
+	size_t	i;
+
+	i = 0;
+	if ((content->cmd == NULL || !content->cmd[0])
+		|| (ft_strcmp(content->cmd[0], "") == 0))
+		return (2);
+	content->expar->path = ft_strdup(content->cmd[0]); // PROTECTED
+	if (!content->expar->path)
+	{
+		ft_open_error(content, NULL);
+		ft_exit(content);
+	}
+	if (check_validity_in_dir(content) == 0)
+		return (0);
+	free(content->expar->path);
+	content->expar->path = ft_strdup(content->cmd[0]);
+	if (!content->expar->path)
+	{
+		ft_open_error(content, NULL);
+		ft_exit(content);
+	}
+	if (ft_is_path_command(content) == 1)
+		return (1);
+	return (0);
+}
 
 void	manage_exit(t_content *content)
 {

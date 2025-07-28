@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 21:15:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 22:06:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ int	ft_load_expar(t_content *content, t_list **env)
 
 int	ft_prepare_execution(t_content *content, t_list **env)
 {
-	int returned_value;
-	
+	int	returned_value;
+
 	if (ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
 	returned_value = ft_is_command(content);
-	if(returned_value == 1)
+	if (returned_value == 1)
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
@@ -46,10 +46,22 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	return (0);
 }
 
-void	child_handler(int signal)
+void	build_execve_data(t_content *content, t_list **env,
+		char ***env_converted)
 {
-	(void)signal;
-	g_signal = 1;
+	*env_converted = ft_convert_env(*env);
+	if (!env_converted)
+	{
+		ft_open_error(content, NULL);
+		ft_exit(content);
+	}
+	content->cmd = ft_cmd_join(content->cmd, content->arg, content);
+	if (!content->cmd)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		ft_free_tab(*env_converted);
+		ft_exit(content);
+	}
 }
 
 void	ft_exec_cmd(t_content *content, t_list **env)
@@ -66,19 +78,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	ft_close_all(content);
 	ft_free_tab(content->expar->options);
 	content->expar->options = NULL;
-	env_converted = ft_convert_env(*env);
-	if (!env_converted)
-	{
-		ft_open_error(content, NULL);
-		ft_exit(content);
-	}
-	content->cmd = ft_cmd_join(content->cmd, content->arg, content);
-	if(!content->cmd)
-	{
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		ft_free_tab(env_converted);
-		ft_exit(content);
-	}
+	build_execve_data(content, env, &env_converted);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
@@ -101,7 +101,7 @@ void	child_management(t_list **env, t_array *array)
 			perror("maxishell: fork");
 			array->p_exit_status = 1;
 			ft_close_pipes(array);
-			return;
+			return ;
 		}
 		if (array->content[i].pid == 0)
 			ft_exec_cmd(&array->content[i], env);

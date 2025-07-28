@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:34:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 22:24:28 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,11 @@ int		ft_is_built_in_child(t_content *content, t_list **env);
 
 //children_command.c
 int		ft_is_command(t_content *content);
+void	check_f_ok(t_content *content, char *path);
+void	check_exist(t_content *content, char *path);
+int		ft_is_path_command(t_content *content);
+int		check_command_validity(t_content *content, size_t i);
+int		check_validity_in_dir(t_content *content);
 
 //children_process.c
 int		ft_load_expar(t_content *content, t_list **env);
@@ -122,6 +127,11 @@ int     loop_hdoc(t_array *array, size_t size, size_t i);
 int     ft_process_here_doc(t_array *array);
 int     h_expansion(char *line, t_content *content, char *temp_file);
 
+//here_doc_signals.c
+int	controld_hdoc_dealing(char *line, t_content *content, int *data, char *temp_file);
+int	get_stdin(t_content *content);
+int	sigint_hdoc_dealing(t_content *content, char *temp_file, char *line);
+
 //temp_file_generation.c
 void	ft_load_temp_file(int random_fd, char **random_file);
 int     ft_get_temp_file(char **random_file, t_content *content);
@@ -156,6 +166,13 @@ void	ft_close_all(t_content *content);
 
 //exec_utils_3.c
 int		check_long_min_max(char *str, size_t *i);
+void	ft_display_int_array(int *array);
+void	ft_fill_array(int *tab);
+
+//exec_utils_free.c
+int		load_cmd_tab(char ***a, char ***b, t_content *content, char ***cmd);
+int		load_cmd_a(char ***a, t_content *content, char ***cmd, size_t *i);
+void	ft_free_tab_length(char **tab, size_t length);
 
 //----------------------------ERROR-----------------------------------------
 

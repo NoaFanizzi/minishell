@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:34:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 22:05:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	check_exist(t_content *content, char *path)
 
 int	ft_is_path_command(t_content *content)
 {
-	if (!ft_strncmp(content->expar->path, "..", 2) || !ft_strcmp(content->expar->path, "."))
+	if (!ft_strncmp(content->expar->path, "..", 2)
+		|| !ft_strcmp(content->expar->path, "."))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
@@ -66,15 +67,15 @@ int	ft_is_path_command(t_content *content)
 	}
 	if (access(content->expar->path, F_OK) == 0)
 	{
-		if(access(content->expar->path, X_OK) == -1)
+		if (access(content->expar->path, X_OK) == -1)
 		{
 			ft_putstr_fd("maxishell: ", STDERR_FILENO);
 			ft_putstr_fd(content->cmd[0], STDERR_FILENO);
 			ft_putstr_fd(": Permission denied\n", STDERR_FILENO);
 			content->error_code = 126;
-			ft_exit(content);	
+			ft_exit(content);
 		}
-		return(0);
+		return (0);
 	}
 	check_exist(content, content->expar->path);
 	return (1);
@@ -91,7 +92,7 @@ int	check_command_validity(t_content *content, size_t i)
 		ft_exit(content);
 	}
 	content->expar->path = ft_strjoin(adding_slash, content->cmd[0]);
-		// PROTECTED
+	// PROTECTED
 	free(adding_slash);
 	if (!content->expar->path)
 	{
@@ -112,40 +113,12 @@ int	check_validity_in_dir(t_content *content)
 	{
 		while (content->expar->options && content->expar->options[i])
 		{
-		free(content->expar->path);
-		content->expar->path = NULL;
-		if (check_command_validity(content, i) == 0)
-			return(0);
-		i++;
+			free(content->expar->path);
+			content->expar->path = NULL;
+			if (check_command_validity(content, i) == 0)
+				return (0);
+			i++;
 		}
 	}
-	return(1);
-	
-}
-int	ft_is_command(t_content *content)
-{
-	size_t	i;
-
-	i = 0;
-	if ((content->cmd == NULL || !content->cmd[0])
-		|| (ft_strcmp(content->cmd[0], "") == 0))
-		return (2);
-	content->expar->path = ft_strdup(content->cmd[0]); //PROTECTED
-	if (!content->expar->path)
-	{
-		ft_open_error(content, NULL);
-		ft_exit(content);
-	}
-	if(check_validity_in_dir(content) == 0)
-		return(0);
-	free(content->expar->path);
-	content->expar->path = ft_strdup(content->cmd[0]);
-	if(!content->expar->path)
-	{
-		ft_open_error(content, NULL);
-		ft_exit(content);
-	}
-	if(ft_is_path_command(content) == 1)
-		return(1);
-	return (0);
+	return (1);
 }

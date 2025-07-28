@@ -14,8 +14,8 @@
 
 void	check_point(t_content *content, char *path)
 {
-	if (access(path, F_OK) == -1 || !ft_contains_dir(path)
-		|| !ft_strcmp(path, "..") || !ft_strcmp(path, ".")) 
+	if (access(path, F_OK) == -1 || !ft_contains_dir(path) || !ft_strcmp(path,
+			"..") || !ft_strcmp(path, "."))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
@@ -24,4 +24,3 @@ void	check_point(t_content *content, char *path)
 		ft_exit(content);
 	}
 }
-
