@@ -6,94 +6,11 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 00:43:44 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 13:53:22 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-//check cases when there is one commnad, or nothing or idk but you understood
-
-char	***parse_command(char **line, t_list **var, t_array *array)
-{	
-	char 	**command = NULL;
-	char	*str;
-	char	***cmd_splitted = NULL;
-	int		k;
-	int		i;
-
-	k = 0;
-	str = ft_strdup(*line);
-	if (!str)
-		return (NULL);
-	free(*line);
-	*line = NULL;
-	str = expand_word(str, var, array);
-	if (!str)
-		return (NULL);
-	//printf("str = %s\n\n", str);
-	command = quotes_splitting(command, str);
-	free(str);
-	//printf("SALUTSALUT\n");
-	if (!command)
-		return (NULL);//error
-	k = 0;
-		while (command[k])
-	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//printf("\n\n");
-	contiguous_quotes(&command);
-	if (!command)
-		return (NULL);
-	k = 0;
-	while (command[k])
-	{
-		//printf("Aword n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//printf("\n\n");
-	command = space_splitting(command);
-	if (!command)
-		return (NULL);//error
-	k = 0;
-	while (command[k])
-	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	//printf("\n\n");
-	command = meta_splitting(command);
-	if (!command)
-	return (NULL);//error
-	k = 0;
-	while (command[k])
-	{
-		//printf("word n%d : %s\n", k + 1, command[k]);
-		k++;
-	}
-	cmd_splitted = command_splitting(command);
-	if (!cmd_splitted)
-		return (NULL);
-	//printf("\n\n");
-	k = 0;
-	while (cmd_splitted[k])
-	{
-		i = 0;
-		printf("\ncommand n%d\n", k + 1);
-		if (!cmd_splitted[k][i])
-		 	printf("NULL\n");
-		while (cmd_splitted[k][i])
-		{
-			printf("word n%d : %s\n", i + 1, cmd_splitted[k][i]);
-			i++;
-		}
-		k++;
-	}
-	free_words(command);
-	return (cmd_splitted);
-}
+#include "minishell.h"                                                                                                                                                                                            
 
 int    create_hdoc_struct(char **command, t_content *content)
 {
@@ -150,68 +67,46 @@ char	*ft_join_prompt(t_array *array)
 	char *joined_prompt;
 
 	error_converted = ft_itoa(array->p_exit_status);
-	joined_prompt = ft_strjoin( error_converted, " | maxishell$ ");
+	joined_prompt = ft_strjoin(error_converted, " | maxishell$ ");
 	free(error_converted);
 	return(joined_prompt);
 	
 }
 
-void	analyse_command(char ***cmd_splitted, t_array *array, t_list *var)
+void	get_array_size(char ***cmd_splitted, t_array *array)
+{
+	size_t	i;
+
+	i = 0;
+	while(cmd_splitted[i])
+	{
+		if (cmd_splitted[i][0] && ft_strncmp(cmd_splitted[i][0], "|", 1) != 0)
+			 array->size++;
+		i++;
+	}
+}
+
+void	analyse_command(char ***cmd_splitted, t_array *array)
 {
 	size_t	cmd_index;
 	size_t	struct_index;
 
 	cmd_index = 0;
 	struct_index = 0;
-	while(cmd_splitted[cmd_index])
-	{
-		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
-			 array->size++;
-		cmd_index++;
-	}
-	array->content = malloc(( array->size) * sizeof(t_content));
+	get_array_size(cmd_splitted, array);
+	array->content = malloc((array->size) * sizeof(t_content));
 	//check malloc
-	cmd_index = 0;
-	(void) var;
 	while(cmd_splitted[cmd_index])
 	{
 		if (cmd_splitted[cmd_index][0] && strncmp(cmd_splitted[cmd_index][0], "|", 1) != 0)
 		{
 			if (create_hdoc_struct(cmd_splitted[cmd_index], &array->content[struct_index]) == -1)
 				return ;//need to see how to check that
-			//quotes_removal(cmd_splitted[cmd_index]);
-			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);
-			//test
-			size_t i = 0;
-			size_t count = count_redir(cmd_splitted[cmd_index]);
-			while (i < count)
-			{
-				printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
-				i++;
-			}
-			i = 0;
-			count = count_cmd_opt(cmd_splitted[cmd_index]);
-			//("count_cmd_opt : %zu\n", count);
-			while (i < count)
-			{
-				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
-				i++;
-			}
-			i = 0;
-			count = count_arg(cmd_splitted[cmd_index]);
-			//printf("count_arg : %zu\n", count);
-			while (i < count)
-			{
-				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
-				i++;
-			}
-			//test			
+			create_cmd_struct(cmd_splitted, &array->content[struct_index], cmd_index);		
 			struct_index++;
 		}
 		cmd_index++;
 	}
-	//free_command(cmd_splitted);TODOAttention gros problemes en vue
 	fill_struct_size(array, struct_index);
 	return ;
 }
@@ -222,114 +117,9 @@ void    fill_struct_size(t_array *array, size_t struct_index)
 	
     i = 0;
     while (i < struct_index)
-    {
-		array->content[i].size = struct_index;
-        //(array)->content[i].infile = -3;
-        //(array)->content[i].outfile = -3;
-        i++;
-    }
+		array->content[i++].size = struct_index;
+
 }
-
-// int check_redir(char ***cmd, size_t i, size_t j)
-// {
-// 	size_t	k;
-
-// 	k = 0;
-// 	// printf("command i : %s\n", cmd[i][j]);
-// 	// printf("command i + 1 : %s\n", cmd[i][j + 1]);
-// 	if (cmd[i][j][k] == '<' || cmd[i][j][k] == '>')
-// 	{
-// 		k++;
-// 		if ((cmd[i][j][k - 1] == '<' && cmd[i][j][k] && cmd[i][j][k] == '<')
-// 			|| (cmd[i][j][k - 1] == '>' && cmd[i][j][k] && cmd[i][j][k] == '>'))
-// 			k++;
-// 		// printf("cmd[i][j][k] : %c\n", cmd[i][j][k]);
-// 		// printf("cmd[i][j + 1] : %s\n", cmd[i][j + 1]);
-// 		printf("%s\n", cmd[i][j +  1]);
-// 		if (cmd[i][j + 1] == 0)
-// 		{
-// 			if (k >= 2 && cmd[i][j][k - 1] == '<' && cmd[i][j][k] && cmd[i][j][k] == '<')
-// 			{
-// 				if (cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
-// 					printf("bash: syntax error near unexpected token `<<'\n");
-// 				else
-// 					printf("bash: syntax error near unexpected token `<'\n");
-// 			}
-// 			else if (k >= 2 && cmd[i][j][k - 1] == '>' && cmd[i][j][k] && cmd[i][j][k] == '>')
-// 			{
-// 				if (cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
-// 					printf("bash: syntax error near unexpected token `>>'\n");
-// 				else
-// 					printf("bash: syntax error near unexpected token `>'\n");
-// 			}
-// 			else if (cmd[i + 1])
-// 				printf("bash: syntax error near unexpected token `|'\n");
-// 			else
-// 				printf("bash: syntax error near unexpected token `newline'\n");
-// 			return (1);
-// 		}
-// 		else if (cmd[i][j][k] == 0
-// 				&& cmd[i][j + 1]
-// 				&& cmd[i][j + 1][0]
-// 				&& (cmd[i][j + 1][0] == '|' || cmd[i][j + 1][0] == '>' || cmd[i][j + 1][0] == '<'))
-// 		{
-// 			if (cmd[i][j + 1][0] == '>' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '>')
-// 				printf("bash: syntax error near unexpected token `>>'\n");	
-// 			else if (cmd[i][j + 1][0] == '<' && cmd[i][j + 1][1] && cmd[i][j + 1][1] == '<')
-// 				printf("bash: syntax error near unexpected token `<<'\n");
-// 			else
-// 				printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j + 1][0]);	
-// 			return (1);
-// 		}
-// 		else if (cmd[i][j][k] == '|' || cmd[i][j][k] == '>' || cmd[i][j][k] == '<')
-// 		{
-// 			if (cmd[i][j][k] == '>' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '>')
-// 				printf("bash: syntax error near unexpected token `>>'\n");	
-// 			else if (cmd[i][j][k] == '<' && cmd[i][j][k + 1] && cmd[i][j][k + 1] == '<')
-// 				printf("bash: syntax error near unexpected token `<<'\n");
-// 			else
-// 				printf("bash: syntax error near unexpected token `%c'\n", cmd[i][j][k]);	
-// 			return (1);
-// 		}
-// 	}
-// 	return (0);
-// }
-
-// int	check_syntax(char ***cmd_splitted)
-// {
-// 	size_t	i;
-// 	size_t	j;
-	
-// 	i = 0;
-// 	if (!cmd_splitted || !cmd_splitted[0] || !cmd_splitted[0][0])
-// 		return (1);
-// 	if (cmd_splitted[0][0][0] == '|')
-// 	{
-// 		printf("bash: syntax error near unexpected token `|'\n");
-// 		return (1);
-// 	}
-// 	while (cmd_splitted[i])
-// 	{
-// 		j = 0;
-// 		while (cmd_splitted[i][j])
-// 		{
-// 			if (check_redir(cmd_splitted, i, j))//print the message inside the function
-// 			  	return (1);
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	//printf("i : %zu\n", i);
-// 	//printf("str : %s\n", cmd_splitted[i - 1][0]);
-// 	if (i > 0 && cmd_splitted[i - 1] && cmd_splitted[i - 1][0] &&
-// 		cmd_splitted[i - 1][0][0] == '|' &&
-// 		cmd_splitted[i - 1][0][1] == '\0')
-// 	{
-// 		printf("bash: syntax error: unexpected end of input after `|'\n");
-// 		return (1);
-// 	}
-// 	return (0);
-// }
 
 void check_tty(char **line, char *prompt)
 {
@@ -338,6 +128,7 @@ void check_tty(char **line, char *prompt)
     else
         *line = readline(NULL);
 }
+
 void	*manage_readline(char **line, t_array *array)
 {
 	char *prompt;
@@ -355,148 +146,6 @@ void	*manage_readline(char **line, t_array *array)
 		add_history(*line);
 	return(NULL);
 }
-
-int check_redir(char *cmd, size_t *i)
-{
-	char	op;
-	int		op_count;
-	int		spaced_after;
-
-	op = cmd[*i];
-	op_count = 1;
-	spaced_after = 0;
-	(*i)++;
-	// Count consecutive same operators (like >> or <<)
-	while (cmd[*i] == op)
-	{
-		op_count++;
-		(*i)++;
-	}
-
-	if (op_count >= 4) // more than >> or << (like >>>) => invalid
-	{
-		printf("bash: syntax error near unexpected token `%c%c'\n", op, op);
-		return (1);
-	}
-	else if (op_count == 3)
-	{
-		printf("bash: syntax error near unexpected token `%c'\n", op);
-		return (1);
-	}
-
-	// Skip spaces after operator
-	while (cmd[*i] && ft_isspace(cmd[*i]))
-	{
-		spaced_after = 1;
-		(*i)++;
-	}
-
-	// If nothing after operator(s)
-	if (!cmd[*i])
-	{
-		printf("bash: syntax error near unexpected token `newline'\n");
-		return (1);
-	}
-
-	// If the next token is another redirection or pipe
-	if (cmd[*i] == '>' || cmd[*i] == '<' || cmd[*i] == '|')
-	{
-		// If spaced or same operator again → invalid
-		if (spaced_after || cmd[*i] != op)
-		{
-			if (spaced_after && cmd[*i + 1] && cmd[*i + 1] == cmd[*i])
-				printf("bash: syntax error near unexpected token `%c%c'\n", cmd[*i], cmd[*i]);
-			else
-				printf("bash: syntax error near unexpected token `%c'\n", cmd[*i]);
-			return (1);
-		}
-	}
-	return (0);
-}
-
-int	check_pipe_start(char *cmd)
-{
-	size_t	i;
-
-	i = 0;
-	while (cmd[i] && ft_isspace(cmd[i]))
-		i++;
-	if (cmd[i] && cmd[i] == '|')
-	{
-		printf("bash: syntax error near unexpected token `|'\n");
-		return (1);
-	}
-	return (0);
-}
-
-int check_pipe_end(char *cmd)
-{
-	size_t	i;
-
-	i = ft_strlen(cmd) - 1;
-	while (i > 0 && ft_isspace(cmd[i]))
-		i--;
-	if (cmd[i] && cmd[i] == '|')
-	{
-		printf("bash: syntax error near unexpected token `newline'\n");
-		return (1);
-	}
-	return (0);
-}
-
-int	check_syntax(char *cmd)
-{
-	size_t	i;
-	int     in_squote;
-	int     in_dquote;
-
-	i = 0;
-	in_squote = 0;
-	in_dquote = 0;
-	if (quotes_checker(cmd))
-		return (1);
-	if (check_pipe_start(cmd))
-		return (1);
-	while (cmd[i])
-	{
-		// --- Handle quote state ---
-		if (!in_dquote && cmd[i] == '\'')
-		{
-			in_squote = !in_squote;
-			i++;
-			continue;
-		}
-		else if (!in_squote && cmd[i] == '"')
-		{
-			in_dquote = !in_dquote;
-			i++;
-			continue;
-		}
-
-		// --- Only check syntax if NOT inside quotes ---
-		if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
-		{
-			if (check_redir(cmd, &i))
-				return (1);
-		}
-		else if (!in_squote && !in_dquote && cmd[i] == '|')
-		{
-			i++;
-			while (cmd[i] && ft_isspace(cmd[i]))
-				i++;
-			if (cmd[i] == '|')
-			{
-				printf("bash: syntax error near unexpected token `|'\n");
-				return (1);
-			}
-		}
-		i++;
-	}
-	if (check_pipe_end(cmd))
-		return (1);
-	return (0);
-}
-
 
 int	launch_shell(t_list **var)
 {
@@ -516,20 +165,19 @@ int	launch_shell(t_list **var)
 		array.content = NULL;
 		temp_line = ft_strdup(line);
 		if (check_syntax(temp_line))
+		{
+			if(line[0] != '\0')
+				array.p_exit_status = 2;
+			free(line);
+			free_command(cmd_splitted);
 			return (1);
+		}
 		cmd_splitted = parse_command(&temp_line, var, &array);
 		if (!cmd_splitted)
 			return (1);
-		// else if (check_syntax(cmd_splitted) == 1)
-		// {
-		// 	if(line[0] != '\0')
-		// 		array.p_exit_status = 2;
-		// 	free(line);
-		// 	free_command(cmd_splitted);
-		// }
 		else
 		{
-			analyse_command(cmd_splitted, &array, *var);
+			analyse_command(cmd_splitted, &array);
 			ft_init_exec(var, &array);
 			free(line);
 			free_command(cmd_splitted);
@@ -538,3 +186,4 @@ int	launch_shell(t_list **var)
 	}
 	return(0);
 }
+//MALLOC AND FT

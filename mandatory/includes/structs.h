@@ -105,5 +105,13 @@ typedef struct s_array
 	int is_lost;
 }				t_array;
 
+typedef struct s_expand
+{
+	char	*new_command;
+	size_t	i;
+	size_t	new_length;
+	char 	*var_name;
+}				t_expand;
+
 #endif
 

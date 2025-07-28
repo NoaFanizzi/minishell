@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 11:28:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 18:45:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,155 +51,157 @@ char	*get_var_name(char *word)
 	return (var_name);
 }
 
-int is_after_great_var(const char *cmd, size_t var_index)
+void	track_quotes_until_meta(int *in_dquote, int *in_squote, char *cmd, size_t *i)
 {
-    size_t	i = 0;
-	size_t	token_start;
-    int in_squote = 0;
-    int in_dquote = 0;
+	*in_squote = 0;
+	*in_dquote = 0;
+	while (cmd[*i] && !ft_isspace(cmd[*i]) && cmd[*i] != '|' && cmd[*i] != '<' && cmd[*i] != '>')
+	{
+		if (!(*in_dquote) && cmd[*i] == '\'')
+			*in_squote = !(*in_squote);
+		else if (!(*in_squote) && cmd[*i] == '"')
+			*in_dquote = !(*in_dquote);
+		(*i)++;
+	}
+}
 
-	token_start = 0;
+void	skip_redir_spaces(char *cmd, size_t *i)
+{
+	while (cmd[*i] && (cmd[*i] == '>' || cmd[*i] == '<'))
+		(*i)++;
+	while (cmd[*i] && ft_isspace(cmd[*i]))
+		(*i)++;
+}
+
+int is_after_great_var(char *cmd, size_t var_index)
+{
+    size_t	i;
+	size_t	token_start;
+    int in_squote;
+    int in_dquote;
+
+	i = 0;
+	in_squote = 0;
+    in_dquote = 0;
     while (cmd[i])
     {
-        // Handle quote state
-        if (!in_dquote && cmd[i] == '\'')
-            in_squote = !in_squote;
-        else if (!in_squote && cmd[i] == '"')
-            in_dquote = !in_dquote;
-
-        // Detect one or more '>' when not inside quotes
+        handle_quote_state(&in_squote, &in_dquote, cmd, &i);
         if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
         {
-            // Skip all consecutive '>' (>, >>, >>> ...)
-            while (cmd[i] && (cmd[i] == '>' || cmd[i] == '<'))
-                i++;
-
-            // Skip whitespace
-            while (cmd[i] && ft_isspace(cmd[i]))
-                i++;
-
+        	skip_redir_spaces(cmd, &i);
             token_start = i;
-
-            // Otherwise: token starts with something else -> no need to continue
-            // Skip this token until a delimiter
-            in_squote = 0;
-            in_dquote = 0;
-            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
-            {
-                if (!in_dquote && cmd[i] == '\'')
-                    in_squote = !in_squote;
-                else if (!in_squote && cmd[i] == '"')
-                    in_dquote = !in_dquote;
-                i++;
-            }
+            track_quotes_until_meta(&in_squote, &in_dquote, cmd, &i);
 			if (var_index >= token_start && var_index < i)
 				return (1);
         }
         else
-        {
             i++;
-        }
     }
-    return 0; // Not after >
+    return (0);
 }
 
-int is_after_great(const char *cmd, size_t var_index)
+int is_after_great(char *cmd, size_t var_index)
 {
-    size_t i = 0;
-    int in_squote = 0;
-    int in_dquote = 0;
+    size_t	i;
+    int in_squote;
+    int in_dquote;
 
+	i = 0;
+	in_squote = 0;
+    in_dquote = 0;
     while (cmd[i])
     {
-        // Handle quote state
-        if (!in_dquote && cmd[i] == '\'')
-            in_squote = !in_squote;
-        else if (!in_squote && cmd[i] == '"')
-            in_dquote = !in_dquote;
-
-        // Detect one or more '>' when not inside quotes
+    	handle_quote_state(&in_squote, &in_dquote, cmd, &i);
         if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
         {
-            // Skip all consecutive '>' (>, >>, >>> ...)
-            while (cmd[i] && (cmd[i] == '>' || cmd[i] == '<'))
-                i++;
-
-            // Skip whitespace
-            while (cmd[i] && ft_isspace(cmd[i]))
-                i++;
-
-            // Now i is at the first non-space after >
+        	skip_redir_spaces(cmd, &i);
             if (i == var_index)
-                return 1; // ✅ var is the first thing after >
-
-            // Otherwise: token starts with something else -> no need to continue
-            // Skip this token until a delimiter
-            in_squote = 0;
-            in_dquote = 0;
-            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
-            {
-                if (!in_dquote && cmd[i] == '\'')
-                    in_squote = !in_squote;
-                else if (!in_squote && cmd[i] == '"')
-                    in_dquote = !in_dquote;
-                i++;
-            }
+                return 1;
+            track_quotes_until_meta(&in_squote, &in_dquote, cmd, &i);
         }
         else
-        {
             i++;
-        }
     }
     return 0; // Not after >
 }
 
-char	*expand_var_in_command(char *word, size_t i, size_t size, char *var_name, t_list **env)
+void expand_var_in_command(t_expand *data, t_list **env, size_t *k, char *new_word)
+{
+	char *exp_var;
+	int	after_great;
+	
+	after_great = 0;
+	exp_var = get_var_value(data->var_name, *env);
+	if (is_after_great_var(data->new_command, data->i))
+	{
+		after_great = 1;
+		new_word[*k] = D_QUOTE;
+		(*k)++;
+	}
+	ft_strlcat(new_word, exp_var, data->new_length); //TODO return la variable (char *)
+	*k += ft_strlen(exp_var); //TODO donne les length de la var (size_t);
+	if (after_great == 1)
+	{
+		new_word[*k] = D_QUOTE;
+		(*k)++;
+	}
+	free(exp_var);
+}
+
+char	*expand_var(t_expand *data, t_list **env)
 {
 	char	*new_word;
-	char 	*exp_var; //la vraie valeur de la variable expand
 	size_t	j;
 	size_t	k;
-	size_t	after_great;
 
 	j = 0;
 	k = 0;
-	exp_var = NULL;
-	new_word = ft_calloc(size + 1, sizeof(char));
+	new_word = ft_calloc(data->new_length + 1, sizeof(char));
 	if (!new_word)
 	{
-		free(word);
+		free(data->new_command);
 		return (NULL);
 	}
-	while (word[j])
+	while (data->new_command[j])
 	{
-		if (j == i)
+		if (j == data->i)
 		{
-			exp_var = get_var_value(var_name, *env);
-			if (is_after_great_var(word, i))
-			{
-				after_great = 1;
-				new_word[k] = D_QUOTE;
-				k++;
-			}
-			ft_strlcat(new_word, exp_var, size); //TODO return la variable (char *)
-			k += ft_strlen(exp_var); //TODO donne les length de la var (size_t);
-			if (after_great == 1)
-			{
-				new_word[k] = D_QUOTE;
-				k++;
-			}
-			j += get_var_length(&word[j + 1]);
-			free(exp_var);
+			expand_var_in_command(data, env, &k, new_word);
+			j += get_var_length(&data->new_command[j + 1]);
 		}
 		else
-			new_word[k++] = word[j++];
+			new_word[k++] = data->new_command[j++];
 	}
 	new_word[k] = 0;
-	free(word);
+	free(data->new_command);
 	return (new_word);
 }
 
-int is_not_after_hdoc(const char *cmd, size_t var_index)
+int	track_var_in_del(char *cmd, size_t *i, size_t var_index)
+{
+	int in_squote;
+	int in_dquote;
+	
+	in_squote = 0;
+	in_dquote = 0;
+	while (cmd[*i])
+	{
+		if (*i == var_index)
+			return (0);
+		if (!in_dquote && cmd[*i] == '\'')
+			in_squote = !in_squote;
+		else if (!in_squote && cmd[*i] == '"')
+			in_dquote = !in_dquote;
+		if (!in_squote && !in_dquote &&
+			(ft_isspace(cmd[*i]) || cmd[*i] == '|' ||
+				cmd[*i] == '<' || cmd[*i] == '>' || cmd[*i] == '\0'))
+			break;
+		(*i)++;
+	}
+	return (1);
+}
+
+int is_not_after_hdoc(char *cmd, size_t var_index)
 {
 	size_t i = 0;
 	int in_squote = 0;
@@ -207,50 +209,19 @@ int is_not_after_hdoc(const char *cmd, size_t var_index)
 
 	while (cmd[i])
 	{
-		// Handle quote state
-		if (!in_dquote && cmd[i] == '\'')
-			in_squote = !in_squote;
-		else if (!in_squote && cmd[i] == '\"')
-			in_dquote = !in_dquote;
-
-		// Detect `<<` only when not inside quotes
+		handle_quote_state(&in_squote, &in_dquote, cmd, &i);
 		if (!in_squote && !in_dquote && cmd[i] == '<' && cmd[i + 1] == '<')
 		{
 			i += 2;
-
-			// Skip whitespace
 			while (cmd[i] && ft_isspace(cmd[i]))
 				i++;
-
-			// Now parse the delimiter token
-			in_squote = 0;
-			in_dquote = 0;
-
-			while (cmd[i])
-			{
-				if (i == var_index)
-					return 0; // ✅ $ is inside the delimiter
-
-				if (!in_dquote && cmd[i] == '\'')
-					in_squote = !in_squote;
-				else if (!in_squote && cmd[i] == '"')
-					in_dquote = !in_dquote;
-
-				// Unquoted delimiter boundary
-				if (!in_squote && !in_dquote &&
-					(ft_isspace(cmd[i]) || cmd[i] == '|' ||
-					 cmd[i] == '<' || cmd[i] == '>' || cmd[i] == '\0'))
-					break;
-
-				i++;
-			}
+			if (track_var_in_del(cmd, &i, var_index) == 0)
+				return (0);
 		}
 		else
-		{
 			i++;
-		}
 	}
-	return 1;
+	return (1);
 }
 
 
@@ -262,7 +233,6 @@ char *remove_var(char *command, size_t i)
 
 	j = 0;
 	k = 0;
-	//printf("i = %zu\n", i);
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])  + 1) * sizeof(char));
 	if (!new_command)
 	{
@@ -271,19 +241,11 @@ char *remove_var(char *command, size_t i)
 	}
 	while (command[j] && j != i)
 		new_command[j++] = command[k++];
-	//printf("j = %zu, 1we are here : %s\n", j, &command[j]);
 	k++;
 	while (command[k] && valid_var_char(command[k]))
 		k++;
-	//printf("j = %zu, 2we are here : %s\n", j, &command[j]);
-	//printf("new_command1 = %s\n", new_command);
 	while (command[k])
-	{
 		new_command[j++] = command[k++];
-		//printf("nc[j] : %c, c[j] : %c\n", new_command[j], command[j]);
-	}
-	//printf("j = %zu, 3we are here : %s\n", j, &command[j]);
-	//printf("new_command2 = %s\n", new_command);
 	new_command[j] = 0;
 	free(command);
 	return (new_command);
@@ -291,10 +253,13 @@ char *remove_var(char *command, size_t i)
 
 int is_in_single_quotes(const char *cmd, size_t pos)
 {
-	int in_squote = 0;
-	int in_dquote = 0;
-	size_t i = 0;
+	int in_squote;
+	int in_dquote;
+	size_t i;
 
+	i = 0;
+	in_squote = 0;
+	in_dquote = 0;
 	while (i < pos && cmd[i])
 	{
 		if (!in_dquote && cmd[i] == '\'')
@@ -306,36 +271,51 @@ int is_in_single_quotes(const char *cmd, size_t pos)
 	return in_squote;
 }
 
+char	copy_error_code(char *new_cmd, size_t *k, char *command, char *error_code)
+{
+	new_cmd[*k] = 0;
+	ft_strlcat(new_cmd, error_code, ft_strlen(command) - 2 + ft_strlen(error_code));
+	*k += ft_strlen(error_code);
+	return (2);
+}
+
 char	*expand_error_code(char *command, size_t i, t_array *array)
 {
-	char *error_code;
-	char *trimmed_cmd;
-	char *new_cmd;
+	size_t	j;
+	size_t	k;
+	char	*new_cmd;
+	char	*error_code;
 
-	(void)i;
+	j = 0;
+	k = 0;
 	error_code = ft_itoa(array->p_exit_status);
-	new_cmd = ft_calloc(i + ft_strlen(error_code) + 1, sizeof(char));
+	new_cmd = malloc((ft_strlen(command) - 1 + ft_strlen(error_code)) * sizeof(char));
 	if (!new_cmd)
 	{
 		free(command);
 		return (NULL);
 	}
-	trimmed_cmd = ft_calloc((i + 2), sizeof(char));
-	ft_strlcat(trimmed_cmd, command, (i + 1));
-	new_cmd = ft_strjoin(trimmed_cmd, error_code);
-	free(error_code);
-	free(trimmed_cmd);
+	while (command[j])
+	{
+		if (j == i)
+			j += copy_error_code(new_cmd, &k, command, error_code);
+		else
+			new_cmd[k++] = command[j++];
+	}
+	new_cmd[k] = 0;
 	free(command);
 	return (new_cmd);
-}
+} 
 
-int quotes_after(const char *cmd, size_t i)
+int quotes_after(char *cmd, size_t i)
 {
-    int in_squote = 0;
-    int in_dquote = 0;
-    size_t j = 0;
+    int in_squote;
+    int in_dquote;
+    size_t j;
 
-    // Step 1: Track quote state up to index i
+	j = 0;
+	in_squote = 0;
+	in_dquote = 0;
     while (cmd[j] && j <= i)
     {
         if (!in_dquote && cmd[j] == '\'')
@@ -344,87 +324,110 @@ int quotes_after(const char *cmd, size_t i)
             in_dquote = !in_dquote;
         j++;
     }
-
-    // If we're already inside quotes at i, return false
     if (in_squote || in_dquote)
-        return 0;
-
-    // Step 2: Check the immediate next character
+        return (0);
     if (!cmd[j])
-        return 0; // End of string
-
+        return (0);
     if (cmd[j] == '\'' || cmd[j] == '"')
-        return 1; // Directly adjacent quote
-
-    return 0;
+        return (1);
+    return (0);
 }
 
-
-char	*expand_word(char *command, t_list **env, t_array *array)
+void	*handle_expand_error_code(t_expand *data, t_array *array)
 {
-	char *var_name;
-	char *new_command;
-	size_t	i;
-	size_t	true_var_length;
-	size_t new_length;
-
-	i = 0;
-	true_var_length = 0;
-	new_length = 0;
-	new_command = ft_strdup(command);
-	if (!new_command)
-		return (NULL);
-	free(command);
-	while (new_command[i])
+	data->new_command = expand_error_code(data->new_command, data->i , array);
+	if (!data->new_command)
 	{
-		if (new_command[i] == '$' && is_not_after_hdoc(new_command, i) && !is_in_single_quotes(new_command, i) && valid_var_first_char(new_command[i + 1]))
+		printf("HERE6\n");
+		return (NULL);
+	}
+	data->i++;
+	return (void*)1;
+}
+
+void	*call_expand_var(t_expand *data, t_list **env)
+{
+	size_t	true_var_length;
+	
+	true_var_length = get_true_var_length(data->var_name, *env);
+	data->new_length = true_var_length + ft_strlen(data->new_command) - get_var_length(&data->new_command[data->i + 1]) + 1;
+	if (is_after_great_var(data->new_command, data->i))
+		data->new_length += 2;
+	data->new_command = expand_var(data, env);
+	if (!data->new_command)
+		return (NULL);
+	data->i += true_var_length;
+	return ((void *)1);
+}
+
+void	*handle_normal_expand(t_expand *data, t_list **env)
+{
+	data->var_name = get_var_name(&data->new_command[data->i + 1]);
+	if (!data->var_name)
+		return (NULL);
+	if (var_exists(data->var_name, *env))
+	{
+		if (call_expand_var(data, env) == NULL)
 		{
-			if (new_command[i + 1] == '?')
+			printf("HERE3\n");
+			return (NULL);
+		}
+	}
+	else
+	{
+		if (is_after_great(data->new_command, data->i) && !quotes_after(data->new_command, data->i + get_var_length(&data->new_command[data->i + 1]) - 1))
+		{
+			printf("bash: $%s: ambiguous redirect\n", data->var_name);
+			return (NULL);
+		}
+		else
+			data->new_command = remove_var(data->new_command, data->i);
+	}
+	free(data->var_name);
+	return ((void *)1);
+}
+
+void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
+{
+	if (data->new_command[data->i] == '$' && is_not_after_hdoc(data->new_command, data->i) && !is_in_single_quotes(data->new_command, data->i) && valid_var_first_char(data->new_command[data->i + 1]))
+	{
+		if (data->new_command[data->i + 1] == '?')
+		{
+			if (handle_expand_error_code(data, array) == NULL)
 			{
-				//printf("here\n");
-				new_command = expand_error_code(new_command, i , array);
-				if (!new_command)
-					return (NULL);
-				i++;
-			}
-			else
-			{
-				var_name = get_var_name(&new_command[i + 1]);
-				if (!var_name)
-					return (NULL);
-				//printf("var name : %s\n", var_name);
-				if (var_exists(var_name, *env))
-				{
-					//printf("found var\n");
-					true_var_length = get_true_var_length(var_name, *env);
-					new_length = true_var_length + ft_strlen(new_command) - get_var_length(&new_command[i + 1]) + 1;
-					if (is_after_great_var(new_command, i))
-						new_length += 2;
-					new_command = expand_var_in_command(new_command, i, new_length, var_name, env);
-					if (!new_command)
-						return (NULL);
-					i += true_var_length;
-				}
-				else
-				{
-					// printf("HEREEEE\n");
-					// printf("is_after_great : %d\n", is_after_great(new_command, i));
-					// printf("quotes_after : %d\n", !quotes_after(new_command, i + get_var_length(&new_command[i + 1]) - 1));
-					if (is_after_great(new_command, i) && !quotes_after(new_command, i + get_var_length(&new_command[i + 1]) - 1))
-					{
-						printf("bash: $%s: ambiguous redirect\n", var_name);
-						return (NULL);
-					}
-					else
-						new_command = remove_var(new_command, i);
-					//printf("nc = %s\n", new_command);
-				}
-				free(var_name);
+				printf("HERE1\n");
+				return (NULL);
 			}
 		}
 		else
-			i++;
+		{
+			if (handle_normal_expand(data, env) == NULL)
+			{
+				printf("HERE2\n");
+				return (NULL);
+			}
+		}
 	}
-	return (new_command);
+	else
+		data->i++;
+	return ((void *)1);
+}
+
+char	*expand_word(char *command, t_list **env, t_array *array)
+{
+	t_expand data;
+
+	data.i = 0;
+	data.new_length = 0;
+	data.new_command = ft_strdup(command);
+	if (!data.new_command)
+		return (NULL);
+	free(command);
+	while (data.new_command[data.i])
+	{
+		if (look_to_expand(&data, env, array) == NULL)
+			return (NULL);
+	}
+	return (data.new_command);
 }
 
