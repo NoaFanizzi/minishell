@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/27 17:54:07 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 11:28:31 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,115 @@ char	*get_var_name(char *word)
 	return (var_name);
 }
 
-char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t_list **env)
+int is_after_great_var(const char *cmd, size_t var_index)
+{
+    size_t	i = 0;
+	size_t	token_start;
+    int in_squote = 0;
+    int in_dquote = 0;
+
+	token_start = 0;
+    while (cmd[i])
+    {
+        // Handle quote state
+        if (!in_dquote && cmd[i] == '\'')
+            in_squote = !in_squote;
+        else if (!in_squote && cmd[i] == '"')
+            in_dquote = !in_dquote;
+
+        // Detect one or more '>' when not inside quotes
+        if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
+        {
+            // Skip all consecutive '>' (>, >>, >>> ...)
+            while (cmd[i] && (cmd[i] == '>' || cmd[i] == '<'))
+                i++;
+
+            // Skip whitespace
+            while (cmd[i] && ft_isspace(cmd[i]))
+                i++;
+
+            token_start = i;
+
+            // Otherwise: token starts with something else -> no need to continue
+            // Skip this token until a delimiter
+            in_squote = 0;
+            in_dquote = 0;
+            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
+            {
+                if (!in_dquote && cmd[i] == '\'')
+                    in_squote = !in_squote;
+                else if (!in_squote && cmd[i] == '"')
+                    in_dquote = !in_dquote;
+                i++;
+            }
+			if (var_index >= token_start && var_index < i)
+				return (1);
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return 0; // Not after >
+}
+
+int is_after_great(const char *cmd, size_t var_index)
+{
+    size_t i = 0;
+    int in_squote = 0;
+    int in_dquote = 0;
+
+    while (cmd[i])
+    {
+        // Handle quote state
+        if (!in_dquote && cmd[i] == '\'')
+            in_squote = !in_squote;
+        else if (!in_squote && cmd[i] == '"')
+            in_dquote = !in_dquote;
+
+        // Detect one or more '>' when not inside quotes
+        if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
+        {
+            // Skip all consecutive '>' (>, >>, >>> ...)
+            while (cmd[i] && (cmd[i] == '>' || cmd[i] == '<'))
+                i++;
+
+            // Skip whitespace
+            while (cmd[i] && ft_isspace(cmd[i]))
+                i++;
+
+            // Now i is at the first non-space after >
+            if (i == var_index)
+                return 1; // ✅ var is the first thing after >
+
+            // Otherwise: token starts with something else -> no need to continue
+            // Skip this token until a delimiter
+            in_squote = 0;
+            in_dquote = 0;
+            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
+            {
+                if (!in_dquote && cmd[i] == '\'')
+                    in_squote = !in_squote;
+                else if (!in_squote && cmd[i] == '"')
+                    in_dquote = !in_dquote;
+                i++;
+            }
+        }
+        else
+        {
+            i++;
+        }
+    }
+    return 0; // Not after >
+}
+
+char	*expand_var_in_command(char *word, size_t i, size_t size, char *var_name, t_list **env)
 {
 	char	*new_word;
 	char 	*exp_var; //la vraie valeur de la variable expand
 	size_t	j;
 	size_t	k;
+	size_t	after_great;
 
 	j = 0;
 	k = 0;
@@ -72,8 +175,19 @@ char	*expand_var_in_command(char *word, size_t	i, size_t size, char *var_name, t
 		if (j == i)
 		{
 			exp_var = get_var_value(var_name, *env);
+			if (is_after_great_var(word, i))
+			{
+				after_great = 1;
+				new_word[k] = D_QUOTE;
+				k++;
+			}
 			ft_strlcat(new_word, exp_var, size); //TODO return la variable (char *)
 			k += ft_strlen(exp_var); //TODO donne les length de la var (size_t);
+			if (after_great == 1)
+			{
+				new_word[k] = D_QUOTE;
+				k++;
+			}
 			j += get_var_length(&word[j + 1]);
 			free(exp_var);
 		}
@@ -137,55 +251,6 @@ int is_not_after_hdoc(const char *cmd, size_t var_index)
 		}
 	}
 	return 1;
-}
-int is_after_great(const char *cmd, size_t var_index)
-{
-    size_t i = 0;
-    int in_squote = 0;
-    int in_dquote = 0;
-
-    while (cmd[i])
-    {
-        // Handle quote state
-        if (!in_dquote && cmd[i] == '\'')
-            in_squote = !in_squote;
-        else if (!in_squote && cmd[i] == '"')
-            in_dquote = !in_dquote;
-
-        // Detect one or more '>' when not inside quotes
-        if (!in_squote && !in_dquote && (cmd[i] == '>' && cmd[i] == '<'))
-        {
-            // Skip all consecutive '>' (>, >>, >>> ...)
-            while (cmd[i] == '>' || cmd[i] == '<')
-                i++;
-
-            // Skip whitespace
-            while (cmd[i] && ft_isspace(cmd[i]))
-                i++;
-
-            // Now i is at the first non-space after >
-            if (i == var_index)
-                return 1; // ✅ var is the first thing after >
-
-            // Otherwise: token starts with something else -> no need to continue
-            // Skip this token until a delimiter
-            in_squote = 0;
-            in_dquote = 0;
-            while (cmd[i] && !ft_isspace(cmd[i]) && cmd[i] != '|' && cmd[i] != '<' && cmd[i] != '>')
-            {
-                if (!in_dquote && cmd[i] == '\'')
-                    in_squote = !in_squote;
-                else if (!in_squote && cmd[i] == '"')
-                    in_dquote = !in_dquote;
-                i++;
-            }
-        }
-        else
-        {
-            i++;
-        }
-    }
-    return 0; // Not after >
 }
 
 
@@ -333,6 +398,8 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 					//printf("found var\n");
 					true_var_length = get_true_var_length(var_name, *env);
 					new_length = true_var_length + ft_strlen(new_command) - get_var_length(&new_command[i + 1]) + 1;
+					if (is_after_great_var(new_command, i))
+						new_length += 2;
 					new_command = expand_var_in_command(new_command, i, new_length, var_name, env);
 					if (!new_command)
 						return (NULL);
@@ -340,6 +407,9 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 				}
 				else
 				{
+					// printf("HEREEEE\n");
+					// printf("is_after_great : %d\n", is_after_great(new_command, i));
+					// printf("quotes_after : %d\n", !quotes_after(new_command, i + get_var_length(&new_command[i + 1]) - 1));
 					if (is_after_great(new_command, i) && !quotes_after(new_command, i + get_var_length(&new_command[i + 1]) - 1))
 					{
 						printf("bash: $%s: ambiguous redirect\n", var_name);
