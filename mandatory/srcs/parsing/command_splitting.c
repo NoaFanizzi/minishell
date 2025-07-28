@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/18 18:07:55 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 23:57:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,61 +76,6 @@ void	*free_command(char ***splitted)
 	return (NULL);
 }
 
-// void	*free_command(char ***splitted)
-// {
-// 	size_t	i;
-
-// 	if (!splitted || !*splitted)
-// 		return (NULL);
-// 	i = 0;
-// 	while ((*splitted)[i])
-// 	{
-// 		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
-// 		i++;
-// 	}
-// 	free(*splitted); // free le tableau de char **
-// 	*splitted = NULL;
-// 	return (NULL);
-// }
-
-// void *free_command(char ***splitted)
-// {
-//     size_t i;
-
-//     if (!splitted || !*splitted)
-//         return (NULL);
-//     i = 0;
-//     while ((*splitted)[i])
-//     {
-//         free((*splitted)[i]);  // Libère chaque chaîne (char *)
-//         i++;
-//     }
-//     free(*splitted);  // Libère le tableau principal
-//     *splitted = NULL;
-//     return (NULL);
-// }
-
-// void	*free_command(char ***splitted)
-// {
-// 	size_t	i;
-
-// 	if (!splitted || !*splitted)
-// 		return (NULL);
-// 	i = 0;
-// 	while ((*splitted)[i])
-// 	{
-// 		free((*splitted)[i]);  // free le tableau de char * (mais pas les chaînes individuelles ici)
-// 		i++;
-// 	}
-// 	free(*splitted); // free le tableau de char **
-// 	*splitted = NULL;
-// 	return (NULL);
-// }
-
-
-
-
-
 char	***init_splitted(char ***splitted, char **command)
 {
 	int		cmd_count;
@@ -141,7 +86,6 @@ char	***init_splitted(char ***splitted, char **command)
 	k = 0;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	//printf("cmd_count = %d\n", cmd_count);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
 		return (NULL);//malloc error
@@ -149,7 +93,6 @@ char	***init_splitted(char ***splitted, char **command)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
-		//printf("cmd_words_count = %d\n", cmd_words_count);
 		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
 		if (!splitted[k])
 			return (free_command(splitted));//malloc error
@@ -169,25 +112,19 @@ char	***fill_splitted_command(char ***splitted, char **command)
 	
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	//printf("cmd_count ====== %d\n", cmd_count);
-	k = 0;
-	i = 0;
-	
-	while ((int)k < cmd_count)
+	k = -1;
+	while ((int)++k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
-		i = 0;
-		while ((int)i < cmd_words_count)
+		i = -1;
+		while ((int)++i < cmd_words_count)
 		{
 			splitted[k][i] = ft_strdup(command[cmd_index + i]);
 			if (!splitted[k][i])
 				return (free_command(splitted));
-			i++;
 		}
-		//printf("GOT HEREEEEEEE\n");
 		cmd_index += cmd_words_count;
 		splitted[k][i] = 0;
-		k++;
 	} 
 	splitted[k] = 0;
 	return (splitted);

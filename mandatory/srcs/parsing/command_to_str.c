@@ -6,60 +6,64 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 13:53:22 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 00:46:02 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"                                                                                                                                                                                            
 
-int    create_hdoc_struct(char **command, t_content *content)
+int		count_hdoc(char **command)
 {
-    size_t		hdoc_count;
-    size_t		i;
-	size_t		j;
-    
-    i = 0;
-	j = 0;
-    hdoc_count = 0;
-    while (command[i])
+	size_t	count;
+	size_t	i;
+
+	i = 0;
+	count = 0;
+	while (command[i])
     {
         if (ft_strncmp(command[i], "<<", 2) == 0)
         {
-            hdoc_count++;
+            count++;
             i++;
         }
         i++;
     }
-	//printf("hdoc count : %zu\n", hdoc_count);
-    if (hdoc_count == 0)
+	return (count);
+}
+
+void	fill_hdocs(char **command, t_heredocs *hdoc, size_t hdoc_count)
+{
+	size_t i = 0, j = 0;
+
+	while (command[i])
 	{
-		content->hdoc = NULL;
-		return (0);
+		if (ft_strncmp(command[i], "<<", 2) == 0)
+		{
+			if (command[i + 1][0] == S_QUOTE || command[i + 1][0] == D_QUOTE)
+				hdoc[j].s_quoted = 1;
+			else
+				hdoc[j].s_quoted = 0;
+			hdoc[j].text = NULL;
+			hdoc[j].size = hdoc_count;
+			j++;
+		}
+		i++;
 	}
-	i = 0;
+}
+
+int	create_hdoc_struct(char **command, t_content *content)
+{
+	size_t hdoc_count = count_hdoc(command);
+
+	if (hdoc_count == 0)
+		return (content->hdoc = NULL, 0);
 	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
 	if (!content->hdoc)
-			return(-1);
-    while (command[i])
-    {
-		//printf("current : %s\n", command[i]);
-        if (ft_strncmp(command[i], "<<", 2) == 0)
-        {
-            if (command[i + 1][0] == S_QUOTE || command[i + 1][0] == D_QUOTE)
-                content->hdoc[j].s_quoted = 1;
-            else
-                content->hdoc[j].s_quoted = 0;
-            content->hdoc[j].text = NULL;
-            content->hdoc[j].size = hdoc_count;
-			//printf("squoted : %d\n",  content->hdoc[j].s_quoted);
-			//printf("text : %s\n",  content->hdoc[j].text);
-			//printf("size : %zu\n\n",  content->hdoc[j].size);
-			j++;
-        }
-        i++;
-    }
-	return(0);
+		return (-1);
+	fill_hdocs(command, content->hdoc, hdoc_count);
+	return (0);
 }
+
 
 char	*ft_join_prompt(t_array *array)
 {
@@ -70,7 +74,6 @@ char	*ft_join_prompt(t_array *array)
 	joined_prompt = ft_strjoin(error_converted, " | maxishell$ ");
 	free(error_converted);
 	return(joined_prompt);
-	
 }
 
 void	get_array_size(char ***cmd_splitted, t_array *array)
@@ -147,43 +150,47 @@ void	*manage_readline(char **line, t_array *array)
 	return(NULL);
 }
 
+static int	process_command(char *line, t_list **var, t_array *array, char ***cmd_splitted)
+{
+	char *temp_line = ft_strdup(line);
+
+	if (check_syntax(temp_line))
+	{
+		if (line[0] != '\0')
+			array->p_exit_status = 2;
+		free(line);
+		free_command(*cmd_splitted);
+		return (1);
+	}
+	*cmd_splitted = parse_command(&temp_line, var, array);
+	if (!*cmd_splitted)
+		return (1);
+	analyse_command(*cmd_splitted, array);
+	ft_init_exec(var, array);
+	free(line);
+	free_command(*cmd_splitted);
+	ft_free_array_content(array);
+	return (0);
+}
+
 int	launch_shell(t_list **var)
 {
 	char	*line;
 	char	***cmd_splitted;
 	t_array	array;
-	char *temp_line;
-	
+
 	array.p_exit_status = 0;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
-	//rl_catch_signals = 0;
 	while (1)
 	{
 		manage_readline(&line, &array);
 		array.size = 0;
 		array.content = NULL;
-		temp_line = ft_strdup(line);
-		if (check_syntax(temp_line))
-		{
-			if(line[0] != '\0')
-				array.p_exit_status = 2;
-			free(line);
-			free_command(cmd_splitted);
+		if (process_command(line, var, &array, &cmd_splitted))
 			return (1);
-		}
-		cmd_splitted = parse_command(&temp_line, var, &array);
-		if (!cmd_splitted)
-			return (1);
-		else
-		{
-			analyse_command(cmd_splitted, &array);
-			ft_init_exec(var, &array);
-			free(line);
-			free_command(cmd_splitted);
-			ft_free_array_content(&array);
-		}
 	}
-	return(0);
+	return (0);
 }
+
 //MALLOC AND FT

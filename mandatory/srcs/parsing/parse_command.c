@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 17:46:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 23:56:48 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ char ***parse_splitting_part(char ***command)
 
 	cmd_splitted = NULL;
 	*command = space_splitting(*command);
-	if (!command)
+	if (!*command)
 		return (NULL);//error
 	*command = meta_splitting(*command);
 	if (!*command)
-	return (NULL);//error
+		return (NULL);//error
 	cmd_splitted = command_splitting(*command);
 	if (!cmd_splitted)
 		return (NULL);

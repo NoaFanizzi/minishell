@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/06/17 18:00:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 23:56:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,49 +59,44 @@ int	split_meta_count(char **command, const char *charset)
 	//("count = %d\n", count);
 	return (count);
 }
-
-char	**twisted_fill_splitted(const char *s, const char *charset, 
-		char **splitted, size_t *j)
+static char **add_segment(const char *s, char **splitted, size_t *j, int tab[2])
 {
-	size_t	i1;
-	size_t	i2;
-
-	i1 = 0;
-	i2 = 0;
-	while (s[i1])
-	{
-		i1 = i2;
-		if (is_sep(s[i2], charset))
-		{
-			while (s[i2] && is_sep(s[i2], charset))
-			{
-				i2++;
-				if (s[i2] && is_sep(s[i2], charset) && s[i2 - 1] != s[i2])
-					break ;
-			}
-			if (i2 > i1)
-			{
-				splitted[*j] = ft_substr(s, i1, i2 - i1);
-				if (!splitted[*j])
-					return (free_words(splitted));
-				(*j)++;
-			}
-		}
-		else
-		{
-			while (s[i2] && !is_sep(s[i2], charset))
-				i2++;
-			if (i2 > i1)
-			{
-				splitted[*j] = ft_substr(s, i1, i2 - i1);
-				if (!splitted[*j])
-					return (free_words(splitted));
-				(*j)++;
-			}
-		}
-	}
-	return (splitted);
+    if (tab[1] > tab[0])
+    {
+        splitted[*j] = ft_substr(s, tab[0], tab[1] - tab[0]);
+        if (!splitted[*j])
+            return (free_words(splitted));
+        (*j)++;
+    }
+    return (splitted);
 }
+
+char **twisted_fill_splitted(const char *s, const char *charset, char **splitted, size_t *j)
+{
+    int tab[2] = {0, 0};
+
+    while (s[tab[0]])
+    {
+        tab[0] = tab[1];
+        if (is_sep(s[tab[1]], charset))
+        {
+            while (s[tab[1]] && is_sep(s[tab[1]], charset))
+            {
+                if (++tab[1] && s[tab[1]] && is_sep(s[tab[1]], charset) && s[tab[1] - 1] != s[tab[1]])
+                    break;
+            }
+        }
+        else
+        {
+            while (s[tab[1]] && !is_sep(s[tab[1]], charset))
+                tab[1]++;
+        }
+        if (!(splitted = add_segment(s, splitted, j, tab)))
+            return (NULL);
+    }
+    return (splitted);
+}
+
 
 char	**fill_meta_words(char **splitted, char **command, const char *charset)
 {
@@ -109,9 +104,8 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 	size_t	k;
 
 	i = 0;
-	k = 0;
-	//(void)charset;
-	while (command[k])
+	k = -1;
+	while (command[++k])
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
@@ -125,7 +119,6 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 			if (!twisted_fill_splitted(command[k], charset, splitted, &i))
 				return (NULL);
 		}
-		k++;
 	}
 	splitted[i] = 0;
 	return (splitted);

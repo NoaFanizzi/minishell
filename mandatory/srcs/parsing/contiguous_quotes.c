@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 22:17:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/28 22:53:13 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
 
 int	check_free_joined(char ***joined, size_t *k)
 {
-	if (!*joined[*k])
+	if (!(*joined)[*k])
 	{
 		free_words(*joined);
 		*joined = NULL;
@@ -440,7 +440,7 @@ int call_next_simple(char **command, char ***cmd, size_t *i, int *merged)
 	return (0);
 }
 
-int	call_join_next_prev(char **command, char ***cmd, size_t *i, int *merged)
+int	call_join_prev(char **command, char ***cmd, size_t *i, int *merged)
 {
 	if (*i > 0 && command[*i - 1] && ft_strlen(command[*i - 1]) > 0
 		&& is_quote(command[*i - 1][ft_strlen(command[*i - 1]) - 1]))
@@ -455,10 +455,18 @@ int	call_join_next_prev(char **command, char ***cmd, size_t *i, int *merged)
 		if (call_prev_simple(command, cmd, i, merged))
 			return (1);
 	}
+	return (0);
+}
+
+int	call_join_next_prev(char **command, char ***cmd, size_t *i, int *merged)
+{
+	if (call_join_prev(command, cmd, i, merged))
+		return (1);
 	else if (command[*i + 1] && is_quote(command[*i + 1][0]))
 	{
 		if (call_next_quotes(command, cmd, *i, merged))
 			return (1);
+		return (0);
 	}
 	else if (command[*i + 1] && (ft_isspace(command[*i + 1][0]) == 0)
 		&& is_not_pipe_redir(command[*i + 1][0]))
@@ -484,8 +492,11 @@ void	contiguous_quotes(char ***cmd)
 		{
 			if (call_join_next_prev(command, cmd, &i, &merged))
 				return ;
+			command = *cmd; // **ensure we work on the updated pointer**
 		}
 		if (merged == 0)
 			i++;
+		else
+			continue; // **RECHECK same index after a merge**
 	}
 }
