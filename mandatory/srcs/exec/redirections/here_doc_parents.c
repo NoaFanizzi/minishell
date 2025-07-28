@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 18:58:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:00:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 		data[0] += data[0];
 	if (content->files[*i].type == HDOC)
 	{
-		printf("hdoc detected in prepare_hdoc funtion\n");
 		data[1] = content->files[*i].index + 1;
 		if (ft_get_temp_file(&temp_file, content) == O_ERROR) // PROTECTED
 			return (1);
@@ -114,15 +113,11 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 		//*i += 1;
 		//content->array_ptr->hdoc_length += *i;
 		if (ft_launch_here_doc(content, data, temp_file) == 1)
-		{
-			printf("CA RETURN 1 A CAUSE DU IF DU FT-LAUNCH-HERE-DOC\n");
 			return (1);
-		}
 	}
 	ft_close_open(content, temp_file);
 	unlink(temp_file);
 	free(temp_file);
-	dprintf(STDERR_FILENO, "going to return 0 in prepare_hdoc function\n");
 	return (0);
 }
 
@@ -138,7 +133,6 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 		return (ft_dup2_pb(&content->array_ptr->content[0], "stdin"));
 	while (*i < content->files->size && content->files[*i].type == HDOC)
 	{
-		printf("la\n");
 		returned_value = prepare_hdoc(content, i, temp_file);
 		if (returned_value == 1 || returned_value == O_ERROR)
 		{

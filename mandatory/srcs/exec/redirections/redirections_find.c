@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 18:17:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:05:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,9 @@ int	ft_deal_with_redir(t_content *content)
 	size_t	size;
 	size_t	i;
 
-	ft_putstr_fd("deal with redir\n", STDERR_FILENO);
 	i = -1;
-	dprintf(STDERR_FILENO, "content->array_ptr->size = %d\n", content->array_ptr->size);
 	if (content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
 	{
-		ft_putstr_fd("je suis dans le if qui va appeler ft_process_here_doc\n", STDERR_FILENO);
 		if (ft_process_here_doc(content->array_ptr) == 1)
 			return (1);
 	}
@@ -43,7 +40,6 @@ int	ft_deal_with_redir(t_content *content)
 				return (1);
 		}
 	}
-	printf("FINNNN\n");
 	return (0);
 }
 

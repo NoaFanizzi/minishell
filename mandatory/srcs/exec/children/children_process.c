@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 18:02:52 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:03:22 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,6 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 {
 	char	**env_converted;
 
-	ft_putendl_fd("--------------------------", STDERR_FILENO);
-	ft_putstr_fd("je suis dans le child\n", STDERR_FILENO);
 	env_converted = NULL;
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
@@ -81,11 +79,9 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 		ft_exit(content);
 	}
 	content->cmd = ft_cmd_join(content->cmd, content->arg);
-	ft_putstr_fd("Juste avant execve\n", STDERR_FILENO);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		perror("execve");
-		ft_putstr_fd("ici\n", STDERR_FILENO);
 		ft_exit(content);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 18:56:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 19:07:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ int	get_hdoc_fd(t_content *content)
 	int		fd;
 
 	i = 0;
-	printf("hdoc_length = %zu\n", content->hdoc_length);
 	while (i < content->hdoc_length && content->fd_array[i] == -42)
 		i++;
 	fd = content->fd_array[i];
-	printf("i = %zu\n", i);
-	printf("fd = %d\n", fd);
 	content->fd_array[i] = -42;
 	return (fd);
 }
@@ -48,7 +45,6 @@ int	ft_use_hdoc(t_content *content, size_t i)
 {
 	int	position;
 
-	dprintf(STDERR_FILENO, "PARENTS\n");
 	position = 0;
 	if (content->files[i].type == HDOC)
 	{
@@ -56,13 +52,11 @@ int	ft_use_hdoc(t_content *content, size_t i)
 		if (content->pos % 2 != 0)
 			position += 1;
 		content->infile = get_hdoc_fd(content);
-		dprintf(STDERR_FILENO, "content->infile = %d\n", content->infile);
 		if (dup2(content->infile, STDIN_FILENO) == -1) // PROTECTED
 			return (ft_dup2_pb(content, "temp_file"));
 		close(content->infile);
 		content->infile = -2;
 	}
-	printf("ahahahaha\n");
 	return (0);
 }
 
@@ -72,23 +66,17 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 	int		returned_value;
 
 	j = 0;
-	ft_putstr_fd("je process le here_doc\n", STDERR_FILENO);
 	while (j < size)
 	{
-		dprintf(STDERR_FILENO, "size in loop_hdoc = %zu\n", size);
-		dprintf(STDERR_FILENO, "j = %zu\n", j);
 		if (array->content[i].files[j].type == HDOC)
 		{
-			dprintf(STDERR_FILENO, "HDOC detected\n");
 			signal(SIGINT, deal_with_sigint_hdoc);
 			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
 			signal(SIGINT, deal_with_sigint);
 		}
-		printf("returned_value by ft_deal_with_hdoc = %d\n", returned_value);
 		if (returned_value == O_ERROR || returned_value == 1)
 			return (1);
 		j++;
-		printf("BABABAAB\n");
 	}
 	return (0);
 }
@@ -108,7 +96,6 @@ int	ft_process_here_doc(t_array *array)
 				return (1);
 		}
 		i++;
-		printf("JE LOOP\n");
 	}
 	return (0);
 }
