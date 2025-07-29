@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:36:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:38:51 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	figure_in_out_files(char **cmd, t_content *content)
+int	figure_in_out_files(char **cmd, t_content *content)
 {
 	size_t	redir_count;
 	int		tab[2];
@@ -23,22 +23,54 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	content->redir_count = redir_count;
 	content->files = NULL;
 	if (redir_count == 0)
-		return ;
+		return (0);
 	content->files = ft_calloc((redir_count + 1), sizeof(t_files));
 	if (!content->files)
-		return ;
+		return (1);
 	while (cmd[tab[0]])
-		check_for_op(cmd, content, tab, redir_count);
+	{
+		if (check_for_op(cmd, content, tab, redir_count))
+		{
+			free(content->files);
+			return (1);
+		}
+	}
 	if (tab[1] == 0)
 		content->files = NULL;
+	return (0);
 }
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content,
-		size_t cmd_index)
+int	create_cmd_struct(char ***cmd_splitted, t_content *content,
+		size_t cmd_index, t_array *array)
 {
-	figure_in_out_files(cmd_splitted[cmd_index], content);
-	identify_cmd_opt(cmd_splitted[cmd_index], content);
-	identify_arg(cmd_splitted[cmd_index], content);
+	if (figure_in_out_files(cmd_splitted[cmd_index], content))
+	{
+		free(content->hdoc);
+		free(array->content);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		array->p_exit_status = 1;
+		return (1);
+	}
+	if (identify_cmd_opt(cmd_splitted[cmd_index], content))
+	{
+		free(content->hdoc);
+		free(content->files);
+		free(array->content);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		array->p_exit_status = 1;
+		return (1);
+	}
+	if (identify_arg(cmd_splitted[cmd_index], content))
+	{
+		free(content->hdoc);
+		free(content->files);
+		free_words(content->cmd);
+		free(array->content);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		array->p_exit_status = 1;
+		return (1);
+	}
 	content->pos = cmd_index;
 	content->cmd_splitted = cmd_splitted;
+	return (0);
 }

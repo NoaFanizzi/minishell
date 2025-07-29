@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:26:53 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:42:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:43:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ size_t	count_arg(char **cmd)
 	return (count_real_args(cmd, i));
 }
 
-void	fill_args(char **cmd, size_t start, char **arg)
+int	fill_args(char **cmd, size_t start, char **arg)
 {
 	size_t	j;
 
@@ -57,7 +57,10 @@ void	fill_args(char **cmd, size_t start, char **arg)
 		{
 			arg[j] = ft_strdup(cmd[start]);
 			if (!arg[j])
-				return ;
+			{
+				free(arg);
+				return (1);
+			}
 			rem_and_shift(arg[j]);
 			switch_back_lit_quotes(arg[j]);
 			j++;
@@ -65,30 +68,25 @@ void	fill_args(char **cmd, size_t start, char **arg)
 		}
 	}
 	arg[j] = NULL;
+	return (0);
 }
 
-void	identify_arg(char **cmd, t_content *content)
+int	identify_arg(char **cmd, t_content *content)
 {
 	size_t	i;
 	size_t	count;
 
 	i = 0;
 	count = count_arg(cmd);
+	content->arg = NULL;
 	if (count == 0)
-	{
-		content->arg = NULL;
-		return ;
-	}
+		return (0);
 	content->arg = ft_calloc(count + 1, sizeof(char *));
 	if (!content->arg)
-		return ;
-	if (!find_command_name(cmd, &i))
-	{
-		free(content->arg);
-		content->arg = NULL;
-		return ;
-	}
+		return (1);
 	i++;
 	i = skip_opt_and_redirs(cmd, i);
-	fill_args(cmd, i, content->arg);
+	if (fill_args(cmd, i, content->arg))
+		return (1);
+	return (0);
 }

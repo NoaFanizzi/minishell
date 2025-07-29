@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:43:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:16:20 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	count_cmd_opt(char **cmd)
 	return (count);
 }
 
-void	assign_cmd_and_opt(char **cmd, t_content *content)
+int	assign_cmd_and_opt(char **cmd, t_content *content)
 {
 	size_t	i;
 	size_t	j;
@@ -42,36 +42,45 @@ void	assign_cmd_and_opt(char **cmd, t_content *content)
 	j = 0;
 	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
 	if (!content->cmd[j])
-		return ;
-	printf("before : %s\n", content->cmd[j]);
+		return (1);
 	rem_and_shift(content->cmd[j]);
 	switch_back_lit_quotes(content->cmd[j]);
-	printf("after : %s\n", content->cmd[j]);
 	j++;
-	printf("i = %zu, cmd[i] = %s\n", i, cmd[i]);
+	i++;
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '-')
+		{
 			content->cmd[j++] = ft_strdup(cmd[i]);
+			if (!content->cmd[j - 1])
+			{
+				free(content->cmd[0]);
+				return (1);
+			}
+		}
 		else if (strncmp(cmd[i], "<", 1) != 0 && strncmp(cmd[i], ">", 1) != 0)
 			break ;
 		i++;
 	}
 	content->cmd[j] = NULL;
+	return (0);
 }
 
-void	identify_cmd_opt(char **cmd, t_content *content)
+int	identify_cmd_opt(char **cmd, t_content *content)
 {
 	size_t	size;
 
 	size = count_cmd_opt(cmd);
+	content->cmd = NULL;
 	if (size == 0)
-	{
-		content->cmd = NULL;
-		return ;
-	}
+		return (0);
 	content->cmd = ft_calloc(size + 1, sizeof(char *));
 	if (!content->cmd)
-		return ;
-	assign_cmd_and_opt(cmd, content);
+		return (1);
+	if (assign_cmd_and_opt(cmd, content))
+	{
+		free(content->cmd);
+		return (1);
+	}
+	return (0);
 }

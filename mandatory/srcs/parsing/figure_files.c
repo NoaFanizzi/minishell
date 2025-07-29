@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   figure_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:43:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:29:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	figure_hdoc(char **cmd, t_content *content, int tab[2],
+int	figure_hdoc(char **cmd, t_content *content, int tab[2],
 		size_t redir_count)
 {
 	content->files[tab[1]].type = HDOC;
@@ -20,9 +20,12 @@ void	figure_hdoc(char **cmd, t_content *content, int tab[2],
 	content->files[tab[1]].size = redir_count;
 	rem_and_shift(cmd[tab[0] + 1]);
 	switch_back_lit_quotes(cmd[tab[0] + 1]);
-	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]);
+	content->files[tab[1]].eof = NULL;//ft_strdup(cmd[tab[0] + 1]);
+	if (!content->files[tab[1]].eof)
+		return (1);
 	tab[1]++;
 	tab[0]++;
+	return (0);
 }
 
 void	figure_append(char **cmd, t_content *content, int tab[2],
@@ -64,11 +67,14 @@ void	figure_out(char **cmd, t_content *content, int tab[2],
 	tab[0]++;
 }
 
-void	check_for_op(char **cmd, t_content *content, int tab[2],
+int	check_for_op(char **cmd, t_content *content, int tab[2],
 		size_t redir_count)
 {
 	if (strncmp(cmd[tab[0]], "<<", 2) == 0)
-		figure_hdoc(cmd, content, tab, redir_count);
+	{
+		if (figure_hdoc(cmd, content, tab, redir_count))
+			return (1);
+	}
 	else if (strncmp(cmd[tab[0]], ">>", 2) == 0)
 		figure_append(cmd, content, tab, redir_count);
 	else if (strncmp(cmd[tab[0]], "<", 1) == 0)
@@ -77,4 +83,5 @@ void	check_for_op(char **cmd, t_content *content, int tab[2],
 		figure_out(cmd, content, tab, redir_count);
 	else
 		tab[0]++;
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:44:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:27:59 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,28 +82,27 @@ int	process_command(char *line, t_list **var, t_array *array,
 	temp_line = ft_strdup(line); //PROTECTED
 	if(!temp_line)
 	{
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);\
+		free(line);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		array->p_exit_status = 1;
 		return(1);
 	}
 	if (check_syntax(temp_line))
 	{
-		printf("slt ca va \n");
 		if (line[0] != '\0')
 			array->p_exit_status = 2;
 		free(line);
-		free_command(*cmd_splitted);
-		return (1);
-	}
-	*cmd_splitted = parse_command(&temp_line, var, array);
-	if (!*cmd_splitted)
-	{
 		free(temp_line);
 		return (1);
 	}
-	analyse_command(*cmd_splitted, array);
-	ft_init_exec(var, array);
 	free(line);
+	*cmd_splitted = parse_command(&temp_line, var, array);
+	free(temp_line);
+	if (!*cmd_splitted)
+		return (1);
+	if (analyse_command(*cmd_splitted, array))
+		return (1);
+	ft_init_exec(var, array);
 	free_command(*cmd_splitted);
 	ft_free_array_content(array);
 	return (0);
@@ -115,6 +114,7 @@ int	launch_shell(t_list **var, t_array *array)
 	char	***cmd_splitted;
 
 	array->p_exit_status = 0;
+	cmd_splitted = NULL;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)

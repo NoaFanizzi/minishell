@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:49:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 21:26:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,36 +78,38 @@ size_t	skip_opt_and_redirs(char **cmd, size_t start);
 int	is_var_assign(char *str);
 char	*find_command_name(char **cmd, size_t *i);
 
-void	create_cmd_struct(char ***cmd_splitted, t_content *content,
-		size_t cmd_index);
-void	figure_in_out_files(char **cmd, t_content *content);
+int	create_cmd_struct(char ***cmd_splitted, t_content *content,
+		size_t cmd_index, t_array *array);
+int	figure_in_out_files(char **cmd, t_content *content);
 
-void	fill_args(char **cmd, size_t start, char **arg);
-void	identify_arg(char **cmd, t_content *content);
+int	fill_args(char **cmd, size_t start, char **arg);
+int	identify_arg(char **cmd, t_content *content);
 size_t	count_arg(char **cmd);
 size_t	count_real_args(char **cmd, size_t start);
 
-void	identify_cmd_opt(char **cmd, t_content *content);
-void	assign_cmd_and_opt(char **cmd, t_content *content);
+int	identify_cmd_opt(char **cmd, t_content *content);
+int	assign_cmd_and_opt(char **cmd, t_content *content);
 size_t	count_cmd_opt(char **cmd);
 
-void	check_for_op(char **cmd, t_content *content, int tab[2],
+int	check_for_op(char **cmd, t_content *content, int tab[2],
 		size_t redir_count);
 void	figure_out(char **cmd, t_content *content, int tab[2],
 		size_t redir_count);
 void	figure_append(char **cmd, t_content *content, int tab[2],
 		size_t redir_count);
-void	figure_hdoc(char **cmd, t_content *content, int tab[2],
+int	figure_hdoc(char **cmd, t_content *content, int tab[2],
+		size_t redir_count);
+void	figure_in(char **cmd, t_content *content, int tab[2],
 		size_t redir_count);
 
 char	**add_segment(const char *s, char **splitted, size_t *j, int tab[2]);
 int	twisted_count_words(char *str, const char *charset);
 
-void	analyse_command(char ***cmd_splitted, t_array *array);
+int		analyse_command(char ***cmd_splitted, t_array *array);
 void	fill_struct_size(t_array *array, size_t struct_index);
 void	get_array_size(char ***cmd_splitted, t_array *array);
 
-int	create_hdoc_struct(char **command, t_content *content);
+int	create_hdoc_struct(char **command, t_content *content,t_array *array);
 void	fill_hdocs(char **command, t_heredocs *hdoc, size_t hdoc_count);
 int	count_hdocnb(char **command);
 
@@ -166,9 +168,9 @@ void	handle_quote_state(int *in_dquote, int *in_squote, char *cmd, size_t *i);
 int		main(int argc, char **argv, char **env);
 int	launch_shell(t_list **var, t_array *array);
 char	***parse_command(char **line, t_list **var, t_array *array);
-void	analyse_command(char ***cmd_splitted, t_array *array);
+int	analyse_command(char ***cmd_splitted, t_array *array);
 void    fill_struct_size(t_array *array, size_t struct_index);
-int    create_hdoc_struct(char **command, t_content *content);
+int    create_hdoc_struct(char **command, t_content *content, t_array *array);
 
 char	**quotes_splitting(char **command, char *line);
 int		quotes_checker(char *line);
@@ -204,19 +206,6 @@ char	***fill_splitted_command(char ***splitted, char **command);
 int		count_commands(char **command);
 int		count_command_words(char **command);
 void	*free_command(char ***splitted);
-
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
-void	identify_cmd_opt(char **cmd, t_content *content);
-size_t	count_cmd_opt(char **cmd);
-void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
-void	identify_cmd_opt(char **cmd, t_content *content);
-size_t	count_cmd_opt(char **cmd);
-void	figure_in_out_files(char **cmd, t_content *content);
-size_t	count_redir(char **cmd);
-void	identify_arg(char **cmd, t_content *content);
-size_t	count_arg(char **cmd);
-char	*find_command_name(char **cmd, size_t *i);
-int		is_var_assign(char *str);
 
 int	check_syntax(char *cmd);
 

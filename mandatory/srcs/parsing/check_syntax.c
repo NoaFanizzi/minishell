@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:49:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:35:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:30:20 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,15 @@ int	check_consecutive_pipes(char *cmd, size_t *i)
 int	check_redir_pipes(char *cmd)
 {
 	size_t	i;
+	size_t	len;
 	int		in_squote;
 	int		in_dquote;
 
 	i = 0;
+	len = ft_strlen(cmd);
 	in_squote = 0;
 	in_dquote = 0;
-	while (cmd[i])
+	while (i < len)
 	{
 		handle_quote_state(&in_dquote, &in_dquote, cmd, &i);
 		if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:42:39 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:29:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 22:26:55 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	*free_command(char ***splitted)
 	size_t	j;
 
 	i = 0;
-	if (!splitted)
+	if (!splitted || !*splitted)
 		return (NULL);
 	while ((splitted)[i])
 	{
