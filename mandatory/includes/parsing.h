@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 21:26:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:40:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,14 @@
 #define S_QUOTE 39
 
 
-void	print_cmd_splitted(char ***cmd_splitted);
-void	print_cmd(char **cmd);
+ void	print_cmd_splitted(char ***cmd_splitted);
+// void	print_cmd(char **cmd);
 
 void	switch_back_lit_quotes(char *exp_var);
 
-
+int	process_command(char *line, t_list **var, t_array *array,
+		char ****cmd_splitted);
+int	call_check_syntax(char *line, char *temp_line, t_array *array);
 
 char	***parse_splitting_part(char ***command);
 char	***parse_command(char **line, t_list **var, t_array *array);
@@ -127,7 +129,7 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array);
 int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word);
 
-int	copy_error_code(char *new_cmd, size_t *k, char *command,
+int	copy_error_code(char *new_cmd, size_t *k,
 		char *error_code);
 int	track_var_in_del(char *cmd, size_t *i, size_t var_index);
 void	skip_redir_spaces(char *cmd, size_t *i);

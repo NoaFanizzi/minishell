@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:47:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:27:04 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:40:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,9 @@ int	track_var_in_del(char *cmd, size_t *i, size_t var_index)
 	return (1);
 }
 
-int	copy_error_code(char *new_cmd, size_t *k, char *command, char *error_code)
+int copy_error_code(char *new_cmd, size_t *k, char *error_code)
 {
-	new_cmd[*k] = 0;
-	ft_strlcat(new_cmd, error_code, ft_strlen(command) - 2
-		+ ft_strlen(error_code));
-	*k += ft_strlen(error_code);
-	return (2);
+    ft_strcpy(&new_cmd[*k], error_code);
+    *k += ft_strlen(error_code);
+    return (2);
 }

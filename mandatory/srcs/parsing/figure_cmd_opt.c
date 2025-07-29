@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 21:16:20 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:10:56 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,17 @@ size_t	count_cmd_opt(char **cmd)
 	return (count);
 }
 
+int	copy_opt(t_content *content, char **cmd, size_t *j, size_t i)
+{
+	content->cmd[(*j)++] = ft_strdup(cmd[i]);
+	if (!content->cmd[*j - 1])
+	{
+		free(content->cmd[0]);
+		return (1);
+	}
+	return (0);
+}
+
 int	assign_cmd_and_opt(char **cmd, t_content *content)
 {
 	size_t	i;
@@ -46,21 +57,15 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 	rem_and_shift(content->cmd[j]);
 	switch_back_lit_quotes(content->cmd[j]);
 	j++;
-	i++;
-	while (cmd[i])
+	while (cmd[++i])
 	{
 		if (cmd[i][0] == '-')
 		{
-			content->cmd[j++] = ft_strdup(cmd[i]);
-			if (!content->cmd[j - 1])
-			{
-				free(content->cmd[0]);
+			if (copy_opt(content, cmd, &j, i))
 				return (1);
-			}
 		}
 		else if (strncmp(cmd[i], "<", 1) != 0 && strncmp(cmd[i], ">", 1) != 0)
 			break ;
-		i++;
 	}
 	content->cmd[j] = NULL;
 	return (0);

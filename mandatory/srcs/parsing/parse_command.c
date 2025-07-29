@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 19:52:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:37:41 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 	char	*str;
 
 	command = NULL;
-	str = ft_strdup(*line); //PROTECTED
+	str = ft_strdup(*line); // PROTECTED
 	if (!str)
 	{
 		array->p_exit_status = 1;

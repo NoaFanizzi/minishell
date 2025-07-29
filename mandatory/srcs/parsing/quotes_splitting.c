@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 int	split_quote_count(char *line)
@@ -37,7 +36,7 @@ int	split_quote_count(char *line)
 	return (count);
 }
 
-char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
+char	**fill_quote_words(char **command, char *line, size_t k, size_t *i)
 {
 	char	quote;
 	size_t	j;

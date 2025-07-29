@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:49:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 22:53:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	***init_splitted(char ***splitted, char **command)
 	k = 0;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	//printf("cmd_count = %d\n", cmd_count);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
 		return (NULL);

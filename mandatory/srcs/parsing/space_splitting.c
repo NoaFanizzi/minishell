@@ -5,11 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/29 08:11:27 by nbodin           ###   ########lyon.fr   */
+/*   Created: 2025/07/29 22:44:34 by nbodin            #+#    #+#             */
+/*   Updated: 2025/07/29 22:44:36 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 

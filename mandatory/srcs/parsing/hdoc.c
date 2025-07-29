@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:03 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 20:12:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:08:16 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	create_hdoc_struct(char **command, t_content *content, t_array *array)
 		free(array->content);
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		array->p_exit_status = 1;
-		return(1);
+		return (1);
 	}
 	fill_hdocs(command, content->hdoc, hdoc_count);
 	return (0);

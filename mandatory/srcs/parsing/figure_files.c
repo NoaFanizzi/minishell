@@ -6,21 +6,20 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 20:29:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 22:53:27 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	figure_hdoc(char **cmd, t_content *content, int tab[2],
-		size_t redir_count)
+int	figure_hdoc(char **cmd, t_content *content, int tab[2], size_t redir_count)
 {
 	content->files[tab[1]].type = HDOC;
 	content->files[tab[1]].index = tab[0];
 	content->files[tab[1]].size = redir_count;
 	rem_and_shift(cmd[tab[0] + 1]);
 	switch_back_lit_quotes(cmd[tab[0] + 1]);
-	content->files[tab[1]].eof = NULL;//ft_strdup(cmd[tab[0] + 1]);
+	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]);
 	if (!content->files[tab[1]].eof)
 		return (1);
 	tab[1]++;
@@ -67,8 +66,7 @@ void	figure_out(char **cmd, t_content *content, int tab[2],
 	tab[0]++;
 }
 
-int	check_for_op(char **cmd, t_content *content, int tab[2],
-		size_t redir_count)
+int	check_for_op(char **cmd, t_content *content, int tab[2], size_t redir_count)
 {
 	if (strncmp(cmd[tab[0]], "<<", 2) == 0)
 	{

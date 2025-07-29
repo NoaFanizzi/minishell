@@ -50,7 +50,7 @@ void	go_through_join_next_simple(char **command, char **joined, size_t i)
 		{
 			fusion_simple_next(command, joined, i, j + 1);
 			if (len_until_space_forward(command[j + 1]) != ft_strlen(command[j
-						+ 1]))
+					+ 1]))
 			{
 				if (check_free_joined(&joined, &k))
 					return ;

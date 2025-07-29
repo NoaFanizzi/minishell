@@ -38,7 +38,6 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 	// Reset static variables for each new string
 	tab[0] = 0;
 	tab[1] = 0;
-	
 	while (s[tab[0]])
 	{
 		tab[0] = tab[1];

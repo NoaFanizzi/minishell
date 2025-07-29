@@ -30,7 +30,7 @@ char	*get_var_name(char *word)
 	i = 0;
 	while (word[i] && valid_var_char(word[i]))
 		i++;
-	var_name = ft_substr(word, 0, i); //PROTECTED
+	var_name = ft_substr(word, 0, i); // PROTECTED
 	if (!var_name)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 22:27:59 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 23:37:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,51 +14,45 @@
 
 char	*ft_join_prompt(t_array *array)
 {
-	char *error_converted;
-	char *joined_prompt;
-	
-	error_converted = ft_itoa(array->p_exit_status); //PROTECTED
-	if(!error_converted)
-	{
-		joined_prompt = ft_strdup("\001\033[1;36m\002maxishell \001\033[0m\002");
-		if(!joined_prompt)
-		{
-			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-			array->p_exit_status = 1;
-			return(NULL);
-		}
-	}
+	char	*error_converted;
+	char	*joind_prompt;
+
+	error_converted = ft_itoa(array->p_exit_status);
+	if (!error_converted)
+		joind_prompt = ft_strdup("\001\033[1;36m\002maxishell \001\033[0m\002");
 	else
 	{
-		joined_prompt = ft_strjoin(error_converted, "\001\033[1;36m\002 | maxishell \001\033[0m\002"); //PROTECTED
+		joind_prompt = ft_strjoin(error_converted,
+				"\001\033[1;36m\002 | maxishell \001\033[0m\002");
 		free(error_converted);
-		if(!joined_prompt)
-		{
-			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-			array->p_exit_status = 1;		
-			return(NULL);
-		}
 	}
-	return(joined_prompt);
+	if (!joind_prompt)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		array->p_exit_status = 1;
+		return (NULL);
+	}
+	return (joind_prompt);
 }
 
-void check_tty(char **line, char *prompt)
+void	check_tty(char **line, char *prompt)
 {
 	if (isatty(STDIN_FILENO))
-        *line = readline(prompt);
-    else
-        *line = readline(NULL);
+		*line = readline(prompt);
+	else
+		*line = readline(NULL);
 }
+
 void	*manage_readline(char **line, t_array *array, t_list **var)
 {
-	char *prompt;
-	
+	char	*prompt;
+
 	prompt = ft_join_prompt(array);
 	if (prompt)
 		*line = readline(prompt);
 	else
 		*line = readline("maxishell>");
-	if(g_signal == SIGINT)
+	if (g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
 	free(prompt);
@@ -71,22 +65,11 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	}
 	if (line && *line && **line != '\0')
 		add_history(*line);
-	return(NULL);
+	return (NULL);
 }
 
-int	process_command(char *line, t_list **var, t_array *array,
-		char ****cmd_splitted)
+int	call_check_syntax(char *line, char *temp_line, t_array *array)
 {
-	char	*temp_line;
-
-	temp_line = ft_strdup(line); //PROTECTED
-	if(!temp_line)
-	{
-		free(line);
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		array->p_exit_status = 1;
-		return(1);
-	}
 	if (check_syntax(temp_line))
 	{
 		if (line[0] != '\0')
@@ -95,16 +78,6 @@ int	process_command(char *line, t_list **var, t_array *array,
 		free(temp_line);
 		return (1);
 	}
-	free(line);
-	*cmd_splitted = parse_command(&temp_line, var, array);
-	free(temp_line);
-	if (!*cmd_splitted)
-		return (1);
-	if (analyse_command(*cmd_splitted, array))
-		return (1);
-	ft_init_exec(var, array);
-	free_command(*cmd_splitted);
-	ft_free_array_content(array);
 	return (0);
 }
 
@@ -122,7 +95,7 @@ int	launch_shell(t_list **var, t_array *array)
 		manage_readline(&line, array, var);
 		array->size = 0;
 		array->content = NULL;
-		if(line[0] != '\0')
+		if (line[0] != '\0')
 			process_command(line, var, array, &cmd_splitted);
 	}
 	return (0);
@@ -130,8 +103,11 @@ int	launch_shell(t_list **var, t_array *array)
 
 void	print_cmd_splitted(char ***cmd_splitted)
 {
-	int	k = 0;
-	int	i = 0;
+	int	k;
+	int	i;
+
+	k = 0;
+	i = 0;
 	while (cmd_splitted[k])
 	{
 		i = 0;
@@ -147,13 +123,15 @@ void	print_cmd_splitted(char ***cmd_splitted)
 	printf("////////////////\n\n");
 }
 
-void	print_cmd(char **cmd)
-{
-	int	k = 0;
-	while (cmd[k])
-	{
-		printf("word n%d : [%s]\n\n", k, cmd[k]);
-		k++;
-	}
-	printf("////////////////\n\n");
-}
+// void	print_cmd(char **cmd)
+// {
+// 	int	k;
+
+// 	k = 0;
+// 	while (cmd[k])
+// 	{
+// 		printf("word n%d : [%s]\n\n", k, cmd[k]);
+// 		k++;
+// 	}
+// 	printf("////////////////\n\n");
+// }
