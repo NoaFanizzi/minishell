@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:31:17 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 13:36:50 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 02:30:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ int	check_new_redir_seq(char *cmd, size_t *i, int spaced_after, char op)
 		if (spaced_after || cmd[*i] != op)
 		{
 			if (spaced_after && cmd[*i + 1] && cmd[*i + 1] == cmd[*i])
-				printf("bash: syntax error near unexpected token `%c%c'\n", cmd[*i], cmd[*i]);
+				printf("bash: syntax error near unexpected token `%c%c'\n",
+					cmd[*i], cmd[*i]);
 			else
-				printf("bash: syntax error near unexpected token `%c'\n", cmd[*i]);
+				printf("bash: syntax error near unexpected token `%c'\n",
+					cmd[*i]);
 			return (1);
 		}
 	}
@@ -53,7 +55,7 @@ int	check_new_redir_seq(char *cmd, size_t *i, int spaced_after, char op)
 
 int	check_op_count(int op_count, char op)
 {
-	if (op_count >= 4) // more than >> or << (like >>>) => invalid
+	if (op_count >= 4)
 	{
 		printf("bash: syntax error near unexpected token `%c%c'\n", op, op);
 		return (1);
@@ -66,7 +68,7 @@ int	check_op_count(int op_count, char op)
 	return (0);
 }
 
-int check_pipe_end(char *cmd)
+int	check_pipe_end(char *cmd)
 {
 	size_t	i;
 

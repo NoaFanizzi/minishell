@@ -6,75 +6,11 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 23:57:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 02:26:05 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int        count_commands(char **command)
-{
-    size_t    i;
-    size_t    count;
-
-    i = 0;
-    count = 0;
-    while (command[i])
-    {
-		if (!command[i + 1] && command[i][0] == '|')
-		{
-			count++;
-			return (count + count);
-		}
-        else if (command[i][0] == '|')
-            count++;
-        i++;
-    }
-    return (count + count + 1);
-}
-
-int		count_command_words(char **command)
-{
-	size_t	i;
-	int	count;
-
-	i = 0;
-	count = 0;
-	if (command[i] && command[i][0] == '|')
-		return (1);
-	while (command[i])
-	{
-		if (command[i][0] == '|')
-			return (count);
-		i++;
-		count++;
-	}
-	return (count);
-}
-
-void	*free_command(char ***splitted)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	if(!splitted)
-		return(NULL);
-	while ((splitted)[i])
-	{
-		j = 0;
-		while ((splitted)[i][j])
-		{
-			free((splitted)[i][j]);
-			j++;
-		}
-		free((splitted)[i]);
-		i++;
-	}
-	free(splitted);
-	splitted = NULL;
-	return (NULL);
-}
 
 char	***init_splitted(char ***splitted, char **command)
 {
@@ -88,14 +24,14 @@ char	***init_splitted(char ***splitted, char **command)
 	cmd_count = count_commands(command);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
-		return (NULL);//malloc error
+		return (NULL);
 	while ((int)k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
 		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
 		if (!splitted[k])
-			return (free_command(splitted));//malloc error
+			return (free_command(splitted));
 		k++;
 	}
 	splitted[k] = 0;
@@ -107,9 +43,9 @@ char	***fill_splitted_command(char ***splitted, char **command)
 	size_t	k;
 	size_t	i;
 	size_t	cmd_index;
-	int	cmd_count;
+	int		cmd_count;
 	int		cmd_words_count;
-	
+
 	cmd_index = 0;
 	cmd_count = count_commands(command);
 	k = -1;
@@ -125,15 +61,16 @@ char	***fill_splitted_command(char ***splitted, char **command)
 		}
 		cmd_index += cmd_words_count;
 		splitted[k][i] = 0;
-	} 
+	}
 	splitted[k] = 0;
 	return (splitted);
 }
 
 char	***command_splitting(char **command)
 {
-	char	 ***splitted = NULL;
-	
+	char	***splitted;
+
+	splitted = NULL;
 	splitted = init_splitted(splitted, command);
 	if (!splitted)
 		return (NULL);

@@ -45,7 +45,12 @@ SIGNALS_SRCS		:= $(addprefix $(SIGNALS_DIR)/, $(SIGNALS_SRCS))
 # Ici, comme REDIRECTIONS_SRCS a déjà le préfixe redirections/, on ne remet pas exec/ devant :
 EXEC_SRCS = $(REDIRECTIONS_SRCS) $(ERROR_HANDLING_SRCS) $(CHILDREN_SRCS) $(PARENTS_SRCS) $(UTILS_SRCS) $(PIPES_SRCS) $(SIGNALS_SRCS)
 
-PARSING_SRCS = command_to_str.c quotes_splitting.c space_splitting.c meta_splitting.c quotes_removal.c command_splitting.c cmd_struct.c charset_split.c test.c contiguous_quotes.c expand.c parse_command.c check_syntax.c check_syntax_utils.c
+PARSING_SRCS = launch_shell.c analyse_command.c quotes_splitting.c quotes_splitting_utils.c space_splitting.c \
+               meta_splitting.c meta_splitting_utils.c quotes_removal.c command_splitting.c command_splitting_utils.c \
+			   cmd_struct.c figure_files.c figure_arg.c figure_cmd_opt.c cmd_struct_utils.c charset_split.c test.c \
+			   contiguous_quotes.c contiguous_quotes_utils.c contiguous_quotes_helpers.c join_prev_simple.c join_next_simple.c \
+			   join_prev_quotes.c join_next_quotes.c expand.c expand_util.c expand_other_utils.c expand_helpers.c expand_after.c \
+			   parse_command.c check_syntax.c check_syntax_utils.c hdoc.c
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
 SRCS		= main.c utils.c \

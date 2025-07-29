@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int check_redir(char *cmd, size_t *i)
+int	check_redir(char *cmd, size_t *i)
 {
 	char	op;
 	int		op_count;
@@ -71,8 +71,8 @@ int	check_consecutive_pipes(char *cmd, size_t *i)
 int	check_redir_pipes(char *cmd)
 {
 	size_t	i;
-	int     in_squote;
-	int     in_dquote;
+	int		in_squote;
+	int		in_dquote;
 
 	i = 0;
 	in_squote = 0;

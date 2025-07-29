@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int		is_sep(char c, const char *charset)
+int	is_sep(char c, const char *charset)
 {
 	size_t	i;
 
@@ -26,9 +26,9 @@ int		is_sep(char c, const char *charset)
 	return (0);
 }
 
-int		count_words(const char *str, const char *charset)
+int	count_words(const char *str, const char *charset)
 {
-	int	count;
+	int		count;
 	size_t	i;
 	int		is_word;
 
@@ -63,8 +63,8 @@ void	*free_words(char **splitted)
 	return (NULL);
 }
 
-char	**fill_splitted(const char *s, const char *charset,
-		char **splitted, size_t *j)
+char	**fill_splitted(const char *s, const char *charset, char **splitted,
+		size_t *j)
 {
 	size_t	i1;
 	size_t	i2;

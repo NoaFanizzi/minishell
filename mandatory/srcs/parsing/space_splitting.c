@@ -6,18 +6,18 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 09:47:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 23:18:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 02:27:38 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		split_space_count(char **command, const char *charset)
+int	split_space_count(char **command, const char *charset)
 {
 	int		count;
 	size_t	i;
-	
-	i = 0; 
+
+	i = 0;
 	count = 0;
 	while (command[i])
 	{
@@ -39,7 +39,7 @@ char	**fill_space_words(char **splitted, char **command, const char *charset)
 	k = 0;
 	while (command[k])
 	{
-		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)//quoted
+		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
 			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
 			if (!splitted[i])
@@ -62,13 +62,13 @@ char	**space_splitting(char **command)
 	int			count;
 	char		**splitted;
 	const char	charset[7] = {' ', '\n', '\t', '\f', '\v', '\r', 0};
-	
+
 	count = split_space_count(command, charset);
 	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
 		return (free_words(command));
 	splitted = fill_space_words(splitted, command, charset);
-	free_words(command);//to restablish after just the time i make a copy of command inside contiguous
+	free_words(command);
 	if (!splitted)
 		return (NULL);
 	return (splitted);

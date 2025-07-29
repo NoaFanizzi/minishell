@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/26 18:21:59 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 02:21:16 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	rem_and_shift(char *command)
 	while (command[j])
 	{
 		if (!command[j + 1])
-			break;
+			break ;
 		command[i] = command[j];
 		i++;
 		j++;
