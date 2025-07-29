@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:06:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:33:54 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 	if (ft_is_built_in_child(content, env) == 1)
 		ft_exit(content);
 	returned_value = ft_is_command(content);
-	if (returned_value == 1)
+	if (returned_value == 1 || returned_value == 2)
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
@@ -43,6 +43,7 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 		content->error_code = 127;
 		ft_exit(content);
 	}
+	check_directory_before_exec(content);
 	return (0);
 }
 
@@ -81,7 +82,9 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	build_execve_data(content, env, &env_converted);
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
+		ft_free_tab(env_converted);
 		perror("execve");
+		content->error_code = errno;
 		ft_exit(content);
 	}
 }

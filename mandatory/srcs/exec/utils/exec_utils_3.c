@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:17:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:25:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:34:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,22 @@ void	ft_fill_array(int *tab)
 	{
 		tab[i] = -8;
 		i++;
+	}
+}
+
+void	check_directory_before_exec(t_content *content)
+{
+	struct stat	sb;
+
+	if (stat(content->cmd[0], &sb) == 0)
+	{
+		if (S_ISDIR(sb.st_mode) == 1)
+		{
+			ft_putstr_fd("maxishell: ", STDERR_FILENO);
+			ft_putstr_fd(content->cmd[0], STDERR_FILENO);
+			ft_putendl_fd(": is a directory", STDERR_FILENO);
+			content->error_code = 126;
+			ft_exit(content);
+		}
 	}
 }

@@ -3,53 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 17:22:42 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:41:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	switch_lit_quotes(char *exp_var)
-{
-	size_t	i;
-
-	i = 0;
-	while (exp_var[i])
-	{
-		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
-			exp_var[i] = exp_var[i] * -1;
-		i++;
-	}
-	printf("exp_var in lit : %s\n", exp_var);
-}
-
-void	switch_back_lit_quotes(char *exp_var)
-{
-	size_t	i;
-
-	i = 0;
-	while (exp_var[i])
-	{
-		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
-			exp_var[i] = exp_var[i] * -1;
-		i++;
-	}
-}
-
-void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
+int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word)
 {
 	char	*exp_var;
 	int		after_great;
+	int		return_value;
 
 	after_great = 0;
-	exp_var = get_var_value(data->var_name, *env);
-	printf("exp_var before : %s\n", exp_var);
-	switch_lit_quotes(exp_var);
-	printf("exp_var after : %s\n", exp_var);
+	return_value = 0;
+	exp_var = get_var_value(data->var_name, *env); //PROTECTED
+	if(!exp_var)
+		return(1);
 	if (is_after_great_var(data->new_command, data->i))
 	{
 		after_great = 1;
@@ -64,10 +38,10 @@ void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		(*k)++;
 	}
 	free(exp_var);
-	
+	return(0);
 }
 
-char	*expand_var(t_expand *data, t_list **env)
+char	*expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	char	*new_word;
 	size_t	j;
@@ -75,9 +49,11 @@ char	*expand_var(t_expand *data, t_list **env)
 
 	j = 0;
 	k = 0;
-	new_word = ft_calloc(data->new_length + 1, sizeof(char));
+	new_word = ft_calloc(data->new_length + 1, sizeof(char)); //PROTECTED
 	if (!new_word)
 	{
+		free(data->var_name);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free(data->new_command);
 		return (NULL);
 	}
@@ -85,7 +61,13 @@ char	*expand_var(t_expand *data, t_list **env)
 	{
 		if (j == data->i)
 		{
-			expand_var_in_command(data, env, &k, new_word);
+			if(expand_var_in_command(data, env, &k, new_word) == 1)
+			{
+				free(data->new_command);
+				free(new_word);
+				array->p_exit_status = 1;
+				return(NULL);
+			}
 			j += get_var_length(&data->new_command[j + 1]);
 		}
 		else
@@ -129,14 +111,23 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 
 	data.i = 0;
 	data.new_length = 0;
-	data.new_command = ft_strdup(command);
+	data.new_command = ft_strdup(command); //PROTECTED
 	if (!data.new_command)
+	{
+		free(command);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		array->p_exit_status = 1;
 		return (NULL);
+	}
 	free(command);
 	while (data.new_command[data.i])
 	{
 		if (look_to_expand(&data, env, array) == NULL)
+		{
+			printf("je suis la\n");
+			free(data.new_command);
 			return (NULL);
+		}
 	}
 	return (data.new_command);
 }

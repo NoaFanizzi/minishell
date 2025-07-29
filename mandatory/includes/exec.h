@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 08:33:47 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:31:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void	*ft_free_one_chain_element(t_env *env, t_array *array);
 char	**ct_get_paths(t_list *var, t_content *content);
 char	**ft_cmd_join(char **a, char **b, t_content *content);
 void	ft_display_array_content(t_array *array);
+int	is_a_saved_pwd(t_content *content, char **dir, char **saved_pwd);
 int     ft_contains_dir(char *path);
 void	ft_display_env(t_list *env, t_content *content);
 
@@ -168,6 +169,7 @@ void	ft_close_all(t_content *content);
 int		check_long_min_max(char *str, size_t *i);
 void	ft_display_int_array(int *array);
 void	ft_fill_array(int *tab);
+void	check_directory_before_exec(t_content *content);
 
 //exec_utils_free.c
 int		load_cmd_tab(char ***a, char ***b, t_content *content, char ***cmd);

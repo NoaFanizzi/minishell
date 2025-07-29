@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 16:52:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:35:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,32 +54,6 @@ void	analyse_command(char ***cmd_splitted, t_array *array)
 				return ;
 			create_cmd_struct(cmd_splitted, &array->content[struct_index],
 				cmd_index);
-			//test
-			size_t i = 0;
-			size_t count = count_redir(cmd_splitted[cmd_index]);
-			while (i < count)
-			{
-				printf("redir index n%d :\n",  array->content[struct_index].files[i].index + 1);
-				printf("redir%d\n\n", (int) array->content[struct_index].files[i].type + 1);
-				i++;
-			}
-			i = 0;
-			count = count_cmd_opt(cmd_splitted[cmd_index]);
-			//("count_cmd_opt : %zu\n", count);
-			while (i < count)
-			{
-				printf("CMD n%lu:%s\n", i + 1,  array->content[struct_index].cmd[i]);
-				i++;
-			}
-			i = 0;
-			count = count_arg(cmd_splitted[cmd_index]);
-			//printf("count_arg : %zu\n", count);
-			while (i < count)
-			{
-				printf("ARG n%lu:%s\n", i + 1,  array->content[struct_index].arg[i]);
-				i++;
-			}
-			//test			
 			struct_index++;
 		}
 		cmd_index++;

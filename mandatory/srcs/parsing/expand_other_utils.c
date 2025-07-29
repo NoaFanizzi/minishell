@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_other_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:51:25 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:20:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:39:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ size_t	get_var_length(char *word)
 	len = 0;
 	while (word[len] && valid_var_char(word[len]))
 		len++;
-	printf("var length = %zu\n", len + 1);
 	return (len + 1);
 }
 
@@ -31,9 +30,12 @@ char	*get_var_name(char *word)
 	i = 0;
 	while (word[i] && valid_var_char(word[i]))
 		i++;
-	var_name = ft_substr(word, 0, i);
+	var_name = ft_substr(word, 0, i); //PROTECTED
 	if (!var_name)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
+	}
 	return (var_name);
 }
 

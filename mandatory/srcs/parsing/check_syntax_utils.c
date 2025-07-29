@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:31:17 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:30:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:35:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,10 @@ int	check_new_redir_seq(char *cmd, size_t *i, int spaced_after, char op)
 		if (spaced_after || cmd[*i] != op)
 		{
 			if (spaced_after && cmd[*i + 1] && cmd[*i + 1] == cmd[*i])
-				printf("bash: syntax error near unexpected token `%c%c'\n",
+				printf("maxishell: syntax error near unexpected token `%c%c'\n",
 					cmd[*i], cmd[*i]);
 			else
-				printf("bash: syntax error near unexpected token `%c'\n",
+				printf("maxishell: syntax error near unexpected token `%c'\n",
 					cmd[*i]);
 			return (1);
 		}
@@ -57,12 +57,12 @@ int	check_op_count(int op_count, char op)
 {
 	if (op_count >= 4)
 	{
-		printf("bash: syntax error near unexpected token `%c%c'\n", op, op);
+		printf("maxishell: syntax error near unexpected token `%c%c'\n", op, op);
 		return (1);
 	}
 	else if (op_count == 3)
 	{
-		printf("bash: syntax error near unexpected token `%c'\n", op);
+		printf("maxishell: syntax error near unexpected token `%c'\n", op);
 		return (1);
 	}
 	return (0);
@@ -77,7 +77,7 @@ int	check_pipe_end(char *cmd)
 		i--;
 	if (cmd[i] && cmd[i] == '|')
 	{
-		printf("bash: syntax error near unexpected token `newline'\n");
+		printf("maxishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	return (0);

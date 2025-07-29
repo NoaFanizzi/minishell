@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_splitting_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:45:26 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:22:51 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:45:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	quotes_checker(char *line)
 			quote = line[i];
 			if (forward_till_quote(&line[i], &j, quote))
 			{
-				printf("bash: syntax error: unmatched quote\n");
+				printf("maxishell: syntax error: unmatched quote\n");
 				return (1);
 			}
 			i += j + 1;

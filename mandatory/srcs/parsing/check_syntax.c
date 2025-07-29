@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:49:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/28 13:36:53 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:35:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_redir(char *cmd, size_t *i)
 	skip_spaces(cmd, i, &spaced_after);
 	if (!cmd[*i])
 	{
-		printf("bash: syntax error near unexpected token `newline'\n");
+		printf("maxishell: syntax error near unexpected token `newline'\n");
 		return (1);
 	}
 	if (check_new_redir_seq(cmd, i, spaced_after, op))
@@ -49,7 +49,7 @@ int	check_pipe_start(char *cmd)
 		i++;
 	if (cmd[i] && cmd[i] == '|')
 	{
-		printf("bash: syntax error near unexpected token `|'\n");
+		printf("maxishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);
@@ -62,7 +62,7 @@ int	check_consecutive_pipes(char *cmd, size_t *i)
 		(*i)++;
 	if (cmd[*i] == '|')
 	{
-		printf("bash: syntax error near unexpected token `|'\n");
+		printf("maxishell: syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);

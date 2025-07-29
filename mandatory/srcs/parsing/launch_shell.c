@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 14:35:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 18:44:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	process_command(char *line, t_list **var, t_array *array,
 {
 	char	*temp_line;
 
-	temp_line = ft_strdup(line);
+	temp_line = ft_strdup(line); //PROTECTED
 	if(!temp_line)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);\
@@ -97,7 +97,10 @@ int	process_command(char *line, t_list **var, t_array *array,
 	}
 	*cmd_splitted = parse_command(&temp_line, var, array);
 	if (!*cmd_splitted)
+	{
+		free(temp_line);
 		return (1);
+	}
 	analyse_command(*cmd_splitted, array);
 	ft_init_exec(var, array);
 	free(line);
@@ -119,7 +122,8 @@ int	launch_shell(t_list **var, t_array *array)
 		manage_readline(&line, array, var);
 		array->size = 0;
 		array->content = NULL;
-		process_command(line, var, array, &cmd_splitted);
+		if(line[0] != '\0')
+			process_command(line, var, array, &cmd_splitted);
 	}
 	return (0);
 }
