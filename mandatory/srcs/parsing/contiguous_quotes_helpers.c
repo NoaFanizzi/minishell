@@ -3,14 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes_helpers.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:07:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:37:08 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:04:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// prev_simple : echo salut"hello"
+// prev_quotes : echo "salut""hello"
+// next_quotes : echo "salut""hello"
+// next_simple : echo "salut"hello
 
 int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged)
 {
@@ -38,7 +43,6 @@ int	call_prev_simple(char ***command, char ***cmd, size_t *i, int *merged)
 
 int	call_next_quotes(char ***command, char ***cmd, size_t i, int *merged)
 {
-	printf("next_quotes\n");
 	*command = join_next_quotes(command, i);
 	if (!*command)
 		return (1);
@@ -69,6 +73,9 @@ int	call_join_prev(char ***command, char ***cmd, size_t *i, int *merged)
 			return (1);
 	}
 	else if (*i > 0 && (*command)[*i - 1] && ft_strlen((*command)[*i - 1]) > 0
+		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1])
+				- 1]) == 0) && is_not_pipe_redir((*command)[*i
+			- 1][ft_strlen((*command)[*i - 1]) - 1]))
 		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1])
 				- 1]) == 0) && is_not_pipe_redir((*command)[*i
 			- 1][ft_strlen((*command)[*i - 1]) - 1]))

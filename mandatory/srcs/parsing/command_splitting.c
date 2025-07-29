@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 22:53:49 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:04:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	***init_splitted(char ***splitted, char **command)
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
 		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
+		// PROTECTED
 		if (!splitted[k])
 			return (free_command(splitted));
 		k++;
@@ -73,9 +74,15 @@ char	***command_splitting(char **command)
 	splitted = NULL;
 	splitted = init_splitted(splitted, command);
 	if (!splitted)
+	{
+		ft_free_tab(command);
 		return (NULL);
+	}
 	splitted = fill_splitted_command(splitted, command);
 	if (!splitted)
+	{
+		ft_free_tab(command);
 		return (NULL);
+	}
 	return (splitted);
 }

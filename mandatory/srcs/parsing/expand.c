@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:50:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:07:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,19 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 	return (0);
 }
 
-char	*expand_var(t_expand *data, t_list **env, t_array *array)
+void	*loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
+		char **new_word)
 {
-	char	*new_word;
 	size_t	j;
 	size_t	k;
 
 	j = 0;
 	k = 0;
-	new_word = ft_calloc(data->new_length + 1, sizeof(char)); // PROTECTED
-	if (!new_word)
-	{
-		free(data->var_name);
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		free(data->new_command);
-		return (NULL);
-	}
 	while (data->new_command[j])
 	{
 		if (j == data->i)
 		{
-			if (expand_var_in_command(data, env, &k, new_word) == 1)
+			if (expand_var_in_command(data, env, &k, *new_word) == 1)
 			{
 				free(data->new_command);
 				free(new_word);
@@ -98,9 +90,28 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array)
 			j += get_var_length(&data->new_command[j + 1]);
 		}
 		else
-			new_word[k++] = data->new_command[j++];
+			(*new_word)[k++] = data->new_command[j++];
 	}
-	new_word[k] = 0;
+	(*new_word)[k] = 0;
+	return ((void *)1);
+}
+
+char	*expand_var(t_expand *data, t_list **env, t_array *array)
+{
+	char	*new_word;
+	size_t	k;
+
+	k = 0;
+	new_word = ft_calloc(data->new_length + 1, sizeof(char)); // PROTECTED
+	if (!new_word)
+	{
+		free(data->var_name);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		free(data->new_command);
+		return (NULL);
+	}
+	if (loop_data_in_expand(data, env, array, &new_word) == NULL)
+		return (NULL);
 	free(data->new_command);
 	return (new_word);
 }
@@ -114,9 +125,10 @@ char	*remove_var(char *command, size_t i)
 	j = 0;
 	k = 0;
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char));
+				+ 1) * sizeof(char)); // PROTECTED
 	if (!new_command)
 	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free(command);
 		return (NULL);
 	}
@@ -151,7 +163,6 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 	{
 		if (look_to_expand(&data, env, array) == NULL)
 		{
-			printf("je suis la\n");
 			free(data.new_command);
 			return (NULL);
 		}

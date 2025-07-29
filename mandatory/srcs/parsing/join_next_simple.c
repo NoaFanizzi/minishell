@@ -3,66 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   join_next_simple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:11:27 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 13:40:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:07:52 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	fusion_simple_next(char **command, char **joined, size_t i, size_t j)
+static int	alloc_and_prepare_joined(char **command, char **joined,
+		size_t idx[3])
 {
 	size_t	size;
-	size_t	k;
 
-	k = 0;
-	while (joined[k])
-		k++;
-	rem_and_shift(command[i]);
-	size = len_until_space_forward(command[j]) + ft_strlen(command[i]) + 3;
-	joined[k] = malloc(size * sizeof(char));
-	if (!joined[k])
-		return ;
-	joined[k][0] = D_QUOTE;
-	joined[k][1] = 0;
-	ft_strlcat(joined[k], command[i], size);
-	ft_strlcat(joined[k], command[j], size);
-	joined[k][size - 2] = D_QUOTE;
-	joined[k][size - 1] = 0;
-	if (len_until_space_forward(command[j]) != ft_strlen(command[j]))
-		joined[k
-			+ 1] = ft_strdup(&command[j][len_until_space_forward(command[j])
-				+ 1]);
+	idx[2] = 0;
+	while (joined[idx[2]])
+		idx[2]++;
+	rem_and_shift(command[idx[0]]);
+	size = len_until_space_forward(command[idx[1]]) + ft_strlen(command[idx[0]])
+		+ 3;
+	joined[idx[2]] = malloc(size * sizeof(char));
+	if (!joined[idx[2]])
+	{
+		joined[idx[2]] = NULL;
+		return (1);
+	}
+	joined[idx[2]][0] = D_QUOTE;
+	joined[idx[2]][1] = 0;
+	ft_strlcat(joined[idx[2]], command[idx[0]], size);
+	ft_strlcat(joined[idx[2]], command[idx[1]], size);
+	joined[idx[2]][size - 2] = D_QUOTE;
+	joined[idx[2]][size - 1] = 0;
+	return (0);
 }
 
-void	go_through_join_next_simple(char **command, char **joined, size_t i)
+int	fusion_simple_next(char **command, char **joined, size_t idx[3])
 {
-	size_t	j;
-	size_t	k;
-
-	j = -1;
-	k = 0;
-	while (command[++j])
+	if (alloc_and_prepare_joined(command, joined, idx) == 1)
+		return (1);
+	if (len_until_space_forward(command[idx[1]]) != ft_strlen(command[idx[1]]))
 	{
-		if (i == j)
+		joined[idx[2]
+			+ 1] = ft_strdup(&command[idx[1]]
+			[len_until_space_forward(command[idx[1]]) + 1]);
+		if (!joined[idx[2] + 1])
+			return (1);
+	}
+	return (0);
+}
+
+int	manage_next_simple(char **command, char ***joined, size_t idx[3])
+{
+	size_t	fusion_idx[3];
+
+	fusion_idx[0] = idx[0];
+	fusion_idx[1] = idx[1] + 1;
+	fusion_idx[2] = idx[2];
+	if (fusion_simple_next(command, *joined, fusion_idx) == 1)
+	{
+		ft_free_tab_length(*joined, idx[0]);
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		return (1);
+	}
+	if (len_until_space_forward(command[idx[1] + 1]) != ft_strlen(command[idx[1]
+				+ 1]))
+	{
+		if (check_free_joined(joined, &idx[2]))
+			return (1);
+	}
+	idx[1] += 1;
+	return (0);
+}
+
+int	go_through_join_next_simple(char **command, char **joined, size_t i)
+{
+	size_t	idx[3];
+
+	idx[0] = i;
+	idx[1] = 0;
+	idx[2] = 0;
+	while (command[idx[1]])
+	{
+		if (idx[0] == idx[1])
 		{
-			fusion_simple_next(command, joined, i, j + 1);
-			if (len_until_space_forward(command[j + 1]) != ft_strlen(command[j
-					+ 1]))
-			{
-				if (check_free_joined(&joined, &k))
-					return ;
-			}
-			j++;
+			if (manage_next_simple(command, &joined, idx) == 1)
+				return (1);
 		}
 		else
-			joined[k] = ft_strdup(command[j]);
-		if (check_free_joined(&joined, &k))
-			return ;
-		joined[k] = 0;
+		{
+			joined[idx[2]] = ft_strdup(command[idx[1]]);
+		}
+		if (check_free_joined(&joined, &idx[2]))
+			return (1);
+		joined[idx[2]] = 0;
+		idx[1]++;
 	}
+	return (0);
 }
 
 char	**join_next_simple(char ***command, size_t i)
@@ -73,15 +110,15 @@ char	**join_next_simple(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *));
+	joined = malloc((size + 1) * sizeof(char *)); // PROTECTED
 	if (!joined)
 	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free_words(*command);
 		return (NULL);
 	}
 	joined[0] = 0;
-	go_through_join_next_simple(*command, joined, i);
-	if (!joined)
+	if (go_through_join_next_simple(*command, joined, i) == 1 || !joined)
 	{
 		free_words(*command);
 		return (NULL);

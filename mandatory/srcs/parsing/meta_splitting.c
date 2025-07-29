@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 14:28:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 22:11:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 			while (s[tab[1]] && !is_sep(s[tab[1]], charset))
 				tab[1]++;
 		}
-		splitted = add_segment(s, splitted, j, tab);
+		if (add_segment(s, &splitted, j, tab) == 1)
+			return (free_words(splitted));
 		if (!splitted)
 			return (NULL);
 	}
@@ -74,7 +75,7 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
 			// Copy quoted strings as-is (they shouldn't be split by metacharacters)
-			splitted[i] = ft_strdup(command[k]);
+			splitted[i] = ft_strdup(command[k]); // PROTECTED
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -98,12 +99,20 @@ char	**meta_splitting(char **command)
 	const char	charset[4] = {'>', '<', '|', 0};
 
 	count = split_meta_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *));
+	splitted = malloc((count + 1) * sizeof(char *)); // PROTECTED
 	if (!splitted)
+	{
+		printf("la\n");
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (free_words(command));
+	}
 	splitted = fill_meta_words(splitted, command, charset);
 	free_words(command);
 	if (!splitted)
+	{
+		printf("slt\n");
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
+	}
 	return (splitted);
 }

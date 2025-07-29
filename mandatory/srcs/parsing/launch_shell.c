@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:37:49 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:09:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ char	*ft_join_prompt(t_array *array)
 }
 
 void	check_tty(char **line, char *prompt)
+void	check_tty(char **line, char *prompt)
 {
 	if (isatty(STDIN_FILENO))
 		*line = readline(prompt);
@@ -47,11 +48,14 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char	*prompt;
 
+	char	*prompt;
+
 	prompt = ft_join_prompt(array);
 	if (prompt)
 		*line = readline(prompt);
 	else
 		*line = readline("maxishell>");
+	if (g_signal == SIGINT)
 	if (g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
@@ -65,6 +69,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	}
 	if (line && *line && **line != '\0')
 		add_history(*line);
+	return (NULL);
 	return (NULL);
 }
 
@@ -96,6 +101,7 @@ int	launch_shell(t_list **var, t_array *array)
 		array->size = 0;
 		array->content = NULL;
 		if (line[0] != '\0')
+		if (line[0] != '\0')
 			process_command(line, var, array, &cmd_splitted);
 	}
 	return (0);
@@ -103,6 +109,11 @@ int	launch_shell(t_list **var, t_array *array)
 
 void	print_cmd_splitted(char ***cmd_splitted)
 {
+	int	k;
+	int	i;
+
+	k = 0;
+	i = 0;
 	int	k;
 	int	i;
 

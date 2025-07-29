@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:36:48 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:06:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ size_t	len_until_space_backward(char *str)
 	return (count);
 }
 
-// Check if two tokens are truly contiguous (no spaces between them)
 int	are_contiguous(char *prev, char *curr)
 {
 	size_t	prev_len;
@@ -55,7 +54,6 @@ int	are_contiguous(char *prev, char *curr)
 	prev_len = ft_strlen(prev);
 	if (prev_len == 0)
 		return (0);
-	// Check if previous token ends without space and current starts without space
 	return (!ft_isspace(prev[prev_len - 1]) && !ft_isspace(curr[0]));
 }
 
@@ -71,90 +69,103 @@ int	should_merge_prev(char **command, size_t i)
 	prev_len = ft_strlen(command[i - 1]);
 	if (prev_len == 0)
 		return (0);
-	// Check if previous ends with quote or is not a pipe/redirect
 	return (is_quote(command[i - 1][prev_len - 1])
 		|| is_not_pipe_redir(command[i - 1][prev_len - 1]));
 }
 
-// Check if we should merge with next token
 int	should_merge_next(char **command, size_t i)
 {
 	if (!command[i + 1])
 		return (0);
 	if (!are_contiguous(command[i], command[i + 1]))
 		return (0);
-	// Check if next starts with quote or is not a pipe/redirect
 	return (is_quote(command[i + 1][0]) || (is_not_pipe_redir(command[i + 1][0])
 			&& !ft_isspace(command[i + 1][0])));
 }
 
-int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged)
+int	check_if_merge_needed(char ***command, char ***cmd, size_t *i, int *merged)
 {
-	// First try to merge with previous
-	if (should_merge_prev(*command, *i))
-	{
-		if (is_quote((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
-		{
-			printf("command[i-1] = %s\n", (*command)[*i - 1]);
-			if (call_prev_quotes(command, cmd, i, merged))
-				return (1);
-		}
-		else
-		{
-			printf("command[i-1] = %s\n", (*command)[*i - 1]);
-			if (call_prev_simple(command, cmd, i, merged))
-				return (1);
-		}
-		return (0);
-	}
-	// Then try to merge with next
 	if (should_merge_next(*command, *i))
 	{
 		if (is_quote((*command)[*i + 1][0]))
 		{
-			printf("command[i+1] = %s\n", (*command)[*i + 1]);
 			if (call_next_quotes(command, cmd, *i, merged))
 				return (1);
 		}
 		else
 		{
-			printf("command[i+1] = %s\n", (*command)[*i + 1]);
 			if (call_next_simple(command, cmd, i, merged))
 				return (1);
 		}
 		return (0);
 	}
+	return (2);
+}
+
+int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged)
+{
+	int	returned_value;
+
+	returned_value = 0;
+	if (should_merge_prev(*command, *i))
+	{
+		if (is_quote((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
+		{
+			if (call_prev_quotes(command, cmd, i, merged))
+				return (1);
+		}
+		else
+		{
+			if (call_prev_simple(command, cmd, i, merged) == 1)
+				return (1);
+		}
+		return (0);
+	}
+	returned_value = check_if_merge_needed(command, cmd, i, merged);
+	if (returned_value == 0 || returned_value == 1)
+		return (returned_value);
 	return (0);
 }
 
-void	contiguous_quotes(char ***cmd)
+int	loop_in_continuous(char ***cmd, char ***command, int *changes_made)
+{
+	size_t	i;
+	int		merged;
+
+	i = 0;
+	while ((*command)[i])
+	{
+		merged = 0;
+		if (is_quote((*command)[i][0]))
+		{
+			if (call_join_next_prev(command, cmd, &i, &merged) == 1)
+				return (1);
+			*command = *cmd;
+			if (merged)
+			{
+				*changes_made = 1;
+				continue ;
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
 	char	**command;
-	int		merged;
 	int		changes_made;
 
-	do
+	changes_made = 1;
+	while (changes_made)
 	{
 		changes_made = 0;
 		i = 0;
 		command = *cmd;
-		while (command[i])
-		{
-			merged = 0;
-			if (is_quote(command[i][0]))
-			{
-				if (call_join_next_prev(&command, cmd, &i, &merged))
-					return ;
-				command = *cmd;
-				if (merged)
-				{
-					changes_made = 1;
-					// Don't increment i, recheck this position
-					continue ;
-				}
-			}
-			i++;
-		}
-	} while (changes_made);
+		if (loop_in_continuous(cmd, &command, &changes_made) == 1)
+			return (1);
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:40:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 01:03:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,23 @@ void	shift_words(char **command, size_t i);
 int	check_free_joined(char ***joined, size_t *k);
 int	ft_isspace(char c);
 
-void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_next_quotes(char **command, char **joined, size_t i);
+int		fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
+int		go_through_join_next_quotes(char **command, char **joined, size_t i);
 char	**join_next_quotes(char ***command, size_t i);
 
-void	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_next_simple(char **command, char **joined, size_t i);
+int     fusion_simple_next(char **command, char **joined, size_t idx[3]);
+int	go_through_join_next_simple(char **command, char **joined, size_t i);
 char	**join_next_simple(char ***command, size_t i);
 
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
 char	**join_prev_quotes(char ***command, size_t i);
 
-void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_prev_simple(char **command, char **joined, size_t i);
+int		fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
+int		go_through_join_prev_simple(char **command, char **joined, size_t i);
 char	**join_prev_simple(char ***command, size_t i);
 
-void	contiguous_quotes(char ***cmd);
+int	contiguous_quotes(char ***cmd);
 int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged);
 size_t	len_until_space_backward(char *str);
 size_t	len_until_space_forward(char *str);
@@ -104,7 +104,7 @@ int	figure_hdoc(char **cmd, t_content *content, int tab[2],
 void	figure_in(char **cmd, t_content *content, int tab[2],
 		size_t redir_count);
 
-char	**add_segment(const char *s, char **splitted, size_t *j, int tab[2]);
+int	add_segment(const char *s, char ***splitted, size_t *j, int tab[2]);
 int	twisted_count_words(char *str, const char *charset);
 
 int		analyse_command(char ***cmd_splitted, t_array *array);
