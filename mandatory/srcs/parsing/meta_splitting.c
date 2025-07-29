@@ -38,7 +38,6 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 	// Reset static variables for each new string
 	tab[0] = 0;
 	tab[1] = 0;
-	
 	while (s[tab[0]])
 	{
 		tab[0] = tab[1];
@@ -56,8 +55,8 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 			while (s[tab[1]] && !is_sep(s[tab[1]], charset))
 				tab[1]++;
 		}
-		if(add_segment(s, &splitted, j, tab) == 1)
-			return(free_words(splitted));
+		if (add_segment(s, &splitted, j, tab) == 1)
+			return (free_words(splitted));
 		if (!splitted)
 			return (NULL);
 	}
@@ -76,7 +75,7 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
 			// Copy quoted strings as-is (they shouldn't be split by metacharacters)
-			splitted[i] = ft_strdup(command[k]); //PROTECTED
+			splitted[i] = ft_strdup(command[k]); // PROTECTED
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -100,7 +99,7 @@ char	**meta_splitting(char **command)
 	const char	charset[4] = {'>', '<', '|', 0};
 
 	count = split_meta_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *)); //PROTECTED
+	splitted = malloc((count + 1) * sizeof(char *)); // PROTECTED
 	if (!splitted)
 	{
 		printf("la\n");

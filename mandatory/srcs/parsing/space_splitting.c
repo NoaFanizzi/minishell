@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 int	split_space_count(char **command, const char *charset)
@@ -42,7 +41,8 @@ char	**fill_space_words(char **splitted, char **command, const char *charset)
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
-			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k])); //PROTECTED
+			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
+			// PROTECTED
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -65,7 +65,7 @@ char	**space_splitting(char **command)
 	const char	charset[7] = {' ', '\n', '\t', '\f', '\v', '\r', 0};
 
 	count = split_space_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *)); //PROTECTED
+	splitted = malloc((count + 1) * sizeof(char *)); // PROTECTED
 	if (!splitted)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

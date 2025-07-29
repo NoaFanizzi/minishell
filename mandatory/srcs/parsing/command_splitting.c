@@ -29,7 +29,8 @@ char	***init_splitted(char ***splitted, char **command)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
-		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *)); //PROTECTED
+		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
+		// PROTECTED
 		if (!splitted[k])
 			return (free_command(splitted));
 		k++;

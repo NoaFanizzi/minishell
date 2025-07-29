@@ -48,7 +48,7 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 	char	*str;
 
 	command = NULL;
-	str = ft_strdup(*line); //PROTECTED
+	str = ft_strdup(*line); // PROTECTED
 	if (!str)
 	{
 		array->p_exit_status = 1;
@@ -63,13 +63,13 @@ char	***parse_command(char **line, t_list **var, t_array *array)
 		free(str);
 		return (NULL);
 	}
-	command = quotes_splitting(command, str); //PROTECTED
+	command = quotes_splitting(command, str); // PROTECTED
 	free(str);
 	if (!command)
 	{
 		array->p_exit_status = 1;
 		return (NULL);
-	}	
+	}
 	if (contiguous_quotes(&command) == 1 || !command)
 	{
 		array->p_exit_status = 1;

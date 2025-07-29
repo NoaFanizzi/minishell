@@ -79,7 +79,7 @@ char	**fill_splitted(const char *s, const char *charset, char **splitted,
 			i2++;
 		if (i2 > i1)
 		{
-			splitted[*j] = ft_substr(s, i1, i2 - i1); //PROTECTED
+			splitted[*j] = ft_substr(s, i1, i2 - i1); // PROTECTED
 			if (!splitted[*j])
 				return (free_words(splitted));
 			(*j)++;

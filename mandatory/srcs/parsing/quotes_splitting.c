@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "minishell.h"
 
 int	split_quote_count(char *line)
@@ -37,7 +36,7 @@ int	split_quote_count(char *line)
 	return (count);
 }
 
-char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
+char	**fill_quote_words(char **command, char *line, size_t k, size_t *i)
 {
 	char	quote;
 	size_t	j;
@@ -47,7 +46,7 @@ char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 	{
 		quote = line[*i];
 		forward_till_quote(&line[*i], &j, quote);
-		command[k] = ft_substr(line, *i, j + 1); //PROTECTED
+		command[k] = ft_substr(line, *i, j + 1); // PROTECTED
 		if (!command[k])
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
@@ -60,7 +59,7 @@ char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 		j = *i;
 		while (line[j] && line[j] != D_QUOTE && line[j] != S_QUOTE)
 			j++;
-		command[k] = ft_substr(line, *i, j - *i); //PROTECTED
+		command[k] = ft_substr(line, *i, j - *i); // PROTECTED
 		if (!command[k])
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
@@ -78,7 +77,8 @@ char	**quotes_splitting(char **command, char *line)
 
 	i = 0;
 	k = 0;
-	command = malloc((split_quote_count(line) + 1) * sizeof(char *)); //PROTECTED
+	command = malloc((split_quote_count(line) + 1) * sizeof(char *));
+	// PROTECTED
 	if (!command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

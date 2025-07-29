@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 22:12:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:41:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ int	check_free_joined(char ***joined, size_t *k);
 int	ft_isspace(char c);
 
 int		fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
-int	go_through_join_next_quotes(char **command, char **joined, size_t i);
+int		go_through_join_next_quotes(char **command, char **joined, size_t i);
 char	**join_next_quotes(char ***command, size_t i);
 
-int	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
+int     fusion_simple_next(char **command, char **joined, size_t idx[3]);
 int	go_through_join_next_simple(char **command, char **joined, size_t i);
 char	**join_next_simple(char ***command, size_t i);
 

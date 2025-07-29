@@ -27,7 +27,7 @@ void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j)
 	if (!joined[k])
 	{
 		joined[k] = NULL;
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);	
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return ;
 	}
 	joined[k][0] = D_QUOTE;
@@ -74,7 +74,7 @@ char	**join_prev_quotes(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *)); //PROTECTED
+	joined = malloc((size + 1) * sizeof(char *)); // PROTECTED
 	if (!joined)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

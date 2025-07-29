@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:10:40 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 21:16:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 23:16:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 	rem_and_shift(command[j]);
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[k] = malloc(size * sizeof(char)); //PROTECTED
+	joined[k] = malloc(size * sizeof(char)); // PROTECTED
 	if (!joined[k])
 	{
 		ft_free_tab_length(joined, k);
@@ -37,39 +37,36 @@ int	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 	ft_strlcat(joined[k], command[j], size);
 	joined[k][size - 2] = D_QUOTE;
 	joined[k][size - 1] = 0;
-	return(0);
+	return (0);
 }
 
 int	go_through_join_next_quotes(char **command, char **joined, size_t i)
 {
-	size_t	j;
-	size_t	k;
+	size_t	idx[2];
 
-	j = 0;
-	k = 0;
-	while (command[j])
+	idx[0] = (size_t)-1;
+	idx[1] = 0;
+	while (command[++idx[0]])
 	{
-		joined[k] = 0;
-		if (i == j)
+		joined[idx[1]] = NULL;
+		if (i == idx[0])
 		{
-			if(fusion_quotes_next(command, joined, i, j + 1) == 1)
-				return(1);
-			j++;
+			if (fusion_quotes_next(command, joined, i, idx[0] + 1) == 1)
+				return (1);
+			idx[0]++;
 		}
 		else
-			joined[k] = ft_strdup(command[j]); //PROTECTED
-		if (!joined[k])
+			joined[idx[1]] = ft_strdup(command[idx[0]]);
+		if (!joined[idx[1]])
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 			free_words(joined);
-			joined = NULL;
 			return (1);
 		}
-		j++;
-		k++;
-		joined[k] = 0;
+		idx[1]++;
+		joined[idx[1]] = NULL;
 	}
-	return(0);
+	return (0);
 }
 
 char	**join_next_quotes(char ***command, size_t i)
@@ -80,7 +77,7 @@ char	**join_next_quotes(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *)); //PROTECTED
+	joined = malloc((size + 1) * sizeof(char *)); // PROTECTED
 	if (!joined)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

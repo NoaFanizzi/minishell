@@ -20,8 +20,9 @@ void	rem_and_shift(char *command)
 	i = 0;
 	j = 1;
 	if ((command[0] != D_QUOTE || command[ft_strlen(command) - 1] != D_QUOTE)
-		&& (command[0] != S_QUOTE || command[ft_strlen(command) - 1] != S_QUOTE))
-    	return;
+		&& (command[0] != S_QUOTE || command[ft_strlen(command)
+			- 1] != S_QUOTE))
+		return ;
 	while (command[j])
 	{
 		if (!command[j + 1])

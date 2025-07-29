@@ -50,5 +50,5 @@ int	add_segment(const char *s, char ***splitted, size_t *j, int tab[2])
 			return (1);
 		(*j)++;
 	}
-	return(0);
+	return (0);
 }

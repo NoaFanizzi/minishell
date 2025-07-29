@@ -17,7 +17,6 @@
 // next_quotes : echo "salut""hello"
 // next_simple : echo "salut"hello
 
-
 int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged)
 {
 	printf("prev_quotes\n");
@@ -29,8 +28,6 @@ int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged)
 	*merged = 1;
 	return (0);
 }
-
-
 
 int	call_prev_simple(char ***command, char ***cmd, size_t *i, int *merged)
 {
@@ -77,8 +74,9 @@ int	call_join_prev(char ***command, char ***cmd, size_t *i, int *merged)
 			return (1);
 	}
 	else if (*i > 0 && (*command)[*i - 1] && ft_strlen((*command)[*i - 1]) > 0
-		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]) == 0)
-		&& is_not_pipe_redir((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
+		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1])
+				- 1]) == 0) && is_not_pipe_redir((*command)[*i
+			- 1][ft_strlen((*command)[*i - 1]) - 1]))
 	{
 		printf("command[i] = %s\n", (*command)[*i - 1]);
 		if (call_prev_simple(command, cmd, i, merged))

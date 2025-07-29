@@ -75,8 +75,8 @@ int	is_after_great(char *cmd, size_t var_index)
 	i = 0;
 	in_squote = 0;
 	in_dquote = 0;
-	if(!cmd[i])
-		return(0);
+	if (!cmd[i])
+		return (0);
 	while (cmd[i])
 	{
 		handle_quote_state(&in_squote, &in_dquote, cmd, &i);
@@ -103,8 +103,8 @@ int	is_after_great_var(char *cmd, size_t var_index)
 	i = 0;
 	in_squote = 0;
 	in_dquote = 0;
-	if(!cmd)
-		return(0);
+	if (!cmd)
+		return (0);
 	while (i < ft_strlen(cmd))
 	{
 		handle_quote_state(&in_squote, &in_dquote, cmd, &i);

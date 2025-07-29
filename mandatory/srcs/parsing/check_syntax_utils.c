@@ -57,7 +57,8 @@ int	check_op_count(int op_count, char op)
 {
 	if (op_count >= 4)
 	{
-		printf("maxishell: syntax error near unexpected token `%c%c'\n", op, op);
+		printf("maxishell: syntax error near unexpected token `%c%c'\n", op,
+			op);
 		return (1);
 	}
 	else if (op_count == 3)
