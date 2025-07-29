@@ -6,11 +6,37 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:41:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:50:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	switch_lit_quotes(char *exp_var)
+{
+	size_t	i;
+
+	i = 0;
+	while (exp_var[i])
+	{
+		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
+			exp_var[i] = exp_var[i] * -1;
+		i++;
+	}
+}
+
+void	switch_back_lit_quotes(char *exp_var)
+{
+	size_t	i;
+
+	i = 0;
+	while (exp_var[i])
+	{
+		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
+			exp_var[i] = exp_var[i] * -1;
+		i++;
+	}
+}
 
 int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word)
@@ -21,9 +47,10 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 
 	after_great = 0;
 	return_value = 0;
-	exp_var = get_var_value(data->var_name, *env); //PROTECTED
-	if(!exp_var)
-		return(1);
+	exp_var = get_var_value(data->var_name, *env); // PROTECTED
+	if (!exp_var)
+		return (1);
+	switch_lit_quotes(exp_var);
 	if (is_after_great_var(data->new_command, data->i))
 	{
 		after_great = 1;
@@ -38,7 +65,7 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		(*k)++;
 	}
 	free(exp_var);
-	return(0);
+	return (0);
 }
 
 char	*expand_var(t_expand *data, t_list **env, t_array *array)
@@ -49,7 +76,7 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array)
 
 	j = 0;
 	k = 0;
-	new_word = ft_calloc(data->new_length + 1, sizeof(char)); //PROTECTED
+	new_word = ft_calloc(data->new_length + 1, sizeof(char)); // PROTECTED
 	if (!new_word)
 	{
 		free(data->var_name);
@@ -61,12 +88,12 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array)
 	{
 		if (j == data->i)
 		{
-			if(expand_var_in_command(data, env, &k, new_word) == 1)
+			if (expand_var_in_command(data, env, &k, new_word) == 1)
 			{
 				free(data->new_command);
 				free(new_word);
 				array->p_exit_status = 1;
-				return(NULL);
+				return (NULL);
 			}
 			j += get_var_length(&data->new_command[j + 1]);
 		}
@@ -111,7 +138,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 
 	data.i = 0;
 	data.new_length = 0;
-	data.new_command = ft_strdup(command); //PROTECTED
+	data.new_command = ft_strdup(command); // PROTECTED
 	if (!data.new_command)
 	{
 		free(command);

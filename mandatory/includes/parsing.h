@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:32:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 18:49:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ int	quotes_checker(char *line);
 
 char	*expand_word(char *command, t_list **env, t_array *array);
 char	*remove_var(char *command, size_t i);
-char	*expand_var(t_expand *data, t_list **env);
-void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
+char	*expand_var(t_expand *data, t_list **env, t_array *array);
+int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word);
 
 int	copy_error_code(char *new_cmd, size_t *k, char *command,
@@ -139,8 +139,8 @@ char	*get_var_name(char *word);
 size_t	get_var_length(char *word);
 
 void	*look_to_expand(t_expand *data, t_list **env, t_array *array);
-void	*handle_normal_expand(t_expand *data, t_list **env);
-void	*call_expand_var(t_expand *data, t_list **env);
+void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array);
+void	*call_expand_var(t_expand *data, t_list **env, t_array *array);
 void	*handle_expand_error_code(t_expand *data, t_array *array);
 char	*expand_error_code(char *command, size_t i, t_array *array);
 
