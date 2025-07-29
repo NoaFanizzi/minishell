@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:08:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 10:55:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	ft_init_exec(t_list **env, t_array *array)
 	int	redir_value;
 
 	redir_value = 0;
+	ft_putstr_fd(array->content->cmd[0], STDERR_FILENO);
 	if (array->size == 0)
 		return ;
 	if (!ft_load_preliminary_infos(env, array))
