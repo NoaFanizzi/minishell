@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 11:01:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 14:35:24 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,4 +122,34 @@ int	launch_shell(t_list **var, t_array *array)
 		process_command(line, var, array, &cmd_splitted);
 	}
 	return (0);
+}
+
+void	print_cmd_splitted(char ***cmd_splitted)
+{
+	int	k = 0;
+	int	i = 0;
+	while (cmd_splitted[k])
+	{
+		i = 0;
+		printf("cmd n%d\n", k);
+		while (cmd_splitted[k][i])
+		{
+			printf("word n%d : [%s]\n", i, cmd_splitted[k][i]);
+			i++;
+		}
+		printf("word n%d : [%s]\n\n", i, cmd_splitted[k][i]);
+		k++;
+	}
+	printf("////////////////\n\n");
+}
+
+void	print_cmd(char **cmd)
+{
+	int	k = 0;
+	while (cmd[k])
+	{
+		printf("word n%d : [%s]\n\n", k, cmd[k]);
+		k++;
+	}
+	printf("////////////////\n\n");
 }

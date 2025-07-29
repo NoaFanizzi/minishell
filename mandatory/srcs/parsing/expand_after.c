@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:49:16 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:28:30 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 14:56:52 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,15 @@ int	quotes_after(char *cmd, size_t i)
 int	is_not_after_hdoc(char *cmd, size_t var_index)
 {
 	size_t	i;
+	size_t	len;
 	int		in_squote;
 	int		in_dquote;
 
 	i = 0;
+	len = ft_strlen(cmd);
 	in_squote = 0;
 	in_dquote = 0;
-	while (cmd[i])
+	while (i < len)
 	{
 		handle_quote_state(&in_squote, &in_dquote, cmd, &i);
 		if (!in_squote && !in_dquote && cmd[i] == '<' && cmd[i + 1] == '<')

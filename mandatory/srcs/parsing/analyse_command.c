@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:18:03 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 14:58:17 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,3 +63,10 @@ void	analyse_command(char ***cmd_splitted, t_array *array)
 }
 
 // MALLOC AND FT
+
+// echo "hello world"
+// echo "hello'world"
+// echo "hello$USER world"
+// echo "hello$? world"
+// echo "hello$HOME/test"
+// echo "hello   world"

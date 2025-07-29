@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:30:13 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 15:19:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	assign_cmd_and_opt(char **cmd, t_content *content)
 	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
 	if (!content->cmd[j])
 		return ;
+	printf("before : %s\n", content->cmd[j]);
 	rem_and_shift(content->cmd[j]);
 	j++;
 	while (cmd[i])

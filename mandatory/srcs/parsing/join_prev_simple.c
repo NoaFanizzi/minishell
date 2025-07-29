@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:13:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:26:55 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 13:45:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,27 +65,27 @@ void	go_through_join_prev_simple(char **command, char **joined, size_t i)
 	}
 }
 
-char	**join_prev_simple(char **command, size_t i)
+char	**join_prev_simple(char ***command, size_t i)
 {
 	size_t	size;
 	char	**joined;
 
 	size = 0;
-	while (command[size])
+	while ((*command)[size])
 		size++;
 	joined = malloc((size + 1) * sizeof(char *));
 	if (!joined)
 	{
-		free_words(command);
+		free_words(*command);
 		return (NULL);
 	}
 	joined[0] = 0;
-	go_through_join_prev_simple(command, joined, i);
+	go_through_join_prev_simple(*command, joined, i);
 	if (!joined)
 	{
-		free_words(command);
+		free_words(*command);
 		return (NULL);
 	}
-	free_words(command);
+	free_words(*command);
 	return (joined);
 }

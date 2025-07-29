@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:29:20 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 15:03:37 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	***parse_splitting_part(char ***command)
 	if (!cmd_splitted)
 		return (NULL);
 	free_words(*command);
+	print_cmd_splitted(cmd_splitted);
 	return (cmd_splitted);
 }
 

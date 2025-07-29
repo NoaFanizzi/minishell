@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:47:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 13:37:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,20 @@
 #define	D_QUOTE 34
 #define S_QUOTE 39
 
+
+void	print_cmd_splitted(char ***cmd_splitted);
+void	print_cmd(char **cmd);
+
+
+
 char	***parse_splitting_part(char ***command);
 char	***parse_command(char **line, t_list **var, t_array *array);
 
-int	call_prev_quotes(char **command, char ***cmd, size_t *i, int *merged);
-int	call_prev_simple(char **command, char ***cmd, size_t *i, int *merged);
-int	call_next_quotes(char **command, char ***cmd, size_t i, int *merged);
-int	call_next_simple(char **command, char ***cmd, size_t *i, int *merged);
-int	call_join_prev(char **command, char ***cmd, size_t *i, int *merged);
+int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged);
+int	call_prev_simple(char ***command, char ***cmd, size_t *i, int *merged);
+int	call_next_quotes(char ***command, char ***cmd, size_t i, int *merged);
+int	call_next_simple(char ***command, char ***cmd, size_t *i, int *merged);
+int	call_join_prev(char ***command, char ***cmd, size_t *i, int *merged);
 
 int	is_not_pipe_redir(char c);
 int	is_quote(char c);
@@ -46,22 +52,22 @@ int	ft_isspace(char c);
 
 void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_next_quotes(char **command, char **joined, size_t i);
-char	**join_next_quotes(char **command, size_t i);
+char	**join_next_quotes(char ***command, size_t i);
 
 void	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_next_simple(char **command, char **joined, size_t i);
-char	**join_next_simple(char **command, size_t i);
+char	**join_next_simple(char ***command, size_t i);
 
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
-char	**join_prev_quotes(char **command, size_t i);
+char	**join_prev_quotes(char ***command, size_t i);
 
 void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
 void	go_through_join_prev_simple(char **command, char **joined, size_t i);
-char	**join_prev_simple(char **command, size_t i);
+char	**join_prev_simple(char ***command, size_t i);
 
 void	contiguous_quotes(char ***cmd);
-int	call_join_next_prev(char **command, char ***cmd, size_t *i, int *merged);
+int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged);
 size_t	len_until_space_backward(char *str);
 size_t	len_until_space_forward(char *str);
 
@@ -211,21 +217,6 @@ char	*find_command_name(char **cmd, size_t *i);
 int		is_var_assign(char *str);
 
 int	check_syntax(char *cmd);
-
-int		ft_isspace(char c);
-void	fusion_quotes_next(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_next_quotes(char **command, char **joined, size_t i);
-char	**join_next_quotes(char **command, size_t i);
-void	fusion_simple_next(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_next_simple(char **command, char **joined, size_t i);
-char	**join_next_simple(char **command, size_t i);
-void	fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_prev_simple(char **command, char **joined, size_t i);
-char	**join_prev_simple(char **command, size_t i);
-void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
-void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
-char	**join_prev_quotes(char **command, size_t i);
-void	contiguous_quotes(char ***command);
 
 char	*expand_word(char *command, t_list **env, t_array *array);
 

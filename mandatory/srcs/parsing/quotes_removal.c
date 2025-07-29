@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:12:43 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 15:17:05 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	rem_and_shift(char *command)
 
 	i = 0;
 	j = 1;
-	printf("command[0] = %c\n", command[0]);
-	if (command[0] != D_QUOTE && command[0] != S_QUOTE)
+	if ((command[0] != D_QUOTE && command[ft_strlen(command) - 1] != D_QUOTE)
+		&& (command[0] != S_QUOTE && command[ft_strlen(command) - 1] != S_QUOTE))
 		return ;
 	while (command[j])
 	{

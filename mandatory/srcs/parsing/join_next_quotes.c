@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:10:40 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:20:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 13:41:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,27 +62,27 @@ void	go_through_join_next_quotes(char **command, char **joined, size_t i)
 	}
 }
 
-char	**join_next_quotes(char **command, size_t i)
+char	**join_next_quotes(char ***command, size_t i)
 {
 	size_t	size;
 	char	**joined;
 
 	size = 0;
-	while (command[size])
+	while ((*command)[size])
 		size++;
 	joined = malloc((size + 1) * sizeof(char *));
 	if (!joined)
 	{
-		free_words(command);
+		free_words(*command);
 		return (NULL);
 	}
 	joined[0] = 0;
-	go_through_join_next_quotes(command, joined, i);
+	go_through_join_next_quotes(*command, joined, i);
 	if (!joined)
 	{
-		free_words(command);
+		free_words(*command);
 		return (NULL);
 	}
-	free_words(command);
+	free_words(*command);
 	return (joined);
 }

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:13:24 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 14:28:36 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,10 @@ char	**twisted_fill_splitted(const char *s, const char *charset,
 {
 	static int	tab[2] = {0, 0};
 
+	// Reset static variables for each new string
+	tab[0] = 0;
+	tab[1] = 0;
+	
 	while (s[tab[0]])
 	{
 		tab[0] = tab[1];
@@ -65,21 +69,24 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 	size_t	k;
 
 	i = 0;
-	k = -1;
-	while (command[++k])
+	k = 0;
+	while (command[k])
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
-			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
+			// Copy quoted strings as-is (they shouldn't be split by metacharacters)
+			splitted[i] = ft_strdup(command[k]);
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
 		}
 		else
 		{
+			// Split non-quoted strings by metacharacters
 			if (!twisted_fill_splitted(command[k], charset, splitted, &i))
 				return (NULL);
 		}
+		k++;
 	}
 	splitted[i] = 0;
 	return (splitted);
