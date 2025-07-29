@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:09:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:11:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ char	*ft_join_prompt(t_array *array)
 }
 
 void	check_tty(char **line, char *prompt)
-void	check_tty(char **line, char *prompt)
 {
 	if (isatty(STDIN_FILENO))
 		*line = readline(prompt);
@@ -48,14 +47,11 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char	*prompt;
 
-	char	*prompt;
-
 	prompt = ft_join_prompt(array);
 	if (prompt)
 		*line = readline(prompt);
 	else
 		*line = readline("maxishell>");
-	if (g_signal == SIGINT)
 	if (g_signal == SIGINT)
 		array->p_exit_status = 128 + SIGINT;
 	g_signal = 0;
@@ -109,11 +105,6 @@ int	launch_shell(t_list **var, t_array *array)
 
 void	print_cmd_splitted(char ***cmd_splitted)
 {
-	int	k;
-	int	i;
-
-	k = 0;
-	i = 0;
 	int	k;
 	int	i;
 

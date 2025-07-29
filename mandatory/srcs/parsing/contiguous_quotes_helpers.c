@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:07:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:04:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:13:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	call_next_simple(char ***command, char ***cmd, size_t *i, int *merged)
 	return (0);
 }
 
-int	call_join_prev(char ***command, char ***cmd, size_t *i, int *merged)
+int call_join_prev(char ***command, char ***cmd, size_t *i, int *merged)
 {
 	if (*i > 0 && (*command)[*i - 1] && ft_strlen((*command)[*i - 1]) > 0
 		&& is_quote((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
@@ -73,12 +73,8 @@ int	call_join_prev(char ***command, char ***cmd, size_t *i, int *merged)
 			return (1);
 	}
 	else if (*i > 0 && (*command)[*i - 1] && ft_strlen((*command)[*i - 1]) > 0
-		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1])
-				- 1]) == 0) && is_not_pipe_redir((*command)[*i
-			- 1][ft_strlen((*command)[*i - 1]) - 1]))
-		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1])
-				- 1]) == 0) && is_not_pipe_redir((*command)[*i
-			- 1][ft_strlen((*command)[*i - 1]) - 1]))
+		&& (ft_isspace((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]) == 0)
+		&& is_not_pipe_redir((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
 	{
 		printf("command[i] = %s\n", (*command)[*i - 1]);
 		if (call_prev_simple(command, cmd, i, merged))

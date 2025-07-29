@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:03:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:14:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	process_command(char *line, t_list **var, t_array *array,
 		char ****cmd_splitted);
 int	call_check_syntax(char *line, char *temp_line, t_array *array);
 
-char	***parse_splitting_part(char ***command);
+char    ***parse_splitting_part(char ***command, t_array *array);
 char	***parse_command(char **line, t_list **var, t_array *array);
 
 int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged);
