@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:09:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:24:41 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	*exit_status_splitting_part(t_array *array)
+{
+	array->p_exit_status = 1;
+	return (NULL);
+}
 
 char	***parse_splitting_part(char ***command, t_array *array)
 {
@@ -19,16 +25,10 @@ char	***parse_splitting_part(char ***command, t_array *array)
 	cmd_splitted = NULL;
 	*command = space_splitting(*command);
 	if (!*command)
-	{
-		array->p_exit_status = 1;
-		return (NULL);
-	}
+		return (exit_status_splitting_part(array));
 	*command = meta_splitting(*command);
 	if (!*command)
-	{
-		array->p_exit_status = 1;
-		return (NULL);
-	}
+		return (exit_status_splitting_part(array));
 	cmd_splitted = command_splitting(*command);
 	if (!cmd_splitted)
 	{
