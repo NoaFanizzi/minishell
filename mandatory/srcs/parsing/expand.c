@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:50:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:17:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,10 +113,10 @@ char	*remove_var(char *command, size_t i)
 
 	j = 0;
 	k = 0;
-	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char));
+	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1]) + 1) * sizeof(char));
 	if (!new_command)
 	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free(command);
 		return (NULL);
 	}

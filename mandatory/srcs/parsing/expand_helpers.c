@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:38:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:17:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	*call_expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	true_var_length;
 
-	printf("call expand var\n");
 	true_var_length = get_true_var_length(data->var_name, *env);
 	data->new_length = true_var_length + ft_strlen(data->new_command)
 		- get_var_length(&data->new_command[data->i + 1]) + 1;
@@ -99,10 +98,19 @@ void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 				+ get_var_length(&data->new_command[data->i + 1]) - 1))
 		{
 			printf("maxishell: $%s: ambiguous redirect\n", data->var_name);
+			array->p_exit_status = 1;
 			return (NULL);
 		}
 		else
+		{
+
 			data->new_command = remove_var(data->new_command, data->i);
+			if(!data->new_command)
+			{
+				array->p_exit_status = 1;
+				return (NULL);
+			}
+		}
 	}
 	free(data->var_name);
 	return ((void *)1);

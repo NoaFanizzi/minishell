@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:44:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:08:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	process_command(char *line, t_list **var, t_array *array,
 	}
 	if (check_syntax(temp_line))
 	{
-		printf("slt ca va \n");
 		if (line[0] != '\0')
 			array->p_exit_status = 2;
 		free(line);
