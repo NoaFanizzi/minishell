@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_free.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/10 14:54:06 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/07/01 17:15:34 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/01 17:16:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_dup2_pb(t_expar *expar, t_content *content)
+int	ft_strcmp(char *s1, char *s2)
 {
-	ft_free_tab(expar->options);
-	free(expar->path);
-	ft_free_content(content);
-	//ft_close_all(expar, content);
-	perror("Dup2 error");
-	exit(1);
-}
+	size_t	i;
 
-void	ft_exec_failure(t_expar *expar, int i)
-{
-	if (i == 1)
-		perror("pipe");
-	if (i == 2)
-		perror("fork");
-	free(expar->options);
-	exit(EXIT_FAILURE);
+	i = 0;
+	while(s1[i] && s2[i])
+	{
+		if(s1[i] - s2[i] != 0)
+			return(s1[i] - s2[i]);
+		i++;
+	}
+	return(s1[i] - s2[i]);
 }

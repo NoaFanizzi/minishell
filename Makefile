@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+         #
+#    By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 13:45:35 by nofanizz          #+#    #+#              #
-#    Updated: 2025/03/26 11:44:38 by nofanizz         ###   ########.fr        #
+#    Updated: 2025/07/29 08:37:47 by nbodin           ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo "Creating $(NAME)\n"
-	@$(CF) $^ $(L_FLAGS) -o $@
+	@$(CF) $^ $(L_FLAGS) -lreadline -ltermcap -o $@  # Ajout des flags ici
 	@echo "Program Created \n"
 
 bonus: $(NAME)
@@ -70,6 +70,11 @@ fclean:
 	@rm -rf $(OBJ_DIR) $(DEP_DIR)
 	@echo "Removing binaries"
 	@rm -f $(BINARIES)
+
+re: fclean all
+
+val: all
+	valgrind --suppressions=rl.supp --track-fds=all --leak-check=full --show-leak-kinds=all --track-origins=yes -q -s ./$(NAME) 
 
 -include $(DEPS)
 

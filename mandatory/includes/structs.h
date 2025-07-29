@@ -9,6 +9,14 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+#include <sys/stat.h>
+#include <sys/select.h>
+
+enum debug
+{
+	REDIR = 1,
+	ALL = 3,
+};
 
 typedef struct s_export
 {
@@ -16,16 +24,6 @@ typedef struct s_export
 	int	value;
 	int status; //set a 0 si y'a pas de value et set a 1 des que y'a une value
 }				t_export;
-
-/* typedef struct s_env
-{
-	char *var;
-	char *op;
-	char *arg;
-	int	exp;
-	struct s_env *next;
-}				t_env;
- */
 
 typedef struct s_env
 {
@@ -35,34 +33,37 @@ typedef struct s_env
 	int	exp;
 }				t_env;
 
-// typedef struct s_var
-// {
-// 	t_env *env;
-// 	t_export *export;
-// 	int export_size;
-// }				t_var;
 
-typedef struct s_content //TODO toujours malloc cmd a minimum 4 parce que j'ai 4 trucs a envoyer et ca evite d'avoir a faire des reallocations
+enum redir
 {
-	char **cmd;// Peut-etre faire un tableau de tableau pour cmd + options parce que moi je dois donner un tableau de tableau a execve
-	char *arg; //TODO TEJ le arg et tout mettre dans cmd
-	int input; // int ou char ? Est ce que j'open dans l'exec ou on open dans le parsing ?
-	int output; //pareil pour l'output
-	int overwrite;
-	int pipe;
-	pid_t pid;
-}			t_content;
+	STDIN,
+	STDOUT,
+    IN,
+    OUT,
+    APND,
+    HDOC,
+	PIPE,
+};
 
-typedef struct s_array
+typedef struct s_files
 {
-	t_content *content;
-	int size;
-}				t_array;
+	int	index;
+	size_t	size;
+	enum redir type;
+	char	*eof;
+}				t_files;
+
+typedef struct s_heredocs
+{
+	char	**text;
+	int		s_quoted;
+	size_t	size;
+}				t_heredocs;
 
 typedef struct s_expar
 {
-	int		pipe[2];
 	int		fd;
+	int		size;
 	pid_t	pid_1;
 	pid_t	pid_2;
 	char	*path;
@@ -70,5 +71,48 @@ typedef struct s_expar
 }			t_expar;
 
 
+typedef struct s_content
+{
+	char **cmd;
+	char **arg; 
+	char ***cmd_splitted;
+	t_files *files;
+	t_heredocs	*hdoc;
+	pid_t pid;
+	int	infile;
+	int	outfile;
+	int	size;
+	int pos;
+	int redir_count;
+	int error_code;
+	int h_fd;
+	int	stdin_saved;
+	int stdout_saved;
+	struct s_array *array_ptr;
+	t_expar *expar;
+	t_list **env;
+	int *fd_array;
+	size_t hdoc_length;
+}			t_content;
+
+
+typedef struct s_array
+{
+	t_content *content;
+	int		(*pipe)[2];
+	int size;
+	int p_exit_status;
+}				t_array;
+
+typedef struct s_expand
+{
+	char	*new_command;
+	size_t	i;
+	size_t	new_length;
+	char 	*var_name;
+}				t_expand;
 
 #endif
+
+
+

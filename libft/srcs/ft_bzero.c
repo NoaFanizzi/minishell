@@ -6,22 +6,23 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:17:14 by nofanizz          #+#    #+#             */
-/*   Updated: 2024/11/07 14:15:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/01 14:01:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_bzero(void *s, size_t n)
+void	ft_bzero(void **s, size_t n)
 {
 	char	*temp;
 	size_t	i;
 
-	temp = (char *)s;
+	temp = (char *)*s;
 	i = 0;
 	while (i < n)
 	{
 		temp[i] = 0;
 		i++;
 	}
+	*s = temp;
 }

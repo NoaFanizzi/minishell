@@ -4,27 +4,36 @@
 #include "libft.h"
 #include "structs.h"
 #include "exec.h"
+#include "parsing.h"
+#include "redirections.h"
+#include "error_handling.h"
+#include "redirections.h"
+#include "error_handling.h"
 #include <unistd.h>
 #include <stdio.h>
+#include <signal.h>
+#include <limits.h>
+#include <readline/readline.h>
+#include <readline/history.h>
+#include "get_next_line.h"
+#include <sys/stat.h>
+#include <sys/select.h>
 
-//echo.c
-int		ft_echo(t_content *content);
+extern int g_signal;
 
-//cd.c
-void	ft_cd(t_list *var, char *cmd);
+enum	ERROR
+{
+	O_ERROR = -10,
+	NO_IN = -11,
+	NO_OUT = -12
+};
 
-//env.c
-t_list	*ft_init_env(char **env);
-void	ft_display_env(t_list *env);
 
-//pwd.c
-void	ft_pwd(void);
-
-//utils.c
-void	ft_display_tab(char **tab);
-void	ft_free_tab(char **tab);
-void	ft_free_content(t_content *content);
-void	ft_free_env(t_list *env);
+void	child_handler(int signal);;
+void	deal_with_sigint(int signal);
+void	deal_with_sigint_hdoc(int signal);
+void	deal_with_signals_in_exec(int signal);
+void	deal_with_signal_after_exec(void);
 
 
 #endif

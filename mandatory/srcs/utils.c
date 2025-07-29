@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/04/14 15:02:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 08:29:43 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -18,9 +17,15 @@ void	ft_display_tab(char **tab)
 	size_t	i;
 
 	i = 0;
+	if(!tab)
+	{
+		printf("tab est nul\n");
+		return;
+	}
 	while(tab[i])
 	{
-		ft_putstr_fd(tab[i], 1);
+		printf("wtf\n");
+		ft_putstr_fd(tab[i], STDOUT_FILENO);
 		ft_putstr_fd("\n", 1);
 		i++;
 	}
@@ -31,12 +36,15 @@ void	ft_free_tab(char **tab)
 	size_t	i;
 
 	i = 0;
+	if(tab == NULL || tab[0] == NULL)
+		return;
 	while(tab[i])
 	{
 		free(tab[i]);
 		i++;
 	}
 	free(tab);
+	tab = NULL;
 }
 
 void	ft_free_env(t_list *env)
@@ -58,46 +66,85 @@ void	ft_free_env(t_list *env)
 	}
 }
 
+void	ft_free_files(t_content *content)
+{
+	size_t	i;
 
+	if (!content || !content->files)
+		return;
+
+	i = 0;
+	while (content->files[i].eof)
+	{
+		free(content->files[i].eof);
+		content->files[i].eof = NULL;
+		i++;
+	}
+	free(content->files);
+	content->files = NULL;
+}
+
+void	ft_close_array_fd(t_content *content)
+{
+	size_t	i;
+
+	i = 0;
+	if(content->stdin_saved != -2)
+		close(content->stdin_saved);
+	if(content->stdout_saved != -2)
+		close(content->stdout_saved);
+	if(!content->fd_array)
+		return;
+	while(i < content->hdoc_length)
+	{
+		if(content->fd_array[i] != -42 && content->fd_array[i] != -8)
+			close(content->fd_array[i]);
+		i++;
+	}
+	i = 0;
+	// while(i < content->hdoc_length)
+	// {
+	// 	free(&content->fd_array[i]);
+	// 	i++;
+	// }
+	free(content->fd_array);
+}
 
 void ft_free_array_content(t_array *array)
 {
-    int i = 0;
+    int i;
+    i = 0;
 
     if (!array || !array->content)
-        return;
+		return;
+//	printf("array->size = %d\n", array->size);
     while (i < array->size)
     {
-        free(array->content[i].cmd[0]);
-        free(array->content[i].cmd[1]);
-        free(array->content[i].cmd[2]);
-        free(array->content[i].cmd[3]);
-        free(array->content[i].cmd);
-        free(array->content[i].arg);
-        if (array->content[i].input != -2)
-            close(array->content[i].input);
-        if (array->content[i].output != -2)
-            close(array->content[i].output);
+		if(array->content[i].cmd)
+        	ft_free_tab(array->content[i].cmd);
+		if(array->content[i].arg)
+			ft_free_tab(array->content[i].arg);
+		if(array->content[i].files)
+			ft_free_files(&array->content[i]);
+		if(array->content[i].hdoc)
+			ft_free_hdoc(array->content[i].hdoc);
+		if (array->content[i].h_fd != (-2))
+			close(array->content[i].h_fd);
+		ft_close_array_fd(&array->content[i]);
         i++;
     }
     free(array->content);
-    array->content = NULL;
-	array = NULL;
 }
+
 
 void	ft_free_content(t_content *content)
 {
-	    free(content->cmd[0]);
-        free(content->cmd[1]);
-	    free(content->cmd[2]);
-	    free(content->cmd[3]);
-        
-        free(content->cmd);
-        free(content->arg);
-        if (content->input != -2)
-            close(content->input);
-        if (content->output != -2)
-            close(content->output);
-		content = NULL;
-			
+	if(content->cmd)
+		ft_free_tab(content->cmd);
+	if(content->arg)
+		ft_free_tab(content->arg);
+	free_command(content->cmd_splitted);
+	if(content->files)
+		free(content->files);
+	free(content);
 }
