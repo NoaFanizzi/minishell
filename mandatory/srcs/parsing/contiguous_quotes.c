@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:16:00 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:50:27 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,6 @@ int	call_join_next_prev(char **command, char ***cmd, size_t *i, int *merged)
 void	contiguous_quotes(char ***cmd)
 {
 	size_t	i;
-	char	**command;
-	int		merged;
-
 	char	**command;
 	int		merged;
 

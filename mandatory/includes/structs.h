@@ -17,14 +17,6 @@ enum debug
 	REDIR = 1,
 	ALL = 3,
 };
-#include <sys/stat.h>
-#include <sys/select.h>
-
-enum debug
-{
-	REDIR = 1,
-	ALL = 3,
-};
 
 typedef struct s_export
 {
@@ -59,7 +51,6 @@ typedef struct s_files
 	size_t	size;
 	enum redir type;
 	char	*eof;
-	char	*eof;
 }				t_files;
 
 typedef struct s_heredocs
@@ -79,26 +70,6 @@ typedef struct s_expar
 	char	**options;
 }			t_expar;
 
-typedef struct s_content
-{
-	char **cmd;
-	char **arg; 
-typedef struct s_heredocs
-{
-	char	**text;
-	int		s_quoted;
-	size_t	size;
-}				t_heredocs;
-
-typedef struct s_expar
-{
-	int		fd;
-	int		size;
-	pid_t	pid_1;
-	pid_t	pid_2;
-	char	*path;
-	char	**options;
-}			t_expar;
 
 typedef struct s_content
 {
@@ -107,17 +78,11 @@ typedef struct s_content
 	char ***cmd_splitted;
 	t_files *files;
 	t_heredocs	*hdoc;
-	t_heredocs	*hdoc;
 	pid_t pid;
 	int	infile;
 	int	outfile;
 	int	size;
 	int pos;
-	int redir_count;
-	int error_code;
-	int h_fd;
-	int	stdin_saved;
-	int stdout_saved;
 	int redir_count;
 	int error_code;
 	int h_fd;

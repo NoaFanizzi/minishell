@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:32:59 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:47:01 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ void	get_array_size(char ***cmd_splitted, t_array *array);
 
 int	create_hdoc_struct(char **command, t_content *content);
 void	fill_hdocs(char **command, t_heredocs *hdoc, size_t hdoc_count);
-int	count_hdoc(char **command);
+int	count_hdocnb(char **command);
 
 void	*free_command(char ***splitted);
 int	count_command_words(char **command);
@@ -156,7 +156,7 @@ void	skip_spaces(char *cmd, size_t *i, int *spaced_after);
 void	handle_quote_state(int *in_dquote, int *in_squote, char *cmd, size_t *i);
 
 int		main(int argc, char **argv, char **env);
-int	launch_shell(t_list **var);
+int	launch_shell(t_list **var, t_array *array);
 char	***parse_command(char **line, t_list **var, t_array *array);
 void	analyse_command(char ***cmd_splitted, t_array *array);
 void    fill_struct_size(t_array *array, size_t struct_index);

@@ -6,13 +6,13 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:03 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:28:18 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:46:51 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	count_hdoc(char **command)
+int	count_hdoc_nb(char **command)
 {
 	size_t	count;
 	size_t	i;
@@ -58,7 +58,7 @@ int	create_hdoc_struct(char **command, t_content *content)
 {
 	size_t	hdoc_count;
 
-	hdoc_count = count_hdoc(command);
+	hdoc_count = count_hdoc_nb(command);
 	if (hdoc_count == 0)
 		return (content->hdoc = NULL, 0);
 	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:14:02 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:48:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,21 +74,20 @@ int	process_command(char *line, t_list **var, t_array *array,
 	return (0);
 }
 
-int	launch_shell(t_list **var)
+int	launch_shell(t_list **var, t_array *array)
 {
 	char	*line;
 	char	***cmd_splitted;
-	t_array	array;
 
-	array.p_exit_status = 0;
+	array->p_exit_status = 0;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		manage_readline(&line, &array);
-		array.size = 0;
-		array.content = NULL;
-		if (process_command(line, var, &array, &cmd_splitted))
+		manage_readline(&line, array);
+		array->size = 0;
+		array->content = NULL;
+		if (process_command(line, var, array, &cmd_splitted))
 			return (1);
 	}
 	return (0);
