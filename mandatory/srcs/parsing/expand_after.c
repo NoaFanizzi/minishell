@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_after.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:49:16 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 14:56:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 19:56:22 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ int	is_after_great(char *cmd, size_t var_index)
 	i = 0;
 	in_squote = 0;
 	in_dquote = 0;
+	if(!cmd[i])
+		return(0);
 	while (cmd[i])
 	{
 		handle_quote_state(&in_squote, &in_dquote, cmd, &i);
@@ -101,7 +103,9 @@ int	is_after_great_var(char *cmd, size_t var_index)
 	i = 0;
 	in_squote = 0;
 	in_dquote = 0;
-	while (cmd[i])
+	if(!cmd)
+		return(0);
+	while (i < ft_strlen(cmd))
 	{
 		handle_quote_state(&in_squote, &in_dquote, cmd, &i);
 		if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))

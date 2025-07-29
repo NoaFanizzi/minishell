@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:34:16 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:20:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 22:11:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	twisted_count_words(char *str, const char *charset)
 	return (count);
 }
 
-char	**add_segment(const char *s, char **splitted, size_t *j, int tab[2])
+int	add_segment(const char *s, char ***splitted, size_t *j, int tab[2])
 {
 	if (tab[1] > tab[0])
 	{
-		splitted[*j] = ft_substr(s, tab[0], tab[1] - tab[0]);
-		if (!splitted[*j])
-			return (free_words(splitted));
+		(*splitted)[*j] = ft_substr(s, tab[0], tab[1] - tab[0]);
+		if (!(*splitted)[*j])
+			return (1);
 		(*j)++;
 	}
-	return (splitted);
+	return(0);
 }

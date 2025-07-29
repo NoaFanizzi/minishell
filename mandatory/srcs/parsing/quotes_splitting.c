@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_splitting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/29 08:51:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 19:59:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,12 @@ char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 	{
 		quote = line[*i];
 		forward_till_quote(&line[*i], &j, quote);
-		command[k] = ft_substr(line, *i, j + 1);
+		command[k] = ft_substr(line, *i, j + 1); //PROTECTED
 		if (!command[k])
+		{
+			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 			return (NULL);
+		}
 		*i += j + 1;
 	}
 	else
@@ -57,9 +60,12 @@ char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 		j = *i;
 		while (line[j] && line[j] != D_QUOTE && line[j] != S_QUOTE)
 			j++;
-		command[k] = ft_substr(line, *i, j - *i);
+		command[k] = ft_substr(line, *i, j - *i); //PROTECTED
 		if (!command[k])
+		{
+			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 			return (NULL);
+		}
 		*i = j;
 	}
 	return (command);
@@ -72,9 +78,12 @@ char	**quotes_splitting(char **command, char *line)
 
 	i = 0;
 	k = 0;
-	command = malloc((split_quote_count(line) + 1) * sizeof(char *));
+	command = malloc((split_quote_count(line) + 1) * sizeof(char *)); //PROTECTED
 	if (!command)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
+	}
 	while (line[i])
 	{
 		fill_quote_words(command, line, k, &i);

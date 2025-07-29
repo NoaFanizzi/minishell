@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:22:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:24:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:43:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_free_tab_length(char **tab, size_t length)
 	while (i < length)
 	{
 		free(tab[i]);
+		tab[i] = NULL;
 		i++;
 	}
 	free(tab);

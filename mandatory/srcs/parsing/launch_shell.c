@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 19:08:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 20:24:39 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,8 +149,12 @@ void	print_cmd_splitted(char ***cmd_splitted)
 void	print_cmd(char **cmd)
 {
 	int	k = 0;
+	if(!cmd || !*cmd)
+		return;
 	while (cmd[k])
 	{
+		if(!cmd[k])
+			return;
 		printf("word n%d : [%s]\n\n", k, cmd[k]);
 		k++;
 	}

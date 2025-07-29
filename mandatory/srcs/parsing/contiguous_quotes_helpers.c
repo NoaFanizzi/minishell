@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes_helpers.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:07:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 14:04:39 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 21:07:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// prev_simple : echo salut"hello"
+// prev_quotes : echo "salut""hello"
+// next_quotes : echo "salut""hello"
+// next_simple : echo "salut"hello
+
 
 int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged)
 {
@@ -23,6 +29,8 @@ int	call_prev_quotes(char ***command, char ***cmd, size_t *i, int *merged)
 	*merged = 1;
 	return (0);
 }
+
+
 
 int	call_prev_simple(char ***command, char ***cmd, size_t *i, int *merged)
 {
@@ -38,7 +46,6 @@ int	call_prev_simple(char ***command, char ***cmd, size_t *i, int *merged)
 
 int	call_next_quotes(char ***command, char ***cmd, size_t i, int *merged)
 {
-	printf("next_quotes\n");
 	*command = join_next_quotes(command, i);
 	if (!*command)
 		return (1);

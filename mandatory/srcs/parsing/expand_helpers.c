@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 19:17:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/29 19:29:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 			data->new_command = remove_var(data->new_command, data->i);
 			if(!data->new_command)
 			{
+				free(data->var_name);
 				array->p_exit_status = 1;
 				return (NULL);
 			}
@@ -135,7 +136,7 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 		else
 		{
 			printf("JE SUIS DANS LE ELSE\n");
-			if (handle_normal_expand(data, env, array) == NULL)
+			if (handle_normal_expand(data, env, array) == NULL) //C TOUT BON
 			{
 				array->p_exit_status = 1;
 				return (NULL);
