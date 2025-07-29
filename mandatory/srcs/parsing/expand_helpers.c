@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 01:56:08 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 16:59:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	*handle_normal_expand(t_expand *data, t_list **env)
 		return (NULL);
 	if (var_exists(data->var_name, *env))
 	{
+		printf("je rentre\n");
 		if (call_expand_var(data, env) == NULL)
 		{
 			printf("HERE3\n");

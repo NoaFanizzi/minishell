@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:26:53 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:20:09 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 17:46:14 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	fill_args(char **cmd, size_t start, char **arg)
 			if (!arg[j])
 				return ;
 			rem_and_shift(arg[j]);
+			switch_back_lit_quotes(arg[j]);
 			j++;
 			start++;
 		}

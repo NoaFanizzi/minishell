@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:22:47 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 17:25:23 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	figure_hdoc(char **cmd, t_content *content, int tab[2],
 	content->files[tab[1]].index = tab[0];
 	content->files[tab[1]].size = redir_count;
 	rem_and_shift(cmd[tab[0] + 1]);
+	switch_back_lit_quotes(cmd[tab[0] + 1]);
 	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]);
 	tab[1]++;
 	tab[0]++;
@@ -32,6 +33,7 @@ void	figure_append(char **cmd, t_content *content, int tab[2],
 	content->files[tab[1]].size = redir_count;
 	content->files[tab[1]].eof = NULL;
 	rem_and_shift(cmd[tab[0] + 1]);
+	switch_back_lit_quotes(cmd[tab[0] + 1]);
 	tab[1]++;
 	tab[0]++;
 }
@@ -44,6 +46,7 @@ void	figure_in(char **cmd, t_content *content, int tab[2],
 	content->files[tab[1]].size = redir_count;
 	content->files[tab[1]].eof = NULL;
 	rem_and_shift(cmd[tab[0] + 1]);
+	switch_back_lit_quotes(cmd[tab[0] + 1]);
 	tab[1]++;
 	tab[0]++;
 }
@@ -56,6 +59,7 @@ void	figure_out(char **cmd, t_content *content, int tab[2],
 	content->files[tab[1]].size = redir_count;
 	content->files[tab[1]].eof = NULL;
 	rem_and_shift(cmd[tab[0] + 1]);
+	switch_back_lit_quotes(cmd[tab[0] + 1]);
 	tab[1]++;
 	tab[0]++;
 }

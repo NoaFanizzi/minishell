@@ -6,11 +6,38 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:50:39 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 17:22:42 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	switch_lit_quotes(char *exp_var)
+{
+	size_t	i;
+
+	i = 0;
+	while (exp_var[i])
+	{
+		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
+			exp_var[i] = exp_var[i] * -1;
+		i++;
+	}
+	printf("exp_var in lit : %s\n", exp_var);
+}
+
+void	switch_back_lit_quotes(char *exp_var)
+{
+	size_t	i;
+
+	i = 0;
+	while (exp_var[i])
+	{
+		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
+			exp_var[i] = exp_var[i] * -1;
+		i++;
+	}
+}
 
 void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word)
@@ -20,6 +47,9 @@ void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 
 	after_great = 0;
 	exp_var = get_var_value(data->var_name, *env);
+	printf("exp_var before : %s\n", exp_var);
+	switch_lit_quotes(exp_var);
+	printf("exp_var after : %s\n", exp_var);
 	if (is_after_great_var(data->new_command, data->i))
 	{
 		after_great = 1;
@@ -34,6 +64,7 @@ void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		(*k)++;
 	}
 	free(exp_var);
+	
 }
 
 char	*expand_var(t_expand *data, t_list **env)

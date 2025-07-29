@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 13:37:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 17:23:34 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 
 void	print_cmd_splitted(char ***cmd_splitted);
 void	print_cmd(char **cmd);
+
+void	switch_back_lit_quotes(char *exp_var);
 
 
 

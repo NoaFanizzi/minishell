@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 08:49:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 17:09:07 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	figure_in_out_files(char **cmd, t_content *content)
 	int		tab[2];
 
 	tab[0] = 0;
-	tab[1] = 1;
+	tab[1] = 0;
 	redir_count = count_redir(cmd);
 	content->redir_count = redir_count;
 	content->files = NULL;
