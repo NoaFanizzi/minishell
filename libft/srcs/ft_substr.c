@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 07:49:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2024/11/12 11:11:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/24 16:47:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (start >= ft_strlen(s))
 	{
 		result = ft_calloc(1, sizeof(char));
+		if(!result)
+			return(result);
 		return (result);
 	}
 	if (ft_strlen(s) - start <= len)

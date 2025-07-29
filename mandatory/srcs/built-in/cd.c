@@ -6,253 +6,123 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 16:51:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 16:24:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_update_pwd(t_list **env, t_content *content)
+int	is_a_saved_pwd(t_content *content, char **dir, char **saved_pwd)
 {
-	//t_list *current;
-	t_env *current;
-	//t_env *link;
-	char	*path;
+	char	*temp;
 
-	//link = NULL;
-	path = NULL;
-	path = getcwd(NULL, 0);
-	current = get_env("PWD", *env);
-	if(!current)
-		return(1);
-	free(current->arg);
-	if(!path)
+	temp = ft_strjoin(*saved_pwd, "/"); // PROTECTED
+	if (!temp)
 	{
-		content->error_code = 1;
-		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(content->arg[0], STDOUT_FILENO);
-		ft_putendl_fd(": No such file or directory", STDOUT_FILENO);
-		current->arg = ft_strdup("");
+		free(*saved_pwd);
+		return (ft_open_error(content, NULL));
 	}
-	if(path)
+	*dir = ft_strjoin(temp, content->arg[0]);
+	free(temp);
+	if (!*dir)
 	{
-		content->array_ptr->is_lost = 0;
-		current->arg = ft_strdup(path);
+		free(*saved_pwd);
+		return (ft_open_error(content, NULL));
 	}
-	free(path);
-	return(0);
+	return (1);
 }
 
-char *ft_strncpy(char *src, char *dest, size_t	length)
+int	is_arg(t_content *content, char **dir, char **saved_pwd)
 {
-	size_t	i;
+	t_env	*node;
 
-	i = 0;
-	while(i < length)
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return(dest);
-}
-
-char *get_absolute_path(t_content *content)
-{
-	char *path;
-	char *temp;
-	t_env *test;
-	size_t	i;
-
-	i = 0;
-	temp = NULL;
-	test = get_env("PWD", *content->env);
-	if(ft_strcmp(content->arg[0], "..") == 0)
-	{
-		if(test->arg[i])
-		{
-			while(test->arg[i])
-				i++;
-			while(test->arg[i] != '/')
-				i--;
-		}
-		path = ft_calloc((i + 1), sizeof(char));
-		path = ft_strncpy(test->arg, path, i);
-	}
+	*saved_pwd = getcwd(NULL, 0);
+	if (*saved_pwd)
+		return (is_a_saved_pwd(content, dir, saved_pwd));
 	else
 	{
-		
-		temp = ft_strjoin(test->arg, "/");
-		path = ft_strjoin(temp, content->arg[0]);
-	}
-	free(temp);
-	return(path);
-}
-
-int	ft_access_dir(t_content *content)
-{
-	char *path;
-	//char *pwd;
-	path = get_absolute_path(content);
-	printf("path = %s\n", path);
-	
-	// if(access(path, X_OK) == -1)
-	// {
-	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
-	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
-	// 	free(path);
-	// 	content->error_code = 1;
-	// 	return(1);
-	// }
-	// printf("content->arg[0] = %s\n", content->arg[0]);
-	// pwd = getcwd(NULL, 0) == -1;
-	// if (!pwd) // perdu
-	// {
-	// }
-	// if (chdir(content->arg[0]) == -1)
-	// {
-	// 	content->error_code = 1;
-	// 	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	// 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
-	// 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
-	// 	free(path);
-	// 	//perror(content->arg[0]);
-	// 	return(1);
-	// }
-	// // else
-
-	// if (chdir(content->arg[0]) == -1)
-	// 	{
-	// 		content->error_code = 1;
-	// 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	// 		ft_putstr_fd(content->arg[0], STDERR_FILENO);
-	// 		ft_putendl_fd(": Not a directory", STDERR_FILENO);
-	// 		free(path);
-	// 		//perror(content->arg[0]);
-	// 		return(1);
-	// 	}
-	free(path);
-	return(0);
-}
-
-int	ft_update_opwd(t_list **env)
-{
-	//t_list *current;
-	t_env	*current_path;
-	t_env	*old_path;
-	
-	old_path = NULL;
-	current_path = NULL;
-	current_path = get_env("PWD", *env);
-	old_path = get_env("OLDPWD", *env);
-	free(old_path->arg);
-	old_path->arg = ft_strdup(current_path->arg);
-	if(!old_path->arg)
-	{
-		printf("aberrant\n");
-		return(1);
-	}
-	return(0);
-}
-
-int	ft_find_wave(t_list *env, t_content *content)
-{
-	t_env *cpy;
-
-	while(env)
-	{
-		cpy = (t_env *)env->content;
-		if(ft_strncmp(cpy->var, "HOME", 4) == 0 && ft_strlen(cpy->var) == 4)
+		node = get_env("PWD", *(content->env));
+		if (node == NULL)
+			*saved_pwd = NULL;
+		else
 		{
-			if(cpy->arg == NULL)
-				return(0);
-			content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
-			content->arg[0] = ft_strdup(cpy->arg);
-			content->arg[1] = NULL;
-			content->error_code = 0;
-			return(1);
+			*saved_pwd = ft_strdup(node->arg); // PROTECTED
+			if (!*saved_pwd)
+				return (ft_open_error(content, NULL));
 		}
-		env = env->next;
+		*dir = ft_strdup(content->arg[0]); // PROTECTED
+		if (!*dir)
+		{
+			free(*saved_pwd);
+			return (ft_open_error(content, NULL));
+		}
 	}
-	cpy = get_env("HOME", env);
-	content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
-	if(!content->arg)
-		return(0);
-	content->arg[0] = ft_strdup(cpy->arg);
-	if(!content->arg[0])
-		return(0);
-	content->arg[1] = NULL;
-	content->error_code = 0;
-	return(1);
+	return (1);
 }
 
-int	ft_find_dash(t_list *env, t_content *content)
+int	load_dir(t_content *content, char **dir, char **pwd, char **saved_pwd)
 {
-	t_env *cpy;
+	int		return_value;
 
-	cpy = get_env("OLDPWD", env);
-	if(cpy->arg == NULL)
-		return(0);
-	content->arg = ft_calloc(ft_strlen(cpy->arg) + 1, sizeof(char *));
-	content->arg[0] = ft_strdup(cpy->arg);
-	if(content->arg[0] == NULL)
-		return(0);
-	content->error_code = 0;
-	return(1);
-}
-
-int	ft_deal_with_dash(t_content *content, t_list **env, int *params)
-{
-	if(ft_tablen(content->cmd) > 1 && ft_strcmp(content->cmd[1], "-") == 0)
+	*pwd = NULL;
+	*dir = NULL;
+	return_value = 0;
+	if (content->arg)
+		return (is_arg(content, dir, saved_pwd));
+	else if (!content->arg)
 	{
-		*params = 1;
-		if(ft_find_dash(*env, content) == 1)
+		return_value = is_dash(content, dir, pwd, saved_pwd);
+		if (return_value == O_ERROR)
+			return (O_ERROR);
+		if (return_value == 1)
 			return (1);
-		ft_putstr_fd("maxishell: cd: OLDPWD not set\n", STDERR_FILENO);
-		content->error_code = 1;
-		return(2);
+		return_value = update_dash(content, dir, pwd, saved_pwd);
+		if (return_value == O_ERROR)
+			return (O_ERROR);
+		if (return_value == 1)
+			return (1);
 	}
-	return(0);
+	return (1);
 }
 
-int	ft_deal_with_wave(t_content *content, t_list **env, int *params)
+void	check_dir(t_content *content, char *pwd, char *saved_pwd, char *dir)
 {
-	if(ft_find_wave(*env, content) == 1)
-		return (1);
-	ft_putstr_fd("maxishell: cd: HOME not set\n", STDERR_FILENO);
-	content->error_code = 1;
-	*params = 1;
-	return(2);
+	if (access(dir, X_OK) == -1)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		content->error_code = 1;
+		ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		clean_pwd(pwd, saved_pwd, NULL, content);
+		free(dir);
+		return ;
+	}
+	if (chdir(dir) == -1)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(content->arg[0], STDERR_FILENO);
+		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
+		content->error_code = 1;
+	}
+	free(dir);
 }
 
 void	ft_cd(t_content *content, t_list **env)
 {
-	int params;
+	char	*pwd;
+	char	*saved_pwd;
+	char	*dir;
+	int		returned_value;
 
-	params = 0;
-	content->error_code = 0;
-	if(ft_tablen(content->arg) > 1)
+	saved_pwd = NULL;
+	if (ft_tablen(content->cmd) != 1 && ft_strcmp(content->cmd[1], "-") != 0)
 	{
-		content->error_code = 1;
-		ft_putstr_fd("maxishell: cd: too many arguments\n", STDERR_FILENO);
-		return;
+		ft_putendl_fd("maxishell: cd: too many arguments", STDERR_FILENO);
+		return ;
 	}
-	if(ft_deal_with_dash(content, env, &params) == 2)
-		return;
-	if(!content->arg)
-	{
-		if(ft_deal_with_wave(content, env, &params) == 2)
-			return;	
-	}
-	if(ft_access_dir(content) == 1)
-		return;
-	if(ft_update_opwd(env) == 1)
-		return;
-	if(ft_update_pwd(env, content) == 1)
-		return;
-	if(params == 1)
-		ft_putendl_fd(content->arg[0], STDOUT_FILENO);
-
+	returned_value = load_dir(content, &dir, &pwd, &saved_pwd);
+	if (returned_value == 0 || returned_value == O_ERROR)
+		return ;
+	check_dir(content, pwd, saved_pwd, dir);
+	update_pwd(content, env, pwd, saved_pwd);
 }
-

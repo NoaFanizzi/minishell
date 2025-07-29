@@ -5,10 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/04 14:13:01 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:29:35 by nbodin           ###   ########lyon.fr   */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/07/29 08:12:26 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell.h"
 
@@ -36,7 +37,45 @@ int	split_quote_count(char *line)
 	return (count);
 }
 
-char	**fill_quote_words(char **command, char *line, size_t k, size_t *i)
+int	forward_till_quote(char *line, size_t *len, char quote)
+{
+	*len = 1;
+	while (line[*len])
+	{
+		if (line[*len] == quote)
+			return (0);
+		(*len)++;
+	}
+	return (1);
+}
+
+int	quotes_checker(char *line)
+{
+	size_t	i;
+	size_t	j;
+	char	quote;
+
+	i = 0;
+	j = 0;
+	while (line[i])
+	{
+		if (line[i] == D_QUOTE || line[i] == S_QUOTE)
+		{
+			quote = line[i];
+			if (forward_till_quote(&line[i], &j, quote))
+			{
+				printf("bash: syntax error: unmatched quote\n");
+				return (1);
+			}
+			i += j + 1;
+		}
+		else
+			i++;
+	}
+	return (0);
+}
+
+char	**fill_quote_words(char **command, char *line, size_t	k, size_t *i)
 {
 	char	quote;
 	size_t	j;

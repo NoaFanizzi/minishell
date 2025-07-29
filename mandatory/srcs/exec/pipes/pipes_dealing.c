@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/23 18:57:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:51:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,24 +17,26 @@ int	ft_init_pipe(t_array *array)
 	int	i;
 
 	i = 0;
-
-	if(array->size >= FD_SETSIZE)
+	if (array->size * 2 >= FD_SETSIZE)
 	{
-		ft_putstr_fd("maxishell: cannot make pipe for command: Too many open files", STDERR_FILENO);
-		return(1);
+		ft_putstr_fd("maxishell: cannot make pipe", STDERR_FILENO);
+		ft_putendl_fd("for command: Too many open files", STDERR_FILENO);
+		array->p_exit_status = 1;
+		return (1);
 	}
-	if(array->size != 1)
+	if (array->size != 1)
 		array->pipe = malloc(sizeof(*array->pipe) * (array->size - 1));
-	while(i < array->size - 1)
+	while (i < array->size - 1)
 	{
 		if (pipe(array->pipe[i]) == -1)
 		{
 			perror("pipe");
+			array->p_exit_status = 1;
 			ft_exit(&array->content[0]);
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 void	ft_close_pipes(t_array *array)
@@ -42,19 +44,17 @@ void	ft_close_pipes(t_array *array)
 	int	i;
 
 	i = 0;
-	if(!array->pipe)
-		return;
-	while(i < array->size - 1)
+	if (!array->pipe)
+		return ;
+	while (i < array->size - 1)
 	{
-		//printf("i = %d\n", i);
-		if(!array->pipe)
-			return;
-		if(array->pipe)
+		if (!array->pipe)
+			return ;
+		if (array->pipe)
 		{
 			close(array->pipe[i][0]);
 			close(array->pipe[i][1]);
 		}
-		
 		i++;
 	}
 	free(array->pipe);

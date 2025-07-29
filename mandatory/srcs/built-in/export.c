@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/21 13:58:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:16:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,209 +16,122 @@ int	ft_check_if_in_base(t_list *env, char *str)
 {
 	size_t	i;
 	size_t	link;
-	t_env *cpy;
+	t_env	*cpy;
 
 	i = 0;
 	link = 0;
-	while(str[i] && str[i] != '=')
+	while (str[i] && str[i] != '=')
 		i++;
-	while(env)
+	while (env)
 	{
 		cpy = (t_env *)env->content;
-		if((ft_strncmp(cpy->var, str, i) == 0)
-			&& (ft_strlen(cpy->var) == i))
-			return(link);
+		if ((ft_strncmp(cpy->var, str, i) == 0) && (ft_strlen(cpy->var) == i))
+			return (link);
 		env = env->next;
 		link++;
 	}
-	return(-1);
+	return (-1);
 }
 
-int	ft_is_a_value(char *str)
+int	ft_is_not_already_inside(t_content *content, size_t i)
 {
-	size_t	i;
+	t_env	*link;
 
-	i = 0;
-	while(str[i])
+	link = ft_add_new_link(content->arg[i], content->array_ptr); // PROTECTED
+	if (!link)
 	{
-		if(str[i] == '=')
-			return(1);
-		i++;
+		(void)i;
+		content->array_ptr->p_exit_status = 1;
+		ft_open_error(content, "link malloc");
+		return (1);
 	}
-	if(str[i] == '\0')
-		return(0);
-	return(0);
-}
-
-int	ft_is_chr(char *str, char c)
-{
-	size_t	i;
-
-	i = 0;
-	while(str[i])
+	if (ft_lstadd_back(content->env, ft_lstnew(link)) == 1)
 	{
-		if(str[i] == c)
-			return(i);
-		i++;
+		content->array_ptr->p_exit_status = 1;
+		ft_open_error(content, "link malloc");
+		return (1);
 	}
-	return(-1);
+	if (link->arg != NULL)
+		link->exp = 1;
+	return (0);
 }
 
-
-int	ft_check_if_first_nod(t_list *first_nod, t_list *previous)
+int	ft_is_already_inside(t_content *content, int pos, size_t i)
 {
-	t_env *casted_first;
-	t_env *casted_previous;
+	t_list	*current;
+	t_env	*link;
 
-	casted_first = (t_env *)first_nod->content;
-	casted_previous = (t_env *)previous->content;
-	if(ft_strcmp(casted_first->var, casted_previous->var) == 0)
-		return(1);
-	return(0);
-}
-
-void ft_display_export(t_list *env_copy)
-{
-    t_list *head = env_copy;
-    t_list *iter;
-    t_list *min;
-    t_list *prev;
-    t_list *prev_min;
-    t_env  *e;
-
-    while (head)
-    {
-        min      = head;
-        prev_min = NULL;
-        prev     = head;
-        iter     = head->next;
-
-        while (iter)
-        {
-            e = (t_env *)iter->content;
-            if (ft_strcmp(e->var, ((t_env *)min->content)->var) < 0)
-            {
-                prev_min = prev;
-                min      = iter;
-            }
-            prev = iter;
-            iter = iter->next;
-        }
-
-        e = (t_env *)min->content;
-        if (e->arg)
-        {
-            ft_putstr_fd("export ", 1);
-            ft_putstr_fd(e->var,    1);
-            ft_putstr_fd("=\"",      1);
-            ft_putstr_fd(e->arg,    1);
-            ft_putstr_fd("\"\n",     1);
-        }
-        else
-        {
-            ft_putstr_fd("export ", 1);
-            ft_putstr_fd(e->var,      1);
-            ft_putstr_fd("\n",         1);
-        }
-
-        if (prev_min)
-            prev_min->next = min->next;
-        else
-            head = min->next;
-
-        ft_lstdelone(min, ft_free_link);
-    }
-}
-
-int	is_number(char c)
-{
-	if(c >= '0' && c <= '9')
-		return(1);
-	return(0);
-}
-
-int	ft_check_var_validity(char *var)
-{
-	size_t	i;
-
-	i = 0;
-	if(ft_isalpha(var[i]) == 0 && var[i] != '_')
-		return(1);
-	i++;
-	while(var[i] && var[i] != '=')
+	current = *content->env;
+	while (pos > 0)
 	{
-		if(ft_isalnum(var[i]) == 0 && var[i] != '_')
-			return(1);
-		i++;
+		current = current->next;
+		pos--;
 	}
-	return(0);
+	link = (t_env *)current->content;
+	if (ft_is_a_value(content->arg[i]) == 1)
+	{
+		free(link->arg);
+		if (fill_env_arg(&link, content->arg[i], 0) == 1)
+		{
+			ft_open_error(content, NULL);
+			return (1);
+		}
+	}
+	return (0);
 }
 
-int	ft_init_export(t_list **env, t_content *content, size_t	i)
+int	ft_init_export(t_list **env, t_content *content, size_t i)
 {
-	t_env *link;
-	t_list *current;
 	int	pos;
 
-	if(ft_check_var_validity(content->arg[i]) == 1)
+	if (ft_check_var_validity(content->arg[i]) == 1)
 	{
 		ft_putstr_fd("maxishell: export: `", STDERR_FILENO);
 		ft_putstr_fd(content->arg[i], STDERR_FILENO);
 		ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 		content->error_code = 1;
-		return(1);
+		return (1);
 	}
-	pos = ft_check_if_in_base(*env, content->arg[i]); // ça me return la position de où c'est dans la liste
-	if(pos == -1) // ca veut dire que c'etait pas dedans
+	pos = ft_check_if_in_base(*env, content->arg[i]);
+	if (pos == -1)
 	{
-		link = ft_add_new_link(content->arg[i]);
-		ft_lstadd_back(env, ft_lstnew(link));
-		if(link->arg != NULL)
-			link->exp = 1;
+		if (ft_is_not_already_inside(content, i) == 1)
+			return (1);
 	}
-	else //ca veut dire que c'etait deja dedans
+	else // ca veut dire que c'etait deja dedans
 	{
-		current = *env;
-		while(pos > 0)
-		{
-			current = current->next;
-			pos--;
-		}
-		link = (t_env *)current->content;
-		if(ft_is_a_value(content->arg[i]) == 1) 
-		{
-			free(link->arg);
-			fill_env_arg(&link, content->arg[i], 0);
-		}
+		if (ft_is_already_inside(content, pos, i) == 1)
+			return (1);
 	}
 	content->error_code = 0;
-	return(0);
+	return (0);
 }
+
 int	ft_export(t_list **env, t_content *content)
 {
 	size_t	i;
+	t_list	*cpy;
 
 	i = 0;
-	t_list *cpy;
-
-	if(content->arg == NULL)
+	if (content->arg == NULL)
 	{
-		cpy = dup_env_list(*env);
-		if(!cpy)
+		cpy = dup_env_list(*env); // PROTECTED
+		if (!cpy)
 		{
-			perror("maxishell: malloc");
 			content->error_code = 1;
-			return(1);
+			ft_dup2_pb(content, "cpy");
+			return (1);
 		}
 		content->error_code = 0;
 		ft_display_export(cpy);
-		return(0);
+		return (0);
 	}
-	while(content->arg[i])
+	while (content->arg[i])
 	{
-		ft_init_export(env, content, i);
+		if (ft_init_export(env, content, i) == 1)
+			return (0);
 		i++;
 	}
 	content->error_code = 0;
-	return(0);
+	return (0);
 }

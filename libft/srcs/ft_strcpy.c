@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 13:21:41 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 12:37:28 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/07/25 11:18:14 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/25 11:18:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *first, char *second, size_t length)
+void	ft_strcpy(char *dest, char *src)
 {
 	size_t	i;
 
 	i = 0;
-	if (length == 0)
-		return (0);
-	while ((first[i] || second[i]) && (i < length))
+	while (src[i])
 	{
-		if (first[i] != second[i])
-			return ((unsigned char)first[i] - (unsigned char)second[i]);
+		dest[i] = src[i];
 		i++;
 	}
-	return (0);
+	dest[i] = '\0';
 }

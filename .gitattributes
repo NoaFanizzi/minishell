@@ -1,0 +1,6 @@
+# Always keep MAIN's version for these folders
+mandatory/srcs/parsing/* merge=keepMain
+
+# Always keep FRIEND's version for these folders
+mandatory/srcs/built-in/* merge=keepFriend
+mandatory/srcs/exec/* merge=keepFriend

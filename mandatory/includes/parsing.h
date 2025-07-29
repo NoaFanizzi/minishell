@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:02:13 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:32:59 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,7 +187,6 @@ char	**twisted_fill_splitted(const char *s, const char *charset, char **splitted
 void	quotes_removal(char **command);
 void	rem_and_shift(char *command);
 
-int		ft_check_if_command(char *cmd, char **path);
 int 	ft_is_command_parsing(t_expar *expar, char *command);
 int		ft_try(t_list *var, char *command);
 
@@ -198,6 +197,9 @@ int		count_commands(char **command);
 int		count_command_words(char **command);
 void	*free_command(char ***splitted);
 
+void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
+void	identify_cmd_opt(char **cmd, t_content *content);
+size_t	count_cmd_opt(char **cmd);
 void	create_cmd_struct(char ***cmd_splitted, t_content *content, size_t cmd_index);
 void	identify_cmd_opt(char **cmd, t_content *content);
 size_t	count_cmd_opt(char **cmd);

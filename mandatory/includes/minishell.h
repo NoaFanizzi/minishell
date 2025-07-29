@@ -7,9 +7,12 @@
 #include "parsing.h"
 #include "redirections.h"
 #include "error_handling.h"
+#include "redirections.h"
+#include "error_handling.h"
 #include <unistd.h>
 #include <stdio.h>
 #include <signal.h>
+#include <limits.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "get_next_line.h"
@@ -26,6 +29,7 @@ enum	ERROR
 };
 
 
+void	child_handler(int signal);;
 void	deal_with_sigint(int signal);
 void	deal_with_sigint_hdoc(int signal);
 void	deal_with_signals_in_exec(int signal);

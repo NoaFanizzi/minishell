@@ -13,6 +13,17 @@ int		ft_deal_with_dash(t_content *content, t_list **env, int *params);
 int		ft_deal_with_wave(t_content *content, t_list **env, int *params);
 void	ft_cd(t_content *content, t_list **env);
 
+//cd_dash.c
+int		is_node(t_content *content, char **dir, char **pwd, char **saved_pwd);
+int		update_dash(t_content *content, char **dir, char **pwd, char **saved_pwd);
+int		is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd);
+
+//cd_utils.c
+int		update_env(t_list **env, char *var, char *arg);
+int		clean_pwd(char *pwd, char *saved_pwd, char *var, t_content *content);
+int		update_pwd(t_content *content, t_list **env, char *pwd, char *saved_pwd);
+int		is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node);
+
 //echo.c
 int		ft_is_arg(char *cmd);
 int		ft_echo(t_content *content);
@@ -20,9 +31,9 @@ int		ft_echo(t_content *content);
 //env.c
 int		ft_get_right_op(t_env *link, char *env, size_t i);
 int		ft_get_right_arg(t_env *link, char *env, size_t	i);
-t_env	*fill_env_arg(t_env **link, char *env, size_t *var_len);
-t_env	*ft_add_new_link(char *env);
-t_list	*ft_init_env(char **o_env);
+int		fill_env_arg(t_env **link, char *env, size_t *var_len);
+t_env	*ft_add_new_link(char *env, t_array *array);
+t_list	*ft_init_env(char **o_env, t_array *array);
 void	ft_display_env(t_list *env, t_content *content);
 
 //exit.c

@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_tablen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/05 13:21:41 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 12:37:28 by nofanizz         ###   ########.fr       */
+/*   Created: 2025/07/25 11:20:54 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/25 11:21:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_strncmp(const char *first, char *second, size_t length)
+size_t	ft_tablen(char **tab)
 {
 	size_t	i;
 
 	i = 0;
-	if (length == 0)
+	if (!tab)
 		return (0);
-	while ((first[i] || second[i]) && (i < length))
+	while (tab[i])
 	{
-		if (first[i] != second[i])
-			return ((unsigned char)first[i] - (unsigned char)second[i]);
 		i++;
 	}
-	return (0);
+	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:20:52 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:16:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,11 @@ void	contiguous_quotes(char ***cmd)
 	char	**command;
 	int		merged;
 
+	char	**command;
+	int		merged;
+
 	i = 0;
+	command = *cmd;
 	command = *cmd;
 	while (command[i])
 	{

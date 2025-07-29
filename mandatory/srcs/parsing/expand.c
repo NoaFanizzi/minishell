@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:30:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/29 08:14:19 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 char	*expand_var(t_expand *data, t_list **env)
 {
 	char	*new_word;
+	char 	*exp_var; //la vraie valeur de la variable expand
 	size_t	j;
 	size_t	k;
 
