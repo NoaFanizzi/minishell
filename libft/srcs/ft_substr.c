@@ -23,8 +23,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (start >= ft_strlen(s))
 	{
 		result = ft_calloc(1, sizeof(char));
-		if (!result)
-			return (result);
+		if(!result)
+			return(result);
 		return (result);
 	}
 	if (ft_strlen(s) - start <= len)

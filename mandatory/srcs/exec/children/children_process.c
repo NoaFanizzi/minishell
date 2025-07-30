@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:32:30 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 02:24:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_load_expar(t_content *content, t_list **env)
 {
 	content->error_code = 0;
 	content->expar = malloc(sizeof(t_expar));
-	if (!content->expar)
+	if(!content->expar)
 	{
 		content->error_code = 1;
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

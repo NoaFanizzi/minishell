@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_get_redirections.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:32:19 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 02:22:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ int	ft_save_stdin(t_array *array)
 		return (ft_dup2_pb(&array->content[0], "stdin"));
 	}
 	array->content[0].stdout_saved = dup(STDOUT_FILENO);
-	if (array->content[0].stdout_saved == -1)
+	if(array->content[0].stdout_saved == -1)
 	{
+		printf("ici batard\n");
 		array->content->stdout_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdout"));
 	}
