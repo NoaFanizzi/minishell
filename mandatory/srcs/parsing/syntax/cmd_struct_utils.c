@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:27:47 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 09:35:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:50:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*find_command_name(char **cmd, size_t *i)
 {
 	while (cmd[*i])
 	{
-		if ((strncmp(cmd[*i], "<", 1) == 0 || strncmp(cmd[*i], ">", 1) == 0))
+		if ((ft_strncmp(cmd[*i], "<", 1) == 0 || ft_strncmp(cmd[*i], ">", 1) == 0))
 		{
 			if (!cmd[*i + 1] || !cmd[*i + 2])
 				return (NULL);

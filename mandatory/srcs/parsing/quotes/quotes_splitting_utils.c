@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:45:26 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:45:39 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:58:38 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	quotes_checker(char *line)
 			quote = line[i];
 			if (forward_till_quote(&line[i], &j, quote))
 			{
-				printf("maxishell: syntax error: unmatched quote\n");
+				ft_putstr_fd("maxishell: syntax error: unmatched quote\n", 2);
 				return (1);
 			}
 			i += j + 1;

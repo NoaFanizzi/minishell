@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_files.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 22:53:27 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 10:47:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ void	figure_out(char **cmd, t_content *content, int tab[2],
 
 int	check_for_op(char **cmd, t_content *content, int tab[2], size_t redir_count)
 {
-	if (strncmp(cmd[tab[0]], "<<", 2) == 0)
+	if (ft_strncmp(cmd[tab[0]], "<<", 2) == 0)
 	{
 		if (figure_hdoc(cmd, content, tab, redir_count))
 			return (1);
 	}
-	else if (strncmp(cmd[tab[0]], ">>", 2) == 0)
+	else if (ft_strncmp(cmd[tab[0]], ">>", 2) == 0)
 		figure_append(cmd, content, tab, redir_count);
-	else if (strncmp(cmd[tab[0]], "<", 1) == 0)
+	else if (ft_strncmp(cmd[tab[0]], "<", 1) == 0)
 		figure_in(cmd, content, tab, redir_count);
-	else if (strncmp(cmd[tab[0]], ">", 1) == 0)
+	else if (ft_strncmp(cmd[tab[0]], ">", 1) == 0)
 		figure_out(cmd, content, tab, redir_count);
 	else
 		tab[0]++;

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:43:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:53:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,9 @@ void	*is_not_var(t_expand *data, t_array *array)
 		&& !quotes_after(data->new_command, data->i
 			+ get_var_length(&data->new_command[data->i + 1]) - 1))
 	{
-		printf("maxishell: $%s: ambiguous redirect\n", data->var_name);
+		ft_putstr_fd("maxishell: $", 2);
+		ft_putstr_fd(data->var_name, 2);
+		ft_putstr_fd(": ambiguous redirect\n", 2);
 		array->p_exit_status = 1;
 		return (NULL);
 	}

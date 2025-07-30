@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:28:32 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 10:49:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	fill_struct_size(t_array *array, size_t struct_index)
 int	create_structs_loop(char ***cmd_splitted, t_array *array, size_t *cmd_index,
 		size_t *struct_index)
 {
-	if (cmd_splitted[*cmd_index][0] && strncmp(cmd_splitted[*cmd_index][0], "|",
+	if (cmd_splitted[*cmd_index][0] && ft_strncmp(cmd_splitted[*cmd_index][0], "|",
 			1) != 0)
 	{
 		if (create_hdoc_struct(cmd_splitted[*cmd_index],
