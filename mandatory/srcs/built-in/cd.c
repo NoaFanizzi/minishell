@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:50:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:32:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int	load_dir(t_content *content, char **dir, char **pwd, char **saved_pwd)
 
 void	check_dir(t_content *content, char *pwd, char *saved_pwd, char *dir)
 {
+	printf("dir = %s\n", dir);
+	if(!dir)
+		return;
 	if (access(dir, X_OK) == -1)
 	{
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);

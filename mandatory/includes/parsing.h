@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 10:20:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:03:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,9 @@ int		quotes_after(char *cmd, size_t i);
 
 // expand_helpers.c //
 void	*look_to_expand(t_expand *data, t_list **env, t_array *array);
-void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array);
+int		handle_normal_expand(t_expand *data, t_list **env, t_array *array);
 void	*is_not_var(t_expand *data, t_array *array);
-void	*call_expand_var(t_expand *data, t_list **env, t_array *array);
+int		call_expand_var(t_expand *data, t_list **env, t_array *array);
 void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 			char **command);
 
@@ -109,8 +109,8 @@ int		valid_var_first_char(char c);
 // expand.c //
 char	*expand_word(char *command, t_list **env, t_array *array);
 char	*remove_var(char *command, size_t i);
-char	*expand_var(t_expand *data, t_list **env, t_array *array);
-void	*loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
+int		expand_var(t_expand *data, t_list **env, t_array *array, char **new_word);
+int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
 			char **new_word);
 int		expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 			char *new_word);

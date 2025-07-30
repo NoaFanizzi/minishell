@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 09:46:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 14:49:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int		ft_is_many_numbers(t_content *content);
 // expand_utils.c
 size_t	get_true_var_length(char *var_name, t_list *env);
 int		var_exists(char *var_name, t_list *env);
-char	*get_var_value(char *var_name, t_list *env);
+int		get_var_value(char *var_name, t_list *env, char **var);
 t_env	*get_env(char *var_name, t_list *env);
 
 // export_dup.c

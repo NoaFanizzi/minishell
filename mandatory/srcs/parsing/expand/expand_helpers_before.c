@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:40:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 10:44:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:22:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	valid_var_first_char(char c)
 
 void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 {
+	int returned_value;
+
 	if (data->new_command[data->i] == '$'
 		&& is_not_after_hdoc(data->new_command, data->i)
 		&& !is_in_single_quotes(data->new_command, data->i)
@@ -36,9 +38,16 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 		}
 		else
 		{
-			if (handle_normal_expand(data, env, array) == NULL)
-			{
+			printf("ici\n");
+			returned_value = handle_normal_expand(data, env, array);
+			printf("AAAAAA\n");
+			printf("returned_value = %d\n", returned_value);
+			if (returned_value == 1)
 				array->p_exit_status = 1;
+			if(returned_value == 2)
+				array->p_exit_status = 2;
+			if(returned_value == 1 || returned_value == 2)
+			{
 				return (NULL);
 			}
 		}

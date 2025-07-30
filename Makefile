@@ -6,7 +6,7 @@
 #    By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/10 13:45:35 by nofanizz          #+#    #+#              #
-#    Updated: 2025/07/30 10:48:05 by nofanizz         ###   ########.fr        #
+#    Updated: 2025/07/30 14:28:30 by nofanizz         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ LIBFT_DIR = libft
 LIBFT		= $(LIBFT_DIR)/libft.a
 
 CC		= cc
-C_FLAGS = -Wall -Wextra -Werror
+C_FLAGS = -g3 -Wall -Wextra -Werror
 D_FLAGS = -MMD -MP -MF $(DEP_DIR)/$*.d
 I_FLAGS = -I$(INC_DIR) -I$(LIBFT_DIR)/includes
 L_FLAGS = -L$(LIBFT_DIR) -lft

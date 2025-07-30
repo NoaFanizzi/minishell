@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:53:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:25:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,20 +35,21 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 	return ((void *)1);
 }
 
-void	*call_expand_var(t_expand *data, t_list **env, t_array *array)
+int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	true_var_length;
+	int returned_value;
 
 	true_var_length = get_true_var_length(data->var_name, *env);
 	data->new_length = true_var_length + ft_strlen(data->new_command)
 		- get_var_length(&data->new_command[data->i + 1]) + 1;
 	if (is_after_great_var(data->new_command, data->i))
 		data->new_length += 2;
-	data->new_command = expand_var(data, env, array);
-	if (!data->new_command)
-		return (NULL);
+	returned_value = expand_var(data, env, array, &data->new_command);
+	if (returned_value == 1 || returned_value == 2)
+		return (returned_value);
 	data->i += true_var_length;
-	return ((void *)1);
+	return (0);
 }
 
 char	*remove_var(char *command, size_t i)
@@ -104,24 +105,31 @@ void	*is_not_var(t_expand *data, t_array *array)
 	return ((void *)1);
 }
 
-void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array)
+int	handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 {
+	int	returned_value;
+	
+	
 	data->var_name = get_var_name(&data->new_command[data->i + 1]);
 	if (!data->var_name)
-		return (NULL);
+		return (1);
 	if (var_exists(data->var_name, *env) == 1)
 	{
-		if (call_expand_var(data, env, array) == NULL)
+		printf("pour lui la var existe\n");
+		returned_value = call_expand_var(data, env, array);
+		if (returned_value == 1 || returned_value == 2)
 		{
+			printf("returned_value of handle_normal_expand = %d\n", handle)
 			free(data->var_name);
-			return (NULL);
+			return (returned_value);
 		}
 	}
 	else
 	{
+		printf("pour lui la var n'existe PAS\n");
 		if (is_not_var(data, array) == NULL)
-			return (NULL);
+			return (1);
 	}
 	free(data->var_name);
-	return ((void *)1);
+	return (0);
 }
