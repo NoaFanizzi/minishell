@@ -6,11 +6,18 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:48:16 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:49:54 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:30:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	copy_error_code(char *new_cmd, size_t *k, char *error_code)
+{
+	ft_strcpy(&new_cmd[*k], error_code);
+	*k += ft_strlen(error_code);
+	return (2);
+}
 
 char	*expand_error_code(char *command, size_t i, t_array *array)
 {

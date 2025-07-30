@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 15:29:37 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 08:36:14 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 09:55:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*new;
 
-	new = malloc(sizeof(t_list)); //PROTECTED
+	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
 	new->content = content;

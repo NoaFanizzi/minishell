@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:26:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:09:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	***parse_splitting_part(char ***command, t_array *array)
 	return (cmd_splitted);
 }
 
-static char	*prepare_line(char **line, t_list **var, t_array *array)
+char	*prepare_line(char **line, t_list **var, t_array *array)
 {
 	char	*str;
 

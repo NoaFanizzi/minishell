@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:49:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:43:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,34 @@ void	*call_expand_var(t_expand *data, t_list **env, t_array *array)
 	return ((void *)1);
 }
 
+char	*remove_var(char *command, size_t i)
+{
+	size_t	j;
+	size_t	k;
+	char	*new_command;
+
+	j = 0;
+	k = 0;
+	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
+				+ 1) * sizeof(char));
+	if (!new_command)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		free(command);
+		return (NULL);
+	}
+	while (command[j] && j != i)
+		new_command[j++] = command[k++];
+	k++;
+	while (command[k] && valid_var_char(command[k]))
+		k++;
+	while (command[k])
+		new_command[j++] = command[k++];
+	new_command[j] = 0;
+	free(command);
+	return (new_command);
+}
+
 void	*is_not_var(t_expand *data, t_array *array)
 {
 	if (is_after_great(data->new_command, data->i)
@@ -93,34 +121,5 @@ void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 			return (NULL);
 	}
 	free(data->var_name);
-	return ((void *)1);
-}
-
-void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
-{
-	if (data->new_command[data->i] == '$'
-		&& is_not_after_hdoc(data->new_command, data->i)
-		&& !is_in_single_quotes(data->new_command, data->i)
-		&& valid_var_first_char(data->new_command[data->i + 1]))
-	{
-		if (data->new_command[data->i + 1] == '?')
-		{
-			if (handle_expand_error_code(data, array) == NULL)
-			{
-				array->p_exit_status = 1;
-				return (NULL);
-			}
-		}
-		else
-		{
-			if (handle_normal_expand(data, env, array) == NULL)
-			{
-				array->p_exit_status = 1;
-				return (NULL);
-			}
-		}
-	}
-	else
-		data->i++;
 	return ((void *)1);
 }

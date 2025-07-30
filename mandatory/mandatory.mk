@@ -41,16 +41,16 @@ REDIRECTIONS_SRCS 	:= $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 ERROR_HANDLING_SRCS	= error_handling_error_code.c
 ERROR_HANDLING_SRCS	:= $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS))
 
-UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c exec_utils_3.c exec_utils_free.c display_header.c
+UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_close.c exec_utils_numbers.c exec_utils_free.c display_header.c
 UTILS_SRCS			:= $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
 SIGNALS_SRCS		= signals.c
 SIGNALS_SRCS		:= $(addprefix $(SIGNALS_DIR)/, $(SIGNALS_SRCS))
 
-COMMAND_SRCS		= command_splitting_utils.c
+COMMAND_SRCS		= command_splitting.c command_splitting_utils.c
 COMMAND_SRCS		:= $(addprefix $(COMMAND_DIR)/, $(COMMAND_SRCS))
 
-EXPAND_SRCS			= expand_after.c expand_helpers.c expand_other_utils.c expand_quotes.c expand_utils.c expand.c
+EXPAND_SRCS			=  expand_helpers.c  expand.c expand_helpers_before.c  expand_after.c  expand_great.c expand_other_utils.c expand_quotes.c
 EXPAND_SRCS			:= $(addprefix $(EXPAND_DIR)/, $(EXPAND_SRCS))
 
 QUOTES_SRCS			= join_next_quotes.c join_next_simple.c join_prev_quotes.c join_prev_simple.c quotes_removal.c quotes_splitting_utils.c quotes_splitting.c

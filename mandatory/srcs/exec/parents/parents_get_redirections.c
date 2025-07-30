@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:22:33 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:55:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ int	exit_in_parent(t_array *array)
 	return (1);
 }
 
-// ft_dup_in_dad
-
 int	ft_save_stdin(t_array *array)
 {
 	array->content[0].stdin_saved = dup(STDIN_FILENO);
@@ -37,9 +35,8 @@ int	ft_save_stdin(t_array *array)
 		return (ft_dup2_pb(&array->content[0], "stdin"));
 	}
 	array->content[0].stdout_saved = dup(STDOUT_FILENO);
-	if(array->content[0].stdout_saved == -1)
+	if (array->content[0].stdout_saved == -1)
 	{
-		printf("ici batard\n");
 		array->content->stdout_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdout"));
 	}

@@ -6,11 +6,18 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:48:42 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:43:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	valid_var_char(char c)
+{
+	if (ft_isalnum(c) || c == '_')
+		return (1);
+	return (0);
+}
 
 int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word)
@@ -88,34 +95,6 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array)
 		return (NULL);
 	free(data->new_command);
 	return (new_word);
-}
-
-char	*remove_var(char *command, size_t i)
-{
-	size_t	j;
-	size_t	k;
-	char	*new_command;
-
-	j = 0;
-	k = 0;
-	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char));
-	if (!new_command)
-	{
-		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		free(command);
-		return (NULL);
-	}
-	while (command[j] && j != i)
-		new_command[j++] = command[k++];
-	k++;
-	while (command[k] && valid_var_char(command[k]))
-		k++;
-	while (command[k])
-		new_command[j++] = command[k++];
-	new_command[j] = 0;
-	free(command);
-	return (new_command);
 }
 
 char	*expand_word(char *command, t_list **env, t_array *array)

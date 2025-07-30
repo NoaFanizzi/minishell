@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:24:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:56:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	ft_wait_pid(t_array *array)
 
 	status = 0;
 	sig = 0;
-	(void)array;
 	pid = waitpid(-1, &status, 0);
 	while (pid > 0)
 	{

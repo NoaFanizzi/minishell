@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:10:56 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 09:56:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ size_t	count_cmd_opt(char **cmd)
 	{
 		if (cmd[i][0] == '-')
 			count++;
-		else if (strncmp(cmd[i], "<", 1) != 0 || strncmp(cmd[i], ">", 1) != 0)
+		else if (ft_strncmp(cmd[i], "<", 1) != 0
+			|| ft_strncmp(cmd[i], ">", 1) != 0)
 			break ;
 		i++;
 	}
@@ -64,7 +65,8 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 			if (copy_opt(content, cmd, &j, i))
 				return (1);
 		}
-		else if (strncmp(cmd[i], "<", 1) != 0 && strncmp(cmd[i], ">", 1) != 0)
+		else if (ft_strncmp(cmd[i], "<", 1) != 0
+			&& ft_strncmp(cmd[i], ">", 1) != 0)
 			break ;
 	}
 	content->cmd[j] = NULL;

@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:11:27 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:39:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:09:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	alloc_and_prepare_joined(char **command, char **joined,
+int	alloc_and_prepare_joined(char **command, char **joined,
 		size_t idx[3])
 {
 	size_t	size;

@@ -6,13 +6,13 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:13:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:46:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:09:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_final_string(char **command, char **joined, size_t *sk,
+int	create_final_string(char **command, char **joined, size_t *sk,
 		size_t ij[2])
 {
 	joined[sk[1]] = malloc(sk[0] * sizeof(char));
@@ -52,7 +52,7 @@ int	fusion_simple_prev(char **command, char **joined, size_t i, size_t j)
 	return (0);
 }
 
-static int	handle_prev_join_special(char **command, char **joined,
+int	handle_prev_join_special(char **command, char **joined,
 				size_t i, size_t jk[2])
 {
 	if (fusion_simple_prev(command, joined, i, jk[0]) == 1)

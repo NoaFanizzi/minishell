@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:39:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:09:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	split_meta_count(char **command, const char *charset)
 	return (count);
 }
 
-static size_t	find_next_segment(const char *s, const char *charset,
+size_t	find_next_segment(const char *s, const char *charset,
 		size_t start)
 {
 	size_t	i;
@@ -109,7 +109,6 @@ char	**meta_splitting(char **command)
 	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
 	{
-		printf("la\n");
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (free_words(command));
 	}
@@ -117,7 +116,6 @@ char	**meta_splitting(char **command)
 	free_words(command);
 	if (!splitted)
 	{
-		printf("slt\n");
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
 	}
