@@ -6,11 +6,27 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:25:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:16:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free_tab(char **tab)
+{
+	size_t	i;
+
+	i = 0;
+	if (tab == NULL || tab[0] == NULL)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+	tab = NULL;
+}
 
 char	**ct_get_paths(t_list *var, t_content *content)
 {
@@ -40,7 +56,7 @@ char	**ft_cmd_join(char **a, char **b, t_content *content)
 	char	**cmd;
 
 	length = ft_tablen(a) + ft_tablen(b);
-	cmd = ft_calloc(length + 1, (sizeof(char *))); // PROTECTED
+	cmd = ft_calloc(length + 1, (sizeof(char *)));
 	if (!cmd)
 	{
 		if (content->cmd)

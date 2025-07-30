@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 18:52:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:56:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,16 @@ size_t	get_true_var_length(char *var_name, t_list *env)
 char	*get_var_value(char *var_name, t_list *env)
 {
 	t_env	*cpy;
-	char *var;
+	char	*var;
 
 	cpy = get_env(var_name, env);
 	if (cpy)
 	{
-		var = ft_strdup(cpy->arg); //PROTECTED
-		if(!var)
+		var = ft_strdup(cpy->arg);
+		if (!var)
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-			return(NULL);
+			return (NULL);
 		}
 		return (var);
 	}

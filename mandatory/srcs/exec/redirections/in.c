@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:03:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:10:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:54:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	check_in(t_content *content, size_t i, size_t position)
 {
 	content->infile = open(content->cmd_splitted[position][content->files[i]
-			.index + 1], O_RDONLY, 0644); // PROTECTED
+			.index + 1], O_RDONLY, 0644);
 	if (content->infile == -1)
 		return (ft_open_error(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
-	if (dup2(content->infile, STDIN_FILENO) == -1) // PROTECTED
+	if (dup2(content->infile, STDIN_FILENO) == -1)
 		return (ft_dup2_pb(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
 	close(content->infile);

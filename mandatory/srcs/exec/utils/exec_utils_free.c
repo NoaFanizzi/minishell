@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:22:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 20:43:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:53:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	load_cmd_a(char ***a, t_content *content, char ***cmd, size_t *i)
 	*i = 0;
 	while (*i < len_a)
 	{
-		(*cmd)[*i] = ft_strdup((*a)[*i]); // PROTECTED
+		(*cmd)[*i] = ft_strdup((*a)[*i]);
 		if (!(*cmd)[*i])
 		{
 			if (content->cmd)
@@ -62,7 +62,7 @@ int	load_cmd_tab(char ***a, char ***b, t_content *content, char ***cmd)
 		return (0);
 	while (j < len_b)
 	{
-		(*cmd)[i + j] = ft_strdup((*b)[j]); // PROTECTED
+		(*cmd)[i + j] = ft_strdup((*b)[j]);
 		if (!(*cmd)[i + j])
 		{
 			if (content->cmd)

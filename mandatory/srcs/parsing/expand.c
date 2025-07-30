@@ -6,37 +6,11 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:07:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:48:42 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	switch_lit_quotes(char *exp_var)
-{
-	size_t	i;
-
-	i = 0;
-	while (exp_var[i])
-	{
-		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
-			exp_var[i] = exp_var[i] * -1;
-		i++;
-	}
-}
-
-void	switch_back_lit_quotes(char *exp_var)
-{
-	size_t	i;
-
-	i = 0;
-	while (exp_var[i])
-	{
-		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
-			exp_var[i] = exp_var[i] * -1;
-		i++;
-	}
-}
 
 int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 		char *new_word)
@@ -47,7 +21,7 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 
 	after_great = 0;
 	return_value = 0;
-	exp_var = get_var_value(data->var_name, *env); // PROTECTED
+	exp_var = get_var_value(data->var_name, *env);
 	if (!exp_var)
 		return (1);
 	switch_lit_quotes(exp_var);
@@ -102,7 +76,7 @@ char	*expand_var(t_expand *data, t_list **env, t_array *array)
 	size_t	k;
 
 	k = 0;
-	new_word = ft_calloc(data->new_length + 1, sizeof(char)); // PROTECTED
+	new_word = ft_calloc(data->new_length + 1, sizeof(char));
 	if (!new_word)
 	{
 		free(data->var_name);
@@ -125,7 +99,7 @@ char	*remove_var(char *command, size_t i)
 	j = 0;
 	k = 0;
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char)); // PROTECTED
+				+ 1) * sizeof(char));
 	if (!new_command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
@@ -150,7 +124,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 
 	data.i = 0;
 	data.new_length = 0;
-	data.new_command = ft_strdup(command); // PROTECTED
+	data.new_command = ft_strdup(command);
 	if (!data.new_command)
 	{
 		free(command);

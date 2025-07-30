@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:12:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:16:21 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:54:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 	(void)temp_file;
 	if (!line)
 	{
-		temp = ft_itoa(data[2]); // PROTECTED
+		temp = ft_itoa(data[2]);
 		if (temp)
 		{
 			ft_putstr_fd("maxishell: warning: here-document at line ",
@@ -41,7 +41,7 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 
 int	get_stdin(t_content *content)
 {
-	if (dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
+	if (dup2(content->stdin_saved, STDIN_FILENO) == -1)
 	{
 		if (content->stdin_saved)
 			close(content->stdin_saved);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 16:24:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:50:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	is_a_saved_pwd(t_content *content, char **dir, char **saved_pwd)
 {
 	char	*temp;
 
-	temp = ft_strjoin(*saved_pwd, "/"); // PROTECTED
+	temp = ft_strjoin(*saved_pwd, "/");
 	if (!temp)
 	{
 		free(*saved_pwd);
@@ -46,11 +46,11 @@ int	is_arg(t_content *content, char **dir, char **saved_pwd)
 			*saved_pwd = NULL;
 		else
 		{
-			*saved_pwd = ft_strdup(node->arg); // PROTECTED
+			*saved_pwd = ft_strdup(node->arg);
 			if (!*saved_pwd)
 				return (ft_open_error(content, NULL));
 		}
-		*dir = ft_strdup(content->arg[0]); // PROTECTED
+		*dir = ft_strdup(content->arg[0]);
 		if (!*dir)
 		{
 			free(*saved_pwd);

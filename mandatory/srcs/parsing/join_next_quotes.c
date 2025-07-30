@@ -6,11 +6,21 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:10:40 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:16:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:46:58 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	handle_space_case(char **command, char **joined, size_t *sk,
+		size_t j)
+{
+	joined[sk[1]] = ft_substr(command[j], 0, ft_strlen(command[j])
+			- len_until_space_backward(command[j]));
+	if (!joined[sk[1]++])
+		return (ft_putendl_fd("maxishell: malloc error", STDERR_FILENO), 1);
+	return (0);
+}
 
 int	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 {
@@ -23,7 +33,7 @@ int	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 	rem_and_shift(command[j]);
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[k] = malloc(size * sizeof(char)); // PROTECTED
+	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
 	{
 		ft_free_tab_length(joined, k);
@@ -77,7 +87,7 @@ char	**join_next_quotes(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *)); // PROTECTED
+	joined = malloc((size + 1) * sizeof(char *));
 	if (!joined)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

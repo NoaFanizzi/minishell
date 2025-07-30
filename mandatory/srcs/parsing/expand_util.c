@@ -57,9 +57,9 @@ int	track_var_in_del(char *cmd, size_t *i, size_t var_index)
 	return (1);
 }
 
-int copy_error_code(char *new_cmd, size_t *k, char *error_code)
+int	copy_error_code(char *new_cmd, size_t *k, char *error_code)
 {
-    ft_strcpy(&new_cmd[*k], error_code);
-    *k += ft_strlen(error_code);
-    return (2);
+	ft_strcpy(&new_cmd[*k], error_code);
+	*k += ft_strlen(error_code);
+	return (2);
 }

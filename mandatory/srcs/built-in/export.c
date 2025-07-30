@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 14:16:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:52:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	ft_is_not_already_inside(t_content *content, size_t i)
 {
 	t_env	*link;
 
-	link = ft_add_new_link(content->arg[i], content->array_ptr); // PROTECTED
+	link = ft_add_new_link(content->arg[i], content->array_ptr);
 	if (!link)
 	{
 		(void)i;
@@ -98,7 +98,7 @@ int	ft_init_export(t_list **env, t_content *content, size_t i)
 		if (ft_is_not_already_inside(content, i) == 1)
 			return (1);
 	}
-	else // ca veut dire que c'etait deja dedans
+	else
 	{
 		if (ft_is_already_inside(content, pos, i) == 1)
 			return (1);
@@ -115,7 +115,7 @@ int	ft_export(t_list **env, t_content *content)
 	i = 0;
 	if (content->arg == NULL)
 	{
-		cpy = dup_env_list(*env); // PROTECTED
+		cpy = dup_env_list(*env);
 		if (!cpy)
 		{
 			content->error_code = 1;

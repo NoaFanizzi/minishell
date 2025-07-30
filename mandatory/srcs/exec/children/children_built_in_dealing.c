@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 21:58:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:55:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_is_command(t_content *content)
 	if ((content->cmd == NULL || !content->cmd[0])
 		|| (ft_strcmp(content->cmd[0], "") == 0))
 		return (2);
-	content->expar->path = ft_strdup(content->cmd[0]); // PROTECTED
+	content->expar->path = ft_strdup(content->cmd[0]);
 	if (!content->expar->path)
 	{
 		ft_open_error(content, NULL);
@@ -68,7 +68,7 @@ int	ft_is_built_in_child(t_content *content, t_list **env)
 	else if (ft_strcmp(content->cmd[0], "pwd") == 0)
 		ft_pwd(content);
 	else if (ft_strcmp(content->cmd[0], "cd") == 0)
-		ft_cd(content, env); // TODO check les retours d'erreur pour le cd
+		ft_cd(content, env);
 	else if (ft_strcmp(content->cmd[0], "exit") == 0)
 		manage_exit(content);
 	else

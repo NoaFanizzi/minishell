@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:07:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:49:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		char **command)
 {
-	*error_code = ft_itoa(array->p_exit_status); // PROTECTED
+	*error_code = ft_itoa(array->p_exit_status);
 	if (!*error_code)
 	{
 		free(*command);
@@ -24,7 +24,7 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		return (NULL);
 	}
 	*new_cmd = malloc((ft_strlen(*command) - 1 + ft_strlen(*error_code))
-			* sizeof(char)); // PROTECTED
+			* sizeof(char));
 	if (!*new_cmd)
 	{
 		free(*error_code);
@@ -32,39 +32,6 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
 	}
-	return ((void *)1);
-}
-
-char	*expand_error_code(char *command, size_t i, t_array *array)
-{
-	size_t	j;
-	size_t	k;
-	char	*new_cmd;
-	char	*error_code;
-
-	j = 0;
-	k = 0;
-	if (expand_allocations(array, &new_cmd, &error_code, &command) == NULL)
-		return (NULL);
-	while (command[j])
-	{
-		if (j == i)
-			j += copy_error_code(new_cmd, &k, error_code);
-		else
-			new_cmd[k++] = command[j++];
-	}
-	new_cmd[k] = 0;
-	free(command);
-	free(error_code);
-	return (new_cmd);
-}
-
-void	*handle_expand_error_code(t_expand *data, t_array *array)
-{
-	data->new_command = expand_error_code(data->new_command, data->i, array);
-	if (!data->new_command)
-		return (NULL);
-	data->i++;
 	return ((void *)1);
 }
 
@@ -109,7 +76,7 @@ void	*is_not_var(t_expand *data, t_array *array)
 
 void	*handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 {
-	data->var_name = get_var_name(&data->new_command[data->i + 1]); // PROTECTED
+	data->var_name = get_var_name(&data->new_command[data->i + 1]);
 	if (!data->var_name)
 		return (NULL);
 	if (var_exists(data->var_name, *env) == 1)
@@ -138,7 +105,7 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 	{
 		if (data->new_command[data->i + 1] == '?')
 		{
-			if (handle_expand_error_code(data, array) == NULL) // C TOUT BON
+			if (handle_expand_error_code(data, array) == NULL)
 			{
 				array->p_exit_status = 1;
 				return (NULL);
@@ -146,7 +113,7 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 		}
 		else
 		{
-			if (handle_normal_expand(data, env, array) == NULL) // C TOUT BON
+			if (handle_normal_expand(data, env, array) == NULL)
 			{
 				array->p_exit_status = 1;
 				return (NULL);

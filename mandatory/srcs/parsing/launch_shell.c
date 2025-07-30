@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:11:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:49:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,43 +97,8 @@ int	launch_shell(t_list **var, t_array *array)
 		array->size = 0;
 		array->content = NULL;
 		if (line[0] != '\0')
-		if (line[0] != '\0')
-			process_command(line, var, array, &cmd_splitted);
+			if (line[0] != '\0')
+				process_command(line, var, array, &cmd_splitted);
 	}
 	return (0);
 }
-
-void	print_cmd_splitted(char ***cmd_splitted)
-{
-	int	k;
-	int	i;
-
-	k = 0;
-	i = 0;
-	while (cmd_splitted[k])
-	{
-		i = 0;
-		printf("cmd n%d\n", k);
-		while (cmd_splitted[k][i])
-		{
-			printf("word n%d : [%s]\n", i, cmd_splitted[k][i]);
-			i++;
-		}
-		printf("word n%d : [%s]\n\n", i, cmd_splitted[k][i]);
-		k++;
-	}
-	printf("////////////////\n\n");
-}
-
-// void	print_cmd(char **cmd)
-// {
-// 	int	k;
-
-// 	k = 0;
-// 	while (cmd[k])
-// 	{
-// 		printf("word n%d : [%s]\n\n", k, cmd[k]);
-// 		k++;
-// 	}
-// 	printf("////////////////\n\n");
-// }

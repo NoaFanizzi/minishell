@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   space_splitting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/07/30 01:25:40 by nbodin           ###   ########lyon.fr   */
+/*   Created: 2025/07/30 01:42:32 by nofanizz          #+#    #+#             */
+/*   Updated: 2025/07/30 01:42:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ char	**fill_space_words(char **splitted, char **command, const char *charset)
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
 			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
-			// PROTECTED
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -65,7 +64,7 @@ char	**space_splitting(char **command)
 	const char	charset[7] = {' ', '\n', '\t', '\f', '\v', '\r', 0};
 
 	count = split_space_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *)); // PROTECTED
+	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

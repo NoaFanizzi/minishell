@@ -6,11 +6,36 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:17:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 18:34:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:14:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	ft_is_many_numbers(t_content *content)
+{
+	size_t	i;
+	size_t	j;
+	size_t	count;
+
+	i = 1;
+	count = 0;
+	while (content->cmd[i])
+	{
+		j = 0;
+		while (content->cmd[i][j])
+		{
+			if (content->cmd[i][j] >= '0' && content->cmd[i][j] <= '9')
+				j++;
+			else
+				break ;
+		}
+		if (j == ft_strlen(content->cmd[i]))
+			count++;
+		i++;
+	}
+	return (count);
+}
 
 int	check_long_min_max(char *str, size_t *i)
 {

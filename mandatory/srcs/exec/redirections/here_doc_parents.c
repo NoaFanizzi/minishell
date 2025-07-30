@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:20:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:54:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 	if (content->files[*i].type == HDOC)
 	{
 		data[1] = content->files[*i].index + 1;
-		if (ft_get_temp_file(&temp_file, content) == O_ERROR) // PROTECTED
+		if (ft_get_temp_file(&temp_file, content) == O_ERROR)
 			return (1);
-		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644); // PROTECTED
+		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644);
 		if (content->h_fd == -1)
 		{
 			content->h_fd = -2;
@@ -98,7 +98,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	int	returned_value;
 
 	returned_value = 0;
-	content->stdin_saved = dup(STDIN_FILENO); // PROTECTED
+	content->stdin_saved = dup(STDIN_FILENO);
 	if (content->stdin_saved == -1)
 	{
 		content->stdin_saved = -2;

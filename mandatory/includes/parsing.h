@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:09:58 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:14:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:10:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,13 @@ void	*free_command(char ***splitted);
 int	check_syntax(char *cmd);
 
 char	*expand_word(char *command, t_list **env, t_array *array);
+
+int	should_merge_prev(char **command, size_t i);
+int	check_if_merge_needed(char ***command, char ***cmd, size_t *i, int *merged);
+int	handle_space_case(char **command, char **joined, size_t *sk,
+		size_t j);
+void	switch_lit_quotes(char *exp_var);
+void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
+		char **command);
 
 #endif

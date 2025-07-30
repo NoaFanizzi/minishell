@@ -40,6 +40,7 @@ void	ft_display_env(t_list *env, t_content *content);
 void	ft_free_hdoc(t_heredocs *hdoc);
 int		ft_check_if_valid_exit(t_content *content);
 void	ft_exit(t_content *content);
+int	ft_is_many_numbers(t_content *content);
 
 //expand_utils.c
 size_t	get_true_var_length(char *var_name, t_list *env);

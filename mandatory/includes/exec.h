@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 18:31:57 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:18:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,9 @@ void	check_directory_before_exec(t_content *content);
 int		load_cmd_tab(char ***a, char ***b, t_content *content, char ***cmd);
 int		load_cmd_a(char ***a, t_content *content, char ***cmd, size_t *i);
 void	ft_free_tab_length(char **tab, size_t length);
+
+//display_header.c
+void	display_header(void);
 
 //----------------------------ERROR-----------------------------------------
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:13:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:55:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	h_expansion(char *line, t_content *content, char *temp_file)
 	char	*expanded_line;
 
 	expanded_line = expand_word(line, content->env, content->array_ptr);
-	// PROTECTED
 	if (!expanded_line)
 	{
 		free(temp_file);
@@ -52,7 +51,7 @@ int	ft_use_hdoc(t_content *content, size_t i)
 		if (content->pos % 2 != 0)
 			position += 1;
 		content->infile = get_hdoc_fd(content);
-		if (dup2(content->infile, STDIN_FILENO) == -1) // PROTECTED
+		if (dup2(content->infile, STDIN_FILENO) == -1)
 			return (ft_dup2_pb(content, "temp_file"));
 		close(content->infile);
 		content->infile = -2;

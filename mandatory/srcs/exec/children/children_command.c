@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:05:18 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:55:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,13 @@ int	check_command_validity(t_content *content, size_t i)
 {
 	char	*adding_slash;
 
-	adding_slash = ft_strjoin(content->expar->options[i], "/"); // PROTECTED
+	adding_slash = ft_strjoin(content->expar->options[i], "/");
 	if (!adding_slash)
 	{
 		ft_open_error(content, NULL);
 		ft_exit(content);
 	}
 	content->expar->path = ft_strjoin(adding_slash, content->cmd[0]);
-	// PROTECTED
 	free(adding_slash);
 	if (!content->expar->path)
 	{

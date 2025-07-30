@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 07:57:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 21:12:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:14:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,63 +41,40 @@ int	ft_is_last_arg_numeric(t_content *content)
 	return (0);
 }
 
-int	ft_is_many_numbers(t_content *content)
+int	ft_handle_exit_args(t_content *content)
 {
-	size_t	i;
-	size_t	j;
-	size_t	count;
-
-	i = 1;
-	count = 0;
-	while (content->cmd[i])
+	if (ft_is_arg_numeric(content->cmd[1]) == 1)
 	{
-		j = 0;
-		while (content->cmd[i][j])
-		{
-			if (content->cmd[i][j] >= '0' && content->cmd[i][j] <= '9')
-				j++;
-			else
-				break ;
-		}
-		if (j == ft_strlen(content->cmd[i]))
-			count++;
-		i++;
+		ft_putstr_fd("maxishell: exit: ", 1);
+		ft_putstr_fd(content->cmd[1], 1);
+		ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
+		content->error_code = 2;
+		return (0);
 	}
-	return (count);
+	if (ft_is_many_numbers(content) > 1 || ft_is_last_arg_numeric(content) == 1)
+	{
+		ft_putstr_fd("maxishell: exit: too many arguments\n", STDERR_FILENO);
+		content->error_code = 1;
+		return (1);
+	}
+	content->error_code = ft_atoi(content->cmd[1]);
+	return (0);
 }
 
 int	ft_check_if_valid_exit(t_content *content)
 {
-	if(!content->cmd)
-		return(0);
+	if (!content->cmd)
+		return (0);
 	content->cmd = ft_cmd_join(content->cmd, content->arg, content);
-	if(!content->cmd)
+	if (!content->cmd)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		return(0);
+		return (0);
 	}
 	content->arg = NULL;
 	if ((ft_strcmp(content->cmd[0], "exit") == 0)
 		&& (ft_tablen(content->cmd) > 1))
-	{
-		if (ft_is_arg_numeric(content->cmd[1]) == 1) // check pour le first
-		{
-			ft_putstr_fd("maxishell: exit: ", 1);
-			ft_putstr_fd(content->cmd[1], 1);
-			ft_putstr_fd(": numeric argument required\n", STDERR_FILENO);
-			content->error_code = 2;
-			return (0);
-		}
-		if (ft_is_many_numbers(content) > 1
-			|| ft_is_last_arg_numeric(content) == 1)
-		{
-			ft_putstr_fd("maxishell: exit: too many arguments\n",
-				STDERR_FILENO);
-			content->error_code = 1;
-			return (1);
-		}
-		content->error_code = ft_atoi(content->cmd[1]);
-	}
+		return (ft_handle_exit_args(content));
 	return (0);
 }
 

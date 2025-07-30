@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env_conversion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:51:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 15:08:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:53:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	**ft_convert_env(t_list *env)
 
 	i = 0;
 	length = ft_env_length(env);
-	converted = ft_calloc((length + 1), sizeof(char *)); // PROTECTED
+	converted = ft_calloc((length + 1), sizeof(char *));
 	if (!converted)
 		return (NULL);
 	while (env)

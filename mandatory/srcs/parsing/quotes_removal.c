@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 10:30:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:45:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:27:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	rem_and_shift(char *command)
 	j = 1;
 	if ((command[0] != D_QUOTE || command[ft_strlen(command) - 1] != D_QUOTE)
 		&& (command[0] != S_QUOTE || command[ft_strlen(command)
-			- 1] != S_QUOTE))
+				- 1] != S_QUOTE))
 		return ;
 	while (command[j])
 	{

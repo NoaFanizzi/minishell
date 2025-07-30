@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:09:02 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 20:10:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:46:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	**join_prev_quotes(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *)); // PROTECTED
+	joined = malloc((size + 1) * sizeof(char *));
 	if (!joined)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

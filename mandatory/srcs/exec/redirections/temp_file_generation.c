@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   temp_file_generation.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:04:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/25 11:13:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:53:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ int	ft_get_temp_file(char **random_file, t_content *content)
 {
 	int	random_fd;
 
-	*random_file = ft_calloc(6, sizeof(char)); // PROTECTED
+	*random_file = ft_calloc(6, sizeof(char));
 	if (!*random_file)
 		return (ft_open_error(content, "random_file"));
-	random_fd = open("/dev/random", O_RDONLY); // PROTECTED
+	random_fd = open("/dev/random", O_RDONLY);
 	if (random_fd == -1)
 	{
 		free(*random_file);

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 18:34:06 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 02:24:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	ft_load_hdoc_fd(t_content *content)
 	i = 0;
 	content->hdoc_length = count_hdoc(content);
 	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
-			sizeof(int)); // PROTECTED
+			sizeof(int));
 	if (!content->fd_array)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

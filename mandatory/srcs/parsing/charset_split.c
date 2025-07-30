@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:13 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 21:42:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:40:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**fill_splitted(const char *s, const char *charset, char **splitted,
 			i2++;
 		if (i2 > i1)
 		{
-			splitted[*j] = ft_substr(s, i1, i2 - i1); // PROTECTED
+			splitted[*j] = ft_substr(s, i1, i2 - i1);
 			if (!splitted[*j])
 				return (free_words(splitted));
 			(*j)++;

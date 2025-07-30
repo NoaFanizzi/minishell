@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:51:25 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 18:39:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:39:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_var_name(char *word)
 	i = 0;
 	while (word[i] && valid_var_char(word[i]))
 		i++;
-	var_name = ft_substr(word, 0, i); // PROTECTED
+	var_name = ft_substr(word, 0, i);
 	if (!var_name)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

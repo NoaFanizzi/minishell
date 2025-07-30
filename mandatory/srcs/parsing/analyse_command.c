@@ -35,10 +35,10 @@ void	fill_struct_size(t_array *array, size_t struct_index)
 }
 
 int	create_structs_loop(char ***cmd_splitted, t_array *array, size_t *cmd_index,
-	size_t *struct_index)
+		size_t *struct_index)
 {
-	if (cmd_splitted[*cmd_index][0] && strncmp(cmd_splitted[*cmd_index][0],
-			"|", 1) != 0)
+	if (cmd_splitted[*cmd_index][0] && strncmp(cmd_splitted[*cmd_index][0], "|",
+			1) != 0)
 	{
 		if (create_hdoc_struct(cmd_splitted[*cmd_index],
 				&array->content[*struct_index], array))

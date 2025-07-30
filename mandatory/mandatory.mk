@@ -36,7 +36,7 @@ REDIRECTIONS_SRCS 	:= $(addprefix $(REDIRECTIONS_DIR)/, $(REDIRECTIONS_SRCS))
 ERROR_HANDLING_SRCS	= error_handling_error_code.c
 ERROR_HANDLING_SRCS	:= $(addprefix $(ERROR_HANDLING_DIR)/, $(ERROR_HANDLING_SRCS))
 
-UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c exec_utils_3.c exec_utils_free.c
+UTILS_SRCS			= exec_env_conversion.c exec_free.c exec_utils.c exec_utils_2.c exec_utils_3.c exec_utils_free.c //display_header.c
 UTILS_SRCS			:= $(addprefix $(UTILS_DIR)/, $(UTILS_SRCS))
 
 SIGNALS_SRCS		= signals.c
@@ -50,7 +50,7 @@ PARSING_SRCS = launch_shell.c analyse_command.c quotes_splitting.c quotes_splitt
 			   cmd_struct.c figure_files.c figure_arg.c figure_cmd_opt.c cmd_struct_utils.c charset_split.c \
 			   contiguous_quotes.c contiguous_quotes_utils.c contiguous_quotes_helpers.c join_prev_simple.c join_next_simple.c \
 			   join_prev_quotes.c join_next_quotes.c expand.c expand_util.c expand_other_utils.c expand_helpers.c expand_after.c \
-			   parse_command.c check_syntax.c check_syntax_utils.c hdoc.c
+			   parse_command.c check_syntax.c check_syntax_utils.c hdoc.c figure_files.c expand_quotes.c contiguous_quote_merging.c
 PARSING_SRCS := $(addprefix $(PARSING_DIR)/, $(PARSING_SRCS))
 
 SRCS		= main.c utils.c \

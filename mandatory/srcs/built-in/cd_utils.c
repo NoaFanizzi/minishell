@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 16:19:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:51:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	update_env(t_list **env, char *var, char *arg)
 	if (!to_replace)
 		return (0);
 	free(to_replace->arg);
-	to_replace->arg = ft_strdup(arg); // PROTECTED
+	to_replace->arg = ft_strdup(arg);
 	if (!to_replace->arg)
 	{
 		(void)arg;
@@ -79,14 +79,14 @@ int	is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node)
 	if (!pwd)
 	{
 		node = get_env("PWD", *env);
-		temp = ft_strjoin(node->arg, "/"); // PROTECTED
+		temp = ft_strjoin(node->arg, "/");
 		if (!temp)
 			return (ft_open_error(content, NULL));
-		pwd = ft_strjoin(temp, content->arg[0]); // PROTECTED
+		pwd = ft_strjoin(temp, content->arg[0]);
 		free(temp);
 		if (!pwd)
 			return (ft_open_error(content, NULL));
-		if (update_env(env, "PWD", NULL) == 1) // PROTECTED
+		if (update_env(env, "PWD", NULL) == 1)
 		{
 			free(pwd);
 			return (ft_open_error(content, pwd));

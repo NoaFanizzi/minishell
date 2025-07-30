@@ -3,49 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/29 08:29:43 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/30 02:17:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_display_tab(char **tab)
-{
-	size_t	i;
-
-	i = 0;
-	if (!tab)
-	{
-		printf("tab est nul\n");
-		return ;
-	}
-	while (tab[i])
-	{
-		printf("wtf\n");
-		ft_putstr_fd(tab[i], STDOUT_FILENO);
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-}
-
-void	ft_free_tab(char **tab)
-{
-	size_t	i;
-
-	i = 0;
-	if (tab == NULL || tab[0] == NULL)
-		return ;
-	while (tab[i])
-	{
-		free(tab[i]);
-		i++;
-	}
-	free(tab);
-	tab = NULL;
-}
 
 void	ft_free_env(t_list *env)
 {
@@ -100,11 +65,6 @@ void	ft_close_array_fd(t_content *content)
 		i++;
 	}
 	i = 0;
-	// while(i < content->hdoc_length)
-	// {
-	// 	free(&content->fd_array[i]);
-	// 	i++;
-	// }
 	free(content->fd_array);
 }
 
@@ -115,7 +75,6 @@ void	ft_free_array_content(t_array *array)
 	i = 0;
 	if (!array || !array->content)
 		return ;
-	//	printf("array->size = %d\n", array->size);
 	while (i < array->size)
 	{
 		if (array->content[i].cmd)

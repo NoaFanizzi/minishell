@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 22:11:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/30 01:54:49 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	check_apnd(t_content *content, size_t i, size_t position)
 {
 	content->outfile = open(content->cmd_splitted[position][content->files[i]
-			.index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644); // PROTECTED
+			.index + 1], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (content->outfile == -1)
 		return (ft_open_error(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
-	if (dup2(content->outfile, STDOUT_FILENO) == -1) // PROTECTED
+	if (dup2(content->outfile, STDOUT_FILENO) == -1)
 		return (ft_dup2_pb(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
 	close(content->outfile);
