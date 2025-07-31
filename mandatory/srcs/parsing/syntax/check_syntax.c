@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:49:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:58:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:11:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	check_redir_pipes(char *cmd)
 			if (check_consecutive_pipes(cmd, &i))
 				return (1);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (0);
 }
