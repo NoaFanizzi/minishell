@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 11:25:26 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:51:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ int	valid_var_char(char c)
 	return (0);
 }
 
-int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
-		char *new_word)
+int	expand_var_in_command(t_expand *data, t_list **env, size_t *k)
 {
 	char	*exp_var;
 	int		after_great;
@@ -32,25 +31,24 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k,
 	if (return_value == 1 || return_value == 2)
 		return (return_value);
 	switch_lit_quotes(exp_var);
-	if (is_after_great_var(data->new_command, data->i))
+	if (is_after_great_var(data->new_word, data->i))
 	{
 		after_great = 1;
-		new_word[*k] = D_QUOTE;
+		data->new_word[*k] = D_QUOTE;
 		(*k)++;
 	}
-	ft_strlcat(new_word, exp_var, data->new_length);
+	ft_strlcat(data->new_word, exp_var, data->new_length);
 	*k += ft_strlen(exp_var);
 	if (after_great == 1)
 	{
-		new_word[*k] = D_QUOTE;
+		data->new_word[*k] = D_QUOTE;
 		(*k)++;
 	}
 	free(exp_var);
 	return (0);
 }
 
-int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
-		char **new_word)
+int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	j;
 	size_t	k;
@@ -58,15 +56,16 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
 
 	j = 0;
 	k = 0;
+	returned_value = 0;
 	while (data->new_command[j])
 	{
 		if (j == data->i)
 		{
-			returned_value = expand_var_in_command(data, env, &k, *new_word);
+			returned_value = expand_var_in_command(data, env, &k);
 			if (returned_value == 1 || returned_value == 2)
 			{
 				free(data->new_command);
-				free(*new_word);
+				free(data->new_word);
 				array->p_exit_status = 1;
 				if(returned_value == 2)
 					array->p_exit_status = 1;
@@ -75,30 +74,31 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
 			j += get_var_length(&data->new_command[j + 1]);
 		}
 		else
-			(*new_word)[k++] = data->new_command[j++];
+			data->new_word[k++] = data->new_command[j++];
 	}
-	(*new_word)[k] = 0;
+	data->new_word[k] = 0;
 	return (0);
 }
 
-int	expand_var(t_expand *data, t_list **env, t_array *array, char **new_word)
+int	expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	k;
 	int returned_value;
+	//char *expanded;
 
 	k = 0;
-	*new_word = ft_calloc(data->new_length + 1, sizeof(char));
-	if (!*new_word)
+	
+	data->new_word = ft_calloc(data->new_length + 1, sizeof(char));
+	if (!data->new_word)
 	{
 		free(data->var_name);
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free(data->new_command);
 		return (1);
 	}
-	returned_value = loop_data_in_expand(data, env, array, new_word);
+	returned_value = loop_data_in_expand(data, env, array);
 	if (returned_value == 1 || returned_value == 2)
 		return (returned_value);
-	free(data->new_command);
 	return(0);
 }
 

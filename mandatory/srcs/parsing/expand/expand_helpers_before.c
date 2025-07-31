@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:40:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 11:26:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:51:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,7 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 			if(returned_value == 2)
 				array->p_exit_status = 2;
 			if(returned_value == 1 || returned_value == 2)
-			{
 				return (NULL);
-			}
 		}
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 12:25:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:40:08 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,11 +109,9 @@ int		valid_var_first_char(char c);
 // expand.c //
 char	*expand_word(char *command, t_list **env, t_array *array);
 char	*remove_var(char *command, size_t i);
-int		expand_var(t_expand *data, t_list **env, t_array *array, char **new_word);
-int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array,
-			char **new_word);
-int		expand_var_in_command(t_expand *data, t_list **env, size_t *k,
-			char *new_word);
+int		expand_var(t_expand *data, t_list **env, t_array *array);
+int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array);
+int		expand_var_in_command(t_expand *data, t_list **env, size_t *k);
 // ################################ //
 
 // ############ QUOTES ############ //

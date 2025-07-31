@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:50:33 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 10:32:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 15:26:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_array
 typedef struct s_expand
 {
 	char			*new_command;
+	char			*new_word;
 	size_t			i;
 	size_t			new_length;
 	char			*var_name;

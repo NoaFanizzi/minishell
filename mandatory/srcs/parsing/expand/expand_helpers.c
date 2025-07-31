@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 11:25:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:52:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@ int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 		- get_var_length(&data->new_command[data->i + 1]) + 1;
 	if (is_after_great_var(data->new_command, data->i))
 		data->new_length += 2;
-	returned_value = expand_var(data, env, array, &data->new_command);
+	returned_value = expand_var(data, env, array);
 	if (returned_value == 1 || returned_value == 2)
 		return (returned_value);
 	data->i += true_var_length;
+	free(data->new_command);
+	data->new_command = ft_strdup(data->new_word);
+	free(data->new_word);
+	data->new_word = NULL;
 	return (0);
 }
 
