@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:51:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:43:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@ int	update_env(t_list **env, char *var, char *arg)
 {
 	t_env	*to_replace;
 
+	if(!arg)
+		return(0);
 	to_replace = get_env(var, *env);
 	if (!to_replace)
 		return (0);
 	free(to_replace->arg);
+	to_replace->arg = NULL;
 	to_replace->arg = ft_strdup(arg);
 	if (!to_replace->arg)
 	{
