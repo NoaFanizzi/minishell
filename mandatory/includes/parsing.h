@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 15:03:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:25:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,6 @@ void	ft_free_env(t_list *env);
 int		launch_shell(t_list **var, t_array *array);
 int		call_check_syntax(char *line, char *temp_line, t_array *array);
 void	*manage_readline(char **line, t_array *array, t_list **var);
-void	check_tty(char **line, char *prompt);
 char	*ft_join_prompt(t_array *array);
 
 #endif

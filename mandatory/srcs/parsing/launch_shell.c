@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:49:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 12:29:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,6 @@ char	*ft_join_prompt(t_array *array)
 		return (NULL);
 	}
 	return (joind_prompt);
-}
-
-void	check_tty(char **line, char *prompt)
-{
-	if (isatty(STDIN_FILENO))
-		*line = readline(prompt);
-	else
-		*line = readline(NULL);
 }
 
 void	*manage_readline(char **line, t_array *array, t_list **var)
