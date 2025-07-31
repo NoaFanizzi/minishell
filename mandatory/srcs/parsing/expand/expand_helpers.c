@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 15:25:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:25:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,24 +109,20 @@ int	handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 {
 	int	returned_value;
 	
-	
 	data->var_name = get_var_name(&data->new_command[data->i + 1]);
 	if (!data->var_name)
 		return (1);
 	if (var_exists(data->var_name, *env) == 1)
 	{
-		printf("pour lui la var existe\n");
 		returned_value = call_expand_var(data, env, array);
 		if (returned_value == 1 || returned_value == 2)
 		{
-			printf("returned_value of handle_normal_expand = %d\n", handle)
 			free(data->var_name);
 			return (returned_value);
 		}
 	}
 	else
 	{
-		printf("pour lui la var n'existe PAS\n");
 		if (is_not_var(data, array) == NULL)
 			return (1);
 	}

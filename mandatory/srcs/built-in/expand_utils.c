@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 14:46:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:22:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ t_env	*get_env(char *var_name, t_list *env)
 
 int	var_exists(char *var_name, t_list *env)
 {
-	if (get_env(var_name, env) != NULL)
+	t_env *node;
+
+	node = get_env(var_name, env);
+	if (node && node->arg)
 		return (1);
 	return (0);
 }
