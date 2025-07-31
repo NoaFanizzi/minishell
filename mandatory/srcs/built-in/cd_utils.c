@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 11:43:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:51:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	clean_pwd(char *pwd, char *saved_pwd, char *var, t_content *content)
 		free(pwd);
 	if (saved_pwd)
 		free(saved_pwd);
+	pwd = NULL;
+	saved_pwd = NULL;
 	content->error_code = 1;
 	if (!var)
 		return (0);

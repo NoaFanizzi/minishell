@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:10:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:50:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 11:55:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,12 @@ int	is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 				return (ft_open_error(content, NULL));
 		}
 		else
+		{
 			*dir = NULL;
+			clean_pwd(*pwd, *saved_pwd, "OLDPWD", content);
+			content->error_code = 1;
+			return(1);
+		}
 		returned_value = is_node(content, dir, pwd, saved_pwd);
 		if (returned_value == 0)
 			return (0);
