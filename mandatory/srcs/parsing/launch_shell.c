@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 12:32:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:22:34 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char	*prompt;
 
+	//dumb comment
 	//prompt = ft_join_prompt(array);
 	prompt = ft_strdup("minishell>");
 	if (prompt)
