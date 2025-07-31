@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:48:16 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 10:30:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 17:58:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void	switch_lit_quotes(char *exp_var)
 	size_t	i;
 
 	i = 0;
+	if (!exp_var)
+		return ;
 	while (exp_var[i])
 	{
 		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
@@ -70,6 +72,8 @@ void	switch_back_lit_quotes(char *exp_var)
 	size_t	i;
 
 	i = 0;
+	if (!exp_var)
+		return ;
 	while (exp_var[i])
 	{
 		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
