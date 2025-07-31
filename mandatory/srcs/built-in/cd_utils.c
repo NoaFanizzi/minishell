@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 11:51:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:59:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	update_pwd(t_content *content, t_list **env, char *pwd, char *saved_pwd)
 	}
 	free(saved_pwd);
 	content->error_code = 0;
+	content->array_ptr->p_exit_status = 0;
 	if (is_not_pwd(content, env, pwd, node) == O_ERROR)
 		return (O_ERROR);
 	return (1);
@@ -101,6 +102,7 @@ int	is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node)
 		ft_putendl_fd("ctories: No such file or directory", STDERR_FILENO);
 		content->error_code = 1;
 	}
+	content->error_code = 0;
 	if (pwd)
 		free(pwd);
 	return (0);

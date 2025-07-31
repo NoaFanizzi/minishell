@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:10:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 11:55:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:57:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	update_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 		*saved_pwd = NULL;
 	else
 	{
+		free(*saved_pwd);
 		*saved_pwd = ft_strdup(node->arg);
 		if (!*saved_pwd)
 			return (ft_open_error(content, NULL));
@@ -55,15 +56,16 @@ int	update_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	if (node == NULL)
 	{
 		clean_pwd(*pwd, *saved_pwd, "HOME", content);
-		return (0);
+		return (1);
 	}
+	free(*dir);
 	*dir = ft_strdup(node->arg);
 	if (!*dir)
 	{
 		free(*saved_pwd);
 		return (ft_open_error(content, NULL));
 	}
-	return (1);
+	return (0);
 }
 
 int	is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)

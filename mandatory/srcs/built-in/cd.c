@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 11:56:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 18:57:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,11 @@ void	ft_cd(t_content *content, t_list **env)
 	}
 	returned_value = load_dir(content, &dir, &pwd, &saved_pwd);
 	if (returned_value == 1 || returned_value == O_ERROR)
+	{
+		clean_pwd(pwd, saved_pwd, dir, content);
 		return ;
+	}
 	check_dir(content, pwd, saved_pwd, dir);
 	update_pwd(content, env, pwd, saved_pwd);
+	//free(saved_pwd);
 }
