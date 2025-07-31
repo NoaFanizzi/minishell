@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   contiguous_quote_merging.c                         :+:      :+:    :+:   */
+/*   contiguous_quotes_merging.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:44:42 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:48:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/07/31 20:04:53 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int	check_if_merge_needed(char ***command, char ***cmd, size_t *i, int *merged)
 		{
 			if (call_next_simple(command, cmd, i, merged))
 				return (1);
+			printf("IIII = %zu\n", *i);
 		}
 		return (0);
 	}
