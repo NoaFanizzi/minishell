@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/01 14:48:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:51:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	if (*line == NULL)
 	{
 		ft_putstr_fd("exit\n", STDERR_FILENO);
-		array->p_exit_status = 0;
 		ft_free_env(*var);
 		exit(array->p_exit_status);
 	}
