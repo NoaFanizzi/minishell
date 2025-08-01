@@ -52,6 +52,7 @@ SRCS = $(addprefix $(SRCS_DIR), ft_atoi.c \
 								ft_strcat.c \
 								ft_strcpy.c \
 								ft_tablen.c \
+								ft_wipe.c \
 								ft_toupper.c)
 
 OBJS = $(SRCS:.c=.o)

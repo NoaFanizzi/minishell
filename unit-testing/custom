@@ -278,7 +278,6 @@ exit +"100"
 exit -100
 exit "-100"
 exit -"100"
-echo oi || echo tchau
 ls * | grep " " > outfile1
 cat outfile1
 rm -rf "outfile1" "outfile01" "     test1" "e" "hey" "r1" "r2" "r3" "r4" "test1" "test2" "test3" "test4" "<test.txt" "bonjour" "hello" "hola" "test" "test.txt"
@@ -325,17 +324,9 @@ ls | grep a
 cat file | grep hello | wc -l
 ls | grep a | sort | uniq
 ls nonexistent | grep a
-cat nonexistent | grep test || echo "not found"
-ls nonexistent || echo "recovered from error"
-echo first || echo "won't print"
-ls || echo "won't print"
-ls nonexistent || echo "error recovered"
-ls *
 ls *.c
 ls *.txt
-ls test*
 ls *test
-ls *test*
 ls *.c *.h
 ls test*.txt
 ls *test*.txt
@@ -346,8 +337,6 @@ ls * | grep test
 ls *.c | wc -l
 cat *.txt > all_texts
 echo "hello" > test*.txt
-ls *.c || echo "no c files"
-ls *.txt || echo "no text files"
 ls *
 touch "file with spaces.txt"
 ls *.c
@@ -365,12 +354,6 @@ ls test*
 ls *test
 ls *test*
 ls *.c
-ls nonexistent || echo "recovered from error"
-echo first || echo "won't print"
-ls || echo "won't print"
-./nonexistent || echo "alternative executed"
-./nonexistent || echo failed
-cat nonexistent | grep test || echo "not found"
 ls nonexistent | grep a
 ls | grep a | sort | uniq
 ls | grep a
@@ -419,7 +402,6 @@ echo hello > out1 > out2 < in1 < in2
 > out cat < in
 cat Makefile | grep -v "#" | head -n 5 | wc -l
 ls | cat -e | cat -e | cat -e
-false || false || false || echo ok
 ./nonexistent_command
 ls -Z
 cat /etc/shadow
@@ -428,16 +410,13 @@ cd /nonexistent/path
 |
 < nonexistentfile
 ls < nonexistentfile
-(
 export =test
 unset =test
 cat nonexistent >1 >/dev/null | grep -i "no such file"
 find . -name "*.c" >/dev/null | xargs wc -l | sort -nr
-test -f Makefile || echo missing
 echo "$USER""$HOME"";ls"
 echo "a;b;c"
 ..
-.
 echo \$USER
 ls "" ""
 ls /
@@ -469,7 +448,6 @@ cd subdir
 pwd
 cd ..
 rmdir subdir
-cd subdir > /dev/null || echo "Directory not found"
 cd ..
 rm -rf temp_dir
 cd

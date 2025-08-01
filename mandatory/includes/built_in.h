@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 14:49:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:30:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ int		is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd);
 
 // cd_utils.c
 int		update_env(t_list **env, char *var, char *arg);
-int		clean_pwd(char *pwd, char *saved_pwd, char *var, t_content *content);
-int		update_pwd(t_content *content, t_list **env, char *pwd,
-			char *saved_pwd);
-int		is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node);
+int		clean_pwd(char **pwd, char **saved_pwd, char *var, t_content *content);
+int		update_pwd(t_content *content, t_list **env, char **pwd,
+			char **saved_pwd);
+int		is_not_pwd(t_content *content, t_list **env, char **pwd, t_env *node);
 
 // echo.c
 int		ft_is_arg(char *cmd);

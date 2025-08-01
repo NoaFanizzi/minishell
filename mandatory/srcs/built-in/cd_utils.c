@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 18:59:59 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 12:37:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,18 @@ int	update_env(t_list **env, char *var, char *arg)
 	to_replace->arg = ft_strdup(arg);
 	if (!to_replace->arg)
 	{
-		(void)arg;
+		(void)*arg;
 		return (1);
 	}
 	return (0);
 }
 
-int	clean_pwd(char *pwd, char *saved_pwd, char *var, t_content *content)
+int	clean_pwd(char **pwd, char **saved_pwd, char *var, t_content *content)
 {
-	if (pwd)
-		free(pwd);
-	if (saved_pwd)
-		free(saved_pwd);
-	pwd = NULL;
-	saved_pwd = NULL;
+	if (*pwd)
+		ft_wipe(pwd);
+	if (*saved_pwd)
+		ft_wipe(saved_pwd);
 	content->error_code = 1;
 	if (!var)
 		return (0);
@@ -49,53 +47,51 @@ int	clean_pwd(char *pwd, char *saved_pwd, char *var, t_content *content)
 	return (0);
 }
 
-int	update_pwd(t_content *content, t_list **env, char *pwd, char *saved_pwd)
+int	update_pwd(t_content *content, t_list **env, char **pwd, char **saved_pwd)
 {
 	t_env	*node;
 
-	pwd = getcwd(NULL, 0);
+	*pwd = getcwd(NULL, 0);
 	node = get_env("PWD", *env);
-	if (update_env(env, "OLDPWD", saved_pwd) == 1)
+	if (update_env(env, "OLDPWD", *saved_pwd) == 1)
 	{
-		free(pwd);
-		free(saved_pwd);
+		ft_wipe(pwd);
+		ft_wipe(saved_pwd);
 		return (ft_open_error(content, NULL));
 	}
-	if (pwd)
+	if (*pwd)
 	{
-		if (update_env(env, "PWD", pwd) == 1)
+		if (update_env(env, "PWD", *pwd) == 1)
 		{
-			free(pwd);
-			free(saved_pwd);
+			ft_wipe(pwd);
+			ft_wipe(saved_pwd);
 			return (ft_open_error(content, NULL));
 		}
 	}
-	free(saved_pwd);
-	content->error_code = 0;
-	content->array_ptr->p_exit_status = 0;
+	ft_wipe(saved_pwd);
 	if (is_not_pwd(content, env, pwd, node) == O_ERROR)
 		return (O_ERROR);
 	return (1);
 }
 
-int	is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node)
+int	is_not_pwd(t_content *content, t_list **env, char **pwd, t_env *node)
 {
 	char	*temp;
 
-	if (!pwd)
+	if (!*pwd)
 	{
 		node = get_env("PWD", *env);
 		temp = ft_strjoin(node->arg, "/");
 		if (!temp)
 			return (ft_open_error(content, NULL));
-		pwd = ft_strjoin(temp, content->arg[0]);
-		free(temp);
+		*pwd = ft_strjoin(temp, content->arg[0]);
+		ft_wipe(&temp);
 		if (!pwd)
 			return (ft_open_error(content, NULL));
 		if (update_env(env, "PWD", NULL) == 1)
 		{
-			free(pwd);
-			return (ft_open_error(content, pwd));
+			ft_wipe(pwd);
+			return (ft_open_error(content, NULL));
 		}
 		ft_putstr_fd("cd: error retrieving current directory: ", STDERR_FILENO);
 		ft_putstr_fd("getcwd: cannot access parent dire", STDERR_FILENO);
@@ -103,7 +99,7 @@ int	is_not_pwd(t_content *content, t_list **env, char *pwd, t_env *node)
 		content->error_code = 1;
 	}
 	content->error_code = 0;
-	if (pwd)
-		free(pwd);
+	if (*pwd)
+		ft_wipe(pwd);
 	return (0);
 }

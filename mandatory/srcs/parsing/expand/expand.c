@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 17:51:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:37:26 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,11 +82,7 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 
 int	expand_var(t_expand *data, t_list **env, t_array *array)
 {
-	size_t	k;
 	int returned_value;
-	//char *expanded;
-
-	k = 0;
 	
 	data->new_word = ft_calloc(data->new_length + 1, sizeof(char));
 	if (!data->new_word)

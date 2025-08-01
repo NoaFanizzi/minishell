@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 18:57:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 14:32:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,25 @@ int	is_a_saved_pwd(t_content *content, char **dir, char **saved_pwd)
 {
 	char	*temp;
 
+	if(ft_strcmp(*saved_pwd, content->arg[0]) == 0)
+	{
+		*dir = ft_strdup(*saved_pwd);
+		return(0);
+	}
 	temp = ft_strjoin(*saved_pwd, "/");
 	if (!temp)
 	{
-		free(*saved_pwd);
+		ft_wipe(saved_pwd);
 		return (ft_open_error(content, NULL));
 	}
 	*dir = ft_strjoin(temp, content->arg[0]);
-	free(temp);
+	ft_wipe(&temp);
 	if (!*dir)
 	{
-		free(*saved_pwd);
+		ft_wipe(saved_pwd);
 		return (ft_open_error(content, NULL));
 	}
-	return (1);
+	return (0);
 }
 
 int	is_arg(t_content *content, char **dir, char **saved_pwd)
@@ -53,11 +58,11 @@ int	is_arg(t_content *content, char **dir, char **saved_pwd)
 		*dir = ft_strdup(content->arg[0]);
 		if (!*dir)
 		{
-			free(*saved_pwd);
+			ft_wipe(saved_pwd);
 			return (ft_open_error(content, NULL));
 		}
 	}
-	return (1);
+	return (0);
 }
 
 int	load_dir(t_content *content, char **dir, char **pwd, char **saved_pwd)
@@ -85,28 +90,42 @@ int	load_dir(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	return (0);
 }
 
-void	check_dir(t_content *content, char *pwd, char *saved_pwd, char *dir)
+int	check_dir(t_content *content, char **dir)
 {
-	if(!dir)
-		return;
-	if (access(dir, X_OK) == -1)
+	struct stat	sb;
+	
+	if(!*dir)
+		return(1);
+		
+	if (stat(*dir, &sb) == -1)
 	{
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-		ft_putstr_fd(content->arg[0], STDERR_FILENO);
-		content->error_code = 1;
-		ft_putendl_fd(": Not a directory", STDERR_FILENO);
-		clean_pwd(pwd, saved_pwd, NULL, content);
-		free(dir);
-		return ;
+		perror(content->arg[0]);
+		return(1);
 	}
-	if (chdir(dir) == -1)
+	else if (!S_ISDIR(sb.st_mode))
+	{
+    	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+	 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
+	 	ft_putendl_fd(": Not a directory", STDERR_FILENO);
+		return(1);
+	}
+	else if (access(*dir, X_OK) == -1)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+	 	ft_putstr_fd(content->arg[0], STDERR_FILENO);
+	 	ft_putendl_fd(": Permission denied", STDERR_FILENO);
+		return(1);
+	}
+	else if (chdir(*dir) == -1)
 	{
 		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(content->arg[0], STDERR_FILENO);
 		ft_putendl_fd(": no such file or directory", STDERR_FILENO);
-		content->error_code = 1;
+		return(1);
 	}
-	free(dir);
+	free(*dir);
+	return(0);
 }
 
 void	ft_cd(t_content *content, t_list **env)
@@ -125,10 +144,16 @@ void	ft_cd(t_content *content, t_list **env)
 	returned_value = load_dir(content, &dir, &pwd, &saved_pwd);
 	if (returned_value == 1 || returned_value == O_ERROR)
 	{
-		clean_pwd(pwd, saved_pwd, dir, content);
+		clean_pwd(&pwd, &saved_pwd, dir, content);
 		return ;
 	}
-	check_dir(content, pwd, saved_pwd, dir);
-	update_pwd(content, env, pwd, saved_pwd);
+	if(check_dir(content, &dir) == 1)
+	{
+		clean_pwd(&pwd, &saved_pwd, NULL, content);
+		free(dir);
+		content->error_code = 1;
+		return;	
+	}
+	update_pwd(content, env, &pwd, &saved_pwd);
 	//free(saved_pwd);
 }

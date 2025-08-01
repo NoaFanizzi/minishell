@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:45:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:38:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,6 @@ int	loop_in_continuous(char ***cmd, char ***command, int *changes_made)
 
 int	contiguous_quotes(char ***cmd)
 {
-	size_t	i;
 	char	**command;
 	int		changes_made;
 
@@ -105,7 +104,6 @@ int	contiguous_quotes(char ***cmd)
 	while (changes_made)
 	{
 		changes_made = 0;
-		i = 0;
 		command = *cmd;
 		if (loop_in_continuous(cmd, &command, &changes_made) == 1)
 			return (1);
