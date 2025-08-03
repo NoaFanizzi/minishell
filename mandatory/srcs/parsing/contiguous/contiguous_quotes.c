@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/03 18:56:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:58:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ int	contiguous_quotes(char ***cmd)
 {
 	char	**command;
 	int		changes_made;
+	size_t	i;
 
 	changes_made = 1;
 	i = 0;
