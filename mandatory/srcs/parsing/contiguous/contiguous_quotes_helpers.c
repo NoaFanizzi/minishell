@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes_helpers.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:07:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 09:32:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 14:52:09 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 

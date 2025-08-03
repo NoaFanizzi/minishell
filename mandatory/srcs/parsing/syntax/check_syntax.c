@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:49:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 18:11:10 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/07/31 19:41:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,3 +110,37 @@ int	check_syntax(char *cmd)
 		return (1);
 	return (0);
 }
+
+
+// int	contiguous_quotes(char ***cmd)
+// {
+// 	size_t	i;
+// 	char	**command;
+// 	int		merged;
+
+// 	i = 0;
+// 	command = *cmd;
+	
+// 	while (command[i])
+// 	{
+// 		merged = 0;
+// 		if (is_quote(command[i][0]))
+// 		{
+// 			printf("Before call_join_next_prev: i = %zu\n", i);
+// 			if (call_join_next_prev(&command, cmd, &i, &merged) == 1)
+// 				return (1);
+// 			printf("After call_join_next_prev: i = %zu\n", i);
+// 			*cmd = command;
+// 			printf("After *cmd = command: i = %zu\n", i);
+			
+// 			if (merged)
+// 			{
+// 				// Don't increment i, continue processing from the same position
+// 				// since the array structure has changed
+// 				continue;
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }

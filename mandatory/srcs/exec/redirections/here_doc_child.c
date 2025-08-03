@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:55:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 12:52:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,8 @@ int	get_hdoc_fd(t_content *content)
 
 int	ft_use_hdoc(t_content *content, size_t i)
 {
-	int	position;
-
-	position = 0;
 	if (content->files[i].type == HDOC)
 	{
-		position = content->pos;
-		if (content->pos % 2 != 0)
-			position += 1;
 		content->infile = get_hdoc_fd(content);
 		if (dup2(content->infile, STDIN_FILENO) == -1)
 			return (ft_dup2_pb(content, "temp_file"));

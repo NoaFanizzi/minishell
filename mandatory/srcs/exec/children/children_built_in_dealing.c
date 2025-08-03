@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_built_in_dealing.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 10:37:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:56:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

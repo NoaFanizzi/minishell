@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/01 10:38:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 18:56:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,18 +70,16 @@ int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged)
 	return (0);
 }
 
-int	loop_in_continuous(char ***cmd, char ***command, int *changes_made)
+int	loop_in_continuous(char ***cmd, char ***command, int *changes_made, size_t *i)
 {
-	size_t	i;
 	int		merged;
 
-	i = 0;
-	while ((*command)[i])
+	while ((*command)[*i])
 	{
 		merged = 0;
-		if (is_quote((*command)[i][0]))
+		if (is_quote((*command)[*i][0]))
 		{
-			if (call_join_next_prev(command, cmd, &i, &merged) == 1)
+			if (call_join_next_prev(command, cmd, i, &merged) == 1)
 				return (1);
 			*command = *cmd;
 			if (merged)
@@ -90,7 +88,7 @@ int	loop_in_continuous(char ***cmd, char ***command, int *changes_made)
 				continue ;
 			}
 		}
-		i++;
+		(*i)++;
 	}
 	return (0);
 }
@@ -101,11 +99,12 @@ int	contiguous_quotes(char ***cmd)
 	int		changes_made;
 
 	changes_made = 1;
+	i = 0;
 	while (changes_made)
 	{
 		changes_made = 0;
 		command = *cmd;
-		if (loop_in_continuous(cmd, &command, &changes_made) == 1)
+		if (loop_in_continuous(cmd, &command, &changes_made, &i) == 1)
 			return (1);
 	}
 	return (0);
