@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_next_simple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:11:27 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:09:17 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 14:45:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 		size_t idx[3])
 {
 	size_t	size;
+	size_t   first_len;
 
 	idx[2] = 0;
 	while (joined[idx[2]])
 		idx[2]++;
 	rem_and_shift(command[idx[0]]);
-	size = len_until_space_forward(command[idx[1]]) + ft_strlen(command[idx[0]])
-		+ 3;
+	first_len = len_until_space_forward(command[idx[1]]);
+	size = first_len + ft_strlen(command[idx[0]]) + 3;
 	joined[idx[2]] = malloc(size * sizeof(char));
 	if (!joined[idx[2]])
 	{
@@ -31,8 +32,10 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 	}
 	joined[idx[2]][0] = D_QUOTE;
 	joined[idx[2]][1] = 0;
+	// Add the current token
 	ft_strlcat(joined[idx[2]], command[idx[0]], size);
-	ft_strlcat(joined[idx[2]], command[idx[1]], size);
+	// Add only the first segment of the next token
+	strncat(joined[idx[2]], command[idx[1]], first_len);
 	joined[idx[2]][size - 2] = D_QUOTE;
 	joined[idx[2]][size - 1] = 0;
 	return (0);
@@ -40,18 +43,22 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 
 int	fusion_simple_next(char **command, char **joined, size_t idx[3])
 {
+	size_t first_len;
+
 	if (alloc_and_prepare_joined(command, joined, idx) == 1)
 		return (1);
-	if (len_until_space_forward(command[idx[1]]) != ft_strlen(command[idx[1]]))
+
+	first_len = len_until_space_forward(command[idx[1]]);
+	if (first_len != ft_strlen(command[idx[1]]))
 	{
-		joined[idx[2]
-			+ 1] = ft_strdup(&command[idx[1]]
-			[len_until_space_forward(command[idx[1]]) + 1]);
+		// Keep everything starting from first_len (including the spaces!)
+		joined[idx[2] + 1] = ft_strdup(&command[idx[1]][first_len]);
 		if (!joined[idx[2] + 1])
 			return (1);
 	}
 	return (0);
 }
+
 
 int	manage_next_simple(char **command, char ***joined, size_t idx[3])
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_built_in_dealing.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:05:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 12:43:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/03 12:52:55 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	ft_is_command(t_content *content)
 {
-	size_t	i;
-
-	i = 0;
 	if ((content->cmd == NULL || !content->cmd[0])
 		|| (ft_strcmp(content->cmd[0], "") == 0))
 		return (2);

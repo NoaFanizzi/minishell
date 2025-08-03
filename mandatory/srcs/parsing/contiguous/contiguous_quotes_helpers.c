@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:07:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 20:05:02 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 14:52:09 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,27 +46,12 @@ int	call_next_quotes(char ***command, char ***cmd, size_t i, int *merged)
 
 int	call_next_simple(char ***command, char ***cmd, size_t *i, int *merged)
 {
-	printf("here\n");
-	printf("i = %zu, *cmd[i] = %s\n",*i, (*command)[*i]);
-	int k = 0;
-	while ((*command)[k])  // ← FIXED: Use *command instead of command
-	{
-		printf("word n%d : %s\n", k, (*command)[k]);  // ← SIMPLIFIED: just print the word
-		k++;
-	}
 	*command = join_next_simple(command, *i);
 	if (!*command)
 		return (1);
 	*cmd = *command;
 	*merged = 1;
 	(*i)++;
-	printf("I = %zu, *cmd[i] = %s\n",*i, (*command)[*i]);
-	k = 0;
-	while ((*command)[k])  // ← FIXED: Use *command instead of command
-	{
-		printf("word n%d : %s\n", k, (*command)[k]);  // ← SIMPLIFIED: just print the word
-		k++;
-	}
 	return (0);
 }
 

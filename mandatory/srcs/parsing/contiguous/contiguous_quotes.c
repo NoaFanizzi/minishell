@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 20:05:09 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/03 14:51:12 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged)
 	int	returned_value;
 
 	returned_value = 0;
-	printf("i value before merge needed = %zu\n", *i);
 	if (should_merge_prev(*command, *i))
 	{
 		if (is_quote((*command)[*i - 1][ft_strlen((*command)[*i - 1]) - 1]))
@@ -78,26 +77,19 @@ int	loop_in_continuous(char ***cmd, char ***command, int *changes_made, size_t *
 	while ((*command)[*i])
 	{
 		merged = 0;
-		printf("VALUE = %zu\n", *i);
 		if (is_quote((*command)[*i][0]))
 		{
-			printf("Before call_join_next_prev: i = %zu\n", *i);
 			if (call_join_next_prev(command, cmd, i, &merged) == 1)
 				return (1);
-			printf("After call_join_next_prev: i = %zu\n", *i);
 			*command = *cmd;
-			printf("After *command = *cmd: i = %zu\n", *i);
 			if (merged)
 			{
 				*changes_made = 1;
 				continue ;
 			}
 		}
-		printf("BEFORE INCREMENT : %zu\n", *i);
 		(*i)++;
-		printf("AFTER INCREMENT : %zu\n", *i);
 	}
-	printf("EXITING\n");
 	return (0);
 }
 
