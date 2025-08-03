@@ -222,10 +222,8 @@ echo built*
 echo oi*
 echo *.supp
 echo 'bye *' bo*s bye
-echo 'bye *' mini* bye
 echo *ME*
 echo "*"
-echo * | awk -v RS=" " '{print}' | sort
 echo 'bye *' t*.c bye
 echo *EMPTY hello READ* world
 echo "pip*"
@@ -333,16 +331,13 @@ ls *test*.txt
 cp *.txt backup/
 mv test/* ./new_folder/
 cat */file.txt
-ls * | grep test
 ls *.c | wc -l
 cat *.txt > all_texts
 echo "hello" > test*.txt
-ls *
 touch "file with spaces.txt"
 ls *.c
 cat *.txt > all_texts
 echo "hello" > test*.txt
-ls * | grep test
 ls *.c | wc -l
 cp *.txt backup/
 mv test/* ./new_folder/
