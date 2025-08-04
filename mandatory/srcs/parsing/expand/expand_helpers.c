@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 17:52:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:21:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		char **command)
 {
-	*error_code = ft_itoa(array->p_exit_status);
+	*error_code = ft_itoa(array->p_exit_status); //PROTECTED
 	if (!*error_code)
 	{
 		free(*command);
@@ -24,7 +24,7 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		return (NULL);
 	}
 	*new_cmd = malloc((ft_strlen(*command) - 1 + ft_strlen(*error_code))
-			* sizeof(char));
+			* sizeof(char)); //PROTECTED
 	if (!*new_cmd)
 	{
 		free(*error_code);
@@ -49,10 +49,14 @@ int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 	if (returned_value == 1 || returned_value == 2)
 		return (returned_value);
 	data->i += true_var_length;
-	free(data->new_command);
-	data->new_command = ft_strdup(data->new_word);
-	free(data->new_word);
-	data->new_word = NULL;
+	ft_wipe(&data->new_command);
+	data->new_command = ft_strdup(data->new_word); //PROTECTED
+	ft_wipe(&data->new_word);
+	if(!data->new_command)
+	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		return(1);
+	}
 	return (0);
 }
 
@@ -65,11 +69,11 @@ char	*remove_var(char *command, size_t i)
 	j = 0;
 	k = 0;
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char));
+				+ 1) * sizeof(char)); //PROTECTED
 	if (!new_command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		free(command);
+		ft_wipe(&command);
 		return (NULL);
 	}
 	while (command[j] && j != i)
@@ -80,7 +84,7 @@ char	*remove_var(char *command, size_t i)
 	while (command[k])
 		new_command[j++] = command[k++];
 	new_command[j] = 0;
-	free(command);
+	ft_wipe(&command);
 	return (new_command);
 }
 
@@ -101,7 +105,7 @@ void	*is_not_var(t_expand *data, t_array *array)
 		data->new_command = remove_var(data->new_command, data->i);
 		if (!data->new_command)
 		{
-			free(data->var_name);
+			ft_wipe(&data->var_name);
 			array->p_exit_status = 1;
 			return (NULL);
 		}
@@ -121,7 +125,7 @@ int	handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 		returned_value = call_expand_var(data, env, array);
 		if (returned_value == 1 || returned_value == 2)
 		{
-			free(data->var_name);
+			ft_wipe(&data->var_name);
 			return (returned_value);
 		}
 	}
@@ -130,6 +134,6 @@ int	handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 		if (is_not_var(data, array) == NULL)
 			return (1);
 	}
-	free(data->var_name);
+	ft_wipe(&data->var_name);
 	return (0);
 }

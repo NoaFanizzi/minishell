@@ -5,3 +5,5 @@ Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que 
 434 / 473
 
 -Problème avec cette commande qui semble ne pas s'arrêter et qui ne renvoie pas le bon exit_code : echo hello > out1 > out2 < in1 < in2
+-Probleme de here_doc
+-Voir pour avoir un count de redir qui permet de clean la structure correctement

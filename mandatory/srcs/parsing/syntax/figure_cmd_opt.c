@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 09:56:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:54:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 
 	i = 0;
 	j = 0;
-	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
+	content->cmd[j] = ft_strdup(find_command_name(cmd, &i)); //TODO Protect this strdup which is causing some leaks
 	if (!content->cmd[j])
 		return (1);
 	rem_and_shift(content->cmd[j]);
@@ -81,12 +81,22 @@ int	identify_cmd_opt(char **cmd, t_content *content)
 	content->cmd = NULL;
 	if (size == 0)
 		return (0);
-	content->cmd = ft_calloc(size + 1, sizeof(char *));
+	content->cmd = ft_calloc(size + 1, sizeof(char *)); //PROTECTED
 	if (!content->cmd)
 		return (1);
 	if (assign_cmd_and_opt(cmd, content))
 	{
 		free(content->cmd);
+		size_t i;
+
+		i = 0;
+		while(&content->files[i])
+		{
+			ft_wipe(&content->files[0].eof);
+			i++;
+		}
+		free(content->files);
+		content->files = NULL;
 		return (1);
 	}
 	return (0);

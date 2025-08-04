@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 22:52:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 16:46:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	figure_in_out_files(char **cmd, t_content *content)
 	content->files = NULL;
 	if (redir_count == 0)
 		return (0);
-	content->files = ft_calloc((redir_count + 1), sizeof(t_files));
+	content->files = ft_calloc((redir_count + 1), sizeof(t_files)); //PROTECTED
 	if (!content->files)
 		return (1);
 	while (cmd[tab[0]])
@@ -32,6 +32,7 @@ int	figure_in_out_files(char **cmd, t_content *content)
 		if (check_for_op(cmd, content, tab, redir_count))
 		{
 			free(content->files);
+			content->files = NULL;
 			return (1);
 		}
 	}

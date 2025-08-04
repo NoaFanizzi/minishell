@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hdoc.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:03 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 23:08:16 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/04 16:25:31 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	create_hdoc_struct(char **command, t_content *content, t_array *array)
 		content->hdoc = NULL;
 		return (0);
 	}
-	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
+	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs)); //PROTECTED
 	if (!content->hdoc)
 	{
 		free(array->content);

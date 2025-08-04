@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/03 18:56:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:21:51 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k)
 		data->new_word[*k] = D_QUOTE;
 		(*k)++;
 	}
-	free(exp_var);
+	ft_wipe(&exp_var);
 	return (0);
 }
 
@@ -64,8 +64,8 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 			returned_value = expand_var_in_command(data, env, &k);
 			if (returned_value == 1 || returned_value == 2)
 			{
-				free(data->new_command);
-				free(data->new_word);
+				ft_wipe(&data->new_command);
+				ft_wipe(&data->new_word);
 				array->p_exit_status = 1;
 				if(returned_value == 2)
 					array->p_exit_status = 1;
@@ -84,12 +84,12 @@ int	expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	int returned_value;
 	
-	data->new_word = ft_calloc(data->new_length + 1, sizeof(char));
+	data->new_word = ft_calloc(data->new_length + 1, sizeof(char)); //PROTECTED
 	if (!data->new_word)
 	{
-		free(data->var_name);
+		ft_wipe(&data->var_name);
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		free(data->new_command);
+		ft_wipe(&data->new_command);
 		return (1);
 	}
 	returned_value = loop_data_in_expand(data, env, array);
@@ -104,7 +104,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 
 	data.i = 0;
 	data.new_length = 0;
-	data.new_command = ft_strdup(command);
+	data.new_command = ft_strdup(command); //PROTECTED
 	if (!data.new_command)
 	{
 		free(command);
@@ -112,15 +112,14 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 		array->p_exit_status = 1;
 		return (NULL);
 	}
-	free(command);
+	ft_wipe(&command);
 	if(!data.new_command[data.i])
 		return(NULL);
 	while (data.new_command[data.i])
 	{
 		if (look_to_expand(&data, env, array) == NULL)
 		{
-			free(data.new_command);
-			data.new_command = NULL;
+			ft_wipe(&data.new_command);
 			return (NULL);
 		}
 	}

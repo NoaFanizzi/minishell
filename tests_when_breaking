@@ -1,0 +1,5 @@
+ft_malloc
+ft_calloc
+ft_strdup
+ft_strjoin
+ft_substr

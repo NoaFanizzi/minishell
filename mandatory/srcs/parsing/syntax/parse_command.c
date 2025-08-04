@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:09:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:23:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,18 @@ char	*prepare_line(char **line, t_list **var, t_array *array)
 {
 	char	*str;
 
-	str = ft_strdup(*line);
+	str = ft_strdup(*line); //PROTECTED
 	if (!str)
 	{
 		array->p_exit_status = 1;
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		return (NULL);
 	}
-	free(*line);
-	*line = NULL;
+	ft_wipe(line);
 	str = expand_word(str, var, array);
 	if (!str)
 	{
-		free(str);
+		ft_wipe(&str);
 		return (NULL);
 	}
 	return (str);

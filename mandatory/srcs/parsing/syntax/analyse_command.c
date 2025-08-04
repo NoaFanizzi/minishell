@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:49:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/04 16:23:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	analyse_command(char ***cmd_splitted, t_array *array)
 	cmd_index = 0;
 	struct_index = 0;
 	get_array_size(cmd_splitted, array);
-	array->content = malloc((array->size) * sizeof(t_content));
+	array->content = malloc((array->size) * sizeof(t_content)); //PROTECTED
 	if (!array->content)
 	{
 		free_command(cmd_splitted);
@@ -88,7 +88,7 @@ int	process_command(char *line, t_list **var, t_array *array,
 {
 	char	*temp_line;
 
-	temp_line = ft_strdup(line);
+	temp_line = ft_strdup(line); //PROTECTED
 	if (!temp_line)
 	{
 		free(line);
@@ -98,9 +98,9 @@ int	process_command(char *line, t_list **var, t_array *array,
 	}
 	if (call_check_syntax(line, temp_line, array))
 		return (1);
-	free(line);
+	ft_wipe(&line);
 	*cmd_splitted = parse_command(&temp_line, var, array);
-	free(temp_line);
+	ft_wipe(&temp_line);
 	if (!*cmd_splitted)
 		return (1);
 	if (analyse_command(*cmd_splitted, array))
