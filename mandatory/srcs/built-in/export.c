@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:52:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:40:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int	ft_export(t_list **env, t_content *content)
 	t_list	*cpy;
 
 	i = 0;
-	if (content->arg == NULL)
+	if (*env && content->arg == NULL)
 	{
 		cpy = dup_env_list(*env);
 		if (!cpy)
@@ -126,7 +126,7 @@ int	ft_export(t_list **env, t_content *content)
 		ft_display_export(cpy);
 		return (0);
 	}
-	while (content->arg[i])
+	while (*env && content->arg[i])
 	{
 		if (ft_init_export(env, content, i) == 1)
 			return (0);

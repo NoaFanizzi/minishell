@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:49:16 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:43:08 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:44:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	is_after_great(char *cmd, size_t var_index)
 				return (1);
 			track_quotes_until_meta(&in_squote, &in_dquote, cmd, &i);
 		}
-		else
+		else if(cmd[i])
 			i++;
 	}
 	return (0);

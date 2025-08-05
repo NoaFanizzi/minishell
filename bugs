@@ -13,6 +13,6 @@ UPDATE : Le probleme de here-doc a l'air fix, juste un probleme de reotur a la l
 
 -Probleme du minishell qui se lance direct si on fait juste minishell
 -Probleme du >$shrek
--Probleme du export OLPWD = , puis cd -
--Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set
+<!-- -Probleme du export OLPWD = , puis cd - -->
+<!-- -Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set -->
 -"$dawd"
