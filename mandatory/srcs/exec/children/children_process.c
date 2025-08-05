@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 09:55:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:29:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 {
 	char	**env_converted;
 
+	printf("JE SUIS DANS LE CHILD\n");
 	env_converted = NULL;
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);

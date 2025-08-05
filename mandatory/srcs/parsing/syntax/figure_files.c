@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/04 16:48:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:11:59 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	figure_hdoc(char **cmd, t_content *content, int tab[2], size_t redir_count)
 	content->files[tab[1]].size = redir_count;
 	rem_and_shift(cmd[tab[0] + 1]);
 	switch_back_lit_quotes(cmd[tab[0] + 1]);
-	printf("tab[1] = %d\n", tab[1]);
 	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]); //PROTECTED
 	if (!content->files[tab[1]].eof)
 		return (1);

@@ -6,4 +6,7 @@ Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que 
 
 -Problème avec cette commande qui semble ne pas s'arrêter et qui ne renvoie pas le bon exit_code : echo hello > out1 > out2 < in1 < in2
 -Probleme de here_doc
+
+UPDATE : Le probleme de here-doc a l'air fix, juste un probleme de reotur a la ligne quand je control + c + gros problemes de signaux quand control + c adans le here_doc alors que minishell a ete lance en env -i
+
 -Voir pour avoir un count de redir qui permet de clean la structure correctement

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/03 12:52:47 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/05 14:17:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	h_expansion(char *line, t_content *content, char *temp_file)
 {
 	char	*expanded_line;
 
+	if(!line[0])
+	{
+		ft_putendl_fd(line, content->h_fd);
+		ft_wipe(&line);
+		return(0);
+	}
 	expanded_line = expand_word(line, content->env, content->array_ptr);
 	if (!expanded_line)
 	{

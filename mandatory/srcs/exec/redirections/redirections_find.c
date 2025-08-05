@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:53:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 13:45:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_deal_with_redir(t_content *content)
 	i = -1;
 	if (content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
 	{
-		if (ft_process_here_doc(content->array_ptr) == 1)
+		if (ft_use_hdoc(content, ++i) == O_ERROR)
 			return (1);
 	}
 	if (content->files != NULL && &content->files[0] != NULL)
