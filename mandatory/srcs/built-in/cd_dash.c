@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_dash.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:10:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 14:16:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:32:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	if (content->cmd[1] && ft_strcmp(content->cmd[1], "-") == 0)
 	{
 		node = get_env("OLDPWD", *(content->env));
-		if (node)
+		if (node && node->arg && node->arg[0])
 		{
 			*dir = ft_strdup(node->arg);
 			if (!*dir)
@@ -91,8 +91,15 @@ int	is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 		else
 		{
 			*dir = NULL;
-			clean_pwd(pwd, saved_pwd, "OLDPWD", content);
-			content->error_code = 1;
+			if(!node)
+				clean_pwd(pwd, saved_pwd, "OLDPWD", content);	
+			else
+			{
+				ft_putstr_fd("\n", STDERR_FILENO);
+				clean_pwd(pwd, saved_pwd, NULL, content);	
+				content->error_code = 0;
+				content->array_ptr->p_exit_status = 0;
+			}
 			return(1);
 		}
 		returned_value = is_node(content, dir, pwd, saved_pwd);

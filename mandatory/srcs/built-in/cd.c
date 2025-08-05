@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 14:32:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:29:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ void	ft_cd(t_content *content, t_list **env)
 	returned_value = load_dir(content, &dir, &pwd, &saved_pwd);
 	if (returned_value == 1 || returned_value == O_ERROR)
 	{
-		clean_pwd(&pwd, &saved_pwd, dir, content);
+		//clean_pwd(&pwd, &saved_pwd, dir, content);
 		return ;
 	}
 	if(check_dir(content, &dir) == 1)

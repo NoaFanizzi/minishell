@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 12:37:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 19:27:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,12 @@ int	clean_pwd(char **pwd, char **saved_pwd, char *var, t_content *content)
 	content->error_code = 1;
 	if (!var)
 		return (0);
-	ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
-	ft_putstr_fd(var, STDERR_FILENO);
-	ft_putendl_fd(" not set", STDERR_FILENO);
+	if(var)
+	{
+		ft_putstr_fd("maxishell: cd: ", STDERR_FILENO);
+		ft_putstr_fd(var, STDERR_FILENO);
+		ft_putendl_fd(" not set", STDERR_FILENO);
+	}
 	return (0);
 }
 

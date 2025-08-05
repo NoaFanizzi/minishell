@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:04:17 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:54:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:33:38 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_deal_with_out(t_content *content, size_t i)
 	position = 0;
 	if (content->files[i].type == OUT)
 	{
+		//dprintf(2, "OUT found\n");
 		position = content->pos;
 		if (content->pos != 0)
 			position += position;

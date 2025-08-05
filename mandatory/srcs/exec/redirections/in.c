@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:03:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:54:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:33:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	ft_deal_with_in(t_content *content, size_t i)
 	position = 0;
 	if (content->files[i].type == IN)
 	{
+		//dprintf(2, "IN FOUND\n");
 		position = content->pos;
 		if (content->pos != 0)
 			position += position;
@@ -45,7 +46,10 @@ int	ft_deal_with_in(t_content *content, size_t i)
 			return (O_ERROR);
 		}
 		if (check_in(content, i, position) == O_ERROR)
+		{
+			//dprintf(2, "Problem detected in check_in function\n");
 			return (O_ERROR);
+		}
 	}
 	return (0);
 }

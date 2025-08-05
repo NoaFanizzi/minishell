@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 08:20:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/03 12:53:05 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/05 17:42:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	child_handler(int signal)
 void	deal_with_sigint(int signal)
 {
 	g_signal = signal;
-	ft_putendl_fd("^C", STDERR_FILENO);
-	//rl_replace_line("", 0);
+	ft_putstr_fd("\n", STDERR_FILENO);
+	rl_replace_line("", 0);
 	rl_on_new_line();
 	rl_redisplay();
 }
@@ -30,7 +30,7 @@ void	deal_with_sigint(int signal)
 void	deal_with_sigint_hdoc(int signal)
 {
 	g_signal = signal;
-	ft_putstr_fd("^C", STDERR_FILENO);
+	ft_putstr_fd("\n", STDERR_FILENO);
 	close(STDIN_FILENO);
 }
 

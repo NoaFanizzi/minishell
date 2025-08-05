@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_numbers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:17:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 11:42:31 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:02:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,17 @@ int	check_long_min_max(char *str, size_t *i)
 	return (0);
 }
 
-void	ft_display_int_array(int *array)
+void	ft_display_int_array(t_array *array)
 {
-	size_t	i;
+	int	i;
+	int	length;
 
+	printf("----------------------------\n");
 	i = 0;
-	while (i < FD_SETSIZE)
+	length = count_hdoc(&array->content[0]);
+	while (i <= length)
 	{
-		printf("array[i] = %d\n", array[i]);
+		printf("array[i] = %d\n", array->content[0].fd_array[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 13:29:07 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 18:34:19 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 {
 	char	**env_converted;
 
-	printf("JE SUIS DANS LE CHILD\n");
+	//printf("JE SUIS DANS LE CHILD\n");
 	env_converted = NULL;
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
@@ -81,6 +81,14 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 	ft_free_tab(content->expar->options);
 	content->expar->options = NULL;
 	build_execve_data(content, env, &env_converted);
+	//size_t i;
+
+	// i = 0;
+	// while(content->fd_array[i])
+	// {
+	// 	dprintf(2, "content->fd_array[i] = %d\n", content->fd_array[i]);
+	// 	i++;
+	// }
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		ft_free_tab(env_converted);

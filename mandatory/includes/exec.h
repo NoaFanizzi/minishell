@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 09:47:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:00:25 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
-void	ft_display_int_array(int *array);
+void	ft_display_int_array(t_array *array);
 
 // NOTHING
 void	ft_display_tab(char **tab);
@@ -81,6 +81,7 @@ void	ft_wait_pid(t_array *array);
 int		ft_load_preliminary_infos(t_list **env, t_array *array);
 void	ft_init_exec(t_list **env, t_array *array);
 int		ft_process_here_doc(t_array *array);
+int		count_hdoc(t_content *content);
 
 //----------------------------PIPES-----------------------------------------
 
@@ -103,7 +104,8 @@ int		check_out(t_content *content, size_t i, size_t position);
 int		ft_deal_with_out(t_content *content, size_t i);
 
 // redirections_find.c
-int		ft_deal_with_redir(t_content *content);
+int		ft_deal_with_redir_parents(t_content *content);
+int		ft_deal_with_redir_child(t_content *content);
 void	ft_deal_with_pipes(t_content *content);
 int		ft_parse_redirections(t_content *content);
 
@@ -163,7 +165,6 @@ void	ft_close_all(t_content *content);
 
 // exec_utils_3.c
 int		check_long_min_max(char *str, size_t *i);
-void	ft_display_int_array(int *array);
 void	ft_fill_array(int *tab);
 void	check_directory_before_exec(t_content *content);
 

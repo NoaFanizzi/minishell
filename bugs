@@ -1,5 +1,5 @@
 - Si je fais mkdir -p a/b/c, puis cd a/b/c, puis que je fais chmod 0000 ../../../a.
-Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que je donne /home/noa/42/minishell/a/b/c/.. alors que j'ai l'impression que bahsne prend que lke .. et peut reculer d'un cran, c'est grave ?
+Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que je donne /home/noa/42/minishell/a/b/c/.. alors que j'ai l'impression que bash ne prend que le .. et peut reculer d'un cran, c'est grave ?
 
 431 / 476
 434 / 473
@@ -10,3 +10,9 @@ Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que 
 UPDATE : Le probleme de here-doc a l'air fix, juste un probleme de reotur a la ligne quand je control + c + gros problemes de signaux quand control + c adans le here_doc alors que minishell a ete lance en env -i
 
 -Voir pour avoir un count de redir qui permet de clean la structure correctement
+
+-Probleme du minishell qui se lance direct si on fait juste minishell
+-Probleme du >$shrek
+-Probleme du export OLPWD = , puis cd -
+-Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set
+-"$dawd"

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 12:54:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:10:51 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	manage_command_in_parent(t_array *array, int command, t_list **env)
 {
 	if (command == 0)
 	{
-		if (ft_deal_with_redir(&array->content[0]) == 0)
+		if (ft_deal_with_redir_parents(&array->content[0]) == 0)
 		{
 			if (ft_is_built_in_dad(array, env) == 1)
 			{
@@ -81,16 +81,17 @@ int	manage_command_in_parent(t_array *array, int command, t_list **env)
 int	ft_get_redir_dad(t_array *array, t_list **env)
 {
 	int	command;
+	int returned_value;
 
-	
 	command = 0;
 	if (ft_save_stdin(array) == O_ERROR)
 		return (0);
 	command = ft_is_built_in(&array->content[0]);
-	if (manage_command_in_parent(array, command, env) == 0)
-		return (0);
+	returned_value = manage_command_in_parent(array, command, env);
 	if (ft_restore_in_out(array) == O_ERROR)
 		return (O_ERROR);
+	if (returned_value == 0)
+		return (0);
 	if (command == 1)
 		return (exit_in_parent(array));
 	return (0);

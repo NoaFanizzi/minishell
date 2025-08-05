@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/03 18:56:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/05 17:29:29 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 
 	//dumb comment
 	//prompt = ft_join_prompt(array);
+	//ft_putstr_fd("aberrant\n", 1);
 	prompt = ft_strdup("minishell>");
 	if (prompt)
 		*line = readline(prompt);
