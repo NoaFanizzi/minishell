@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:50:33 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 15:26:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:27:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ typedef struct s_array
 {
 	t_content		*content;
 	int				(*pipe)[2];
-	int				size;
+	size_t				size;
 	int				p_exit_status;
 }					t_array;
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:34:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:00:12 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,11 @@ int	ft_load_hdoc_fd(t_content *content)
 
 	i = 0;
 	content->hdoc_length = count_hdoc(content);
+	if(content->hdoc_length == 0)
+	{
+		content->fd_array = NULL;
+		return(1);
+	}
 	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
 			sizeof(int));
 	if (!content->fd_array)
@@ -87,7 +92,7 @@ int	ft_load_preliminary_infos(t_list **env, t_array *array)
 	i = 0;
 	array->pipe = NULL;
 	array->content[i].hdoc_length = 0;
-	while ((int)i < array->size)
+	while (i < array->size)
 	{
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
@@ -117,7 +122,9 @@ void	ft_init_exec(t_list **env, t_array *array)
 	if (!ft_load_preliminary_infos(env, array))
 		return ;
 	if (ft_process_here_doc(array) == 1)
-		return (ft_close_pipes(array));
+	{
+		return(ft_close_pipes(array));
+	}
 	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
@@ -127,13 +134,14 @@ void	ft_init_exec(t_list **env, t_array *array)
 				close(array->content[0].stdin_saved);
 			if (array->content[0].stdout_saved != -2)
 				close(array->content[0].stdout_saved);
+			deal_with_signal_after_exec();
 			return ;
 		}
 	}
 	if (ft_init_pipe(array) == 1)
 		return ;
 	child_management(env, array);
+	deal_with_signal_after_exec();
 	//ft_display_int_array(array);
 	//ft_close_array_fd(&array->content[0]);
-	deal_with_signal_after_exec();
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 15:32:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:40:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,5 +124,6 @@ int	ft_parse_redirections(t_content *content)
 	ft_deal_with_pipes(content);
 	if (ft_deal_with_redir_child(content) == 1)
 		ft_exit(content);
+	//ft_close_array_fd(content);
 	return (0);
 }

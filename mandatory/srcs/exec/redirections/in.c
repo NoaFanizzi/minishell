@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:03:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:33:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:41:06 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_deal_with_in(t_content *content, size_t i)
 	position = 0;
 	if (content->files[i].type == IN)
 	{
-		//dprintf(2, "IN FOUND\n");
+		dprintf(2, "IN FOUND\n");
 		position = content->pos;
 		if (content->pos != 0)
 			position += position;

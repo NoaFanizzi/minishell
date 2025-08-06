@@ -20,10 +20,11 @@ Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que 
 
 
 
--Probleme de here_doc avec quelques trucs qui sont pas closes
+<!-- -Probleme de here_doc avec quelques trucs qui sont pas closes -->
 <!-- -Probleme du export OLPWD = , puis cd - -->
 <!-- -Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set -->
 <!-- -"$dawd" -->
+-Control + C apres un here_doc + un control + C apres qui met es retours a la ligne en trop
 
 
 PROBLEMES NATHAN :

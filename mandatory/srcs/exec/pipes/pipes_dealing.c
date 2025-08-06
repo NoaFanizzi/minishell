@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 12:51:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:29:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_init_pipe(t_array *array)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (array->size * 2 >= FD_SETSIZE)
@@ -41,7 +41,7 @@ int	ft_init_pipe(t_array *array)
 
 void	ft_close_pipes(t_array *array)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (!array->pipe)

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:34:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:00:04 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,26 +69,18 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 {
 	char	**env_converted;
 
-	//printf("JE SUIS DANS LE CHILD\n");
 	env_converted = NULL;
 	signal(SIGINT, child_handler);
 	signal(SIGQUIT, SIG_DFL);
 	ft_load_expar(content, env);
 	if (ft_parse_redirections(content) == O_ERROR)
 		ft_exit(content);
+	ft_close_array_fd(content);
 	ft_prepare_execution(content, env);
 	ft_close_all(content);
 	ft_free_tab(content->expar->options);
 	content->expar->options = NULL;
 	build_execve_data(content, env, &env_converted);
-	//size_t i;
-
-	// i = 0;
-	// while(content->fd_array[i])
-	// {
-	// 	dprintf(2, "content->fd_array[i] = %d\n", content->fd_array[i]);
-	// 	i++;
-	// }
 	if (execve(content->expar->path, content->cmd, env_converted) == -1)
 	{
 		ft_free_tab(env_converted);
@@ -100,13 +92,14 @@ void	ft_exec_cmd(t_content *content, t_list **env)
 
 void	child_management(t_list **env, t_array *array)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	signal(SIGINT, deal_with_signals_in_exec);
 	signal(SIGQUIT, deal_with_signals_in_exec);
 	while (i < array->size)
 	{
+		array->content[i].array_ptr = array;
 		array->content[i].pid = fork();
 		if (array->content[i].pid == -1)
 		{

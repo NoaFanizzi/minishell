@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:17:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 16:02:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 15:43:14 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ft_display_int_array(t_array *array)
 	length = count_hdoc(&array->content[0]);
 	while (i <= length)
 	{
-		printf("array[i] = %d\n", array->content[0].fd_array[i]);
+		dprintf(2, "array[i] = %d\n", array->content[0].fd_array[i]);
 		i++;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:17:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 17:25:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,34 +47,72 @@ void	ft_free_files(t_content *content)
 	content->files = NULL;
 }
 
+// void	ft_close_array_fd(t_content *content)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	if (content->stdin_saved != -2)
+// 		close(content->stdin_saved);
+// 	if (content->stdout_saved != -2)
+// 		close(content->stdout_saved);
+// 	if (!content->fd_array)
+// 		return ;
+// 	printf("content->hdoc_length = %zu\n", content->hdoc_length);
+// 	while (i < content->hdoc_length)
+// 	{
+// 		if (content->fd_array[i] != -42 && content->fd_array[i] != -8)
+// 			close(content->fd_array[i]);
+// 		i++;
+// 	}
+// 	i = 0;
+// 	free(content->fd_array);
+// }
+
 void	ft_close_array_fd(t_content *content)
 {
 	size_t	i;
+	size_t	j;
+	size_t	size;
+	size_t	pos;
 
 	i = 0;
+	j = 0;
 	if (content->stdin_saved != -2)
 		close(content->stdin_saved);
 	if (content->stdout_saved != -2)
 		close(content->stdout_saved);
-	if (!content->fd_array)
-		return ;
-	while (i < content->hdoc_length)
+	pos = content->pos;
+	size = content->array_ptr->size;
+	while (j < size)
 	{
-		if (content->fd_array[i] != -42 && content->fd_array[i] != -8)
-			close(content->fd_array[i]);
-		i++;
+		if (j != pos && content[0].array_ptr->content[j].fd_array != NULL)
+		{
+			while (i < content->array_ptr->content[j].hdoc_length)
+			{
+				if (content->array_ptr->content[j].fd_array[i] != -42
+					&& content->array_ptr->content[j].fd_array[i] != -8)
+				{
+					close(content->array_ptr->content[j].fd_array[i]);
+					content->array_ptr->content[j].fd_array[i] = -42;
+				}
+				i++;
+			}
+		}
+		i = 0;
+		j++;
 	}
-	i = 0;
 	free(content->fd_array);
 }
 
 void	ft_free_array_content(t_array *array)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
 	if (!array || !array->content)
 		return ;
+	ft_close_array_fd(&array->content[i]);
 	while (i < array->size)
 	{
 		if (array->content[i].cmd)
@@ -87,7 +125,6 @@ void	ft_free_array_content(t_array *array)
 			ft_free_hdoc(array->content[i].hdoc);
 		if (array->content[i].h_fd != (-2))
 			close(array->content[i].h_fd);
-		ft_close_array_fd(&array->content[i]);
 		i++;
 	}
 	free(array->content);

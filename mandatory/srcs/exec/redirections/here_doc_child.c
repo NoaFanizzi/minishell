@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:33:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 16:41:24 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,14 @@ int	ft_use_hdoc(t_content *content, size_t i)
 	// 	dprintf(2, "contenttt->fd_array[j] = %d\n", content->fd_array[j]);
 	// 	j++;
 	// }
-	// dprintf(2, "\n");
+	dprintf(2, "HDOC FOUND \n");
 	if (content->files[i].type == HDOC)
 	{
 		content->infile = get_hdoc_fd(content);
 		if (dup2(content->infile, STDIN_FILENO) == -1)
 			return (ft_dup2_pb(content, "temp_file"));
 		//dprintf(2, "content->infile = %d\n", content->infile);
+		dprintf(2, "closed content->infile = %d\n", content->infile);
 		close(content->infile);
 		content->infile = -2;
 	}
@@ -80,7 +81,7 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 		{
 			signal(SIGINT, deal_with_sigint_hdoc);
 			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-			ft_putstr_fd("right after sigint hdoc\n", 1);
+			//ft_putstr_fd("right after sigint hdoc\n", 1);
 			signal(SIGINT, deal_with_sigint);
 			//ft_putstr_fd("right after sigint\n", 1);
 		}
@@ -93,7 +94,7 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 
 int	ft_process_here_doc(t_array *array)
 {
-	int		i;
+	size_t		i;
 	size_t	size;
 
 	i = 0;
