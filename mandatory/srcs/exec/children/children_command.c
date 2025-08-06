@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:55:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 18:19:32 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	check_exist(t_content *content, char *path)
 int	ft_is_path_command(t_content *content)
 {
 	if (!ft_strncmp(content->expar->path, "..", 2)
-		|| !ft_strcmp(content->expar->path, "."))
+		|| !ft_strcmp(content->expar->path, ".") || !ft_strchr(content->expar->path, '/'))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);
@@ -65,6 +65,7 @@ int	ft_is_path_command(t_content *content)
 		content->error_code = 127;
 		ft_exit(content);
 	}
+	printf("la\n");
 	if (access(content->expar->path, F_OK) == 0)
 	{
 		if (access(content->expar->path, X_OK) == -1)
