@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 16:41:24 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 21:19:09 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@ int	h_expansion(char *line, t_content *content, char *temp_file)
 		ft_wipe(&line);
 		return(0);
 	}
-	expanded_line = expand_word(line, content->env, content->array_ptr);
+	expanded_line = expand_word(line, content->env, content->array_ptr); //TODO VRAIMENT recheck parce que ca leak et la protection parce que c'est lie a une fonction du parsing qui est pas trop protege
 	if (!expanded_line)
 	{
+		unlink(temp_file);
 		free(temp_file);
 		return (ft_open_error(content, "expanded_line"));
 	}
@@ -48,21 +49,19 @@ int	get_hdoc_fd(t_content *content)
 
 int	ft_use_hdoc(t_content *content, size_t i)
 {
-	// size_t j;
-	// j = 0;
-	// while(content->fd_array[j])
-	// {
-	// 	dprintf(2, "contenttt->fd_array[j] = %d\n", content->fd_array[j]);
-	// 	j++;
-	// }
-	dprintf(2, "HDOC FOUND \n");
+	size_t	j;
+	size_t	size;
+
+	size = content->files[0].size;
+	j = 0;
 	if (content->files[i].type == HDOC)
 	{
-		content->infile = get_hdoc_fd(content);
+		content->infile = get_hdoc_fd(content); //PROTECTED
 		if (dup2(content->infile, STDIN_FILENO) == -1)
+		{
+			ft_close_array_fd(content, -1);
 			return (ft_dup2_pb(content, "temp_file"));
-		//dprintf(2, "content->infile = %d\n", content->infile);
-		dprintf(2, "closed content->infile = %d\n", content->infile);
+		}
 		close(content->infile);
 		content->infile = -2;
 	}

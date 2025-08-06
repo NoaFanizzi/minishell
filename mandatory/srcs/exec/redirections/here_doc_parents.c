@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 14:11:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:27:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,26 @@
 int	ft_launch_here_doc(t_content *content, int *data, char *temp_file)
 {
 	char	*line;
+	int returned_value;
 
 	data[2] = 0;
 	while (1)
 	{
-		line = readline("> ");
+		line = readline("> ");//TODO Proteger ca ?
 		data[2] += 1;
 		if (sigint_hdoc_dealing(content, temp_file, line) == 1)
 			return (1);
-		if (controld_hdoc_dealing(line, content, data, temp_file) == 1)
+		returned_value = controld_hdoc_dealing(line, content, data, temp_file);
+		if (returned_value == 1)
 		{
 			close(content->stdin_saved);
 			content->stdin_saved = -2;
-			break ;
+			break;
+		}
+		if(returned_value == 2)
+		{
+			free(temp_file);
+			return(1);
 		}
 		if (!line || ft_strcmp(line,
 				content->cmd_splitted[data[0]][data[1]]) == 0)
@@ -52,7 +59,7 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 		data[1] = content->files[*i].index + 1;
 		if (ft_get_temp_file(&temp_file, content) == O_ERROR)
 			return (1);
-		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644);
+		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644); //PROTECTED
 		if (content->h_fd == -1)
 		{
 			content->h_fd = -2;
@@ -63,7 +70,8 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 		if (ft_launch_here_doc(content, data, temp_file) == 1)
 			return (1);
 	}
-	ft_close_open(content, temp_file);
+	if(ft_close_open(content, temp_file) == -1)
+		return(1);
 	unlink(temp_file);
 	free(temp_file);
 	return (0);
@@ -98,7 +106,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	int	returned_value;
 
 	returned_value = 0;
-	content->stdin_saved = dup(STDIN_FILENO);
+	content->stdin_saved = dup(STDIN_FILENO); //PROTECTED
 	if (content->stdin_saved == -1)
 	{
 		content->stdin_saved = -2;

@@ -2,4 +2,8 @@ ft_malloc
 ft_calloc
 ft_strdup
 ft_strjoin
+ft_split
 ft_substr
+open
+dup
+dup2

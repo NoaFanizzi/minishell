@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:04:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:53:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:12:23 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_load_temp_file(int random_fd, char **random_file)
 	while (j < 5)
 	{
 		i = 0;
-		temp_file = get_next_line(random_fd);
+		temp_file = get_next_line(random_fd); //PROTECTED
 		if (!temp_file)
 			break ;
 		while (temp_file[i] && j < 5)
@@ -44,10 +44,10 @@ int	ft_get_temp_file(char **random_file, t_content *content)
 {
 	int	random_fd;
 
-	*random_file = ft_calloc(6, sizeof(char));
+	*random_file = ft_calloc(6, sizeof(char)); //PROTECTED
 	if (!*random_file)
 		return (ft_open_error(content, "random_file"));
-	random_fd = open("/dev/random", O_RDONLY);
+	random_fd = open("/dev/random", O_RDONLY); //PROTECTED
 	if (random_fd == -1)
 	{
 		free(*random_file);

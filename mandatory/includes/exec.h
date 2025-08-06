@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 16:00:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:07:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ void	ft_display_env(t_list *env, t_content *content);
 
 // exec_utils_2.c
 void	add_new_fd_in_array(t_content *content);
-void	ft_close_open(t_content *content, char *temp_file);
+int		ft_close_open(t_content *content, char *temp_file);
 void	ft_close_in_out_saved(t_content *content);
 void	ft_close_std(t_content *content);
 void	ft_close_all(t_content *content);

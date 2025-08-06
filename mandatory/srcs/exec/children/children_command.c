@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:03:08 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 18:19:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 19:53:18 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	ft_is_path_command(t_content *content)
 		content->error_code = 127;
 		ft_exit(content);
 	}
-	printf("la\n");
 	if (access(content->expar->path, F_OK) == 0)
 	{
 		if (access(content->expar->path, X_OK) == -1)

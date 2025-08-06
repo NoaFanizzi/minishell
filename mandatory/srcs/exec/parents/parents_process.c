@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 18:00:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/06 20:22:35 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int	ft_load_hdoc_fd(t_content *content)
 		content->fd_array = NULL;
 		return(1);
 	}
-	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
+	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1), //PROTECTED
 			sizeof(int));
 	if (!content->fd_array)
 	{

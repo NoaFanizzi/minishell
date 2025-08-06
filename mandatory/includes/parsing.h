@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 19:53:57 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/06 21:15:03 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -259,7 +259,7 @@ int		split_space_count(char **command, const char *charset);
 // utils.c //
 void	ft_free_content(t_content *content);
 void	ft_free_array_content(t_array *array);
-void	ft_close_array_fd(t_content *content);
+void	ft_close_array_fd(t_content *content, size_t pos);
 void	ft_free_files(t_content *content);
 void	ft_free_env(t_list *env);
 // ################################ //
