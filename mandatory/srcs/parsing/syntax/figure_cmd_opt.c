@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/07 18:17:01 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/07 18:34:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ size_t	count_cmd_opt(char **cmd)
 	count = 0;
 	if (find_command_name(cmd, &i))
 		count++;
-	i++;
-	while (cmd[i])
+	while (cmd[++i])
 	{
 		if (cmd[i][0] == '-')
 			count++;
 		else if (ft_strncmp(cmd[i], "<", 1) != 0
 			|| ft_strncmp(cmd[i], ">", 1) != 0)
 			break ;
-		i++;
+		else
+			i++;
 	}
 	return (count);
 }
