@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/04 16:21:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:08:27 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k)
 	if (return_value == 1 || return_value == 2)
 		return (return_value);
 	switch_lit_quotes(exp_var);
-	if (is_after_great_var(data->new_word, data->i))
+	if (is_after_great_var(data->new_command, data->i))
 	{
 		after_great = 1;
 		data->new_word[*k] = D_QUOTE;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/04 16:54:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:17:01 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 		else if (ft_strncmp(cmd[i], "<", 1) != 0
 			&& ft_strncmp(cmd[i], ">", 1) != 0)
 			break ;
+		else
+			i++;
 	}
 	content->cmd[j] = NULL;
 	return (0);

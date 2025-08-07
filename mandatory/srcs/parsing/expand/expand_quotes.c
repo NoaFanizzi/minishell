@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_quotes.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:48:16 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/31 17:58:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:09:58 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	switch_lit_quotes(char *exp_var)
 		return ;
 	while (exp_var[i])
 	{
-		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE)
+		if (exp_var[i] == D_QUOTE || exp_var[i] == S_QUOTE || exp_var[i] == '|' || exp_var[i] == '>' || exp_var[i] == '<')
 			exp_var[i] = exp_var[i] * -1;
 		i++;
 	}
@@ -76,7 +76,7 @@ void	switch_back_lit_quotes(char *exp_var)
 		return ;
 	while (exp_var[i])
 	{
-		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1))
+		if (exp_var[i] == (D_QUOTE * -1) || exp_var[i] == (S_QUOTE * -1) || exp_var[i] == ('|' * -1) || exp_var[i] == ('>' * -1) || exp_var[i] == ('<' * -1))
 			exp_var[i] = exp_var[i] * -1;
 		i++;
 	}
