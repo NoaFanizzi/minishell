@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/07 18:24:55 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 19:06:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,17 @@ void	get_true_line(char **line)
 	size_t i;
 
 	i = 0;
-	while(*line[i] && ft_isspace(*line[i]) == 0)
+	while((*line)[i] && ft_isspace((*line)[i]) == 1)
 		i++;
-	temp = ft_substr(*line, i, ft_strlen(&*line[i]) + 1);
+	if(i == ft_strlen(*line))
+	{
+		ft_wipe(line);
+		return;
+	}
+	temp = ft_strdup(&(*line)[i]);
 	free(*line);
 	*line = ft_strdup(temp);
+	free(temp);
 }
 
 void	*manage_readline(char **line, t_array *array, t_list **var)
@@ -72,7 +78,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	}
 	if (line && *line && **line != '\0')
 		add_history(*line);
-	//get_true_line(line);
+	get_true_line(line);
 	return (NULL);
 }
 
@@ -102,6 +108,8 @@ int	launch_shell(t_list **var, t_array *array)
 		manage_readline(&line, array, var);
 		array->size = 0;
 		array->content = NULL;
+		if(!line)
+			continue;
 		if (line[0] != '\0')
 			if (line[0] != '\0')
 				process_command(line, var, array, &cmd_splitted);
