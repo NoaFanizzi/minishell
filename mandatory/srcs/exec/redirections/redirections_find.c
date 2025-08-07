@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:04:54 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 15:32:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:49:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,6 @@ int	ft_deal_with_redir_parents(t_content *content)
 	size_t	i;
 
 	i = 0;
-	// size_t i;
-
-	// i = 0;
-	// size = content->files[0].size;
-	// while(i < size)
-	// {
-	// 	dprintf(2, "content->files[i].type in loop = %d\n", content->files[i].type);
-	// 	i++;
-	// }
-	// if (content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
-	// {
-	// 	if (ft_use_hdoc(content, i) == O_ERROR)
-	// 		return (1);
-	// }
 	if (content->files != NULL && &content->files[0] != NULL)
 	{
 		size = content->files[0].size;
@@ -54,26 +40,13 @@ int	ft_deal_with_redir_parents(t_content *content)
 	}
 	return (0);
 }
+
 int	ft_deal_with_redir_child(t_content *content)
 {
 	size_t	size;
 	size_t	i;
 
 	i = 0;
-	// size_t i;
-
-	// i = 0;
-	// size = content->files[0].size;
-	// while(i < size)
-	// {
-	// 	dprintf(2, "content->files[i].type in loop = %d\n", content->files[i].type);
-	// 	i++;
-	// }
-	// if (content->array_ptr->size == 1 && ft_is_built_in(content) == 0)
-	// {
-	// 	if (ft_use_hdoc(content, i) == O_ERROR)
-	// 		return (1);
-	// }
 	if (content->files != NULL && &content->files[0] != NULL)
 	{
 		size = content->files[0].size;
@@ -98,6 +71,7 @@ void	ft_deal_with_pipes(t_content *content)
 	if ((content->size > 1 && content->pos > 0))
 	{
 		if (dup2(content->array_ptr->pipe[content->pos - 1][0], STDIN_FILENO) ==
+			// PROTECTED
 			-1)
 		{
 			content->error_code = 1;
@@ -108,6 +82,7 @@ void	ft_deal_with_pipes(t_content *content)
 	if ((content->size > 1 && content->pos < content->size - 1))
 	{
 		if (dup2(content->array_ptr->pipe[content->pos][1], STDOUT_FILENO) ==
+			// PROTECTED
 			-1)
 		{
 			content->error_code = 1;

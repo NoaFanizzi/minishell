@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 12:30:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:03:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int		is_node(t_content *content, char **dir, char **pwd, char **saved_pwd);
 int		update_dash(t_content *content, char **dir, char **pwd,
 			char **saved_pwd);
 int		is_dash(t_content *content, char **dir, char **pwd, char **saved_pwd);
+int		print_dir_message(char *str1, char *str2, char *str3);
 
 // cd_utils.c
 int		update_env(t_list **env, char *var, char *arg);

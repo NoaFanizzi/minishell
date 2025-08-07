@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:03:11 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:33:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:48:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 int	check_in(t_content *content, size_t i, size_t position)
 {
-	content->infile = open(content->cmd_splitted[position][content->files[i]
-			.index + 1], O_RDONLY, 0644);
+	content->infile = open(content->cmd_splitted[position] //PROTECTED
+		[content->files[i].index + 1], O_RDONLY, 0644);
 	if (content->infile == -1)
 		return (ft_open_error(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
-	if (dup2(content->infile, STDIN_FILENO) == -1)
+	if (dup2(content->infile, STDIN_FILENO) == -1) // PROTECTED
 		return (ft_dup2_pb(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
 	close(content->infile);
@@ -34,7 +34,6 @@ int	ft_deal_with_in(t_content *content, size_t i)
 	position = 0;
 	if (content->files[i].type == IN)
 	{
-		//dprintf(2, "IN FOUND\n");
 		position = content->pos;
 		if (content->pos != 0)
 			position += position;
@@ -46,10 +45,7 @@ int	ft_deal_with_in(t_content *content, size_t i)
 			return (O_ERROR);
 		}
 		if (check_in(content, i, position) == O_ERROR)
-		{
-			//dprintf(2, "Problem detected in check_in function\n");
 			return (O_ERROR);
-		}
 	}
 	return (0);
 }

@@ -6,11 +6,17 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/28 20:40:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:42:45 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_unlink(char **str)
+{
+	unlink(*str);
+	free(*str);
+}
 
 void	ft_free_hdoc(t_heredocs *hdoc)
 {
@@ -41,7 +47,7 @@ void	ft_exec_failure(t_expar *expar, int i)
 
 void	*ft_free_one_chain_element(t_env *env, t_array *array)
 {
-	ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+	//ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 	array->p_exit_status = 1;
 	free(env->arg);
 	free(env->op);

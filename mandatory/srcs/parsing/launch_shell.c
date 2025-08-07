@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/05 17:29:29 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:24:55 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ char	*ft_join_prompt(t_array *array)
 	return (joind_prompt);
 }
 
+void	get_true_line(char **line)
+{
+	char *temp;
+	size_t i;
+
+	i = 0;
+	while(*line[i] && ft_isspace(*line[i]) == 0)
+		i++;
+	temp = ft_substr(*line, i, ft_strlen(&*line[i]) + 1);
+	free(*line);
+	*line = ft_strdup(temp);
+}
+
 void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char	*prompt;
@@ -59,7 +72,7 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	}
 	if (line && *line && **line != '\0')
 		add_history(*line);
-	return (NULL);
+	//get_true_line(line);
 	return (NULL);
 }
 
@@ -81,7 +94,6 @@ int	launch_shell(t_list **var, t_array *array)
 	char	*line;
 	char	***cmd_splitted;
 
-	array->p_exit_status = 0;
 	cmd_splitted = NULL;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);

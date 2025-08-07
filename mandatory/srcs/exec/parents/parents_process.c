@@ -6,24 +6,26 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 18:34:30 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:29:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_wait_pid(t_array *array)
+void	ft_wait_pid(t_array *array, size_t i)
 {
 	pid_t	pid;
 	int		status;
 	int		sig;
+	size_t	size;
 
 	status = 0;
 	sig = 0;
+	size = (array->size - 1) - (array->size - i);
 	pid = waitpid(-1, &status, 0);
 	while (pid > 0)
 	{
-		if (pid == array->content[array->size - 1].pid)
+		if (pid == array->content[size].pid)
 		{
 			if (WIFEXITED(status))
 				array->p_exit_status = WEXITSTATUS(status);
@@ -64,7 +66,12 @@ int	ft_load_hdoc_fd(t_content *content)
 
 	i = 0;
 	content->hdoc_length = count_hdoc(content);
-	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
+	if (content->hdoc_length == 0)
+	{
+		content->fd_array = NULL;
+		return (1);
+	}
+	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1), // PROTECTED
 			sizeof(int));
 	if (!content->fd_array)
 	{
@@ -84,10 +91,12 @@ int	ft_load_preliminary_infos(t_list **env, t_array *array)
 {
 	size_t	i;
 
+	if (array->size == 0)
+		return (0);
 	i = 0;
 	array->pipe = NULL;
 	array->content[i].hdoc_length = 0;
-	while ((int)i < array->size)
+	while (i < array->size)
 	{
 		array->content[i].array_ptr = array;
 		array->content[i].expar = NULL;
@@ -112,12 +121,10 @@ void	ft_init_exec(t_list **env, t_array *array)
 	int	redir_value;
 
 	redir_value = 0;
-	if (array->size == 0)
-		return ;
 	if (!ft_load_preliminary_infos(env, array))
 		return ;
 	if (ft_process_here_doc(array) == 1)
-		return (ft_close_pipes(array));
+		return (ft_close_pipes(array, -1));
 	if (array->size == 1)
 	{
 		redir_value = ft_get_redir_dad(array, env);
@@ -127,13 +134,12 @@ void	ft_init_exec(t_list **env, t_array *array)
 				close(array->content[0].stdin_saved);
 			if (array->content[0].stdout_saved != -2)
 				close(array->content[0].stdout_saved);
+			deal_with_signal_after_exec();
 			return ;
 		}
 	}
 	if (ft_init_pipe(array) == 1)
 		return ;
 	child_management(env, array);
-	//ft_display_int_array(array);
-	//ft_close_array_fd(&array->content[0]);
 	deal_with_signal_after_exec();
 }

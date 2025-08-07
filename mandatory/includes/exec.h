@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 16:00:25 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:43:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_is_built_in(t_content *content);
 int		ft_get_redir_dad(t_array *array, t_list **env);
 
 // parents_process.c
-void	ft_wait_pid(t_array *array);
+void	ft_wait_pid(t_array *array, size_t length);
 int		ft_load_preliminary_infos(t_list **env, t_array *array);
 void	ft_init_exec(t_list **env, t_array *array);
 int		ft_process_here_doc(t_array *array);
@@ -87,7 +87,7 @@ int		count_hdoc(t_content *content);
 
 // pipes_dealing.c
 int		ft_init_pipe(t_array *array);
-void	ft_close_pipes(t_array *array);
+void	ft_close_pipes(t_array *array, size_t length);
 
 //----------------------------REDIRECTIONS----------------------------------
 
@@ -147,6 +147,7 @@ char	**ft_convert_env(t_list *env);
 // exec_free.c
 void	ft_exec_failure(t_expar *expar, int i);
 void	*ft_free_one_chain_element(t_env *env, t_array *array);
+void	free_unlink(char **str);
 
 // exec_utils.c
 char	**ct_get_paths(t_list *var, t_content *content);
@@ -158,7 +159,7 @@ void	ft_display_env(t_list *env, t_content *content);
 
 // exec_utils_2.c
 void	add_new_fd_in_array(t_content *content);
-void	ft_close_open(t_content *content, char *temp_file);
+int		ft_close_open(t_content *content, char *temp_file);
 void	ft_close_in_out_saved(t_content *content);
 void	ft_close_std(t_content *content);
 void	ft_close_all(t_content *content);

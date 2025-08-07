@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 02:16:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:25:43 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,13 @@ char	**ct_get_paths(t_list *var, t_content *content)
 	cpy = get_env("PATH", var);
 	if (cpy == NULL)
 		return (NULL);
-	options = ft_split(cpy->arg, ':');
+	options = ft_split(cpy->arg, ':'); //PROTECTED
 	if (!options)
+	{
+		ft_open_error(content, NULL);
+		content->expar->options = NULL;
 		ft_exit(content);
+	}
 	if (!options[0])
 	{
 		free(options);
@@ -56,7 +60,7 @@ char	**ft_cmd_join(char **a, char **b, t_content *content)
 	char	**cmd;
 
 	length = ft_tablen(a) + ft_tablen(b);
-	cmd = ft_calloc(length + 1, (sizeof(char *)));
+	cmd = ft_calloc(length + 1, (sizeof(char *))); //PROTECTED
 	if (!cmd)
 	{
 		if (content->cmd)

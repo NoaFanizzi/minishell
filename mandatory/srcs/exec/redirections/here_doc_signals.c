@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:12:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 17:40:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:50:13 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,24 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 {
 	char	*temp;
 
-	(void)temp_file;
 	if (!line)
 	{
-		temp = ft_itoa(data[2]);
+		temp = ft_itoa(data[2]); // PROTECTED
+		if (!temp)
+		{
+			unlink(temp_file);
+			content->error_code = 1;
+			content->array_ptr->p_exit_status = 1;
+			ft_open_error(content, NULL);
+			return (2);
+		}
 		if (temp)
 		{
-			ft_putstr_fd("maxishell: warning: here-document at line ",
-				STDERR_FILENO);
-			ft_putstr_fd(temp, STDERR_FILENO);
+			print_dir_message("maxishell: warning: here-document at line ",
+				temp, " delimited by end-of-file (wanted `");
 			free(temp);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
-			ft_putstr_fd(content->cmd_splitted[data[0]][data[1]],
-				STDERR_FILENO);
-			ft_putstr_fd("')\n", STDERR_FILENO);
+			print_dir_message(content->cmd_splitted[data[0]][data[1]], NULL, "')\n");
 		}
-		if (!temp)
-			ft_open_error(content, NULL);
 		return (1);
 	}
 	return (0);
@@ -41,7 +42,7 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 
 int	get_stdin(t_content *content)
 {
-	if (dup2(content->stdin_saved, STDIN_FILENO) == -1)
+	if (dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
 	{
 		if (content->stdin_saved)
 			close(content->stdin_saved);
@@ -56,8 +57,6 @@ int	sigint_hdoc_dealing(t_content *content, char *temp_file, char *line)
 {
 	if (g_signal == SIGINT)
 	{
-		// if (!*content->env)
-		// 	ft_putstr_fd("\n", STDERR_FILENO);
 		unlink(temp_file);
 		free(temp_file);
 		if (get_stdin(content) == 1)

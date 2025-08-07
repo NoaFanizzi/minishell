@@ -2,4 +2,40 @@ ft_malloc
 ft_calloc
 ft_strdup
 ft_strjoin
+ft_split
 ft_substr
+open
+dup
+dup2
+
+deal_with_append
+
+
+
+void	ft_wait_pid(t_array *array, size_t i)
+{
+	pid_t	pid;
+	int		status;
+	int		sig;
+	size_t size;
+
+	status = 0;
+	sig = 0;
+	size = (array->size - 1) - (array->size - i);
+	pid = waitpid(-1, &status, 0);
+	while (pid > 0)
+	{
+		if (pid == array->content[size].pid)
+		{
+			if (WIFEXITED(status))
+				array->p_exit_status = WEXITSTATUS(status);
+			if (WIFSIGNALED(status))
+			{
+				sig = WTERMSIG(status);
+				if (sig != SIGPIPE)
+					array->p_exit_status = 128 + WTERMSIG(status);
+			}
+		}
+		pid = waitpid(-1, &status, 0);
+	}
+}

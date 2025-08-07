@@ -16,11 +16,12 @@ Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que 
 
 -Voir pour avoir un count de redir qui permet de clean la structure correctement
 
--Probleme du minishell qui se lance direct si on fait juste minishell (MAIS WTF ca le fait pas avec valgrind)
+<!-- -Probleme du minishell qui se lance direct si on fait juste minishell (MAIS WTF ca le fait pas avec valgrind) -->
+-Probleme quand on fait pleins de space puis entree ca fait leaker readline.
 
 
 
--Probleme de here_doc avec quelques trucs qui sont pas closes
+<!-- -Probleme de here_doc avec quelques trucs qui sont pas closes -->
 <!-- -Probleme du export OLPWD = , puis cd - -->
 <!-- -Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set -->
 <!-- -"$dawd" -->

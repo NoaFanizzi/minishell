@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:11:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 14:17:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:50:51 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	add_new_fd_in_array(t_content *content)
 	content->fd_array[i] = content->h_fd;
 }
 
-void	ft_close_open(t_content *content, char *temp_file)
+int	ft_close_open(t_content *content, char *temp_file)
 {
 	int		old_fd;
 	size_t	i;
@@ -30,10 +30,16 @@ void	ft_close_open(t_content *content, char *temp_file)
 	i = 0;
 	old_fd = content->h_fd;
 	close(content->h_fd);
-	content->h_fd = open(temp_file, O_RDONLY | O_CREAT, 0644);
+	content->h_fd = open(temp_file, O_RDONLY | O_CREAT, 0644); //PROTECTED
+	if (!content->h_fd)
+	{
+		ft_open_error(content, temp_file);
+		return (1);
+	}
 	while (content->fd_array[i] != old_fd)
 		i++;
 	content->fd_array[i] = content->h_fd;
+	return (0);
 }
 
 void	ft_close_in_out_saved(t_content *content)
@@ -66,7 +72,7 @@ void	ft_close_std(t_content *content)
 
 void	ft_close_all(t_content *content)
 {
-	ft_close_pipes(content->array_ptr);
+	ft_close_pipes(content->array_ptr, -1);
 	if ((content && content->infile != -2) && (content->infile != -1))
 	{
 		close(content->infile);
