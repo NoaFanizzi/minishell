@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/07 18:34:10 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/07 18:45:43 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ size_t	count_cmd_opt(char **cmd)
 		if (cmd[i][0] == '-')
 			count++;
 		else if (ft_strncmp(cmd[i], "<", 1) != 0
-			|| ft_strncmp(cmd[i], ">", 1) != 0)
+			&& ft_strncmp(cmd[i], ">", 1) != 0)
 			break ;
 		else
 			i++;
 	}
+	printf("count : %zu\n", count);
 	return (count);
 }
 
