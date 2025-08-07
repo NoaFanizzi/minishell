@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:50:33 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 15:27:35 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:05:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,8 @@
 # define STRUCTS_H
 
 # include "libft.h"
-# include "minishell.h"
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/select.h>
 # include <sys/stat.h>
-# include <sys/types.h>
 # include <sys/wait.h>
-# include <unistd.h>
 
 typedef struct s_export
 {

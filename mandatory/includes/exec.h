@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:43:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:05:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,7 @@
 # define EXEC_H
 
 # include "built_in.h"
-# include "get_next_line.h"
-# include "libft.h"
-# include "minishell.h"
-# include "parsing.h"
-# include "redirections.h"
-# include "structs.h"
 # include <errno.h>
-# include <fcntl.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
 
 void	ft_display_int_array(t_array *array);
 

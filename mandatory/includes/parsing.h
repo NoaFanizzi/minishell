@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 21:15:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:01:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 # define PARSING_H
 
 # include "exec.h"
-# include "libft.h"
-# include "minishell.h"
-# include <fcntl.h>
-# include <readline/history.h>
-# include <readline/readline.h>
-# include <stdio.h>
-# include <stdlib.h>
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <unistd.h>
 
 # define D_QUOTE 34
 # define S_QUOTE 39

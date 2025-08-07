@@ -6,14 +6,12 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:49:35 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 09:49:37 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:05:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REDIRECTIONS_H
 # define REDIRECTIONS_H
-
-# include "minishell.h"
 
 int	ft_get_temp_file(char **random_file, t_content *content);
 

@@ -10,7 +10,11 @@
 		"ranges": "c",
 		"span": "c",
 		"utility": "c",
-		"cstdlib": "c"
+		"cstdlib": "c",
+		"error_handling.h": "c",
+		"exec.h": "c",
+		"built_in.h": "c",
+		"structs.h": "c"
 	},
 	"C_Cpp.default.compilerPath": ""
 }

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:33:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 19:39:48 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_init_pipe(t_array *array)
 	i = 0;
 	if (array->size * 2 >= FD_SETSIZE)
 	{
-		ft_putstr_fd("maxishell: cannot make pipe", STDERR_FILENO);
+		ft_putstr_fd("maxishell: cannot make pipe ", STDERR_FILENO);
 		ft_putendl_fd("for command: Too many open files", STDERR_FILENO);
 		array->p_exit_status = 1;
 		return (1);

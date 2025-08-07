@@ -6,14 +6,12 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:03:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:05:10 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILT_IN_H
 # define BUILT_IN_H
-
-# include "minishell.h"
 
 // cd.c
 int		ft_update_pwd(t_list **env, t_content *content);
