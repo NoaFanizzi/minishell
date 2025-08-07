@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 16:51:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:07:22 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ void	build_execve_data(t_content *content, t_list **env,
 		char ***env_converted)
 {
 	*env_converted = ft_convert_env(*env); // PROTECTED
-		//TODO check pourauoi le exit_code se met pas a 1 ici
 	if (!*env_converted)
 	{
 		ft_open_error(content, NULL);

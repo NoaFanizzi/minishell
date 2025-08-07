@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:43:19 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 20:10:28 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_launch_here_doc(t_content *content, int *data, char *temp_file)
 	data[2] = 0;
 	while (1)
 	{
-		line = readline("> "); // TODO Proteger ca ?
+		line = readline("> ");
 		data[2] += 1;
 		if (sigint_hdoc_dealing(content, temp_file, line) == 1)
 			return (1);
