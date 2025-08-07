@@ -28,7 +28,7 @@ t_env	*get_env(char *var_name, t_list *env)
 
 int	var_exists(char *var_name, t_list *env)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = get_env(var_name, env);
 	if (node && node->arg)
@@ -45,20 +45,20 @@ size_t	get_true_var_length(char *var_name, t_list *env)
 	cpy = get_env(var_name, env);
 	if (cpy)
 	{
-		if(cpy->arg)
+		if (cpy->arg)
 			return (ft_strlen(cpy->arg));
 	}
 	return (0);
 }
 
-int		get_var_value(char *var_name, t_list *env, char **var)
+int	get_var_value(char *var_name, t_list *env, char **var)
 {
 	t_env	*cpy;
 
 	cpy = get_env(var_name, env);
 	if (cpy && cpy->arg)
 	{
-		*var = ft_strdup(cpy->arg); //PROTECTED
+		*var = ft_strdup(cpy->arg); // PROTECTED
 		if (!*var)
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

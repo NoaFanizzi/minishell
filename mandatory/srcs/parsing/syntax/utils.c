@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 21:15:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:11:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,16 @@ void	ft_close_array_fd(t_content *content, size_t pos)
 				}
 				i++;
 			}
+			if(content[j].fd_array)
+			{
+				free(content->array_ptr->content[j].fd_array);
+				content->array_ptr->content[j].fd_array = NULL;
+			}
 		}
 		i = 0;
 		j++;
 	}
-	if(content[i].fd_array)
-		free(content[i].fd_array);
+	
 	content[i].fd_array = NULL;
 }
 

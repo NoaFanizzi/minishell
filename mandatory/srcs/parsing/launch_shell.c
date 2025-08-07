@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/06 20:21:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:19:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	launch_shell(t_list **var, t_array *array)
 	char	*line;
 	char	***cmd_splitted;
 
-	array->p_exit_status = 0;
 	cmd_splitted = NULL;
 	signal(SIGINT, deal_with_sigint);
 	signal(SIGQUIT, SIG_IGN);

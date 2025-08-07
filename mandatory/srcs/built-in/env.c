@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 12:58:04 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:51:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:29:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_get_right_op(t_env *link, char *env, size_t i)
 		(link)->op = NULL;
 	if (env[i] == '=')
 	{
-		(link)->op = ft_strdup("=");
+		(link)->op = ft_strdup("="); // PROTECTED
 		if (!link->op)
 			return (-1);
 		i++;
@@ -35,16 +35,19 @@ int	ft_get_right_arg(t_env *link, char *env, size_t i)
 		(link)->arg = NULL;
 	if (env[i] != '\0')
 	{
-		(link)->arg = ft_strdup(&env[i]);
+		(link)->arg = ft_strdup(&env[i]); // PROTECTED
 		if (!link->arg)
+		{
+			ft_putendl_fd("maxishell: malloc error", 2);
 			return (-1);
+		}
 	}
 	else if ((link)->op)
 	{
-		(link)->arg = ft_strdup("");
+		(link)->arg = ft_strdup(""); // PROTECTED
 		if (!link->arg)
 		{
-			free(link->op);
+			ft_wipe(&link->op);
 			return (-1);
 		}
 	}
@@ -73,7 +76,7 @@ t_env	*ft_add_new_link(char *env, t_array *array)
 	size_t	length;
 	t_env	*link;
 
-	link = ft_calloc(1, sizeof(t_env));
+	link = ft_calloc(1, sizeof(t_env)); // PROTECTED
 	if (!link)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
@@ -86,9 +89,12 @@ t_env	*ft_add_new_link(char *env, t_array *array)
 	link->arg = NULL;
 	if (fill_env_arg(&link, env, &length) == 1)
 		return (ft_free_one_chain_element(link, array));
-	(link)->var = ft_substr(env, 0, length);
+	(link)->var = ft_substr(env, 0, length); // PROTECTED
 	if (!link->var)
+	{
+		ft_putendl_fd("maxishell: malloc error", 2);
 		return (ft_free_one_chain_element(link, array));
+	}
 	return (link);
 }
 

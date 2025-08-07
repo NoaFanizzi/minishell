@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 21:19:09 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 17:41:40 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	h_expansion(char *line, t_content *content, char *temp_file)
 {
 	char	*expanded_line;
 
-	if(!line[0])
+	if (!line[0])
 	{
 		ft_putendl_fd(line, content->h_fd);
 		ft_wipe(&line);
-		return(0);
+		return (0);
 	}
-	expanded_line = expand_word(line, content->env, content->array_ptr); //TODO VRAIMENT recheck parce que ca leak et la protection parce que c'est lie a une fonction du parsing qui est pas trop protege
+	expanded_line = expand_word(line, content->env, content->array_ptr); // TODO VRAIMENT recheck parce que ca leak et la protection parce que c'est lie a une fonction du parsing qui est pas trop protege
 	if (!expanded_line)
 	{
 		unlink(temp_file);
@@ -56,7 +56,7 @@ int	ft_use_hdoc(t_content *content, size_t i)
 	j = 0;
 	if (content->files[i].type == HDOC)
 	{
-		content->infile = get_hdoc_fd(content); //PROTECTED
+		content->infile = get_hdoc_fd(content); // PROTECTED
 		if (dup2(content->infile, STDIN_FILENO) == -1)
 		{
 			ft_close_array_fd(content, -1);
@@ -80,9 +80,9 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 		{
 			signal(SIGINT, deal_with_sigint_hdoc);
 			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-			//ft_putstr_fd("right after sigint hdoc\n", 1);
+			// ft_putstr_fd("right after sigint hdoc\n", 1);
 			signal(SIGINT, deal_with_sigint);
-			//ft_putstr_fd("right after sigint\n", 1);
+			// ft_putstr_fd("right after sigint\n", 1);
 		}
 		if (returned_value == O_ERROR || returned_value == 1)
 			return (1);
@@ -93,7 +93,7 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 
 int	ft_process_here_doc(t_array *array)
 {
-	size_t		i;
+	size_t	i;
 	size_t	size;
 
 	i = 0;

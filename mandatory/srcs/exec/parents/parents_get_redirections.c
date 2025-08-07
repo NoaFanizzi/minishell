@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:57:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 20:32:15 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:04:17 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ int	exit_in_parent(t_array *array)
 
 int	ft_save_stdin(t_array *array)
 {
-	array->content[0].stdin_saved = dup(STDIN_FILENO); //PROTECTED
+	array->content[0].stdin_saved = dup(STDIN_FILENO); // PROTECTED
 	if (array->content[0].stdin_saved == -1)
 	{
 		array->content[0].stdin_saved = -2;
 		return (ft_dup2_pb(&array->content[0], "stdin"));
 	}
-	array->content[0].stdout_saved = dup(STDOUT_FILENO); //PROTECTED
+	array->content[0].stdout_saved = dup(STDOUT_FILENO); // PROTECTED
 	if (array->content[0].stdout_saved == -1)
 	{
 		array->content->stdout_saved = -2;
@@ -45,11 +45,11 @@ int	ft_save_stdin(t_array *array)
 
 int	ft_restore_in_out(t_array *array)
 {
-	if (dup2(array->content[0].stdin_saved, STDIN_FILENO) == -1)
+	if (dup2(array->content[0].stdin_saved, STDIN_FILENO) == -1) // PROTECTED
 		return (ft_dup2_pb(&array->content[0], "stdin"));
 	close(array->content[0].stdin_saved);
 	array->content[0].stdin_saved = -2;
-	if (dup2(array->content[0].stdout_saved, STDOUT_FILENO) == -1)
+	if (dup2(array->content[0].stdout_saved, STDOUT_FILENO) == -1) // PROTECTED
 		return (ft_dup2_pb(&array->content[0], "stdout"));
 	close(array->content[0].stdout_saved);
 	array->content[0].stdout_saved = -2;
@@ -81,7 +81,7 @@ int	manage_command_in_parent(t_array *array, int command, t_list **env)
 int	ft_get_redir_dad(t_array *array, t_list **env)
 {
 	int	command;
-	int returned_value;
+	int	returned_value;
 
 	command = 0;
 	if (ft_save_stdin(array) == O_ERROR)

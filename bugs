@@ -1,0 +1,55 @@
+
+
+431 / 476
+434 / 473
+
+
+
+PROBLEMES NOA :
+
+<!-- -Problème avec cette commande qui semble ne pas s'arrêter et qui ne renvoie pas le bon exit_code : echo hello > out1 > out2 < in1 < in2 -->
+<!-- 
+UPDATE : Le probleme de here-doc a l'air fix, juste un probleme de reotur a la ligne quand je control + c + gros problemes de signaux quand control + c adans le here_doc alors que minishell a ete lance en env -i -->
+
+<!-- - Si je fais mkdir -p a/b/c, puis cd a/b/c, puis que je fais chmod 0000 ../../../a.
+Dans ce cas là si quand je fais cd .. moi je peux pas reculer direct parce que je donne /home/noa/42/minishell/a/b/c/.. alors que j'ai l'impression que bash ne prend que le .. et peut reculer d'un cran, c'est grave ? -->
+
+-Voir pour avoir un count de redir qui permet de clean la structure correctement
+
+-Probleme du minishell qui se lance direct si on fait juste minishell (MAIS WTF ca le fait pas avec valgrind)
+-Probleme quand on fait pleins de space puis entree ca fait leaker readline.
+
+
+
+<!-- -Probleme de here_doc avec quelques trucs qui sont pas closes -->
+<!-- -Probleme du export OLPWD = , puis cd - -->
+<!-- -Probleme du unset PWD, puis juste export qui ecrit cpy : Success, et env qui ecrit env variable not set -->
+<!-- -"$dawd" -->
+
+
+PROBLEMES NATHAN :
+
+-PROBLEME 1 : export a="ls -l | cat" et check le resulat avec dollar a parce qu'en gros le premier argument est considere comme la commande  et le reste comme argument de la commande. Mais export a="ls -l" marche par exemple
+
+-PROBLEME 2 : minishell>echo qwerty >1
+minishell>cat 1
+qwerty
+minishell>cat <1 -e
+qwerty
+MAIS BASH MET qwerty$
+
+-PROBLEME 3 : 
+	minishell>|<>
+ca fait tout peter
+
+-PROBLEME 4 :
+si j'exporte salut="a b"
+Puis que je fais >$salut
+Et bah moi ca va me faire un fichier a et b commande not found
+Alors que bash creee juste un fichier ab
+
+-PROBLEME 5 :
+Y'a aussi export SALUT="<<" suivit d'une nouvelle commande $SALUT qui segfault
+
+PROBLEME 6 :
+-Probleme du >$shrek

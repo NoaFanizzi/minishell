@@ -57,7 +57,8 @@ void	check_exist(t_content *content, char *path)
 int	ft_is_path_command(t_content *content)
 {
 	if (!ft_strncmp(content->expar->path, "..", 2)
-		|| !ft_strcmp(content->expar->path, ".") || !ft_strchr(content->expar->path, '/'))
+		|| !ft_strcmp(content->expar->path, ".")
+		|| !ft_strchr(content->expar->path, '/'))
 	{
 		ft_putstr_fd("maxishell: ", STDERR_FILENO);
 		ft_putstr_fd(content->cmd[0], STDERR_FILENO);

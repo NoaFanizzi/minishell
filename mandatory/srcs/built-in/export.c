@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 19:40:32 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 14:17:27 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	ft_export(t_list **env, t_content *content)
 	i = 0;
 	if (*env && content->arg == NULL)
 	{
-		cpy = dup_env_list(*env);
+		cpy = dup_env_list(*env); // PROTECTED
 		if (!cpy)
 		{
 			content->error_code = 1;

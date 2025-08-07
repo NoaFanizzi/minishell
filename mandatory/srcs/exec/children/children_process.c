@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 21:13:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:51:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 int	ft_load_expar(t_content *content, t_list **env)
 {
 	content->error_code = 0;
-	content->expar = malloc(sizeof(t_expar));
+	content->expar = malloc(sizeof(t_expar)); // PROTECTED
 	if (!content->expar)
 	{
 		content->error_code = 1;
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
+		ft_close_pipes(content->array_ptr, -1);
 		ft_exit(content);
 	}
 	content->expar->size = content->array_ptr->size;
@@ -50,8 +51,9 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 void	build_execve_data(t_content *content, t_list **env,
 		char ***env_converted)
 {
-	*env_converted = ft_convert_env(*env);
-	if (!env_converted)
+	*env_converted = ft_convert_env(*env); // PROTECTED
+		//TODO check pourauoi le exit_code se met pas a 1 ici
+	if (!*env_converted)
 	{
 		ft_open_error(content, NULL);
 		ft_exit(content);
@@ -61,6 +63,7 @@ void	build_execve_data(t_content *content, t_list **env,
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		ft_free_tab(*env_converted);
+		content->error_code = 1;
 		ft_exit(content);
 	}
 }
@@ -100,18 +103,17 @@ void	child_management(t_list **env, t_array *array)
 	while (i < array->size)
 	{
 		array->content[i].array_ptr = array;
-		array->content[i].pid = fork();
+		array->content[i].pid = fork(); // PROTECTED
 		if (array->content[i].pid == -1)
 		{
 			perror("maxishell: fork");
 			array->p_exit_status = 1;
-			ft_close_pipes(array);
-			return ;
+			break ;
 		}
 		if (array->content[i].pid == 0)
 			ft_exec_cmd(&array->content[i], env);
 		i++;
 	}
-	ft_close_pipes(array);
-	ft_wait_pid(array);
+	ft_close_pipes(array, -1);
+	ft_wait_pid(array, i);
 }
