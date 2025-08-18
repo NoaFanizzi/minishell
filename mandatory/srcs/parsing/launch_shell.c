@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/07 20:08:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:54:29 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ char	*ft_join_prompt(t_array *array)
 
 void	get_true_line(char **line)
 {
-	char *temp;
-	size_t i;
+	char	*temp;
+	size_t	i;
 
 	i = 0;
-	while((*line)[i] && ft_isspace((*line)[i]) == 1)
+	while ((*line)[i] && ft_isspace((*line)[i]) == 1)
 		i++;
-	if(i == ft_strlen(*line))
+	if (i == ft_strlen(*line))
 	{
 		ft_wipe(line);
-		return;
+		return ;
 	}
 	temp = ft_strdup(&(*line)[i]);
 	free(*line);
@@ -108,8 +108,8 @@ int	launch_shell(t_list **var, t_array *array)
 		manage_readline(&line, array, var);
 		array->size = 0;
 		array->content = NULL;
-		if(!line)
-			continue;
+		if (!line)
+			continue ;
 		if (line[0] != '\0')
 			if (line[0] != '\0')
 				process_command(line, var, array, &cmd_splitted);

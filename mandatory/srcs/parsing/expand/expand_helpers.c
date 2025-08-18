@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/05 20:30:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:55:06 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	true_var_length;
-	int returned_value;
+	int		returned_value;
 
 	true_var_length = get_true_var_length(data->var_name, *env);
 	data->new_length = true_var_length + ft_strlen(data->new_command)
@@ -52,10 +52,10 @@ int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 	ft_wipe(&data->new_command);
 	data->new_command = ft_strdup(data->new_word); //PROTECTED
 	ft_wipe(&data->new_word);
-	if(!data->new_command)
+	if (!data->new_command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
-		return(1);
+		return (1);
 	}
 	return (0);
 }
@@ -116,7 +116,7 @@ void	*is_not_var(t_expand *data, t_array *array)
 int	handle_normal_expand(t_expand *data, t_list **env, t_array *array)
 {
 	int	returned_value;
-	
+
 	data->var_name = get_var_name(&data->new_command[data->i + 1]);
 	if (!data->var_name)
 		return (1);

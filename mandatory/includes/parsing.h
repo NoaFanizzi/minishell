@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:01:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:50:49 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int		is_not_pipe_redir(char c);
 
 // contiguous_quotes.c //
 int		contiguous_quotes(char ***cmd);
-int		loop_in_continuous(char ***cmd, char ***command, int *changes_made, size_t *i);
+int		loop_in_continuous(char ***cmd, char ***command,
+			int *changes_made, size_t *i);
 int		call_join_next_prev(char ***command, char ***cmd, size_t *i,
 			int *merged);
 size_t	len_until_space_backward(char *str);

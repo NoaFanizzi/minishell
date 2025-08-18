@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structs.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:50:33 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:05:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:51:16 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_array
 {
 	t_content		*content;
 	int				(*pipe)[2];
-	size_t				size;
+	size_t			size;
 	int				p_exit_status;
 }					t_array;
 

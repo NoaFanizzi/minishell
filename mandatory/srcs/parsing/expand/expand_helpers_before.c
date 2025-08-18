@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_helpers_before.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:40:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/05 20:28:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/18 09:55:25 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	valid_var_first_char(char c)
 
 void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 {
-	int returned_value;
+	int	returned_value;
 
 	if (data->new_command[data->i] == '$'
 		&& is_not_after_hdoc(data->new_command, data->i)
@@ -41,9 +41,9 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 			returned_value = handle_normal_expand(data, env, array);
 			if (returned_value == 1)
 				array->p_exit_status = 1;
-			if(returned_value == 2)
+			if (returned_value == 2)
 				array->p_exit_status = 2;
-			if(returned_value == 1 || returned_value == 2)
+			if (returned_value == 1 || returned_value == 2)
 				return (NULL);
 		}
 	}
