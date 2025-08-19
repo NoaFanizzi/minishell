@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_splitting.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:41:36 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/07/30 01:43:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/19 15:47:44 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**fill_quote_words(char **command, char *line, size_t k, size_t *i)
 	{
 		quote = line[*i];
 		forward_till_quote(&line[*i], &j, quote);
-		command[k] = ft_substr(line, *i, j + 1);
+		command[k] = ft_substr(line, *i, j + 1);//PROTECTED
 		if (!command[k])
 			return (return_malloc_error());
 		*i += j + 1;
@@ -62,7 +62,7 @@ char	**fill_quote_words(char **command, char *line, size_t k, size_t *i)
 		j = *i;
 		while (line[j] && line[j] != D_QUOTE && line[j] != S_QUOTE)
 			j++;
-		command[k] = ft_substr(line, *i, j - *i);
+		command[k] = ft_substr(line, *i, j - *i);//PROTECTED
 		if (!command[k])
 			return (return_malloc_error());
 		*i = j;
@@ -77,7 +77,7 @@ char	**quotes_splitting(char **command, char *line)
 
 	i = 0;
 	k = 0;
-	command = malloc((split_quote_count(line) + 1) * sizeof(char *));
+	command = malloc((split_quote_count(line) + 1) * sizeof(char *));//PROTECTED
 	if (!command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

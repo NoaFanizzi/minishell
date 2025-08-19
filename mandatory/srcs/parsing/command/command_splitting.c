@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_splitting.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 01:26:34 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:38:12 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,20 @@ char	***init_splitted(char ***splitted, char **command)
 	k = 0;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	splitted = malloc((cmd_count + 1) * sizeof(char **));
+	splitted = malloc((cmd_count + 1) * sizeof(char **));//PROTECTED
 	if (!splitted)
 		return (NULL);
 	while ((int)k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
-		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
+		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));//PROTECTED
 		if (!splitted[k])
-			return (free_command(splitted));
+		{
+			free_command(splitted);
+			free(splitted);
+			return (NULL);
+		}
 		k++;
 	}
 	splitted[k] = 0;
@@ -55,7 +59,7 @@ char	***fill_splitted_command(char ***splitted, char **command)
 		i = -1;
 		while ((int)++i < cmd_words_count)
 		{
-			splitted[k][i] = ft_strdup(command[cmd_index + i]);
+			splitted[k][i] = ft_strdup(command[cmd_index + i]);//PROTECTED
 			if (!splitted[k][i])
 				return (free_command(splitted));
 		}

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:05:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/29 02:18:21 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/19 16:32:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	check_free_joined(char ***joined, size_t *k)
 {
 	if (!(*joined)[*k])
 	{
+		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		free_words(*joined);
 		*joined = NULL;
 		return (1);

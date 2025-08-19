@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   meta_splitting.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 15:46:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:09:40 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:32:00 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ char	**fill_meta_words(char **splitted, char **command, const char *charset)
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
-			splitted[i] = ft_strdup(command[k]);
+			splitted[i] = ft_strdup(command[k]);//PROTECTED
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -106,7 +106,7 @@ char	**meta_splitting(char **command)
 	const char	charset[4] = {'>', '<', '|', 0};
 
 	count = split_meta_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *));
+	splitted = malloc((count + 1) * sizeof(char *));//PROTECTED
 	if (!splitted)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

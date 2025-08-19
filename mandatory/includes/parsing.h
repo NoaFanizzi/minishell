@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/18 09:50:49 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/19 17:11:09 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,13 +121,13 @@ int		alloc_and_prepare_joined(char **command, char **joined, size_t idx[3]);
 
 // join_prev_quotes.c //
 char	**join_prev_quotes(char ***command, size_t i);
-void	go_through_join_prev_quotes(char **command, char **joined, size_t i);
+void	go_through_join_prev_quotes(char **command, char ***joined, size_t i);
 void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
 
 // join_prev_simple.c //
 char	**join_prev_simple(char ***command, size_t i);
-int		go_through_join_prev_simple(char **command, char **joined, size_t i);
-int		handle_prev_join_special(char **command, char **joined, size_t i,
+void		go_through_join_prev_simple(char **command, char ***joined, size_t i);
+int		handle_prev_join_special(char **command, char ***joined, size_t i,
 			size_t jk[2]);
 int		fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
 int		create_final_string(char **command, char **joined, size_t *sk,
