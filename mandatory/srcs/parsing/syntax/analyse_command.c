@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:38:41 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 09:56:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ int	process_command(char *line, t_list **var, t_array *array,
 	ft_wipe(&temp_line);
 	if (!*cmd_splitted)
 		return (1);
-	//PROTECTED BEFORE
 	if (analyse_command(*cmd_splitted, array))
 		return (1);
 	ft_init_exec(var, array);

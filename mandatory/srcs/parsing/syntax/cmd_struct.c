@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/04 16:46:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 09:48:58 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	figure_in_out_files(char **cmd, t_content *content)
 	tab[0] = 0;
 	tab[1] = 0;
 	redir_count = count_redir(cmd);
+	printf("%zu\n",redir_count);
 	content->redir_count = redir_count;
 	content->files = NULL;
 	if (redir_count == 0)

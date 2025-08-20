@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 15:13:58 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:02:39 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ int	expand_var_in_command(t_expand *data, t_list **env, size_t *k)
 	return (0);
 }
 
-int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
+int	loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 {
 	size_t	j;
 	size_t	k;
-	int returned_value;
+	int		returned_value;
 
 	j = 0;
 	k = 0;
@@ -67,7 +67,7 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 				ft_wipe(&data->new_command);
 				ft_wipe(&data->new_word);
 				array->p_exit_status = 1;
-				if(returned_value == 2)
+				if (returned_value == 2)
 					array->p_exit_status = 1;
 				return (returned_value);
 			}
@@ -82,8 +82,8 @@ int		loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 
 int	expand_var(t_expand *data, t_list **env, t_array *array)
 {
-	int returned_value;
-	
+	int	returned_value;
+
 	data->new_word = ft_calloc(data->new_length + 1, sizeof(char)); //PROTECTED
 	if (!data->new_word)
 	{
@@ -95,7 +95,7 @@ int	expand_var(t_expand *data, t_list **env, t_array *array)
 	returned_value = loop_data_in_expand(data, env, array);
 	if (returned_value == 1 || returned_value == 2)
 		return (returned_value);
-	return(0);
+	return (0);
 }
 
 char	*expand_word(char *command, t_list **env, t_array *array)
@@ -113,8 +113,8 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 		return (NULL);
 	}
 	ft_wipe(&command);
-	if(!data.new_command[data.i])
-		return(NULL);
+	if (!data.new_command[data.i])
+		return (NULL);
 	while (data.new_command[data.i])
 	{
 		if (look_to_expand(&data, env, array) == NULL)

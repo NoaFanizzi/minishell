@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:40:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/18 09:55:25 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:04:13 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,11 @@ void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 		else
 		{
 			returned_value = handle_normal_expand(data, env, array);
-			if (returned_value == 1)
-				array->p_exit_status = 1;
-			if (returned_value == 2)
-				array->p_exit_status = 2;
 			if (returned_value == 1 || returned_value == 2)
+			{
+				array->p_exit_status = returned_value;
 				return (NULL);
+			}
 		}
 	}
 	else

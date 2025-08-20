@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:38:12 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 09:58:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ char	***init_splitted(char ***splitted, char **command)
 	size_t	cmd_index;
 	size_t	k;
 
-	k = 0;
+	k = -1;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
 	splitted = malloc((cmd_count + 1) * sizeof(char **));//PROTECTED
 	if (!splitted)
 		return (NULL);
-	while ((int)k < cmd_count)
+	while ((int)++k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
@@ -36,7 +36,6 @@ char	***init_splitted(char ***splitted, char **command)
 			free(splitted);
 			return (NULL);
 		}
-		k++;
 	}
 	splitted[k] = 0;
 	return (splitted);

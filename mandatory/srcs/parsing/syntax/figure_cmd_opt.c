@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/07 19:10:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 09:51:46 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ size_t	count_cmd_opt(char **cmd)
 
 int	copy_opt(t_content *content, char **cmd, size_t *j, size_t i)
 {
-	content->cmd[(*j)++] = ft_strdup(cmd[i]);
+	(void)cmd;
+	(void)i;
+	content->cmd[(*j)++] = ft_strdup(cmd[i]);//PROTECTED
 	if (!content->cmd[*j - 1])
 	{
 		free(content->cmd[0]);
@@ -53,7 +55,7 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 
 	i = 0;
 	j = 0;
-	content->cmd[j] = ft_strdup(find_command_name(cmd, &i)); //TODO Protect this strdup which is causing some leaks
+	content->cmd[j] = ft_strdup(find_command_name(cmd, &i)); //PROTECTED
 	if (!content->cmd[j])
 		return (1);
 	rem_and_shift(content->cmd[j]);
@@ -93,11 +95,12 @@ int	identify_cmd_opt(char **cmd, t_content *content)
 		size_t i;
 
 		i = 0;
-		while(&content->files[i])
+		while(i < count_redir(cmd))
 		{
 			ft_wipe(&content->files[0].eof);
 			i++;
 		}
+		printf("here\n");
 		free(content->files);
 		content->files = NULL;
 		return (1);

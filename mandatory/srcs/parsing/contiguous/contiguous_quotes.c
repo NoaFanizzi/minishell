@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   contiguous_quotes.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 17:06:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/03 18:58:12 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 09:59:37 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,8 @@ int	call_join_next_prev(char ***command, char ***cmd, size_t *i, int *merged)
 	return (0);
 }
 
-int	loop_in_continuous(char ***cmd, char ***command, int *changes_made, size_t *i)
+int	loop_in_continuous(char ***cmd, char ***command
+	, int *changes_made, size_t *i)
 {
 	int		merged;
 

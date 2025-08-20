@@ -58,10 +58,10 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 {
 	char	*prompt;
 
-	//dumb comment
+	// dumb comment
 	prompt = ft_join_prompt(array);
-	//ft_putstr_fd("aberrant\n", 1);
-	//prompt = ft_strdup("minishell>");
+	// ft_putstr_fd("aberrant\n", 1);
+	// prompt = ft_strdup("minishell>");
 	if (prompt)
 		*line = readline(prompt);
 	else
