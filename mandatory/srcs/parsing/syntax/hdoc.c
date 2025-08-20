@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:39:03 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:22:37 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:23 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	create_hdoc_struct(char **command, t_content *content, t_array *array)
 		content->hdoc = NULL;
 		return (0);
 	}
-	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs)); //PROTECTED
+	content->hdoc = malloc(hdoc_count * sizeof(t_heredocs));
 	if (!content->hdoc)
 	{
 		free(array->content);

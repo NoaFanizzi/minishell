@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:34:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:51:02 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_export(t_list **env, t_content *content)
 	i = 0;
 	if (*env && content->arg == NULL)
 	{
-		cpy = dup_env_list(*env); // PROTECTED
+		cpy = dup_env_list(*env);
 		if (!cpy)
 		{
 			content->error_code = 1;

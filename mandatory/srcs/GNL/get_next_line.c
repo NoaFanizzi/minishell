@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:48:41 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:55:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:49:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*ft_strjoin_free(char *s1, char const *s2)
 
 	if (!s1)
 		return (ft_strdup(s2));
-	merged = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char)); //PROTECTED
+	merged = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
 	if (!merged)
 	{
 		free(s1);
@@ -47,7 +47,7 @@ static char	*ft_parse(char *buffer, int fd)
 	line = NULL;
 	if (ft_strlen(buffer) > 0)
 	{
-		line = ft_strdup(buffer); //PROTECTED
+		line = ft_strdup(buffer);
 		if (!line)
 			return (NULL);
 	}

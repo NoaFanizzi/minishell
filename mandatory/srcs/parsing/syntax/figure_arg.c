@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:26:53 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 15:17:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:14 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	fill_args(char **cmd, size_t start, char **arg)
 			start += 2;
 		else
 		{
-			arg[j] = ft_strdup(cmd[start]);//PROTECTED
+			arg[j] = ft_strdup(cmd[start]);
 			if (!arg[j])
 			{
 				free(arg);
@@ -82,7 +82,7 @@ int	identify_arg(char **cmd, t_content *content)
 	content->arg = NULL;
 	if (count == 0)
 		return (0);
-	content->arg = ft_calloc(count + 1, sizeof(char *));//PROTECTED
+	content->arg = ft_calloc(count + 1, sizeof(char *));
 	if (!content->arg)
 		return (1);
 	find_command_name(cmd, &i);

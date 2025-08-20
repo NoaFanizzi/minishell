@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_free.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:57:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:54:36 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	ft_exec_failure(t_expar *expar, int i)
 
 void	*ft_free_one_chain_element(t_env *env, t_array *array)
 {
-	//ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 	array->p_exit_status = 1;
 	free(env->arg);
 	free(env->op);

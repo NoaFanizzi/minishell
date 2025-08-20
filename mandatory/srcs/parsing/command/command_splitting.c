@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:46:29 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:58:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:38:54 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ char	***init_splitted(char ***splitted, char **command)
 	k = -1;
 	cmd_index = 0;
 	cmd_count = count_commands(command);
-	splitted = malloc((cmd_count + 1) * sizeof(char **));//PROTECTED
+	splitted = malloc((cmd_count + 1) * sizeof(char **));
 	if (!splitted)
 		return (NULL);
 	while ((int)++k < cmd_count)
 	{
 		cmd_words_count = count_command_words(&command[cmd_index]);
 		cmd_index += cmd_words_count;
-		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));//PROTECTED
+		splitted[k] = ft_calloc((cmd_words_count + 1), sizeof(char *));
 		if (!splitted[k])
 		{
 			free_command(splitted);
@@ -58,7 +58,7 @@ char	***fill_splitted_command(char ***splitted, char **command)
 		i = -1;
 		while ((int)++i < cmd_words_count)
 		{
-			splitted[k][i] = ft_strdup(command[cmd_index + i]);//PROTECTED
+			splitted[k][i] = ft_strdup(command[cmd_index + i]);
 			if (!splitted[k][i])
 				return (free_command(splitted));
 		}

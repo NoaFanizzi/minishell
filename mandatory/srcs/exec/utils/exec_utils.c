@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:17:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:11:47 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:54:43 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**ct_get_paths(t_list *var, t_content *content)
 	cpy = get_env("PATH", var);
 	if (cpy == NULL)
 		return (NULL);
-	options = ft_split(cpy->arg, ':'); //PROTECTED
+	options = ft_split(cpy->arg, ':');
 	if (!options)
 	{
 		ft_open_error(content, NULL);
@@ -60,7 +60,7 @@ char	**ft_cmd_join(char **a, char **b, t_content *content)
 	char	**cmd;
 
 	length = ft_tablen(a) + ft_tablen(b);
-	cmd = ft_calloc(length + 1, (sizeof(char *))); //PROTECTED
+	cmd = ft_calloc(length + 1, (sizeof(char *)));
 	if (!cmd)
 	{
 		if (content->cmd)

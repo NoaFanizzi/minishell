@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:43:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:50:40 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	update_env(t_list **env, char *var, char *arg)
 		return (0);
 	free(to_replace->arg);
 	to_replace->arg = NULL;
-	to_replace->arg = ft_strdup(arg); // PROTECTED
+	to_replace->arg = ft_strdup(arg);
 	if (!to_replace->arg)
 	{
 		(void)*arg;
@@ -54,7 +54,7 @@ int	update_pwd(t_content *content, t_list **env, char **pwd, char **saved_pwd)
 {
 	t_env	*node;
 
-	*pwd = getcwd(NULL, 0); //PROTECTED
+	*pwd = getcwd(NULL, 0);
 	node = get_env("PWD", *env);
 	if (update_env(env, "OLDPWD", *saved_pwd) == 1)
 	{
@@ -87,13 +87,13 @@ int	get_final_pwd(t_content *content, t_list **env, char **pwd, t_env *node)
 		content->error_code = 1;
 		return (0);
 	}
-	temp = ft_strjoin(node->arg, "/"); // PROTECTED
+	temp = ft_strjoin(node->arg, "/");
 	if (!temp)
 		return (ft_open_error(content, NULL));
 	if (content->arg)
-		*pwd = ft_strjoin(temp, content->arg[0]); // PROTECTED
+		*pwd = ft_strjoin(temp, content->arg[0]);
 	else
-		*pwd = ft_strdup(temp); //PROTECTED
+		*pwd = ft_strdup(temp);
 	ft_wipe(&temp);
 	if (!*pwd)
 		return (ft_open_error(content, NULL));

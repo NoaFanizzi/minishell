@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handling_error_code.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/19 10:33:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:35:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:51:43 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_open_error(t_content *content, char *str)
 	char	*error_message;
 
 	error_message = NULL;
-	error_message = ft_strjoin("maxishell: ", str); //PROTECTED
+	error_message = ft_strjoin("maxishell: ", str);
 	if (!error_message)
 	{
 		perror("maxishell: malloc");
@@ -58,7 +58,7 @@ int	ft_dup2_pb(t_content *content, char *str)
 
 	error_message = NULL;
 	(void)str;
-	error_message = ft_strjoin("maxishell: ", str); //PROTECTED
+	error_message = ft_strjoin("maxishell: ", str);
 	if (!error_message)
 	{
 		perror("maxishell: malloc");

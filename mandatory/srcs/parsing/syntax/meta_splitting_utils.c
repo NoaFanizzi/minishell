@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:34:16 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:32:56 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:32 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	add_segment(const char *s, char ***splitted, size_t *j, int tab[2])
 	if (tab[1] > tab[0])
 	{
 		(void)s;
-		(*splitted)[*j] = ft_substr(s, tab[0], tab[1] - tab[0]);//PROTECTED
+		(*splitted)[*j] = ft_substr(s, tab[0], tab[1] - tab[0]);
 		if (!(*splitted)[*j])
 			return (1);
 		(*j)++;

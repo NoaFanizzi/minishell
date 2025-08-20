@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_signals.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 22:12:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:50:13 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:54:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 
 	if (!line)
 	{
-		temp = ft_itoa(data[2]); // PROTECTED
+		temp = ft_itoa(data[2]);
 		if (!temp)
 		{
 			unlink(temp_file);
@@ -33,7 +33,8 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 			print_dir_message("maxishell: warning: here-document at line ",
 				temp, " delimited by end-of-file (wanted `");
 			free(temp);
-			print_dir_message(content->cmd_splitted[data[0]][data[1]], NULL, "')\n");
+			print_dir_message(content->cmd_splitted[data[0]][data[1]],
+				NULL, "')\n");
 		}
 		return (1);
 	}
@@ -42,7 +43,7 @@ int	controld_hdoc_dealing(char *line, t_content *content, int *data,
 
 int	get_stdin(t_content *content)
 {
-	if (dup2(content->stdin_saved, STDIN_FILENO) == -1) // PROTECTED
+	if (dup2(content->stdin_saved, STDIN_FILENO) == -1)
 	{
 		if (content->stdin_saved)
 			close(content->stdin_saved);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_dup.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:16:50 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:56:50 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:51:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ t_env	*dup_env_node(t_env *env)
 {
 	t_env	*dup;
 
-	dup = malloc(sizeof * dup); // PROTECTED
+	dup = malloc(sizeof * dup);
 	if (!dup)
 		return (NULL);
-	dup->var = ft_strdup(env->var); // PROTECTED
+	dup->var = ft_strdup(env->var);
 	if (!dup->var)
 	{
 		free(dup);
 		return (NULL);
 	}
 	if (env->arg)
-		dup->arg = ft_strdup(env->arg); // PROTECTED
+		dup->arg = ft_strdup(env->arg);
 	else
 		dup->arg = NULL;
 	if (env->op)
-		dup->op = ft_strdup(env->op); // PROTECTED
+		dup->op = ft_strdup(env->op);
 	else
 		dup->op = NULL;
 	dup->exp = env->exp;

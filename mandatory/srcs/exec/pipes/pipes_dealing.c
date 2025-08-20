@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_dealing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 16:51:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:11:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:52:17 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	get_pipe_array(t_array *array)
 	if (array->size > 1)
 	{
 		array->pipe = malloc(sizeof(*array->pipe) * (array->size - 1));
-			// PROTECTED
 		if (!array->pipe)
 		{
 			perror("pipe");
@@ -44,7 +43,7 @@ int	ft_init_pipe(t_array *array)
 		return (1);
 	while (i < array->size - 1)
 	{
-		if (pipe(array->pipe[i]) == -1) // PROTECTED
+		if (pipe(array->pipe[i]) == -1)
 		{
 			perror("pipe");
 			array->p_exit_status = 1;

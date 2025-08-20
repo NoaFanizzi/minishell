@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:09:02 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 16:09:14 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:39:54 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j)
 	rem_and_shift(command[i]);
 	rem_and_shift(command[j]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[k] = malloc(size * sizeof(char));//PROTECTED
+	joined[k] = malloc(size * sizeof(char));
 	if (!joined[k])
 	{
 		joined[k] = NULL;
@@ -50,7 +50,7 @@ void	go_through_join_prev_quotes(char **command, char ***joined, size_t i)
 		if (i - 1 == j)
 			fusion_quotes_prev(command, *joined, i, j);
 		else
-			(*joined)[k] = ft_strdup(command[j]);//PROTECTED
+			(*joined)[k] = ft_strdup(command[j]);
 		if (!(*joined)[k])
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
@@ -74,7 +74,7 @@ char	**join_prev_quotes(char ***command, size_t i)
 	size = 0;
 	while ((*command)[size])
 		size++;
-	joined = malloc((size + 1) * sizeof(char *));//PROTECTED
+	joined = malloc((size + 1) * sizeof(char *));
 	if (!joined)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

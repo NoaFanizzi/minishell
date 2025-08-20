@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 11:18:02 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:50:22 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,16 +18,16 @@ int	is_a_saved_pwd(t_content *content, char **dir, char **saved_pwd)
 
 	if (ft_strcmp(*saved_pwd, content->arg[0]) == 0)
 	{
-		*dir = ft_strdup(*saved_pwd); // PROTECTED
+		*dir = ft_strdup(*saved_pwd);
 		return (0);
 	}
-	temp = ft_strjoin(*saved_pwd, "/"); // PROTECTED
+	temp = ft_strjoin(*saved_pwd, "/");
 	if (!temp)
 	{
 		ft_wipe(saved_pwd);
 		return (ft_open_error(content, NULL));
 	}
-	*dir = ft_strjoin(temp, content->arg[0]); // PROTECTED
+	*dir = ft_strjoin(temp, content->arg[0]);
 	ft_wipe(&temp);
 	if (!*dir)
 	{
@@ -41,7 +41,7 @@ int	is_arg(t_content *content, char **dir, char **saved_pwd)
 {
 	t_env	*node;
 
-	*saved_pwd = getcwd(NULL, 0); // PROTECTED
+	*saved_pwd = getcwd(NULL, 0);
 	if (*saved_pwd)
 		return (is_a_saved_pwd(content, dir, saved_pwd));
 	else
@@ -51,11 +51,11 @@ int	is_arg(t_content *content, char **dir, char **saved_pwd)
 			*saved_pwd = NULL;
 		else
 		{
-			*saved_pwd = ft_strdup(node->arg); // PROTECTED
+			*saved_pwd = ft_strdup(node->arg);
 			if (!*saved_pwd)
 				return (ft_open_error(content, NULL));
 		}
-		*dir = ft_strdup(content->arg[0]); // PROTECTED
+		*dir = ft_strdup(content->arg[0]);
 		if (!*dir)
 		{
 			ft_wipe(saved_pwd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 11:17:05 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:50:54 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	get_var_value(char *var_name, t_list *env, char **var)
 	cpy = get_env(var_name, env);
 	if (cpy && cpy->arg)
 	{
-		*var = ft_strdup(cpy->arg); // PROTECTED
+		*var = ft_strdup(cpy->arg);
 		if (!*var)
 		{
 			ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

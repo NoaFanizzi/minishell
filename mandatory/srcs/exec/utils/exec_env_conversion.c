@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_env_conversion.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/10 14:51:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 12:38:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:54:28 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ int	ft_add_new_tab(t_list *env, char **converted, size_t i)
 	temp = NULL;
 	cpy = (t_env *)env->content;
 	if (cpy->op)
-		temp = ft_strjoin(cpy->var, cpy->op); //PROTECTED
+		temp = ft_strjoin(cpy->var, cpy->op);
 	if (!cpy->op)
-		temp = ft_strdup(cpy->var); //PROTECTED
+		temp = ft_strdup(cpy->var);
 	if (!temp)
 		return (-1);
 	if (cpy->arg)
-		converted[i] = ft_strjoin(temp, cpy->arg); //PROTECTED
+		converted[i] = ft_strjoin(temp, cpy->arg);
 	if (!cpy->arg)
-		converted[i] = ft_strdup(temp); //PROTECTED
+		converted[i] = ft_strdup(temp);
 	if (!converted[i])
 	{
 		free(temp);
@@ -59,7 +59,7 @@ char	**ft_convert_env(t_list *env)
 
 	i = 0;
 	length = ft_env_length(env);
-	converted = ft_calloc((length + 1), sizeof(char *)); //PROTECTED
+	converted = ft_calloc((length + 1), sizeof(char *));
 	if (!converted)
 		return (NULL);
 	while (env)

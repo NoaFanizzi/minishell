@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   children_process.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 11:19:11 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:51:35 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_load_expar(t_content *content, t_list **env)
 {
 	content->error_code = 0;
-	content->expar = malloc(sizeof(t_expar)); // PROTECTED
+	content->expar = malloc(sizeof(t_expar));
 	if (!content->expar)
 	{
 		content->error_code = 1;
@@ -56,7 +56,7 @@ void	build_execve_data(t_content *content, t_list **env,
 		content->cmd = NULL;
 		return ;
 	}
-	*env_converted = ft_convert_env(*env); // PROTECTED
+	*env_converted = ft_convert_env(*env);
 	if (!*env_converted)
 	{
 		ft_open_error(content, NULL);
@@ -107,7 +107,7 @@ void	child_management(t_list **env, t_array *array)
 	while (i < array->size)
 	{
 		array->content[i].array_ptr = array;
-		array->content[i].pid = fork(); // PROTECTED
+		array->content[i].pid = fork();
 		if (array->content[i].pid == -1)
 		{
 			perror("maxishell: fork");

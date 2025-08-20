@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 09:13:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:21:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:08 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	figure_in_out_files(char **cmd, t_content *content)
 	content->files = NULL;
 	if (redir_count == 0)
 		return (0);
-	content->files = ft_calloc((redir_count + 1), sizeof(t_files)); //PROTECTED
+	content->files = ft_calloc((redir_count + 1), sizeof(t_files));
 	if (!content->files)
 		return (1);
 	while (cmd[tab[0]])

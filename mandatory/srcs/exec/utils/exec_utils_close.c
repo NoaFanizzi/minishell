@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_close.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:11:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:50:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:54:09 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_close_open(t_content *content, char *temp_file)
 	i = 0;
 	old_fd = content->h_fd;
 	close(content->h_fd);
-	content->h_fd = open(temp_file, O_RDONLY | O_CREAT, 0644); //PROTECTED
+	content->h_fd = open(temp_file, O_RDONLY | O_CREAT, 0644);
 	if (!content->h_fd)
 	{
 		ft_open_error(content, temp_file);

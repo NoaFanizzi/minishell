@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_parents.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 10:03:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:10:28 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:53:42 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	manage_returned_value_hdoc(int returned_value, t_content *content, char *temp_file)
+void	manage_returned_value_hdoc(int returned_value,
+	t_content *content, char *temp_file)
 {
 	if (returned_value == 1)
 	{
@@ -64,7 +65,7 @@ int	prepare_hdoc(t_content *content, size_t *i, char *temp_file)
 		data[1] = content->files[*i].index + 1;
 		if (ft_get_temp_file(&temp_file, content) == O_ERROR)
 			return (1);
-		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644); // PROTECTED
+		content->h_fd = open(temp_file, O_RDWR | O_CREAT, 0644);
 		if (content->h_fd == -1)
 		{
 			content->h_fd = -2;
@@ -110,7 +111,7 @@ int	ft_deal_with_hdoc(t_content *content, size_t *i)
 	int	returned_value;
 
 	returned_value = 0;
-	content->stdin_saved = dup(STDIN_FILENO); // PROTECTED
+	content->stdin_saved = dup(STDIN_FILENO);
 	if (content->stdin_saved == -1)
 	{
 		content->stdin_saved = -2;

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:23:15 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:24:26 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:19 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	figure_hdoc(char **cmd, t_content *content, int tab[2], size_t redir_count)
 	content->files[tab[1]].size = redir_count;
 	rem_and_shift(cmd[tab[0] + 1]);
 	switch_back_lit_quotes(cmd[tab[0] + 1]);
-	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]); //PROTECTED
+	content->files[tab[1]].eof = ft_strdup(cmd[tab[0] + 1]);
 	if (!content->files[tab[1]].eof)
 		return (1);
 	tab[1]++;

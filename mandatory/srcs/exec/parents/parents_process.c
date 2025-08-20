@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parents_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 12:34:46 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:29:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:52:08 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_load_hdoc_fd(t_content *content)
 		content->fd_array = NULL;
 		return (1);
 	}
-	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1), // PROTECTED
+	content->fd_array = ft_calloc(sizeof((content->hdoc_length) + 1),
 			sizeof(int));
 	if (!content->fd_array)
 	{

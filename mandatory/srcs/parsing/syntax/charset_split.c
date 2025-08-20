@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 15:19:13 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:27:55 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:02 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	**fill_splitted(const char *s, const char *charset, char **splitted,
 			i2++;
 		if (i2 > i1)
 		{
-			splitted[*j] = ft_substr(s, i1, i2 - i1);//PROTECTED
+			splitted[*j] = ft_substr(s, i1, i2 - i1);
 			if (!splitted[*j])
 				return (free_words(splitted));
 			(*j)++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 12:34:53 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:48:01 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ size_t	count_cmd_opt(char **cmd)
 		else
 			i++;
 	}
-	//printf("count : %zu\n", count);
 	return (count);
 }
 
 int	copy_opt(t_content *content, char **cmd, size_t *j, size_t i)
 {
-	content->cmd[(*j)++] = ft_strdup(cmd[i]);//PROTECTED
+	content->cmd[(*j)++] = ft_strdup(cmd[i]);
 	if (!content->cmd[*j - 1])
 	{
 		free(content->cmd[0]);
@@ -53,7 +52,7 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 
 	i = 0;
 	j = 0;
-	content->cmd[j] = ft_strdup(find_command_name(cmd, &i)); //PROTECTED
+	content->cmd[j] = ft_strdup(find_command_name(cmd, &i));
 	if (!content->cmd[j])
 		return (1);
 	switch_back_lit_quotes(rem_and_shift(content->cmd[j]));
@@ -85,7 +84,7 @@ int	identify_cmd_opt(char **cmd, t_content *content)
 	content->cmd = NULL;
 	if (size == 0)
 		return (0);
-	content->cmd = ft_calloc(size + 1, sizeof(char *)); //PROTECTED
+	content->cmd = ft_calloc(size + 1, sizeof(char *));
 	if (!content->cmd)
 		return (1);
 	if (assign_cmd_and_opt(cmd, content))

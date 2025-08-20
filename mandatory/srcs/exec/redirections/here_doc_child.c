@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_child.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 12:25:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:10:04 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:52:43 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_use_hdoc(t_content *content, size_t i)
 {
 	if (content->files[i].type == HDOC)
 	{
-		content->infile = get_hdoc_fd(content); // PROTECTED
+		content->infile = get_hdoc_fd(content);
 		if (dup2(content->infile, STDIN_FILENO) == -1)
 		{
 			ft_close_array_fd(content, -1);
@@ -75,9 +75,7 @@ int	loop_hdoc(t_array *array, size_t size, size_t i)
 		{
 			signal(SIGINT, deal_with_sigint_hdoc);
 			returned_value = ft_deal_with_hdoc(&array->content[i], &j);
-			// ft_putstr_fd("right after sigint hdoc\n", 1);
 			signal(SIGINT, deal_with_sigint);
-			// ft_putstr_fd("right after sigint\n", 1);
 		}
 		if (returned_value == O_ERROR || returned_value == 1)
 			return (1);

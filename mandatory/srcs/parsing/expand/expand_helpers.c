@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:52:30 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 15:31:17 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:39:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		char **command)
 {
-	*error_code = ft_itoa(array->p_exit_status); //PROTECTED
+	*error_code = ft_itoa(array->p_exit_status);
 	if (!*error_code)
 	{
 		free(*command);
@@ -24,7 +24,7 @@ void	*expand_allocations(t_array *array, char **new_cmd, char **error_code,
 		return (NULL);
 	}
 	*new_cmd = malloc((ft_strlen(*command) - 1 + ft_strlen(*error_code))
-			* sizeof(char)); //PROTECTED
+			* sizeof(char));
 	if (!*new_cmd)
 	{
 		free(*error_code);
@@ -50,7 +50,7 @@ int	call_expand_var(t_expand *data, t_list **env, t_array *array)
 		return (returned_value);
 	data->i += true_var_length;
 	ft_wipe(&data->new_command);
-	data->new_command = ft_strdup(data->new_word); //PROTECTED
+	data->new_command = ft_strdup(data->new_word);
 	ft_wipe(&data->new_word);
 	if (!data->new_command)
 	{
@@ -69,7 +69,7 @@ char	*remove_var(char *command, size_t i)
 	j = 0;
 	k = 0;
 	new_command = malloc((ft_strlen(command) - get_var_length(&command[i + 1])
-				+ 1) * sizeof(char)); //PROTECTED
+				+ 1) * sizeof(char));
 	if (!new_command)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

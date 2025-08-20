@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:16:33 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:46:57 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int	analyse_command(char ***cmd_splitted, t_array *array)
 	cmd_index = 0;
 	struct_index = 0;
 	get_array_size(cmd_splitted, array);
-	array->content = malloc((array->size) * sizeof(t_content)); //PROTECTED
+	array->content = malloc((array->size) * sizeof(t_content));
 	if (!array->content)
 	{
 		free_command(cmd_splitted);
@@ -88,7 +88,7 @@ int	process_command(char *line, t_list **var, t_array *array,
 {
 	char	*temp_line;
 
-	temp_line = ft_strdup(line); //PROTECTED
+	temp_line = ft_strdup(line);
 	if (!temp_line)
 	{
 		free(line);

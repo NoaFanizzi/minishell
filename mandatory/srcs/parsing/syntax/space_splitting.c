@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 01:42:32 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/19 18:28:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:47 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	**fill_space_words(char **splitted, char **command, const char *charset)
 	{
 		if (command[k][0] == D_QUOTE || command[k][0] == S_QUOTE)
 		{
-			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));//PROTECTED
+			splitted[i] = ft_substr(command[k], 0, ft_strlen(command[k]));
 			if (!splitted[i])
 				return (free_words(splitted));
 			i++;
@@ -64,7 +64,7 @@ char	**space_splitting(char **command)
 	const char	charset[7] = {' ', '\n', '\t', '\f', '\v', '\r', 0};
 
 	count = split_space_count(command, charset);
-	splitted = malloc((count + 1) * sizeof(char *));//PROTECTED
+	splitted = malloc((count + 1) * sizeof(char *));
 	if (!splitted)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);

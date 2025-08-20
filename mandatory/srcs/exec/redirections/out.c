@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   out.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:04:17 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:49:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:53:58 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	check_out(t_content *content, size_t i, size_t position)
 	if (content->outfile == -1)
 		return (ft_open_error(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
-	if (dup2(content->outfile, STDOUT_FILENO) == -1) // PROTECTED
+	if (dup2(content->outfile, STDOUT_FILENO) == -1)
 		return (ft_dup2_pb(content,
 				content->cmd_splitted[position][content->files[i].index + 1]));
 	close(content->outfile);

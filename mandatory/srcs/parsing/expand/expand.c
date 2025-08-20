@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:32:58 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:39:10 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	expand_var(t_expand *data, t_list **env, t_array *array)
 {
 	int	returned_value;
 
-	data->new_word = ft_calloc(data->new_length + 1, sizeof(char)); //PROTECTED
+	data->new_word = ft_calloc(data->new_length + 1, sizeof(char));
 	if (!data->new_word)
 	{
 		ft_wipe(&data->var_name);
@@ -101,7 +101,7 @@ char	*expand_word(char *command, t_list **env, t_array *array)
 
 	data.i = 0;
 	data.new_length = 0;
-	data.new_command = ft_strdup(command); //PROTECTED
+	data.new_command = ft_strdup(command);
 	if (!data.new_command)
 	{
 		free(command);

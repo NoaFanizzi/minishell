@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_dash.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:10:27 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:23:51 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:49:26 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_node(t_content *content, char **dir, char **pwd, char **saved_pwd)
 		*saved_pwd = NULL;
 	else
 	{
-		*saved_pwd = ft_strdup(node->arg); // PROTECTED
+		*saved_pwd = ft_strdup(node->arg);
 		if (!*saved_pwd)
 		{
 			ft_wipe(dir);
@@ -47,7 +47,7 @@ int	no_dir_to_update(t_content *content, char **dir, char **pwd,
 			return (1);
 		}
 		ft_wipe(dir);
-		*dir = ft_strdup(node->arg); // PROTECTED
+		*dir = ft_strdup(node->arg);
 		if (!*dir)
 		{
 			ft_wipe(saved_pwd);
@@ -67,7 +67,7 @@ int	update_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	else
 	{
 		ft_wipe(saved_pwd);
-		*saved_pwd = ft_strdup(node->arg); // PROTECTED
+		*saved_pwd = ft_strdup(node->arg);
 		if (!*saved_pwd)
 		{
 			ft_wipe(dir);
@@ -84,7 +84,7 @@ int	nod_in_dash(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	node = get_env("OLDPWD", *(content->env));
 	if (node && node->arg && node->arg[0])
 	{
-		*dir = ft_strdup(node->arg); // PROTECTED
+		*dir = ft_strdup(node->arg);
 		if (!*dir)
 			return (ft_open_error(content, NULL));
 	}

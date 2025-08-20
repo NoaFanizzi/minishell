@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:33:52 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:38:26 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:47:39 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*prepare_line(char **line, t_list **var, t_array *array)
 {
 	char	*str;
 
-	str = ft_strdup(*line);//PROTECTED
+	str = ft_strdup(*line);
 	if (!str)
 	{
 		array->p_exit_status = 1;
