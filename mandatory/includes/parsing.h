@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 11:24:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:15:50 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int		check_redir(char *cmd, size_t *i);
 
 // cmd_struct_utils.c //
 size_t	count_redir(char **cmd);
-size_t	skip_opt_and_redirs(char **cmd, size_t start);
+void	skip_opt_and_redirs(char **cmd, size_t *start);
 int		is_var_assign(char *str);
 char	*find_command_name(char **cmd, size_t *i);
 

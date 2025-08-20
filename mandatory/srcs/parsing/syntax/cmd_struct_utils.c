@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:27:47 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:21:45 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:15:13 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ char	*find_command_name(char **cmd, size_t *i)
 			*i += 2;
 		}
 		else if (is_var_assign(cmd[*i]))
-		{
 			(*i)++;
-		}
 		else
 			return (cmd[*i]);
 	}
@@ -49,19 +47,18 @@ int	is_var_assign(char *str)
 	return (1);
 }
 
-size_t	skip_opt_and_redirs(char **cmd, size_t start)
+void	skip_opt_and_redirs(char **cmd, size_t *start)
 {
-	while (cmd[start])
+	while (cmd[*start])
 	{
-		if (cmd[start][0] == '-')
-			start++;
-		else if (ft_strncmp(cmd[start], "<", 1) == 0 || ft_strncmp(cmd[start],
+		if (cmd[*start][0] == '-')
+			(*start)++;
+		else if (ft_strncmp(cmd[*start], "<", 1) == 0 || ft_strncmp(cmd[*start],
 				">", 1) == 0)
-			start += 2;
+			(*start) += 2;
 		else
 			break ;
 	}
-	return (start);
 }
 
 size_t	count_redir(char **cmd)

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:26:53 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:55:58 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:17:15 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ size_t	count_arg(char **cmd)
 	if (!find_command_name(cmd, &i))
 		return (0);
 	i++;
-	i = skip_opt_and_redirs(cmd, i);
+	skip_opt_and_redirs(cmd, &i);
 	return (count_real_args(cmd, i));
 }
 
@@ -78,14 +78,16 @@ int	identify_arg(char **cmd, t_content *content)
 
 	i = 0;
 	count = count_arg(cmd);
+	printf("count = %zu\n", count);
 	content->arg = NULL;
 	if (count == 0)
 		return (0);
 	content->arg = ft_calloc(count + 1, sizeof(char *));//PROTECTED
 	if (!content->arg)
 		return (1);
+	find_command_name(cmd, &i);
 	i++;
-	i = skip_opt_and_redirs(cmd, i);
+	skip_opt_and_redirs(cmd, &i);
 	if (fill_args(cmd, i, content->arg))
 		return (1);
 	return (0);
