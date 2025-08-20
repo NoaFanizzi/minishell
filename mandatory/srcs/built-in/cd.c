@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 16:53:58 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:37:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	check_dir(t_content *content, char **dir)
 	return (0);
 }
 
-void	ft_cd(t_content *content, t_list **env)
+int	ft_cd(t_content *content, t_list **env)
 {
 	char	*pwd;
 	char	*saved_pwd;
@@ -134,20 +134,23 @@ void	ft_cd(t_content *content, t_list **env)
 	int		returned_value;
 
 	saved_pwd = NULL;
-	if (ft_tablen(content->cmd) != 1 && ft_strcmp(content->cmd[1], "-") != 0)
+	if ((ft_tablen(content->cmd) != 1 && ft_strcmp(content->cmd[1], "-") != 0)
+		||((ft_tablen(content->cmd) + ft_tablen(content->arg)) > 2))
 	{
 		ft_putendl_fd("maxishell: cd: too many arguments", STDERR_FILENO);
-		return ;
+		content->error_code = 1;
+		return (1);
 	}
 	returned_value = load_dir(content, &dir, &pwd, &saved_pwd);
 	if (returned_value == 1 || returned_value == O_ERROR)
-		return ;
+		return (1);
 	if (check_dir(content, &dir) == 1)
 	{
 		clean_pwd(&pwd, &saved_pwd, NULL, content);
 		free(dir);
 		content->error_code = 1;
-		return ;
+		return (1);
 	}
 	update_pwd(content, env, &pwd, &saved_pwd);
+	return(0);
 }
