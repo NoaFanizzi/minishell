@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   deal_with_redirections.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/25 14:33:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 15:52:31 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 16:00:33 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,3 @@ int	ft_is_printable(char c)
 	return (1);
 }
 
-// @$#W%$E^%XR&C^UTYG
