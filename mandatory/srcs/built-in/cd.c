@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 17:22:44 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:37:56 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:18:02 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,6 @@ int	load_dir(t_content *content, char **dir, char **pwd, char **saved_pwd)
 	return (0);
 }
 
-int	print_dir_message(char *str1, char *str2, char *str3)
-{
-	if (str1)
-		ft_putstr_fd(str1, 2);
-	if (str2)
-		ft_putstr_fd(str2, 2);
-	if (str3)
-		ft_putstr_fd(str3, 2);
-	return (1);
-}
-
 int	check_dir(t_content *content, char **dir)
 {
 	struct stat	sb;
@@ -114,14 +103,14 @@ int	check_dir(t_content *content, char **dir)
 		return (1);
 	}
 	else if (!S_ISDIR(sb.st_mode))
-		return (print_dir_message("maxishell: cd: ",
-				content->arg[0], ": Not a directory\n"));
+		return (print_dir_message("maxishell: cd: ", content->arg[0],
+				": Not a directory\n"));
 	else if (access(*dir, X_OK) == -1)
-		return (print_dir_message("maxishell: cd: ",
-				content->arg[0], ": Permission denied\n"));
+		return (print_dir_message("maxishell: cd: ", content->arg[0],
+				": Permission denied\n"));
 	else if (chdir(*dir) == -1)
-		return (print_dir_message("maxishell: cd: ",
-				content->arg[0], ": no such file or directory\n"));
+		return (print_dir_message("maxishell: cd: ", content->arg[0],
+				": no such file or directory\n"));
 	free(*dir);
 	return (0);
 }
@@ -135,7 +124,7 @@ int	ft_cd(t_content *content, t_list **env)
 
 	saved_pwd = NULL;
 	if ((ft_tablen(content->cmd) != 1 && ft_strcmp(content->cmd[1], "-") != 0)
-		||((ft_tablen(content->cmd) + ft_tablen(content->arg)) > 2))
+		|| ((ft_tablen(content->cmd) + ft_tablen(content->arg)) > 2))
 	{
 		ft_putendl_fd("maxishell: cd: too many arguments", STDERR_FILENO);
 		content->error_code = 1;
@@ -152,5 +141,5 @@ int	ft_cd(t_content *content, t_list **env)
 		return (1);
 	}
 	update_pwd(content, env, &pwd, &saved_pwd);
-	return(0);
+	return (0);
 }

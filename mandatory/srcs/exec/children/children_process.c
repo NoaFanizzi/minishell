@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 17:07:25 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:07:22 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:19:11 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ int	ft_prepare_execution(t_content *content, t_list **env)
 void	build_execve_data(t_content *content, t_list **env,
 		char ***env_converted)
 {
+	if (!*env)
+	{
+		content->cmd = NULL;
+		return ;
+	}
 	*env_converted = ft_convert_env(*env); // PROTECTED
 	if (!*env_converted)
 	{
