@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/01 15:16:49 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:56:33 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:16:33 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ void	fill_struct_size(t_array *array, size_t struct_index)
 int	create_structs_loop(char ***cmd_splitted, t_array *array, size_t *cmd_index,
 		size_t *struct_index)
 {
-	if (cmd_splitted[*cmd_index][0] && ft_strncmp(cmd_splitted[*cmd_index][0], "|",
-			1) != 0)
+	if (cmd_splitted[*cmd_index][0]
+		&& ft_strncmp(cmd_splitted[*cmd_index][0], "|", 1) != 0)
 	{
 		if (create_hdoc_struct(cmd_splitted[*cmd_index],
 				&array->content[*struct_index], array))

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:40:12 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:02:39 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:32:58 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 
 	j = 0;
 	k = 0;
-	returned_value = 0;
 	while (data->new_command[j])
 	{
 		if (j == data->i)
@@ -66,9 +65,7 @@ int	loop_data_in_expand(t_expand *data, t_list **env, t_array *array)
 			{
 				ft_wipe(&data->new_command);
 				ft_wipe(&data->new_word);
-				array->p_exit_status = 1;
-				if (returned_value == 2)
-					array->p_exit_status = 1;
+				array->p_exit_status = returned_value;
 				return (returned_value);
 			}
 			j += get_var_length(&data->new_command[j + 1]);

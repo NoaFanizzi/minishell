@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 13:31:17 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 18:11:17 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:20:38 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,18 @@ int	check_new_redir_seq(char *cmd, size_t *i, int spaced_after, char op)
 		{
 			if (spaced_after && cmd[*i + 1] && cmd[*i + 1] == cmd[*i])
 			{
-				ft_putstr_fd("maxishell: syntax error near unexpected token `", 2);
+				ft_putstr_fd("maxishell: syntax error", 2);
+				ft_putstr_fd(" near unexpected token `", 2);
 				ft_putchar_fd(cmd[*i], 2);
 				ft_putchar_fd(cmd[*i], 2);
-				ft_putstr_fd("\n", 2);
+				ft_putstr_fd("'\n", 2);
 			}
 			else
 			{
-				ft_putstr_fd("maxishell: syntax error near unexpected token", 2);
+				ft_putstr_fd("maxishell: syntax error", 2);
+				ft_putstr_fd(" near unexpected token", 2);
 				ft_putchar_fd(cmd[*i], 2);
-				ft_putstr_fd("\n", 2);
+				ft_putstr_fd("'\n", 2);
 			}
 			return (1);
 		}
@@ -67,14 +69,14 @@ int	check_op_count(int op_count, char op)
 		ft_putstr_fd("maxishell: syntax error near unexpected token `", 2);
 		ft_putchar_fd(op, 2);
 		ft_putchar_fd(op, 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
 	else if (op_count == 3)
 	{
 		ft_putstr_fd("maxishell: syntax error near unexpected token `", 2);
 		ft_putchar_fd(op, 2);
-		ft_putstr_fd("\n", 2);
+		ft_putstr_fd("'\n", 2);
 		return (1);
 	}
 	return (0);
@@ -89,7 +91,8 @@ int	check_pipe_end(char *cmd)
 		i--;
 	if (cmd[i] && cmd[i] == '|')
 	{
-		ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("maxishell: syntax error", 2);
+		ft_putstr_fd(" near unexpected token `newline'\n", 2);
 		return (1);
 	}
 	return (0);

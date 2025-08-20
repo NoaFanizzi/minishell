@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 12:49:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/31 19:41:47 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:18:02 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	check_redir(char *cmd, size_t *i)
 	skip_spaces(cmd, i, &spaced_after);
 	if (!cmd[*i])
 	{
-		ft_putstr_fd("maxishell: syntax error near unexpected token `newline'\n", 2);
+		ft_putstr_fd("maxishell: syntax error", 2);
+		ft_putstr_fd(" near unexpected token `newline'\n", 2);
 		return (1);
 	}
 	if (check_new_redir_seq(cmd, i, spaced_after, op))
@@ -71,15 +72,13 @@ int	check_consecutive_pipes(char *cmd, size_t *i)
 int	check_redir_pipes(char *cmd)
 {
 	size_t	i;
-	size_t	len;
 	int		in_squote;
 	int		in_dquote;
 
 	i = 0;
-	len = ft_strlen(cmd);
 	in_squote = 0;
 	in_dquote = 0;
-	while (i < len)
+	while (i < ft_strlen(cmd))
 	{
 		handle_quote_state(&in_dquote, &in_dquote, cmd, &i);
 		if (!in_squote && !in_dquote && (cmd[i] == '>' || cmd[i] == '<'))
@@ -110,37 +109,3 @@ int	check_syntax(char *cmd)
 		return (1);
 	return (0);
 }
-
-
-// int	contiguous_quotes(char ***cmd)
-// {
-// 	size_t	i;
-// 	char	**command;
-// 	int		merged;
-
-// 	i = 0;
-// 	command = *cmd;
-	
-// 	while (command[i])
-// 	{
-// 		merged = 0;
-// 		if (is_quote(command[i][0]))
-// 		{
-// 			printf("Before call_join_next_prev: i = %zu\n", i);
-// 			if (call_join_next_prev(&command, cmd, &i, &merged) == 1)
-// 				return (1);
-// 			printf("After call_join_next_prev: i = %zu\n", i);
-// 			*cmd = command;
-// 			printf("After *cmd = command: i = %zu\n", i);
-			
-// 			if (merged)
-// 			{
-// 				// Don't increment i, continue processing from the same position
-// 				// since the array structure has changed
-// 				continue;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }

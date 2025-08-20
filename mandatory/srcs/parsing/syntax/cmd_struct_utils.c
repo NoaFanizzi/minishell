@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_struct_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:27:47 by nbodin            #+#    #+#             */
-/*   Updated: 2025/07/30 10:50:03 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:21:45 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ char	*find_command_name(char **cmd, size_t *i)
 {
 	while (cmd[*i])
 	{
-		if ((ft_strncmp(cmd[*i], "<", 1) == 0 || ft_strncmp(cmd[*i], ">", 1) == 0))
+		if ((ft_strncmp(cmd[*i], "<", 1) == 0
+				|| ft_strncmp(cmd[*i], ">", 1) == 0))
 		{
 			if (!cmd[*i + 1] || !cmd[*i + 2])
 				return (NULL);

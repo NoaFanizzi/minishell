@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:13:20 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 17:34:36 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:11:29 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	go_through_join_prev_simple(char **command, char ***joined, size_t i)
 		jk[1]++;
 		(*joined)[jk[1]] = NULL;
 	}
-	
 }
 
 char	**join_prev_simple(char ***command, size_t i)

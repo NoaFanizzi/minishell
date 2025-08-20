@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:11:27 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 18:17:53 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:11:18 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 		size_t idx[3])
 {
 	size_t	size;
-	size_t   first_len;
+	size_t	first_len;
 
 	idx[2] = 0;
 	while (joined[idx[2]])
@@ -41,7 +41,7 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 
 int	fusion_simple_next(char **command, char **joined, size_t idx[3])
 {
-	size_t first_len;
+	size_t	first_len;
 
 	if (alloc_and_prepare_joined(command, joined, idx) == 1)
 		return (1);
@@ -54,7 +54,6 @@ int	fusion_simple_next(char **command, char **joined, size_t idx[3])
 	}
 	return (0);
 }
-
 
 int	manage_next_simple(char **command, char ***joined, size_t idx[3])
 {

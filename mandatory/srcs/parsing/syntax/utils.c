@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 14:11:36 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:30:16 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void	ft_close_array_fd(t_content *content, size_t pos)
 				}
 				i++;
 			}
-			if(content[j].fd_array)
+			if (content[j].fd_array)
 			{
 				free(content->array_ptr->content[j].fd_array);
 				content->array_ptr->content[j].fd_array = NULL;
@@ -105,7 +105,6 @@ void	ft_close_array_fd(t_content *content, size_t pos)
 		i = 0;
 		j++;
 	}
-	
 	content[i].fd_array = NULL;
 }
 

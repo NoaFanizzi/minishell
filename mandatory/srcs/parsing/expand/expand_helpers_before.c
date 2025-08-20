@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:40:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:04:13 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:10:06 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,20 @@ int	valid_var_first_char(char c)
 	return (0);
 }
 
+int	look_to_expand_call_helper(t_expand *data)
+{
+	if (is_not_after_hdoc(data->new_command, data->i)
+		&& !is_in_single_quotes(data->new_command, data->i)
+		&& valid_var_first_char(data->new_command[data->i + 1]))
+		return (1);
+	return (0);
+}
+
 void	*look_to_expand(t_expand *data, t_list **env, t_array *array)
 {
 	int	returned_value;
 
-	if (data->new_command[data->i] == '$'
-		&& is_not_after_hdoc(data->new_command, data->i)
-		&& !is_in_single_quotes(data->new_command, data->i)
-		&& valid_var_first_char(data->new_command[data->i + 1]))
+	if (data->new_command[data->i] == '$' && look_to_expand_call_helper(data))
 	{
 		if (data->new_command[data->i + 1] == '?')
 		{

@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/19 17:11:09 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:27:58 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		create_final_string(char **command, char **joined, size_t *sk,
 
 // quotes_removal.c //
 void	quotes_removal(char **command);
-void	rem_and_shift(char *command);
+char	*rem_and_shift(char *command);
 
 // quotes_splitting_utils.c //
 int		quotes_checker(char *line);

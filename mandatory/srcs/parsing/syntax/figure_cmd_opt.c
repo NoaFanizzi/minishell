@@ -6,7 +6,7 @@
 /*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 09:51:46 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 10:29:23 by nbodin           ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 	content->cmd[j] = ft_strdup(find_command_name(cmd, &i)); //PROTECTED
 	if (!content->cmd[j])
 		return (1);
-	rem_and_shift(content->cmd[j]);
-	switch_back_lit_quotes(content->cmd[j]);
+	switch_back_lit_quotes(rem_and_shift(content->cmd[j]));
 	j++;
 	while (cmd[++i])
 	{
@@ -81,8 +80,10 @@ int	assign_cmd_and_opt(char **cmd, t_content *content)
 int	identify_cmd_opt(char **cmd, t_content *content)
 {
 	size_t	size;
+	size_t	i;
 
 	size = count_cmd_opt(cmd);
+	i = 0;
 	content->cmd = NULL;
 	if (size == 0)
 		return (0);
@@ -92,15 +93,11 @@ int	identify_cmd_opt(char **cmd, t_content *content)
 	if (assign_cmd_and_opt(cmd, content))
 	{
 		free(content->cmd);
-		size_t i;
-
-		i = 0;
-		while(i < count_redir(cmd))
+		while (i < count_redir(cmd))
 		{
 			ft_wipe(&content->files[0].eof);
 			i++;
 		}
-		printf("here\n");
 		free(content->files);
 		content->files = NULL;
 		return (1);
