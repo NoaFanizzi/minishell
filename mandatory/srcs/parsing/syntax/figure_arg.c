@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_arg.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:26:53 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 15:17:15 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 15:43:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	identify_arg(char **cmd, t_content *content)
 
 	i = 0;
 	count = count_arg(cmd);
-	printf("count = %zu\n", count);
 	content->arg = NULL;
 	if (count == 0)
 		return (0);

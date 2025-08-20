@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:57:41 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:41:01 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void	ft_free_array_content(t_array *array)
 	i = 0;
 	if (!array || !array->content)
 		return ;
-	ft_close_array_fd(&array->content[i], -1);
+	if(array->size > 0)
+		ft_close_array_fd(&array->content[i], -1);
 	while (i < array->size)
 	{
 		if (array->content[i].cmd)
