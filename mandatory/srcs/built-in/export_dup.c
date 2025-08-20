@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 12:16:50 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 13:13:48 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:56:50 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_env	*dup_env_node(t_env *env)
 {
 	t_env	*dup;
 
-	dup = malloc(sizeof *dup); // PROTECTED
+	dup = malloc(sizeof * dup); // PROTECTED
 	if (!dup)
 		return (NULL);
 	dup->var = ft_strdup(env->var); // PROTECTED

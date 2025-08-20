@@ -6,29 +6,11 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 11:23:00 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:57:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	ft_free_env(t_list *env)
-{
-	t_list	*current;
-	t_env	*content;
-
-	while (env)
-	{
-		current = env;
-		env = env->next;
-		content = (t_env *)current->content;
-		free(content->var);
-		free(content->op);
-		free(content->arg);
-		free(content);
-		free(current);
-	}
-}
 
 void	ft_free_files(t_content *content)
 {

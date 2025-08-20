@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:40:45 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 19:41:43 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:54:37 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,6 @@ int					ft_strcmp(char *s1, char *s2);
 void				ft_strcat(char *dest, char *src);
 void				ft_strcpy(char *dest, char *src);
 void				ft_wipe(char **ptr);
+char				*ft_strncat(char *dest, const char *src, size_t n);
 
 #endif

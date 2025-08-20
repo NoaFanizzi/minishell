@@ -6,11 +6,29 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/28 13:48:34 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:42:45 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:57:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_free_env(t_list *env)
+{
+	t_list	*current;
+	t_env	*content;
+
+	while (env)
+	{
+		current = env;
+		env = env->next;
+		content = (t_env *)current->content;
+		free(content->var);
+		free(content->op);
+		free(content->arg);
+		free(content);
+		free(current);
+	}
+}
 
 void	free_unlink(char **str)
 {
