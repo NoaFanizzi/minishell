@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   figure_cmd_opt.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:24:36 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:29:23 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 12:34:53 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ size_t	count_cmd_opt(char **cmd)
 
 int	copy_opt(t_content *content, char **cmd, size_t *j, size_t i)
 {
-	(void)cmd;
-	(void)i;
 	content->cmd[(*j)++] = ft_strdup(cmd[i]);//PROTECTED
 	if (!content->cmd[*j - 1])
 	{

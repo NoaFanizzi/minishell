@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:08:39 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 17:24:44 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:43:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	get_final_pwd(t_content *content, t_list **env, char **pwd, t_env *node)
 	if (content->arg)
 		*pwd = ft_strjoin(temp, content->arg[0]); // PROTECTED
 	else
-		*pwd = ft_strdup(temp);
+		*pwd = ft_strdup(temp); //PROTECTED
 	ft_wipe(&temp);
 	if (!*pwd)
 		return (ft_open_error(content, NULL));

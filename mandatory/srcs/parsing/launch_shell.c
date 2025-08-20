@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   launch_shell.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:36:56 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 15:03:22 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 13:14:20 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,43 +15,56 @@
 char	*ft_join_prompt(t_array *array)
 {
 	char	*error_converted;
-	char	*joind_prompt;
+	char	*joined_prompt;
 
-	error_converted = ft_itoa(array->p_exit_status);
+	error_converted = ft_itoa(array->p_exit_status); // PROTECTED
 	if (!error_converted)
-		joind_prompt = ft_strdup("\001\033[1;36m\002maxishell \001\033[0m\002");
+	{
+		array->p_exit_status = 1;
+		joined_prompt = ft_strdup("\001\033[1;36m\002maxishell \001\033[0m\002");
+		// PROTECTED
+	}
 	else
 	{
-		joind_prompt = ft_strjoin(error_converted,
-				"\001\033[1;36m\002 | maxishell \001\033[0m\002");
+		joined_prompt = ft_strjoin(error_converted, // PROTECTED
+									"\001\033[1;36m\002 | maxishell \001\033[0m\002");
 		free(error_converted);
 	}
-	if (!joind_prompt)
+	if (!joined_prompt)
 	{
 		ft_putendl_fd("maxishell: malloc error", STDERR_FILENO);
 		array->p_exit_status = 1;
 		return (NULL);
 	}
-	return (joind_prompt);
+	return (joined_prompt);
 }
 
-void	get_true_line(char **line)
+int	get_true_line(char **line)
 {
 	char	*temp;
 	size_t	i;
+	int		returned_value;
 
 	i = 0;
+	returned_value = 0;
 	while ((*line)[i] && ft_isspace((*line)[i]) == 1)
 		i++;
 	if (i == ft_strlen(*line))
 	{
 		ft_wipe(line);
-		return ;
+		return (0);
 	}
-	temp = ft_strdup(&(*line)[i]);
+	temp = ft_strdup(&(*line)[i]); // PROTECTED
+	if (!temp)
+		returned_value = 1;
 	free(*line);
-	*line = ft_strdup(temp);
+	*line = ft_strdup(temp); // PROTECTED
+	if (!*line)
+		returned_value = 1;
 	free(temp);
+	if (returned_value == 1)
+		ft_putendl_fd("maxishell: malloc error", 2);
+	return (returned_value);
 }
 
 void	*manage_readline(char **line, t_array *array, t_list **var)
@@ -78,7 +91,8 @@ void	*manage_readline(char **line, t_array *array, t_list **var)
 	}
 	if (line && *line && **line != '\0')
 		add_history(*line);
-	get_true_line(line);
+	if (get_true_line(line) == 1)
+		array->p_exit_status = 1;
 	return (NULL);
 }
 

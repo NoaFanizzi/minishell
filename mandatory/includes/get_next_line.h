@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 11:40:45 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:05:23 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:12:30 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,6 @@
 # endif
 
 char	*get_next_line(int fd);
-char	*gnl_ft_strdup(const char *s);
-size_t	gnl_ft_strlen(const char *str);
-void	gnl_ft_bzero(void *s, size_t n);
 void	*gnl_ft_calloc(size_t elementCount, size_t elementSize);
 int		gnl_ft_strchr(char *str, char c);
 

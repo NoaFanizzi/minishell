@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:20:46 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:12:07 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 # define BUILT_IN_H
 
 // cd.c
-int		ft_update_pwd(t_list **env, t_content *content);
-int		ft_access_dir(t_content *content);
-int		ft_update_opwd(t_list **env);
-int		ft_find_wave(t_list *env, t_content *content);
-int		ft_find_dash(t_list *env, t_content *content);
-int		ft_deal_with_dash(t_content *content, t_list **env, int *params);
-int		ft_deal_with_wave(t_content *content, t_list **env, int *params);
 int		ft_cd(t_content *content, t_list **env);
 
 // cd_dash.c
@@ -68,10 +61,8 @@ t_list	*dup_env_list(t_list *env);
 // export.c
 int		ft_check_if_in_base(t_list *env, char *str);
 int		ft_is_a_value(char *str);
-int		ft_is_chr(char *str, char c);
 int		ft_check_if_first_nod(t_list *first_nod, t_list *previous);
 void	ft_display_export(t_list *env_copy);
-int		is_number(char c);
 int		ft_check_var_validity(char *var);
 int		ft_init_export(t_list **env, t_content *content, size_t i);
 int		ft_export(t_list **env, t_content *content);

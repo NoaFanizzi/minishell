@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_next_quotes.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:10:40 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/19 17:37:28 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 12:29:34 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	fusion_quotes_next(char **command, char **joined, size_t i, size_t j)
 	rem_and_shift(command[j]);
 	rem_and_shift(command[i]);
 	size = ft_strlen(command[j]) + ft_strlen(command[i]) + 3;
-	joined[k] = malloc(size * sizeof(char));//PROTECTED
+	joined[k] = malloc(size * sizeof(char)); //PROTECTED
 	if (!joined[k])
 	{
 		ft_free_tab_length(joined, k);

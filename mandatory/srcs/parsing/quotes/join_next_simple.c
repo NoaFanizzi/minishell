@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   join_next_simple.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 01:11:27 by nbodin            #+#    #+#             */
-/*   Updated: 2025/08/20 10:11:18 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 12:32:57 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	alloc_and_prepare_joined(char **command, char **joined,
 	joined[idx[2]][0] = D_QUOTE;
 	joined[idx[2]][1] = 0;
 	ft_strlcat(joined[idx[2]], command[idx[0]], size);
-	strncat(joined[idx[2]], command[idx[1]], first_len);
+	strncat(joined[idx[2]], command[idx[1]], first_len); //WTF //TODO ADD FT_
 	joined[idx[2]][size - 2] = D_QUOTE;
 	joined[idx[2]][size - 1] = 0;
 	return (0);

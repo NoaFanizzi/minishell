@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/02 14:01:00 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:05:20 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 13:12:15 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 void	ft_display_int_array(t_array *array);
 
 // NOTHING
-void	ft_display_tab(char **tab);
 void	ft_free_tab(char **tab);
 size_t	ft_tablen(char **tab);
 void	ft_free_env(t_list *env);

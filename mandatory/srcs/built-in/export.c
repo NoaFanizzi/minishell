@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:45:16 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:34:44 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_is_not_already_inside(t_content *content, size_t i)
 	link = ft_add_new_link(content->arg[i], content->array_ptr);
 	if (!link)
 	{
-		(void)i;
 		content->array_ptr->p_exit_status = 1;
 		ft_open_error(content, "link malloc");
 		return (1);

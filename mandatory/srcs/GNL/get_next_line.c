@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 13:48:41 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/06/27 09:43:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 12:55:56 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,12 @@ static char	*ft_strjoin_free(char *s1, char const *s2)
 
 	if (!s1)
 		return (ft_strdup(s2));
-	merged = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char));
+	merged = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, sizeof(char)); //PROTECTED
 	if (!merged)
-		return (free(s1), NULL);
+	{
+		free(s1);
+		return (NULL);
+	}
 	i = -1;
 	while (s1[++i])
 		merged[i] = s1[i];
@@ -32,7 +35,8 @@ static char	*ft_strjoin_free(char *s1, char const *s2)
 		merged[i] = s2[j];
 		i++;
 	}
-	return (free(s1), merged);
+	free(s1);
+	return (merged);
 }
 
 static char	*ft_parse(char *buffer, int fd)
@@ -43,7 +47,7 @@ static char	*ft_parse(char *buffer, int fd)
 	line = NULL;
 	if (ft_strlen(buffer) > 0)
 	{
-		line = ft_strdup(buffer);
+		line = ft_strdup(buffer); //PROTECTED
 		if (!line)
 			return (NULL);
 	}
