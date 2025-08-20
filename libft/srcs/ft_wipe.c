@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   ft_wipe.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nofanizz <nofanizz@student.42lyon.fr>      +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/01 11:31:15 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/01 11:33:38 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:24:21 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void    ft_wipe(char **ptr)
+void	ft_wipe(char **ptr)
 {
-    if (ptr && *ptr)
-    {
-        free(*ptr);
-        *ptr = NULL;
-    }
+	if (ptr && *ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+	}
 }

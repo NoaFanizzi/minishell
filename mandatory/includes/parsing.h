@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 10:06:47 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:27:58 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 11:24:41 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	fusion_quotes_prev(char **command, char **joined, size_t i, size_t j);
 
 // join_prev_simple.c //
 char	**join_prev_simple(char ***command, size_t i);
-void		go_through_join_prev_simple(char **command, char ***joined, size_t i);
+void	go_through_join_prev_simple(char **command, char ***joined, size_t i);
 int		handle_prev_join_special(char **command, char ***joined, size_t i,
 			size_t jk[2]);
 int		fusion_simple_prev(char **command, char **joined, size_t i, size_t j);
