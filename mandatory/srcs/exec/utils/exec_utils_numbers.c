@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 16:17:56 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/06 15:43:14 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 11:18:36 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,15 @@ int	check_long_min_max(char *str, size_t *i)
 	return (0);
 }
 
-void	ft_display_int_array(t_array *array)
+int	print_dir_message(char *str1, char *str2, char *str3)
 {
-	int	i;
-	int	length;
-
-	printf("----------------------------\n");
-	i = 0;
-	length = count_hdoc(&array->content[0]);
-	while (i <= length)
-	{
-		dprintf(2, "array[i] = %d\n", array->content[0].fd_array[i]);
-		i++;
-	}
+	if (str1)
+		ft_putstr_fd(str1, 2);
+	if (str2)
+		ft_putstr_fd(str2, 2);
+	if (str3)
+		ft_putstr_fd(str3, 2);
+	return (1);
 }
 
 void	ft_fill_array(int *tab)

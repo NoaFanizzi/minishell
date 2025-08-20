@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 11:39:19 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 14:17:27 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:45:16 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	ft_export(t_list **env, t_content *content)
 		ft_display_export(cpy);
 		return (0);
 	}
-	while (*env && content->arg[i])
+	while (content->arg && content->arg[i])
 	{
 		if (ft_init_export(env, content, i) == 1)
 			return (0);

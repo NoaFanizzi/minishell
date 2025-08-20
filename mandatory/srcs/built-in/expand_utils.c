@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:17:18 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/19 15:20:27 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 11:17:05 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_env	*get_env(char *var_name, t_list *env)
 	{
 		cpy = (t_env *)env->content;
 		if (ft_strcmp(cpy->var, var_name) == 0)
-		return (cpy);
+			return (cpy);
 		env = env->next;
 	}
 	return (NULL);

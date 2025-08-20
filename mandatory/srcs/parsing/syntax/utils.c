@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nbodin <nbodin@student.42lyon.fr>          +#+  +:+       +#+        */
+/*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/26 13:18:22 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/20 10:30:16 by nbodin           ###   ########lyon.fr   */
+/*   Updated: 2025/08/20 11:23:00 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,27 +47,30 @@ void	ft_free_files(t_content *content)
 	content->files = NULL;
 }
 
-// void	ft_close_array_fd(t_content *content)
-// {
-// 	size_t	i;
+void	ft_manage_array_cleaning(t_content *content, size_t pos, size_t j)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	if (content->stdin_saved != -2)
-// 		close(content->stdin_saved);
-// 	if (content->stdout_saved != -2)
-// 		close(content->stdout_saved);
-// 	if (!content->fd_array)
-// 		return ;
-// 	printf("content->hdoc_length = %zu\n", content->hdoc_length);
-// 	while (i < content->hdoc_length)
-// 	{
-// 		if (content->fd_array[i] != -42 && content->fd_array[i] != -8)
-// 			close(content->fd_array[i]);
-// 		i++;
-// 	}
-// 	i = 0;
-// 	free(content->fd_array);
-// }
+	i = 0;
+	if (j != pos && content[0].array_ptr->content[j].fd_array != NULL)
+	{
+		while (i < content->array_ptr->content[j].hdoc_length)
+		{
+			if (content->array_ptr->content[j].fd_array[i] != -42
+				&& content->array_ptr->content[j].fd_array[i] != -8)
+			{
+				close(content->array_ptr->content[j].fd_array[i]);
+				content->array_ptr->content[j].fd_array[i] = -42;
+			}
+			i++;
+		}
+		if (content[j].fd_array)
+		{
+			free(content->array_ptr->content[j].fd_array);
+			content->array_ptr->content[j].fd_array = NULL;
+		}
+	}
+}
 
 void	ft_close_array_fd(t_content *content, size_t pos)
 {
@@ -84,27 +87,11 @@ void	ft_close_array_fd(t_content *content, size_t pos)
 	size = content->array_ptr->size;
 	while (j < size)
 	{
-		if (j != pos && content[0].array_ptr->content[j].fd_array != NULL)
-		{
-			while (i < content->array_ptr->content[j].hdoc_length)
-			{
-				if (content->array_ptr->content[j].fd_array[i] != -42
-					&& content->array_ptr->content[j].fd_array[i] != -8)
-				{
-					close(content->array_ptr->content[j].fd_array[i]);
-					content->array_ptr->content[j].fd_array[i] = -42;
-				}
-				i++;
-			}
-			if (content[j].fd_array)
-			{
-				free(content->array_ptr->content[j].fd_array);
-				content->array_ptr->content[j].fd_array = NULL;
-			}
-		}
-		i = 0;
+		ft_manage_array_cleaning(content, pos, j);
 		j++;
 	}
+	if (content[i].fd_array)
+		free(content[i].fd_array);
 	content[i].fd_array = NULL;
 }
 

@@ -6,7 +6,7 @@
 /*   By: nofanizz <nofanizz@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/30 09:46:20 by nofanizz          #+#    #+#             */
-/*   Updated: 2025/08/07 20:05:10 by nofanizz         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:20:46 by nofanizz         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_find_wave(t_list *env, t_content *content);
 int		ft_find_dash(t_list *env, t_content *content);
 int		ft_deal_with_dash(t_content *content, t_list **env, int *params);
 int		ft_deal_with_wave(t_content *content, t_list **env, int *params);
-void	ft_cd(t_content *content, t_list **env);
+int		ft_cd(t_content *content, t_list **env);
 
 // cd_dash.c
 int		is_node(t_content *content, char **dir, char **pwd, char **saved_pwd);
