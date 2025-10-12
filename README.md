@@ -1,4 +1,4 @@
-Minishell
+**Minishell**
 
 A lightweight Unix shell implementation created as part of the École 42 curriculum. This project recreates the behavior of bash with essential features including command execution, pipes, redirections, and built-in commands.
 Features
@@ -48,14 +48,17 @@ Signal Handling
 Installation
 
 Clone the repository and compile the project:
+
 <img width="526" height="73" alt="image" src="https://github.com/user-attachments/assets/27168fbd-70af-49b3-884a-6b110d319794" />
 
 Usage
 
 Launch the shell by running the executable:
+
 <img width="115" height="37" alt="image" src="https://github.com/user-attachments/assets/63979ba0-7bf9-43f0-b1e3-6bcb808d2467" />
 
 Example Commands:
+
 <img width="317" height="146" alt="image" src="https://github.com/user-attachments/assets/0320319f-e403-443c-b087-bc7755032507" />
 
 Technical Implementation
@@ -71,6 +74,7 @@ Technical Implementation
     Process Management: Fork and execve for command execution
 
 Project Structure
+
 <img width="616" height="143" alt="image" src="https://github.com/user-attachments/assets/6642d2ee-00d6-4141-91c8-82b22ee9a264" />
 
 Compilation
